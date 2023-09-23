@@ -1,0 +1,68 @@
+@startuml
+
+package Escape{
+
+  package Monde {
+    abstract class ElementMonde {
+      # float x
+      # float y
+      # int hauteur
+      # int largeur
+
+    }
+    abstract class Terrain {
+
+    }
+
+    class Mur {
+    }
+
+
+    abstract class Personnage {
+      # float vitesse
+    ..Méthodes..
+    + déplacer(string typeMouvement)
+    }
+
+    class Heros {
+    }
+
+    abstract class Monstre {
+    }
+
+    class Walker{
+    }
+
+    class Monde{
+      # int nbLigne
+      # int nbCol
+      ..Méthodes..
+      + boolean collision(ElementMonde e1, ElementMonde e2)
+      + void gestionCollisions()
+    }
+  }
+
+  class Escape {
+  }
+
+  package Outils {
+    class GestionFichier {
+      + char[] lireFichierCarte(string nomFichier)
+    }
+  }
+}
+
+Escape.Escape -- "1" Escape.Monde.Monde
+Personnage -up-|> ElementMonde
+Heros -up-|> Personnage
+Monstre -up-|> Personnage
+Walker -up-|> Monstre
+
+Terrain -up-|> ElementMonde
+Mur -up-|> Terrain
+
+Escape.Monde.Monde -- "*" ElementMonde
+
+Escape.Monde.Monde -- "1" GestionFichier
+
+@enduml

@@ -1,21 +1,21 @@
 package fr.ul.acl.escape;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.GridPane;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 
 public class GameController extends ViewController {
     @FXML
-    private GridPane grid;
+    public Canvas canvas;
 
-    @FXML
-    private StackPane centerPane;
-
-    public GridPane getGrid() {
-        return grid;
+    public Canvas getCanvas() {
+        return canvas;
     }
 
-    public StackPane getCenterPane() {
-        return centerPane;
+    @FXML
+    public StackPane pane;
+
+    public StackPane getPane() {
+        return pane;
     }
 }

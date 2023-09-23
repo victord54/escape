@@ -18,8 +18,12 @@ public class View {
     }
 
     public View(FXMLLoader loader, ViewEvents viewEvents) throws IOException {
-        this.root = loader.load();
-        this.controller = loader.getController();
+        this(loader.load(), loader.getController(), viewEvents);
+    }
+
+    public View(Parent root, ViewController controller, ViewEvents viewEvents) {
+        this.root = root;
+        this.controller = controller;
         this.viewEvents = viewEvents;
 
         if (viewEvents != null) {
@@ -35,14 +39,21 @@ public class View {
         return controller;
     }
 
-    public void onDisplayed() {
+    public void onViewInit() {
         if (viewEvents != null) {
-            viewEvents.onDisplayed(controller);
+            viewEvents.onViewInit(controller);
+        }
+    }
+
+    public void onViewDisplayed() {
+        if (viewEvents != null) {
+            viewEvents.onViewDisplayed(controller);
         }
     }
 }
 
 interface ViewEvents {
-    void onDisplayed(ViewController controller);
+    void onViewInit(ViewController controller);
+    void onViewDisplayed(ViewController controller);
     void onKeyPressed(ViewController controller, KeyEvent event);
 }

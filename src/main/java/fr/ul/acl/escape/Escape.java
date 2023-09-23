@@ -20,7 +20,7 @@ public class Escape extends Application {
         ViewManager.getInstance().setStage(stage);
         ViewManager.getInstance().views.put(VIEWS.HOME, new View(new FXMLLoader(Escape.class.getResource("home-view.fxml")), new ViewEvents() {
             @Override
-            public void onDisplayed(ViewController controller) {
+            public void onViewInit(ViewController controller) {
                 ((HomeController) controller).setGameTitle(GAME_TITLE);
                 ((HomeController) controller).setFullScreenCheckBox(Settings.getInstance().isFullScreen());
             }
@@ -30,6 +30,10 @@ public class Escape extends Application {
                 if (event.getCode().toString().equals("ESCAPE")) {
                     ((HomeController) controller).setFullScreenCheckBox(false);
                 }
+            }
+
+            @Override
+            public void onViewDisplayed(ViewController controller) {
             }
         }));
         ViewManager.getInstance().views.put(VIEWS.GAME, new View(new FXMLLoader(Escape.class.getResource("game-view.fxml")), new GameView()));

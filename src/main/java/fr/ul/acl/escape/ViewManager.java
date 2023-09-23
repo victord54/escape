@@ -30,11 +30,12 @@ public class ViewManager {
 
     public void navigateTo(VIEWS viewName) {
         View view = views.get(viewName);
-        view.onDisplayed();
+        view.onViewInit();
         if (stage.getScene() == null) {
             stage.setScene(new Scene(new Group(), DEFAULT_WIDTH, DEFAULT_HEIGHT));
         }
         stage.getScene().setRoot(view.getRoot());
+        view.onViewDisplayed();
     }
 
     public void setFullScreen(boolean fullScreen) {

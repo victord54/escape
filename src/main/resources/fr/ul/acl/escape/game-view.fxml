@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="fr.ul.acl.escape.GameController" fx:id="centerPane">
-    <GridPane fx:id="grid"/>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="fr.ul.acl.escape.GameController">
+    <Canvas fx:id="canvas"/>
 </StackPane>

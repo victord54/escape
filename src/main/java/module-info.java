@@ -1,9 +1,7 @@
-module com.example.escape {
+module escape {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires com.almasb.fxgl.all;
-
-    opens com.example.escape to javafx.fxml;
-    exports com.example.escape;
+    opens fr.ul.acl.escape to javafx.fxml;
+    exports fr.ul.acl.escape;
 }

@@ -1,4 +1,4 @@
-package com.example.escape;
+package fr.ul.acl.escape;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

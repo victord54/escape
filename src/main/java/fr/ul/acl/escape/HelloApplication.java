@@ -1,4 +1,4 @@
-package com.example.escape;
+package fr.ul.acl.escape;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

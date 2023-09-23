@@ -22,7 +22,9 @@ public class View {
         this.controller = loader.getController();
         this.viewEvents = viewEvents;
 
-        root.setOnKeyPressed(event -> viewEvents.onKeyPressed(controller, event));
+        if (viewEvents != null) {
+            root.setOnKeyPressed(event -> viewEvents.onKeyPressed(controller, event));
+        }
     }
 
     public Parent getRoot() {

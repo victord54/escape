@@ -32,7 +32,7 @@ public class Escape extends Application {
                 }
             }
         }));
-        ViewManager.getInstance().views.put(VIEWS.GAME, new View(new FXMLLoader(Escape.class.getResource("game-view.fxml"))));
+        ViewManager.getInstance().views.put(VIEWS.GAME, new View(new FXMLLoader(Escape.class.getResource("game-view.fxml")), new GameView()));
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
 
         stage.setTitle(GAME_TITLE);

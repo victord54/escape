@@ -1,9 +1,13 @@
 package fr.ul.acl.escape;
 
+import fr.ul.acl.escape.ui.VIEWS;
+import fr.ul.acl.escape.ui.View;
+import fr.ul.acl.escape.ui.ViewManager;
+import fr.ul.acl.escape.ui.views.GameViewEvents;
+import fr.ul.acl.escape.ui.views.HomeViewEvents;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,27 +22,21 @@ public class Escape extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         ViewManager.getInstance().setStage(stage);
-        ViewManager.getInstance().views.put(VIEWS.HOME, new View(new FXMLLoader(Escape.class.getResource("home-view.fxml")), new ViewEvents() {
-            @Override
-            public void onViewInit(ViewController controller) {
-                ((HomeController) controller).setGameTitle(GAME_TITLE);
-                ((HomeController) controller).setFullScreenCheckBox(Settings.getInstance().isFullScreen());
-            }
 
-            @Override
-            public void onKeyPressed(ViewController controller, KeyEvent event) {
-                if (event.getCode().toString().equals("ESCAPE")) {
-                    ((HomeController) controller).setFullScreenCheckBox(false);
-                }
-            }
+        // Register the views of the game
+        ViewManager.getInstance().views.put(VIEWS.HOME, new View(
+                new FXMLLoader(Escape.class.getResource("home-view.fxml")),
+                new HomeViewEvents(GAME_TITLE)
+        ));
+        ViewManager.getInstance().views.put(VIEWS.GAME, new View(
+                new FXMLLoader(Escape.class.getResource("game-view.fxml")),
+                new GameViewEvents()
+        ));
 
-            @Override
-            public void onViewDisplayed(ViewController controller) {
-            }
-        }));
-        ViewManager.getInstance().views.put(VIEWS.GAME, new View(new FXMLLoader(Escape.class.getResource("game-view.fxml")), new GameView()));
+        // Set the default view
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
 
+        // Show window
         stage.setTitle(GAME_TITLE);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();

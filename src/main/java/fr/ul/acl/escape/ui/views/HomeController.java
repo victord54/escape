@@ -1,5 +1,8 @@
-package fr.ul.acl.escape;
+package fr.ul.acl.escape.ui.views;
 
+import fr.ul.acl.escape.ui.VIEWS;
+import fr.ul.acl.escape.ui.ViewController;
+import fr.ul.acl.escape.ui.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;

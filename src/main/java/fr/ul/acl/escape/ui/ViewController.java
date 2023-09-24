@@ -1,4 +1,4 @@
-package fr.ul.acl.escape;
+package fr.ul.acl.escape.ui;
 
 public abstract class ViewController {
 }

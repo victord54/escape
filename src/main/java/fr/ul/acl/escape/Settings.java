@@ -1,9 +1,8 @@
 package fr.ul.acl.escape;
 
 public class Settings {
-    private boolean fullScreen = false;
-
     private static Settings instance;
+    private boolean fullScreen = false;
 
     public static Settings getInstance() {
         if (instance == null) {

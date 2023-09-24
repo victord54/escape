@@ -4,6 +4,6 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane fx:id="pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="fr.ul.acl.escape.GameController">
+           fx:controller="fr.ul.acl.escape.ui.views.GameController">
     <Canvas fx:id="canvas"/>
 </StackPane>

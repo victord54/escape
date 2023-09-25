@@ -8,6 +8,9 @@ public class Monde {
     private int nbLigne, nbCol;
     private List<ElementMonde> elementMondes;
 
+    public Monde(){
+
+    }
     private final GestionFichier gestionFichier = new GestionFichier();
 
     public boolean collision(ElementMonde e1, ElementMonde e2){

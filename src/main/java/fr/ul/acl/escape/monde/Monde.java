@@ -71,23 +71,18 @@ public class Monde {
     protected void redeplacementSiCollision(Personnage e1, ElementMonde e2){
         // Collision à gauche de e1
         if (e1.getX() < e2.getX() + e2.getLargeur() && e1.getX() + e1.getLargeur() > e2.getX() + e2.getLargeur()){
-            System.out.println("1");
             e1.setX(e2.getX() + e2.getLargeur());
         }
         // Collision à droite de e1
         else if (e1.getX() + e1.getLargeur() > e2.getX() && e1.getX() < e2.getX()){
-            System.out.println("2");
-
             e1.setX(e2.getX() - e1.getLargeur());
         }
         // Collision en haut de e1
         if (e1.getY() < e2.getY() + e2.getHauteur() && e1.getY() + e1.getHauteur() > e2.getY() + e2.getHauteur()){
-            System.out.println("3");
             e1.setY(e2.getY() + e2.getHauteur());
         }
         // Collision en bas de e1
         else if (e1.getY() + e1.getHauteur() > e2.getY() && e1.getY() < e2.getY()){
-            System.out.println("4");
             e1.setY(e2.getY() - e1.getHauteur());
         }
     }

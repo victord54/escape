@@ -34,4 +34,30 @@ class MondeTest {
     @Test
     void gestionCollisions() {
     }
+
+    @Test
+    void redeplacementSiCollision(){
+        Mur mur = new Mur(10,10,10,10);
+
+        Heros e1 = new Heros(12,8,4,4);
+        monde.redeplacementSiCollision(e1,mur); // Collision en bas de e1 : x inchangé - mur.y - heros.hauteur
+        assertEquals( 12, e1.getX() );
+        assertEquals( 6, e1.getY());
+
+
+        e1 = new Heros(18,14, 4,4);
+        monde.redeplacementSiCollision(e1,mur); // Collision à gauche de e1 : mur.x + mur.largeur - y inchangé
+        assertEquals( 20, e1.getX() );
+        assertEquals( 14, e1.getY());
+
+        e1 = new Heros(12,18, 4,4);
+        monde.redeplacementSiCollision(e1,mur); // Collision en haut de e1 - x inchangé - mur.y + mur.hauteur
+        assertEquals( 12, e1.getX() );
+        assertEquals( 20, e1.getY());
+
+        e1 = new Heros(8,12, 4,4);
+        monde.redeplacementSiCollision(e1,mur); // Collision à droite de e1 : mur.x - heros.largeur - y inchangé
+        assertEquals( 6, e1.getX() );
+        assertEquals( 12, e1.getY());
+    }
 }

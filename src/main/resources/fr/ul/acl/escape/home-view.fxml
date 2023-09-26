@@ -18,5 +18,5 @@
         </font>
     </Label>
     <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" text="FullScreen" onAction="#onFullScreenToggle"/>
-    <Button onAction="#onHelloButtonClick" text="Start!"/>
+    <Button onAction="#onButtonClick" text="Start!"/>
 </VBox>

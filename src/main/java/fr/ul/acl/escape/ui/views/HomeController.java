@@ -16,7 +16,7 @@ public class HomeController extends ViewController {
     private CheckBox fullScreenCheckBox;
 
     @FXML
-    protected void onHelloButtonClick() {
+    protected void onButtonClick() {
         ViewManager.getInstance().navigateTo(VIEWS.GAME);
     }
 

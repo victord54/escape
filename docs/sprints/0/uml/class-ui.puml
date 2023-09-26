@@ -1,0 +1,80 @@
+@startuml
+
+package ui {
+    class View {
+        - Parent root
+        --
+        + View(Parent, ViewController, ViewEvents)
+        + getRoot(): Parent
+        + onViewInit(): void
+        + onViewDisplayed(): void
+    }
+
+    abstract class ViewController {}
+
+    interface ViewEvents {
+        + onViewInit(ViewController): void
+        + onViewDisplayed(ViewController): void
+        + onKeyPressed(ViewController, KeyEvent): void
+    }
+
+    enum VIEWS {
+        HOME,
+        GAME
+    }
+
+    class ViewManager {
+        - {static} instance: ViewManager
+        - stage: Stage
+        --
+        + getInstance(): ViewManager
+        + setStage(Stage): void
+        + navigateTo(VIEWS): void
+        + setFullScreen(boolean): void
+    }
+
+    package views {
+        class HomeController {
+            - gameTitle: String
+            - fullScreenCheckBox: CheckBox
+            --
+            # onButtonClick(): void
+            # onFullScreenToggle(): void
+            + setGameTitle(String): void
+            + setFullScreenCheckBox(boolean): void
+        }
+
+        class GameController {
+            - canvas: Canvas
+            --
+            + getCanvas(): Canvas
+        }
+
+        class HomeViewEvents {
+            - gameTitle: String
+            --
+            + HomeViewEvents(String gameTitle)
+            + onViewInit(ViewController): void
+            + onViewDisplayed(ViewController): void
+            + onKeyPressed(ViewController, KeyEvent): void
+        }
+
+        class GameViewEvents {
+            - draw(Canvas, Number): void
+            + onViewInit(ViewController): void
+            + onViewDisplayed(ViewController): void
+            + onKeyPressed(ViewController, KeyEvent): void
+        }
+    }
+}
+
+View --"1" ViewController : - controller
+View --"0..1" ViewEvents : - events
+ViewManager --"*" View : + views
+
+HomeController -up-|> ViewController
+HomeViewEvents -up-|> ViewEvents
+GameController -up-|> ViewController
+GameViewEvents -up-|> ViewEvents
+
+@enduml

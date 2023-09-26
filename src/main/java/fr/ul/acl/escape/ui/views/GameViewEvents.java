@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.ui.views;
 
+import fr.ul.acl.escape.Escape;
 import fr.ul.acl.escape.ui.ViewController;
 import fr.ul.acl.escape.ui.ViewEvents;
 import javafx.beans.binding.Bindings;
@@ -7,6 +8,7 @@ import javafx.beans.binding.NumberBinding;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -69,5 +71,9 @@ public class GameViewEvents implements ViewEvents {
                 gc.fillRect(i * size, j * size, size, size);
             }
         }
+
+        // test draw image
+        Image img = new Image(Escape.getResource("assets/UL.png").toString());
+        gc.drawImage(img, 0, 0, size, size);
     }
 }

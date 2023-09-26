@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class Escape extends Application {
     public static final String GAME_TITLE = "Escape";
@@ -25,11 +26,11 @@ public class Escape extends Application {
 
         // Register the views of the game
         ViewManager.getInstance().views.put(VIEWS.HOME, new View(
-                new FXMLLoader(Escape.class.getResource("home-view.fxml")),
+                new FXMLLoader(getResource("ui/home-view.fxml")),
                 new HomeViewEvents(GAME_TITLE)
         ));
         ViewManager.getInstance().views.put(VIEWS.GAME, new View(
-                new FXMLLoader(Escape.class.getResource("game-view.fxml")),
+                new FXMLLoader(getResource("ui/game-view.fxml")),
                 new GameViewEvents()
         ));
 
@@ -40,5 +41,15 @@ public class Escape extends Application {
         stage.setTitle(GAME_TITLE);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
+    }
+
+    /**
+     * Get a resource from the 'resources/fr/ul/acl/escape' directory.
+     *
+     * @param path The path of the resource.
+     * @return The URL of the resource.
+     */
+    public static URL getResource(String path) {
+        return Escape.class.getResource(path);
     }
 }

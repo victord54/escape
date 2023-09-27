@@ -69,20 +69,30 @@ public class Monde {
      * @param e2 The world Element in front of which the character must be correctly placed.
      */
     protected void redeplacementSiCollision(Personnage e1, ElementMonde e2){
+        // Calcul des distances afin de savoir d'où vient e1
+        float e1LeftAndE2Right = Math.abs(e1.getX() - (e2.getX() + e2.getLargeur()));
+        float e1RightAndE2Left = Math.abs((e1.getX() + e1.getLargeur()) - e2.getX());
+        float e1BottomAndE2Top = Math.abs((e1.getY() + e1.getHauteur()) - e2.getY());
+        float e1TopAndE2Bottom = Math.abs(e1.getY() - (e2.getY() + e2.getHauteur()));
+
         // Collision à gauche de e1
-        if (e1.getX() < e2.getX() + e2.getLargeur() && e1.getX() + e1.getLargeur() > e2.getX() + e2.getLargeur()){
+        if (e1.getX() < e2.getX() + e2.getLargeur() && e1.getX() + e1.getLargeur() > e2.getX() + e2.getLargeur() &&
+                ((e1LeftAndE2Right < e1TopAndE2Bottom) && (e1LeftAndE2Right < e1BottomAndE2Top))){
             e1.setX(e2.getX() + e2.getLargeur());
         }
         // Collision à droite de e1
-        else if (e1.getX() + e1.getLargeur() > e2.getX() && e1.getX() < e2.getX()){
+        if (e1.getX() + e1.getLargeur() > e2.getX() && e1.getX() < e2.getX() &&
+                ((e1RightAndE2Left < e1BottomAndE2Top) && (e1RightAndE2Left < e1TopAndE2Bottom))){
             e1.setX(e2.getX() - e1.getLargeur());
         }
         // Collision en haut de e1
-        if (e1.getY() < e2.getY() + e2.getHauteur() && e1.getY() + e1.getHauteur() > e2.getY() + e2.getHauteur()){
+        if (e1.getY() < e2.getY() + e2.getHauteur() && e1.getY() + e1.getHauteur() > e2.getY() + e2.getHauteur() &&
+                ((e1TopAndE2Bottom < e1LeftAndE2Right) && (e1TopAndE2Bottom < e1RightAndE2Left))){
             e1.setY(e2.getY() + e2.getHauteur());
         }
         // Collision en bas de e1
-        else if (e1.getY() + e1.getHauteur() > e2.getY() && e1.getY() < e2.getY()){
+        if (e1.getY() + e1.getHauteur() > e2.getY() && e1.getY() < e2.getY() &&
+                ((e1BottomAndE2Top < e1LeftAndE2Right) && (e1BottomAndE2Top < e1RightAndE2Left))){
             e1.setY(e2.getY() - e1.getHauteur());
         }
     }

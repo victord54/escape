@@ -1,4 +1,4 @@
-package fr.ul.acl.escape.ui;
+package fr.ul.acl.escape.gui;
 
 import fr.ul.acl.escape.Settings;
 import javafx.scene.Group;

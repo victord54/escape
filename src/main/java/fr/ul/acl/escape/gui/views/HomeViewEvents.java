@@ -1,8 +1,8 @@
-package fr.ul.acl.escape.ui.views;
+package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Settings;
-import fr.ul.acl.escape.ui.ViewController;
-import fr.ul.acl.escape.ui.ViewEvents;
+import fr.ul.acl.escape.gui.ViewController;
+import fr.ul.acl.escape.gui.ViewEvents;
 import javafx.scene.input.KeyEvent;
 
 public class HomeViewEvents implements ViewEvents {
@@ -17,18 +17,22 @@ public class HomeViewEvents implements ViewEvents {
 
     @Override
     public void onViewInit(ViewController controller) {
-        ((HomeController) controller).setGameTitle(gameTitle);
-        ((HomeController) controller).setFullScreenCheckBox(Settings.getInstance().isFullScreen());
+        ((HomeViewController) controller).setGameTitle(gameTitle);
+        ((HomeViewController) controller).setFullScreenCheckBox(Settings.getInstance().isFullScreen());
+    }
+
+    @Override
+    public void onViewDisplayed(ViewController controller) {
     }
 
     @Override
     public void onKeyPressed(ViewController controller, KeyEvent event) {
         if (event.getCode().toString().equals("ESCAPE")) {
-            ((HomeController) controller).setFullScreenCheckBox(false);
+            ((HomeViewController) controller).setFullScreenCheckBox(false);
         }
     }
 
     @Override
-    public void onViewDisplayed(ViewController controller) {
+    public void onKeyReleased(ViewController controller, KeyEvent event) {
     }
 }

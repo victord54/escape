@@ -1,10 +1,10 @@
 package fr.ul.acl.escape;
 
-import fr.ul.acl.escape.ui.VIEWS;
-import fr.ul.acl.escape.ui.View;
-import fr.ul.acl.escape.ui.ViewManager;
-import fr.ul.acl.escape.ui.views.GameViewEvents;
-import fr.ul.acl.escape.ui.views.HomeViewEvents;
+import fr.ul.acl.escape.gui.VIEWS;
+import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.gui.views.GameViewEvents;
+import fr.ul.acl.escape.gui.views.HomeViewEvents;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCombination;
@@ -26,11 +26,11 @@ public class Escape extends Application {
 
         // Register the views of the game
         ViewManager.getInstance().views.put(VIEWS.HOME, new View(
-                new FXMLLoader(getResource("ui/home-view.fxml")),
+                new FXMLLoader(getResource("gui/home-view.fxml")),
                 new HomeViewEvents(GAME_TITLE)
         ));
         ViewManager.getInstance().views.put(VIEWS.GAME, new View(
-                new FXMLLoader(getResource("ui/game-view.fxml")),
+                new FXMLLoader(getResource("gui/game-view.fxml")),
                 new GameViewEvents()
         ));
 

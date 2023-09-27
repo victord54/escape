@@ -1,8 +1,8 @@
-package fr.ul.acl.escape.ui.views;
+package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Escape;
-import fr.ul.acl.escape.ui.ViewController;
-import fr.ul.acl.escape.ui.ViewEvents;
+import fr.ul.acl.escape.gui.ViewController;
+import fr.ul.acl.escape.gui.ViewEvents;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.geometry.Insets;
@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 public class GameViewEvents implements ViewEvents {
     private final int[][] cases;
 
+
     public GameViewEvents() {
         cases = new int[12][7];
     }
@@ -29,9 +30,9 @@ public class GameViewEvents implements ViewEvents {
 
     @Override
     public void onViewDisplayed(ViewController controller) {
-        StackPane centerPane = ((GameController) controller).getPane();
+        StackPane centerPane = ((GameViewController) controller).getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        Canvas canvas = ((GameController) controller).getCanvas();
+        Canvas canvas = ((GameViewController) controller).getCanvas();
 
         // redrawing canvas when resizing
         NumberBinding elementSize = Bindings.min(
@@ -39,15 +40,19 @@ public class GameViewEvents implements ViewEvents {
                 centerPane.heightProperty().divide(cases[0].length));
         canvas.widthProperty().bind(elementSize.multiply(cases.length));
         canvas.heightProperty().bind(elementSize.multiply(cases[0].length));
-        canvas.widthProperty().addListener((observable, oldValue, newValue) -> draw(canvas, newValue.doubleValue() / cases.length));
-        canvas.heightProperty().addListener((observable, oldValue, newValue) -> draw(canvas, newValue.doubleValue() / cases[0].length));
+        canvas.widthProperty().addListener((observable, oldValue, newValue) -> draw(canvas, elementSize.doubleValue()));
+        canvas.heightProperty().addListener((observable, oldValue, newValue) -> draw(canvas, elementSize.doubleValue()));
 
         // first draw
-        draw(canvas, elementSize.getValue());
+        this.draw(canvas, elementSize.doubleValue());
     }
 
     @Override
     public void onKeyPressed(ViewController controller, KeyEvent event) {
+    }
+
+    @Override
+    public void onKeyReleased(ViewController controller, KeyEvent event) {
     }
 
     /**
@@ -56,7 +61,7 @@ public class GameViewEvents implements ViewEvents {
      * @param canvas      The canvas to draw on.
      * @param elementSize The size of a square element of the grid.
      */
-    private void draw(Canvas canvas, Number elementSize) {
+    private void draw(Canvas canvas, double elementSize) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // clear canvas
@@ -64,16 +69,16 @@ public class GameViewEvents implements ViewEvents {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // draw grid
-        double size = elementSize.doubleValue();
         for (int i = 0; i < cases.length; i++) {
             for (int j = 0; j < cases[i].length; j++) {
                 gc.setFill(i % 2 + j % 2 == 1 ? Color.LIGHTGRAY : Color.GRAY);
-                gc.fillRect(i * size, j * size, size, size);
+                gc.fillRect(i * elementSize, j * elementSize, elementSize, elementSize);
             }
         }
 
         // test draw image
+        // TODO: cache images
         Image img = new Image(Escape.getResource("assets/UL.png").toString());
-        gc.drawImage(img, 0, 0, size, size);
+        gc.drawImage(img, 0, 0, elementSize, elementSize);
     }
 }

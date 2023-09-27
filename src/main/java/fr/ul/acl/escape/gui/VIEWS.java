@@ -1,4 +1,4 @@
-package fr.ul.acl.escape.ui;
+package fr.ul.acl.escape.gui;
 
 /**
  * Available views in the application.

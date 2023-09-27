@@ -1,4 +1,4 @@
-package fr.ul.acl.escape.ui;
+package fr.ul.acl.escape.gui;
 
 import javafx.scene.input.KeyEvent;
 
@@ -27,4 +27,12 @@ public interface ViewEvents {
      * @param event      The event of the key pressed.
      */
     void onKeyPressed(ViewController controller, KeyEvent event);
+
+    /**
+     * Fired when a key is released.
+     *
+     * @param controller The controller of the view.
+     * @param event      The event of the key released.
+     */
+    void onKeyReleased(ViewController controller, KeyEvent event);
 }

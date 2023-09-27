@@ -1,22 +1,18 @@
 @startuml
 
-package ui {
-    class View {
-        - Parent root
+package gui {
+    abstract class View {
+        # Parent root
         --
-        + View(Parent, ViewController, ViewEvents)
         + getRoot(): Parent
+        + enableRootEvents(): void
         + onViewInit(): void
         + onViewDisplayed(): void
+        + onKeyPressed(KeyEvent): void
+        + onKeyReleased(KeyEvent): void
     }
 
     abstract class ViewController {}
-
-    interface ViewEvents {
-        + onViewInit(ViewController): void
-        + onViewDisplayed(ViewController): void
-        + onKeyPressed(ViewController, KeyEvent): void
-    }
 
     enum VIEWS {
         HOME,
@@ -27,14 +23,16 @@ package ui {
         - {static} instance: ViewManager
         - stage: Stage
         --
-        + getInstance(): ViewManager
+        - ViewManager()
+        + {static} getInstance(): ViewManager
         + setStage(Stage): void
+        + registerView(VIEWS, View): void
         + navigateTo(VIEWS): void
         + setFullScreen(boolean): void
     }
 
     package views {
-        class HomeController {
+        class HomeViewController {
             - gameTitle: String
             - fullScreenCheckBox: CheckBox
             --
@@ -44,37 +42,34 @@ package ui {
             + setFullScreenCheckBox(boolean): void
         }
 
-        class GameController {
+        class GameViewController {
             - canvas: Canvas
             --
             + getCanvas(): Canvas
         }
 
-        class HomeViewEvents {
+        class HomeView {
             - gameTitle: String
             --
-            + HomeViewEvents(String gameTitle)
+            + HomeView(String)
             + onViewInit(ViewController): void
-            + onViewDisplayed(ViewController): void
             + onKeyPressed(ViewController, KeyEvent): void
         }
 
-        class GameViewEvents {
-            - draw(Canvas, Number): void
-            + onViewInit(ViewController): void
+        class GameView {
+            + GameView()
             + onViewDisplayed(ViewController): void
-            + onKeyPressed(ViewController, KeyEvent): void
+            - draw(Canvas, Number): void
         }
     }
 }
 
-View --"1" ViewController : - controller
-View --"0..1" ViewEvents : - events
-ViewManager --"*" View : + views
+View --"1" ViewController : # controller
+ViewManager --"*" View : - views
 
-HomeController -up-|> ViewController
-HomeViewEvents -up-|> ViewEvents
-GameController -up-|> ViewController
-GameViewEvents -up-|> ViewEvents
+HomeViewController -up-|> ViewController
+HomeView -up-|> View
+GameViewController -up-|> ViewController
+GameView -up-|> View
 
 @enduml

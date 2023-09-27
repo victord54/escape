@@ -1,12 +1,10 @@
 package fr.ul.acl.escape;
 
 import fr.ul.acl.escape.gui.VIEWS;
-import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
-import fr.ul.acl.escape.gui.views.GameViewEvents;
-import fr.ul.acl.escape.gui.views.HomeViewEvents;
+import fr.ul.acl.escape.gui.views.GameView;
+import fr.ul.acl.escape.gui.views.HomeView;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -25,14 +23,8 @@ public class Escape extends Application {
         ViewManager.getInstance().setStage(stage);
 
         // Register the views of the game
-        ViewManager.getInstance().views.put(VIEWS.HOME, new View(
-                new FXMLLoader(getResource("gui/home-view.fxml")),
-                new HomeViewEvents(GAME_TITLE)
-        ));
-        ViewManager.getInstance().views.put(VIEWS.GAME, new View(
-                new FXMLLoader(getResource("gui/game-view.fxml")),
-                new GameViewEvents()
-        ));
+        ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView(GAME_TITLE));
+        ViewManager.getInstance().registerView(VIEWS.GAME, new GameView());
 
         // Set the default view
         ViewManager.getInstance().navigateTo(VIEWS.HOME);

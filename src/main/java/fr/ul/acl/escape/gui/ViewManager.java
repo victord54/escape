@@ -20,17 +20,21 @@ public class ViewManager {
      * Default height of the window when the game starts.
      */
     private static final int DEFAULT_HEIGHT = 600;
+    /**
+     * The instance of the view manager.
+     */
     private static ViewManager instance;
     /**
      * The registered game views in the manager.
      */
-    public final HashMap<VIEWS, View> views = new HashMap<>();
+    private final HashMap<VIEWS, View> views;
     /**
      * The stage of the game.
      */
     private Stage stage;
 
     private ViewManager() {
+        this.views = new HashMap<>();
     }
 
     /**
@@ -53,6 +57,16 @@ public class ViewManager {
     }
 
     /**
+     * Register a view in the manager.
+     *
+     * @param viewName The identifier of the view.
+     * @param view     The view to register.
+     */
+    public void registerView(VIEWS viewName, View view) {
+        views.put(viewName, view);
+    }
+
+    /**
      * Navigate to the named view.
      *
      * @param viewName The identifier of the view to navigate to.
@@ -64,6 +78,7 @@ public class ViewManager {
             stage.setScene(new Scene(new Group(), DEFAULT_WIDTH, DEFAULT_HEIGHT));
         }
         stage.getScene().setRoot(view.getRoot());
+        view.enableRootEvents();
         view.onViewDisplayed();
     }
 

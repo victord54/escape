@@ -1,35 +1,35 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Escape;
-import fr.ul.acl.escape.gui.ViewController;
-import fr.ul.acl.escape.gui.ViewEvents;
+import fr.ul.acl.escape.gui.View;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class GameViewEvents implements ViewEvents {
+import java.io.IOException;
+
+public class GameView extends View {
     private final int[][] cases;
 
+    public GameView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Escape.getResource("gui/game-view.fxml"));
+        this.root = loader.load();
+        this.controller = loader.getController();
 
-    public GameViewEvents() {
         cases = new int[12][7];
     }
 
     @Override
-    public void onViewInit(ViewController controller) {
-    }
-
-    @Override
-    public void onViewDisplayed(ViewController controller) {
+    public void onViewDisplayed() {
         StackPane centerPane = ((GameViewController) controller).getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Canvas canvas = ((GameViewController) controller).getCanvas();
@@ -45,14 +45,6 @@ public class GameViewEvents implements ViewEvents {
 
         // first draw
         this.draw(canvas, elementSize.doubleValue());
-    }
-
-    @Override
-    public void onKeyPressed(ViewController controller, KeyEvent event) {
-    }
-
-    @Override
-    public void onKeyReleased(ViewController controller, KeyEvent event) {
     }
 
     /**

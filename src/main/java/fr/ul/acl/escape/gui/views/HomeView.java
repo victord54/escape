@@ -1,8 +1,8 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Escape;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 
@@ -15,7 +15,7 @@ public class HomeView extends View {
     private final String gameTitle;
 
     public HomeView(String gameTitle) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Escape.getResource("gui/home-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/home-view.fxml"));
         this.root = loader.load();
         this.controller = loader.getController();
 

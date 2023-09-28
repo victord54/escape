@@ -1,7 +1,7 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Escape;
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ public class GameView extends View {
     private final int[][] cases;
 
     public GameView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Escape.getResource("gui/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         this.root = loader.load();
         this.controller = loader.getController();
 
@@ -70,7 +70,7 @@ public class GameView extends View {
 
         // test draw image
         // TODO: cache images
-        Image img = new Image(Escape.getResource("assets/UL.png").toString());
+        Image img = new Image(Resources.get("assets/UL.png").toString());
         gc.drawImage(img, 0, 0, elementSize, elementSize);
     }
 }

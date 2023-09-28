@@ -34,14 +34,4 @@ public class Escape extends Application {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
     }
-
-    /**
-     * Get a resource from the 'resources/fr/ul/acl/escape' directory.
-     *
-     * @param path The path of the resource.
-     * @return The URL of the resource.
-     */
-    public static URL getResource(String path) {
-        return Escape.class.getResource(path);
-    }
 }

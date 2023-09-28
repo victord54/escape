@@ -38,7 +38,14 @@ package Escape{
       ..Constructeur..
       + Personnage(int x, int y, int largeur, int hauteur, int vitesse)
       ..Méthodes..
-      + déplacer(string typeMouvement)
+      + déplacer(TypeMouvement typeMouvement)
+    }
+
+    enum TypeMouvement{
+        RIGHT
+        LEFT
+        TOP
+        DOWN
     }
 
     class Heros {
@@ -98,5 +105,7 @@ Escape.Monde.Monde -- "*" Terrain
 
 
 Escape.Monde.Monde -- "1" GestionFichier
+
+Personnage +-- TypeMouvement
 
 @enduml

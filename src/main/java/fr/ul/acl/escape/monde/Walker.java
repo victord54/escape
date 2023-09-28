@@ -7,7 +7,7 @@ public class Walker extends Monstre{
     }
 
     @Override
-    public void deplacer(String typeMouvement) {
+    public void deplacer(TypeMouvement typeMouvement) {
 
     }
 }

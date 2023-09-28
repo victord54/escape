@@ -7,7 +7,7 @@ public class Heros extends Personnage{
     }
 
     @Override
-    public void deplacer(String typeMouvement) {
+    public void deplacer(TypeMouvement typeMouvement) {
 
     }
 }

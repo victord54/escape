@@ -6,6 +6,6 @@ public abstract class Terrain extends ElementMonde{
     }
 
     public boolean estTraversable(){
-        return true;
+        return false;
     }
 }

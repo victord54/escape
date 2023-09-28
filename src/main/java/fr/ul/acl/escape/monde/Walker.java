@@ -1,9 +1,11 @@
 package fr.ul.acl.escape.monde;
 
-public class Walker extends Monstre{
+import fr.ul.acl.escape.outils.TypeMouvement;
 
-    public Walker(float x, float y, int hauteur, int largeur) {
-        super(x, y, hauteur, largeur);
+public class Walker extends Monstre {
+
+    public Walker(float x, float y, int hauteur, int largeur, float vitesse) {
+        super(x, y, hauteur, largeur, vitesse);
     }
 
     @Override

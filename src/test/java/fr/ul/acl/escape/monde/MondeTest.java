@@ -79,5 +79,27 @@ class MondeTest {
         monde.redeplacementSiCollision(e1,mur);
         assertEquals(7, e1.getX());
         assertEquals(18,e1.getY()); // y inchangé
+
+        e1 = new Heros(9,19,4,3); // Collision qui vient du haut de e1 mais avec dépassement de e1 à gauche de e2
+        monde.redeplacementSiCollision(e1,mur);
+        assertEquals(9, e1.getX());
+        assertEquals(20,e1.getY()); // y inchangé
+
+
+        e1 = new Heros(18,19,4,3); // Collision qui vient du haut de e1 mais avec dépassement de e1 à droite de e2
+        monde.redeplacementSiCollision(e1,mur);
+        assertEquals(18, e1.getX());
+        assertEquals(20,e1.getY()); // y inchangé
+
+        e1 = new Heros(19,18,4,3); // Collision qui vient du de la droite de e1 mais avec dépassement de e1 en bas de e2
+        monde.redeplacementSiCollision(e1,mur);
+        assertEquals(20, e1.getX());
+        assertEquals(18,e1.getY()); // y inchangé
+
+        e1 = new Heros(19,9,4,3); // Collision qui vient du de la droite de e1 mais avec dépassement de e1 en haut de e2
+        monde.redeplacementSiCollision(e1,mur);
+        assertEquals(20, e1.getX());
+        assertEquals(9,e1.getY()); // y inchangé
+
     }
 }

@@ -2,19 +2,20 @@ package fr.ul.acl.escape.outils;
 
 import java.io.*;
 
+/**
+ * manages interactions between external files and the program
+ */
 public class GestionFichier {
 
-    /*
-    Constructeur pour moi inutile car les fonctions de gestion de fichier seront toutes indépendantes
+    /**
+     * lireFichierCarte is use for extract informations of map for load it in game
+     * @param nomFichier Name of the map (without .txt)
+     * @return tab of element size of world
      */
-    public GestionFichier(){}
+    public static char[][] lireFichierCarte(String nomFichier){
 
-    /*
-    Fonction qui renvoie un tableau de char du contenu du fichier
-     */
-    public char[] lireFichierCarte(String nomFichier){
-
-        char [] tableau;
+        // Le tableau sera de la taille de la du monde
+        char [][] tableau = new char[Donnees.hauteurMonde()][Donnees.longeurMonde()];
 
         try
         {
@@ -27,31 +28,30 @@ public class GestionFichier {
             // Créer l'objet BufferedReader qui récupère les informations du file reader
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            // Créer l'objet stringbuffer qui stocke les caractères luent
-            StringBuilder stringBuilder = new StringBuilder();
-
-            // Actuellement, le fichier texte est lu ligne par ligne ce qui peut permettre de facilement modifier le code
-            // Pour qu'il renvoie un tableau à 2 dimensions.
+            // Actuellement, le fichier texte est lu ligne par ligne pour remplir de manière
             String line;
-            while((line = bufferedReader.readLine()) != null)
+
+            // numéro de ligne dans la carte
+            int j = 0;
+
+            // On remplie le tableau 2D avec chaque element du txt
+            while((line = bufferedReader.readLine()) != null && j < Donnees.hauteurMonde())
             {
-                // ajoute la ligne au buffer
-                stringBuilder.append(line);
-                stringBuilder.append("\n");
+                for (int i = 0; i < Donnees.longeurMonde(); i++){
+                    tableau[j][i] = line.charAt(i);
+                }
+
+                // A la fin de ligne on passe à la suivante
+                j++;
             }
+            // ATTENTION : On ferme le Reader
             fileReader.close();
 
-            // On rempli l'objet tableau avec le contenu du fichier texte
-            tableau = new char[stringBuilder.length()];
-            for (int i = 0; i < stringBuilder.length(); i++) {
-                tableau[i] = stringBuilder.charAt(i);
-            }
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
-
-        return null;
+        return tableau;
     }
 }

@@ -1,20 +1,19 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.outils.GestionFichier;
-
 import java.util.ArrayList;
 
 public class Monde {
     private int nbLigne, nbCol;
     private ArrayList<Personnage> personnages;
     private ArrayList<Terrain> terrains;
-    private final GestionFichier gestionFichier = new GestionFichier();
+
 
     public Monde() {
         personnages = new ArrayList<>();
         personnages.add(new Heros(1, 1, 1, 2, 1));
         terrains = new ArrayList<>();
     }
+
 
     /**
      * Function that return if there is a collision between two element of the world.
@@ -75,6 +74,7 @@ public class Monde {
         float e1RightAndE2Left = Math.abs((e1.getX() + e1.getLargeur()) - e2.getX());
         float e1BottomAndE2Top = Math.abs((e1.getY() + e1.getHauteur()) - e2.getY());
         float e1TopAndE2Bottom = Math.abs(e1.getY() - (e2.getY() + e2.getHauteur()));
+
 
         // Collision à gauche de e1
         if (e1.getX() < e2.getX() + e2.getLargeur() && e1.getX() + e1.getLargeur() > e2.getX() + e2.getLargeur() && ((e1LeftAndE2Right < e1TopAndE2Bottom) && (e1LeftAndE2Right < e1BottomAndE2Top))) {

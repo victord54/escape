@@ -9,31 +9,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class HerosTest {
 
     @Test
-    void testDeplacerTypeMouvementCorrect() {
+    void testDeplacerTypeMouvementCorrect() throws MouvementNullException {
         Personnage p = new Heros(0, 0, 1, 1);
+        p.vitesse = 1;
 
         //Right
         p.deplacer(Personnage.TypeMouvement.RIGHT);
-        assertEquals(p.x, 1);
-        assertEquals(p.y, 0);
+        assertEquals(p.x, p.vitesse);
+        assertEquals(p.y, 0f);
 
         //Left
         reinitialiserCoordonnees(p);
         p.deplacer(Personnage.TypeMouvement.LEFT);
-        assertEquals(p.x, -1);
-        assertEquals(p.y, 0);
+        assertEquals(p.x, -p.vitesse);
+        assertEquals(p.y, 0f);
 
         //Forward
         reinitialiserCoordonnees(p);
         p.deplacer(Personnage.TypeMouvement.FORWARD);
-        assertEquals(p.x, 0);
-        assertEquals(p.y, -1);
+        assertEquals(p.x, 0f);
+        assertEquals(p.y, -p.vitesse);
 
         //Back
         reinitialiserCoordonnees(p);
         p.deplacer(Personnage.TypeMouvement.BACK);
-        assertEquals(p.x, 0);
-        assertEquals(p.y, 1);
+        assertEquals(p.x, 0f);
+        assertEquals(p.y, p.vitesse);
 
     }
 

@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.gui;
 
 import fr.ul.acl.escape.Settings;
+import fr.ul.acl.escape.outils.Donnees;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,14 +13,6 @@ import java.util.HashMap;
  * Singleton class.
  */
 public class ViewManager {
-    /**
-     * Default width of the window when the game starts.
-     */
-    private static final int DEFAULT_WIDTH = 800;
-    /**
-     * Default height of the window when the game starts.
-     */
-    private static final int DEFAULT_HEIGHT = 600;
     /**
      * The instance of the view manager.
      */
@@ -75,7 +68,7 @@ public class ViewManager {
         View view = views.get(viewName);
         view.onViewInit();
         if (stage.getScene() == null) {
-            stage.setScene(new Scene(new Group(), DEFAULT_WIDTH, DEFAULT_HEIGHT));
+            stage.setScene(new Scene(new Group(), Donnees.WINDOW_DEFAULT_WIDTH, Donnees.WINDOW_DEFAULT_HEIGHT));
         }
         stage.getScene().setRoot(view.getRoot());
         view.enableRootEvents();

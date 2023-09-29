@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
@@ -18,14 +19,11 @@ import javafx.scene.paint.Color;
 import java.io.IOException;
 
 public class GameView extends View {
-    private final int[][] cases;
 
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         this.root = loader.load();
         this.controller = loader.getController();
-
-        cases = new int[12][7];
     }
 
     @Override
@@ -36,10 +34,10 @@ public class GameView extends View {
 
         // redrawing canvas when resizing
         NumberBinding elementSize = Bindings.min(
-                centerPane.widthProperty().divide(cases.length),
-                centerPane.heightProperty().divide(cases[0].length));
-        canvas.widthProperty().bind(elementSize.multiply(cases.length));
-        canvas.heightProperty().bind(elementSize.multiply(cases[0].length));
+                centerPane.widthProperty().divide(Donnees.WORLD_WIDTH),
+                centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
+        canvas.widthProperty().bind(elementSize.multiply(Donnees.WORLD_WIDTH));
+        canvas.heightProperty().bind(elementSize.multiply(Donnees.WORLD_HEIGHT));
         canvas.widthProperty().addListener((observable, oldValue, newValue) -> draw(canvas, elementSize.doubleValue()));
         canvas.heightProperty().addListener((observable, oldValue, newValue) -> draw(canvas, elementSize.doubleValue()));
 
@@ -61,8 +59,8 @@ public class GameView extends View {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // draw grid
-        for (int i = 0; i < cases.length; i++) {
-            for (int j = 0; j < cases[i].length; j++) {
+        for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
+            for (int j = 0; j < Donnees.WORLD_HEIGHT; j++) {
                 gc.setFill(i % 2 + j % 2 == 1 ? Color.LIGHTGRAY : Color.GRAY);
                 gc.fillRect(i * elementSize, j * elementSize, elementSize, elementSize);
             }

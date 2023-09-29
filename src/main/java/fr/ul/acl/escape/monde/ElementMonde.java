@@ -27,4 +27,23 @@ public abstract class ElementMonde {
     public int getLargeur() {
         return largeur;
     }
+
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "ElementMonde{" +
+                "x=" + x +
+                ", y=" + y +
+                ", hauteur=" + hauteur +
+                ", largeur=" + largeur +
+                '}';
+    }
 }

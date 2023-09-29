@@ -3,7 +3,8 @@ package fr.ul.acl.escape.monde;
 public abstract class ElementMonde {
 
     protected float x, y;
-    protected int hauteur, largeur;
+    protected final int hauteur;
+    protected final int largeur;
 
     public ElementMonde(float x, float y, int hauteur, int largeur) {
         this.x = x;

@@ -2,14 +2,7 @@ package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 
-public abstract class Personnage extends ElementMonde{
-
-    enum TypeMouvement{
-        RIGHT,
-        LEFT,
-        FORWARD,
-        BACK
-    }
+public abstract class Personnage extends ElementMonde {
 
     protected float vitesse;
 

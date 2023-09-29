@@ -14,39 +14,40 @@ class HerosTest {
         p.vitesse = 1;
 
         //Right
-        p.deplacer(Personnage.TypeMouvement.RIGHT);
+        p.deplacer(TypeMouvement.RIGHT);
         assertEquals(p.x, p.vitesse);
         assertEquals(p.y, 0f);
 
         //Left
         reinitialiserCoordonnees(p);
-        p.deplacer(Personnage.TypeMouvement.LEFT);
+        p.deplacer(TypeMouvement.LEFT);
         assertEquals(p.x, -p.vitesse);
         assertEquals(p.y, 0f);
 
         //Forward
         reinitialiserCoordonnees(p);
-        p.deplacer(Personnage.TypeMouvement.FORWARD);
+        p.deplacer(TypeMouvement.FORWARD);
         assertEquals(p.x, 0f);
         assertEquals(p.y, -p.vitesse);
 
         //Back
         reinitialiserCoordonnees(p);
-        p.deplacer(Personnage.TypeMouvement.BACK);
+        p.deplacer(TypeMouvement.BACK);
         assertEquals(p.x, 0f);
         assertEquals(p.y, p.vitesse);
 
     }
 
     @Test
-    void testDeplacerTypeMouvementNull(){
+    void testDeplacerTypeMouvementNull() {
         Personnage p = new Heros(0, 0, 1, 1);
         assertThrows(MouvementNullException.class, () -> {
             p.deplacer(null);
         });
     }
 
-    void reinitialiserCoordonnees(Personnage p){
-        p.x = 0; p.y = 0;
+    void reinitialiserCoordonnees(Personnage p) {
+        p.x = 0;
+        p.y = 0;
     }
 }

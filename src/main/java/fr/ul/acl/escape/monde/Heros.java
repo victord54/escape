@@ -9,9 +9,7 @@ public class Heros extends Personnage{
     }
 
     @Override
-    public void deplacer(TypeMouvement typeMouvement) throws MouvementNullException {
-
-        if(typeMouvement == null) throw new MouvementNullException();
+    public void deplacer(TypeMouvement typeMouvement){
 
         switch(typeMouvement){
             case RIGHT -> this.x+=vitesse;
@@ -19,5 +17,9 @@ public class Heros extends Personnage{
             case FORWARD -> this.y-=vitesse;
             case BACK -> this.y+=vitesse;
         }
+    }
+
+    public boolean estUnHeros(){
+        return true;
     }
 }

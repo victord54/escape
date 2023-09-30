@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MondeTest {
     private Monde monde;
+    private Monde monde2;
     @BeforeEach
     void setUp() {
         this.monde = new Monde();
+        this.monde2 = new Monde();
     }
 
     @Test
@@ -36,70 +39,55 @@ class MondeTest {
     }
 
     @Test
-    void redeplacementSiCollision(){
-        Mur mur = new Mur(10,10,10,10);
+    void redeplacementSiCollision() throws MouvementNullException {
+        Heros h = new Heros(5,5,1,1);
+        monde.addPersonnage(h);
+        monde.deplacementHeros(Personnage.TypeMouvement.LEFT);
+        assertEquals(4, monde.getHeros().getX());
+        assertEquals(5, monde.getHeros().getY());
 
-        Heros e1 = new Heros(12,8,3,3);
-        monde.redeplacementSiCollision(e1,mur); // Collision en bas de e1 : x inchangé - mur.y - heros.hauteur
-        assertEquals( 12, e1.getX() );
-        assertEquals( 7, e1.getY());
+        monde.deplacementHeros(Personnage.TypeMouvement.RIGHT);
+        assertEquals(5, monde.getHeros().getX());
+        assertEquals(5, monde.getHeros().getY());
 
+        monde.deplacementHeros(Personnage.TypeMouvement.FORWARD);
+        assertEquals(5, monde.getHeros().getX());
+        assertEquals(4, monde.getHeros().getY());
 
-        e1 = new Heros(19,14, 3,3);
-        monde.redeplacementSiCollision(e1,mur); // Collision à gauche de e1 : mur.x + mur.largeur - y inchangé
-        assertEquals( 20, e1.getX() );
-        assertEquals( 14, e1.getY());
-
-        e1 = new Heros(12,18, 4,4);
-        monde.redeplacementSiCollision(e1,mur); // Collision en haut de e1 - x inchangé - mur.y + mur.hauteur
-        assertEquals( 12, e1.getX() );
-        assertEquals( 20, e1.getY());
-
-        e1 = new Heros(8,12, 4,4);
-        monde.redeplacementSiCollision(e1,mur); // Collision à droite de e1 : mur.x - heros.largeur - y inchangé
-        assertEquals( 6, e1.getX() );
-        assertEquals( 12, e1.getY());
-
-        e1 = new Heros(18,8,3,3);
-        monde.redeplacementSiCollision(e1,mur); // Collision qui vient du haut mais avec un dépassement de e1 sur la droite de 2
-        assertEquals(18, e1.getX()); // x est inchangé
-        assertEquals(7,e1.getY());
-
-        e1 = new Heros(9,8,3,3); // Collision qui vient du haut mais avec un dépassement e1 sur la gauche de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(9, e1.getX()); // x est inchangé
-        assertEquals(7,e1.getY());
-
-        e1 = new Heros(8,9,3,3); // Collision qui vient de la gauche mais avec un dépassement de e1 en haut de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(7, e1.getX());
-        assertEquals(9,e1.getY()); // y inchangé
-
-        e1 = new Heros(8,18,3,3); // Collision qui vient de la gauche mais avec un dépassement de e1 en bas de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(7, e1.getX());
-        assertEquals(18,e1.getY()); // y inchangé
-
-        e1 = new Heros(9,19,4,3); // Collision qui vient du haut de e1 mais avec dépassement de e1 à gauche de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(9, e1.getX());
-        assertEquals(20,e1.getY()); // y inchangé
+        monde.deplacementHeros(Personnage.TypeMouvement.BACK);
+        assertEquals(5, monde.getHeros().getX());
+        assertEquals(5, monde.getHeros().getY());
 
 
-        e1 = new Heros(18,19,4,3); // Collision qui vient du haut de e1 mais avec dépassement de e1 à droite de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(18, e1.getX());
-        assertEquals(20,e1.getY()); // y inchangé
+        Mur m1 = new Mur(2,2,2,2);
+        monde2.addTerains(m1);
+        Mur m2 = new Mur(5,2,2,2);
+        monde2.addTerains(m2);
 
-        e1 = new Heros(19,18,4,3); // Collision qui vient du de la droite de e1 mais avec dépassement de e1 en bas de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(20, e1.getX());
-        assertEquals(18,e1.getY()); // y inchangé
+        Heros e1 = new Heros(4,2,1,1);
+        monde2.addPersonnage(e1);
 
-        e1 = new Heros(19,9,4,3); // Collision qui vient du de la droite de e1 mais avec dépassement de e1 en haut de e2
-        monde.redeplacementSiCollision(e1,mur);
-        assertEquals(20, e1.getX());
-        assertEquals(9,e1.getY()); // y inchangé
+        Walker w1 = new Walker(4,1,1,1);
+        monde2.addPersonnage(w1);
+        Walker w2 = new Walker(4,3,1,1);
+        monde2.addPersonnage(w2);
+
+        monde2.deplacementHeros(Personnage.TypeMouvement.LEFT); // Deplacement à gauche impossible car m1
+        assertEquals(4, monde2.getHeros().getX());
+        assertEquals(2, monde2.getHeros().getY());
+
+
+        monde2.deplacementHeros(Personnage.TypeMouvement.RIGHT); // Deplacement à gauche impossible car m2
+        assertEquals(4, monde2.getHeros().getX());
+        assertEquals(2, monde2.getHeros().getY());
+
+        monde2.deplacementHeros(Personnage.TypeMouvement.FORWARD); // Deplacement à gauche impossible car w1
+        assertEquals(4, monde2.getHeros().getX());
+        assertEquals(2, monde2.getHeros().getY());
+
+        monde2.deplacementHeros(Personnage.TypeMouvement.BACK); // Deplacement à gauche impossible car w2
+        assertEquals(4, monde2.getHeros().getX());
+        assertEquals(2, monde2.getHeros().getY());
 
     }
 }

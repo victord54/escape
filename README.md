@@ -20,6 +20,11 @@
 mvn clean javafx:run
 ```
 
+#### Test
+```bash
+mvn clean test
+```
+
 ### Production
 #### Build
 ```bash

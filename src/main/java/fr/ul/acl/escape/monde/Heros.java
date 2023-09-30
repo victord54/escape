@@ -1,7 +1,5 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
-
 public class Heros extends Personnage{
 
     public Heros(float x, float y, int hauteur, int largeur) {

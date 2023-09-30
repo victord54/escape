@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Monde {
     private int nbLigne, nbCol;
-    private ArrayList<Personnage> personnages;
-    private ArrayList<Terrain> terrains;
+    private final ArrayList<Personnage> personnages;
+    private final ArrayList<Terrain> terrains;
     private final GestionFichier gestionFichier = new GestionFichier();
 
     public Monde(){
@@ -29,12 +29,8 @@ public class Monde {
         // e1 à droite de e2 -> pt gauche de e1 > pt droit e2
         // e1 au dessus de e2 -> pt bas de e < pt haut e2
 
-        if ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) &&
-                (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getLargeur() > e2.getY()))){
-            return true;
-        }
-
-        return false;
+        return ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) &&
+                (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getLargeur() > e2.getY())));
     }
 
     /**

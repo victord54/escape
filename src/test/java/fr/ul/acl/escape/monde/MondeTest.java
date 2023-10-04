@@ -39,7 +39,7 @@ class MondeTest {
     }
 
     @Test
-    void redeplacementSiCollision() throws MouvementNullException {
+    void deplacementHeros() throws MouvementNullException {
         Heros h = new Heros(5,5,1,1);
         monde.addPersonnage(h);
         monde.deplacementHeros(Personnage.TypeMouvement.LEFT);

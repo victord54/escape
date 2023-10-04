@@ -4,7 +4,6 @@ import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.GestionFichier;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Monde {
     private int nbLigne, nbCol;

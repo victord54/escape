@@ -12,18 +12,19 @@ public class Monde {
     private final ArrayList<Terrain> terrains;
     private final GestionFichier gestionFichier = new GestionFichier();
 
-    public Monde(){
+    public Monde() {
         this.personnages = new ArrayList<>();
         this.terrains = new ArrayList<>();
     }
 
     /**
      * Function that return if there is a collision between two element of the world.
+     *
      * @param e1 The first element.
      * @param e2 The second element.
      * @return true if there is a collision between e1 and e2, false otherwise.
      */
-    protected boolean collision(ElementMonde e1, ElementMonde e2){
+    protected boolean collision(ElementMonde e1, ElementMonde e2) {
         // e1 gauche de e2 -> pt droit de e1 < pt gauche e2
         // e1 en dessous de e2 -> pt haut de e1 -> > pt bas e2
         // e1 à droite de e2 -> pt gauche de e1 > pt droit e2
@@ -35,42 +36,45 @@ public class Monde {
 
     /**
      * Function that add a Terrain to the ArrayList of Terrain.
+     *
      * @param t The Terrain to be added.
      */
-    public void addTerains(Terrain t){
+    public void addTerains(Terrain t) {
         this.terrains.add(t);
     }
 
     /**
      * Function that add a Personnage to the ArrayList of Personnage.
+     *
      * @param p The Personnage to be added.
      */
-    public void addPersonnage(Personnage p){
+    public void addPersonnage(Personnage p) {
         this.personnages.add(p);
     }
 
 
     /**
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
+     *
      * @param typeMouvement The Type of mouvement the Heros wants to make.
      * @throws MouvementNullException Exception throw if typeMouvement is null.
      */
     protected void deplacementHeros(Personnage.TypeMouvement typeMouvement) throws MouvementNullException {
-        if(typeMouvement == null) throw new MouvementNullException();
+        if (typeMouvement == null) throw new MouvementNullException();
 
         Heros h = getHeros();
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement);
 
         boolean collision = false;
-        for (Terrain t : terrains){
-            if (collision(tmp,t)) {
+        for (Terrain t : terrains) {
+            if (collision(tmp, t)) {
                 collision = true;
                 break;
             }
         }
-        if (!collision){
-            for (Personnage p : personnages){
+        if (!collision) {
+            for (Personnage p : personnages) {
                 if (!p.estUnHeros()) {
                     if (collision(tmp, p)) {
                         collision = true;
@@ -80,16 +84,17 @@ public class Monde {
             }
         }
 
-        if (!collision){
+        if (!collision) {
             this.getHeros().deplacer(typeMouvement);
         }
     }
 
     /**
      * Function that get the Heros.
+     *
      * @return the Heros.
      */
-    protected Heros getHeros(){
+    protected Heros getHeros() {
         for (Personnage p : personnages) {
             if (p.estUnHeros()) return (Heros) p;
         }

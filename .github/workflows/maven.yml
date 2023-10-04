@@ -27,6 +27,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Check Maven version
+      run: mvn --version
+    - name: List test files
+      run: ls -R src/test/java/fr/ul/acl/escape
     - name: Build with Maven
       run: mvn -B -U package --file pom.xml
 

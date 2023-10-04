@@ -121,10 +121,16 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- force version 3.3.1 instead of 3.3.0 -->
+                <!-- force resources version 3.3.1 instead of 3.3.0 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
+            </plugin>
+            <plugin>
+                <!-- force surefire version 3.1.2 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>

@@ -15,7 +15,14 @@ public abstract class Personnage extends ElementMonde{
 
     public Personnage(float x, float y, int hauteur, int largeur) {
         super(x, y, hauteur, largeur);
+        vitesse = 1;
     }
 
     public abstract void deplacer(TypeMouvement typeMouvement) throws MouvementNullException;
+
+    public boolean estUnHeros(){
+        return false;
+    }
+
+
 }

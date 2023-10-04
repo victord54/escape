@@ -127,7 +127,7 @@
                 <version>3.3.1</version>
             </plugin>
             <plugin>
-                <!-- force surefire version 3.1.2 -->
+                <!-- force surefire version 3.1.2 instead of github actions' 2.12.4 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>

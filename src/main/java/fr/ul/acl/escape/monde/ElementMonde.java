@@ -2,9 +2,9 @@ package fr.ul.acl.escape.monde;
 
 public abstract class ElementMonde {
 
-    protected float x, y;
     protected final int hauteur;
     protected final int largeur;
+    protected float x, y;
 
     public ElementMonde(float x, float y, int hauteur, int largeur) {
         this.x = x;
@@ -17,8 +17,16 @@ public abstract class ElementMonde {
         return x;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
     public float getY() {
         return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public int getHauteur() {
@@ -27,15 +35,6 @@ public abstract class ElementMonde {
 
     public int getLargeur() {
         return largeur;
-    }
-
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     @Override

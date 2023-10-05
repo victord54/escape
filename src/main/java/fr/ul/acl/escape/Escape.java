@@ -4,15 +4,22 @@ import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.views.GameView;
 import fr.ul.acl.escape.gui.views.HomeView;
+import fr.ul.acl.escape.monde.Heros;
+import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.Donnees;
 import javafx.application.Application;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Escape extends Application {
-
+    /**
+     * CLI entry point.
+     */
     public static void main(String[] args) {
         Monde monde = new Monde();
         monde.addPersonnage(new Heros(0, 0, 1, 1, 1));
@@ -59,6 +66,9 @@ public class Escape extends Application {
         } while (again);
     }
 
+    /**
+     * GUI entry point.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         ViewManager.getInstance().setStage(stage);

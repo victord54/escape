@@ -37,10 +37,16 @@ mvn clean package
 ```
 
 #### Run
+> Replace X.Y-Z with the version number, e.g. `1.0-SNAPSHOT`.
+##### GUI mode
 ```bash
 java -jar target/escape-X.Y-Z.jar
 ```
-> Replace X.Y-Z with the version number, e.g. `1.0-SNAPSHOT`.
+
+##### CLI mode
+```bash
+java -jar target/escape-X.Y-Z.jar --nowindow
+```
 
 ## Docs
 ### Sprints

@@ -49,7 +49,7 @@ public abstract class View {
     /**
      * Fired when a key is pressed.
      *
-     * @param event      The event of the key pressed.
+     * @param event The event of the key pressed.
      */
     public void onKeyPressed(KeyEvent event) {
     }
@@ -57,7 +57,7 @@ public abstract class View {
     /**
      * Fired when a key is released.
      *
-     * @param event      The event of the key released.
+     * @param event The event of the key released.
      */
     public void onKeyReleased(KeyEvent event) {
     }

@@ -12,13 +12,13 @@ public class Heros extends Personnage {
     @Override
     public void deplacer(TypeMouvement typeMouvement) throws MouvementNullException {
 
-        if(typeMouvement == null) throw new MouvementNullException();
+        if (typeMouvement == null) throw new MouvementNullException();
 
-        switch(typeMouvement){
-            case RIGHT -> this.x+=vitesse;
-            case LEFT -> this.x-=vitesse;
-            case UP -> this.y-=vitesse;
-            case DOWN -> this.y+=vitesse;
+        switch (typeMouvement) {
+            case RIGHT -> this.x += vitesse;
+            case LEFT -> this.x -= vitesse;
+            case UP -> this.y -= vitesse;
+            case DOWN -> this.y += vitesse;
         }
     }
 

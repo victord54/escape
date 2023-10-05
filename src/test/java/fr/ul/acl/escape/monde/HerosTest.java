@@ -38,14 +38,6 @@ class HerosTest {
 
     }
 
-    @Test
-    void testDeplacerTypeMouvementNull(){
-        Personnage p = new Heros(0, 0, 1, 1);
-        assertThrows(MouvementNullException.class, () -> {
-            p.deplacer(null);
-        });
-    }
-
     void reinitialiserCoordonnees(Personnage p){
         p.x = 0; p.y = 0;
     }

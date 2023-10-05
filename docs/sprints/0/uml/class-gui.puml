@@ -15,7 +15,7 @@ package gui {
     abstract class ViewController {}
 
     enum VIEWS {
-        HOME,
+        HOME
         GAME
     }
 
@@ -49,27 +49,42 @@ package gui {
         }
 
         class HomeView {
-            - gameTitle: String
-            --
-            + HomeView(String)
-            + onViewInit(ViewController): void
-            + onKeyPressed(ViewController, KeyEvent): void
+            + HomeView()
+            + onViewInit(): void
+            + onKeyPressed(KeyEvent): void
         }
 
         class GameView {
             + GameView()
-            + onViewDisplayed(ViewController): void
+            + onViewDisplayed(): void
             - draw(Canvas, Number): void
+            + render(): void
+        }
+    }
+
+    package engine {
+        class Engine {
+            + handle(long): void
+            + start(): void
+        }
+
+        interface GameInterface {
+            + render(): void
         }
     }
 }
 
 View --"1" ViewController : # controller
-ViewManager --"*" View : - views
+ViewManager -"*" View : - views
 
+' views
 HomeViewController -up-|> ViewController
 HomeView -up-|> View
 GameViewController -up-|> ViewController
 GameView -up-|> View
+
+' engine
+GameView ..up.|> GameInterface
+Engine -"1" GameInterface : - ui
 
 @enduml

@@ -1,6 +1,8 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.gui.engine.Engine;
+import fr.ul.acl.escape.gui.engine.GameInterface;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -18,7 +20,9 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
-public class GameView extends View {
+public class GameView extends View implements GameInterface {
+    private Canvas canvas;
+    private NumberBinding elementSize;
 
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
@@ -30,12 +34,10 @@ public class GameView extends View {
     public void onViewDisplayed() {
         StackPane centerPane = ((GameViewController) controller).getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        Canvas canvas = ((GameViewController) controller).getCanvas();
+        canvas = ((GameViewController) controller).getCanvas();
 
         // redrawing canvas when resizing
-        NumberBinding elementSize = Bindings.min(
-                centerPane.widthProperty().divide(Donnees.WORLD_WIDTH),
-                centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
+        elementSize = Bindings.min(centerPane.widthProperty().divide(Donnees.WORLD_WIDTH), centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
         canvas.widthProperty().bind(elementSize.multiply(Donnees.WORLD_WIDTH));
         canvas.heightProperty().bind(elementSize.multiply(Donnees.WORLD_HEIGHT));
         canvas.widthProperty().addListener((observable, oldValue, newValue) -> draw(canvas, elementSize.doubleValue()));
@@ -43,6 +45,10 @@ public class GameView extends View {
 
         // first draw
         this.draw(canvas, elementSize.doubleValue());
+
+        // start engine
+        Engine engine = new Engine(this);
+        engine.start();
     }
 
     /**
@@ -70,5 +76,10 @@ public class GameView extends View {
         // TODO: cache images
         Image img = new Image(Resources.get("assets/UL.png").toString());
         gc.drawImage(img, 0, 0, elementSize, elementSize);
+    }
+
+    @Override
+    public void render() {
+        this.draw(canvas, elementSize.doubleValue());
     }
 }

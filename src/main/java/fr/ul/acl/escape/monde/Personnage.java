@@ -8,6 +8,7 @@ public abstract class Personnage extends ElementMonde {
 
     public Personnage(float x, float y, int hauteur, int largeur, float vitesse) {
         super(x, y, hauteur, largeur);
+        vitesse = 1;
         this.vitesse = vitesse;
     }
 

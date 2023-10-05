@@ -3,7 +3,7 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.TypeMouvement;
 
-public class Heros extends Personnage{
+public class Heros extends Personnage {
 
     public Heros(float x, float y, int hauteur, int largeur, float vitesse) {
         super(x, y, hauteur, largeur, vitesse);
@@ -21,9 +21,8 @@ public class Heros extends Personnage{
             case DOWN -> this.y+=vitesse;
         }
     }
-    @Override
-    public boolean estUnHeros()
-    {
+
+    public boolean estUnHeros() {
         return true;
     }
 }

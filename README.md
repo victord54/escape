@@ -1,4 +1,9 @@
+<div style="text-align: center">
+
 # Escape
+![Java CI with Maven](https://github.com/victord54/escape/actions/workflows/maven.yml/badge.svg)
+</div>
+
 ## Authors
 * [Victor DALLÉ](https://github.com/victord54)
 * [Claire KURTH](https://github.com/clairekth)
@@ -18,6 +23,11 @@
 #### Run
 ```bash
 mvn clean javafx:run
+```
+
+#### Test
+```bash
+mvn clean test
 ```
 
 ### Production

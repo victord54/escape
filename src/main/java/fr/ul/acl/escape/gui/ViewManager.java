@@ -82,7 +82,7 @@ public class ViewManager {
      * @param fullScreen True to enable full screen mode, false otherwise.
      */
     public void setFullScreen(boolean fullScreen) {
-        Settings.getInstance().setFullScreen(fullScreen);
+        Settings.fullScreen = fullScreen;
         stage.setFullScreen(fullScreen);
     }
 }

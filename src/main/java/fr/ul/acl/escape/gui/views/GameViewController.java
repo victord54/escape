@@ -7,15 +7,21 @@ import javafx.scene.layout.StackPane;
 
 public class GameViewController extends ViewController {
     @FXML
-    private Canvas canvas;
-    @FXML
     private StackPane pane;
-
-    public Canvas getCanvas() {
-        return canvas;
-    }
+    @FXML
+    private Canvas gameBoard;
+    @FXML
+    private Canvas overlay;
 
     public StackPane getPane() {
         return pane;
+    }
+
+    public Canvas getGameBoard() {
+        return gameBoard;
+    }
+
+    public Canvas getOverlay() {
+        return overlay;
     }
 }

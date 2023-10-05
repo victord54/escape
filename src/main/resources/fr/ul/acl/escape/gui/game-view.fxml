@@ -4,5 +4,6 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane fx:id="pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
-    <Canvas fx:id="canvas" focusTraversable="true" />
+    <Canvas fx:id="gameBoard" focusTraversable="true" />
+    <Canvas fx:id="overlay" focusTraversable="true" />
 </StackPane>

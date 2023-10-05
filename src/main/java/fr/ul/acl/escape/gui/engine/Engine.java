@@ -15,6 +15,10 @@ public class Engine extends AnimationTimer {
      * The number of frames in the current second.
      */
     private int nbFrames = 0;
+    /**
+     * The number of frames in the previous second.
+     */
+    private int fps = 0;
 
     // TODO: add game
 
@@ -26,11 +30,15 @@ public class Engine extends AnimationTimer {
     public void handle(long now) {
         if (now - previousSecond >= 1e9f) {
             previousSecond = now;
-            System.out.println("FPS: " + nbFrames);
+            fps = nbFrames;
             nbFrames = 0;
         }
         nbFrames++;
         //this.game.update();
         this.ui.render();
+    }
+
+    public int getFPS() {
+        return fps;
     }
 }

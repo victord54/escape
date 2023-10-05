@@ -73,9 +73,7 @@ public class GameView extends View implements GameInterface {
         }
 
         // test draw image
-        // TODO: cache images
-        Image img = new Image(Resources.get("assets/UL.png").toString());
-        gc.drawImage(img, 0, 0, elementSize, elementSize);
+        gc.drawImage(Resources.getAsset("assets/UL.png"), 0, 0, elementSize, elementSize);
     }
 
     @Override

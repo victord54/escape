@@ -92,4 +92,9 @@ class MondeTest {
         assertEquals(2, monde2.getHeros().getY());
 
     }
+
+    @Test
+    void deplacementHerosNull(){
+        assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null));
+    }
 }

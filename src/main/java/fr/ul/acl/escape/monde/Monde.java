@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.GestionFichier;
+import fr.ul.acl.escape.outils.TypeMouvement;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,8 @@ public class Monde {
     private final GestionFichier gestionFichier = new GestionFichier();
 
     public Monde() {
-        this.personnages = new ArrayList<>();
-        this.terrains = new ArrayList<>();
+        personnages = new ArrayList<>();
+        terrains = new ArrayList<>();
     }
 
     /**
@@ -29,8 +30,7 @@ public class Monde {
         // e1 à droite de e2 -> pt gauche de e1 > pt droit e2
         // e1 au dessus de e2 -> pt bas de e < pt haut e2
 
-        return ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) &&
-                (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getLargeur() > e2.getY())));
+        return ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) && (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getLargeur() > e2.getY())));
     }
 
     /**
@@ -58,11 +58,11 @@ public class Monde {
      * @param typeMouvement The Type of mouvement the Heros wants to make.
      * @throws MouvementNullException Exception throw if typeMouvement is null.
      */
-    protected void deplacementHeros(Personnage.TypeMouvement typeMouvement) throws MouvementNullException {
+    public void deplacementHeros(TypeMouvement typeMouvement) throws MouvementNullException {
         if (typeMouvement == null) throw new MouvementNullException();
 
         Heros h = getHeros();
-        Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
+        Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur(), 1);
         tmp.deplacer(typeMouvement);
 
         boolean collision = false;
@@ -93,10 +93,13 @@ public class Monde {
      *
      * @return the Heros.
      */
-    protected Heros getHeros() {
+    public Heros getHeros() {
         for (Personnage p : personnages) {
             if (p.estUnHeros()) return (Heros) p;
         }
         return null;
+    }
+
+    public void updateData() {
     }
 }

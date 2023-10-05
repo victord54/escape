@@ -3,7 +3,7 @@ package fr.ul.acl.escape.outils;
 /**
  * Static game information common to all classes.
  */
-public class Donnees {
+public final class Donnees {
 
     /**
      *

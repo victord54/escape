@@ -2,12 +2,10 @@ package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.GestionFichier;
-import fr.ul.acl.escape.outils.TypeMouvement;
 
 import java.util.ArrayList;
 
 public class Monde {
-    private int nbLigne, nbCol;
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
     private final GestionFichier gestionFichier = new GestionFichier();

@@ -5,3 +5,9 @@ charset = utf-8
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.java]
+ij_java_block_brace_style = end_of_line
+ij_java_class_brace_style = end_of_line
+ij_java_lambda_brace_style = end_of_line
+ij_java_method_brace_style = end_of_line

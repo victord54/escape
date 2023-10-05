@@ -1,20 +1,29 @@
 package fr.ul.acl.escape;
 
+import fr.ul.acl.escape.gui.VIEWS;
+import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.gui.views.GameView;
+import fr.ul.acl.escape.gui.views.HomeView;
 import fr.ul.acl.escape.monde.Heros;
 import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
-import fr.ul.acl.escape.outils.TypeMouvement;
+import fr.ul.acl.escape.outils.Donnees;
+import javafx.application.Application;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Escape {
-    private final Monde monde;
-
-    public Escape() {
-        monde = new Monde();
+public class Escape extends Application {
+    /**
+     * CLI entry point.
+     */
+    public static void main(String[] args) {
+        Monde monde = new Monde();
         monde.addPersonnage(new Heros(0, 0, 1, 1, 1));
-    }
 
-    public void launchCLI() {
         int inp;
         boolean again = true;
         Scanner scan = new Scanner(System.in);
@@ -57,6 +66,23 @@ public class Escape {
         } while (again);
     }
 
-//    public void launchGraphic() {
-//    }
+    /**
+     * GUI entry point.
+     */
+    @Override
+    public void start(Stage stage) throws IOException {
+        ViewManager.getInstance().setStage(stage);
+
+        // Register the views of the game
+        ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView());
+        ViewManager.getInstance().registerView(VIEWS.GAME, new GameView());
+
+        // Set the default view
+        ViewManager.getInstance().navigateTo(VIEWS.HOME);
+
+        // Show window
+        stage.setTitle(Donnees.GAME_TITLE);
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.show();
+    }
 }

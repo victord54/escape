@@ -1,7 +1,6 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
-import fr.ul.acl.escape.outils.TypeMouvement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,7 +93,7 @@ class MondeTest {
     }
 
     @Test
-    void deplacementHerosNull(){
+    void deplacementHerosNull() {
         assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null));
     }
 }

@@ -1,7 +1,6 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
-import fr.ul.acl.escape.outils.TypeMouvement;
 
 public abstract class Personnage extends ElementMonde {
     protected float vitesse;

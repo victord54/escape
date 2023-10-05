@@ -4,8 +4,6 @@ import fr.ul.acl.escape.monde.Heros;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.TypeMouvement;
-import javafx.event.Event;
-
 import java.util.Scanner;
 
 public class Escape {
@@ -59,6 +57,6 @@ public class Escape {
         } while (again);
     }
 
-    public void launchGraphic() {
-    }
+//    public void launchGraphic() {
+//    }
 }

@@ -21,6 +21,7 @@ public class Heros extends Personnage {
         }
     }
 
+    @Override
     public boolean estUnHeros() {
         return true;
     }

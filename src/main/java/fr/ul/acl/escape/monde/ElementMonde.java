@@ -39,11 +39,6 @@ public abstract class ElementMonde {
 
     @Override
     public String toString() {
-        return "ElementMonde{" +
-                "x=" + x +
-                ", y=" + y +
-                ", hauteur=" + hauteur +
-                ", largeur=" + largeur +
-                '}';
+        return "ElementMonde{" + "x=" + x + ", y=" + y + ", hauteur=" + hauteur + ", largeur=" + largeur + '}';
     }
 }

@@ -7,9 +7,7 @@ import javafx.application.Application;
  */
 public class Launcher {
     public static void main(String[] args) {
-        if (args.length == 1 && args[0].equals("--nowindow"))
-            Escape.main(args);
-        else
-            Application.launch(Escape.class, args);
+        if (args.length == 1 && args[0].equals("--nowindow")) Escape.main(args);
+        else Application.launch(Escape.class, args);
     }
 }

@@ -61,9 +61,9 @@ class MondeTest {
 
 
         Mur m1 = new Mur(2, 2, 2, 2);
-        monde2.addTerains(m1);
+        monde2.addTerrains(m1);
         Mur m2 = new Mur(5, 2, 2, 2);
-        monde2.addTerains(m2);
+        monde2.addTerrains(m2);
 
         Heros e1 = new Heros(4, 2, 1, 1, 1);
         monde2.addPersonnage(e1);

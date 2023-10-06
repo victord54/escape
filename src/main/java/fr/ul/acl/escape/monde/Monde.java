@@ -36,7 +36,7 @@ public class Monde {
      *
      * @param t The Terrain to be added.
      */
-    public void addTerains(Terrain t) {
+    public void addTerrains(Terrain t) {
         this.terrains.add(t);
     }
 

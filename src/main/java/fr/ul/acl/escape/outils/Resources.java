@@ -13,6 +13,9 @@ public class Resources {
      */
     private static final Map<String, Image> assets = new HashMap<>();
 
+    private Resources() {
+    }
+
     /**
      * Get a resource from the 'resources/fr/ul/acl/escape' directory.
      *

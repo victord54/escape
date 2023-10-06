@@ -83,11 +83,26 @@ package Escape{
   }
 
   package Outils {
+    class Donnees {
+        + {static} String GAME_TITLE
+        + {static} int WINDOW_DEFAULT_HEIGHT
+        + {static} int WINDOW_DEFAULT_WIDTH
+        + {static} int WORLD_HEIGHT
+        + {static} int WORLD_WIDTH
+    }
+
     class GestionFichier {
         ..Constructeur..
         + GestionFichier()
         ..Méthodes..
         + char[] lireFichierCarte(string nomFichier)
+    }
+
+    class Resources {
+        - {static} Map<String, Image> assets
+        ..Méthodes..
+        + {static} URL get(String path)
+        + {static} Image getAsset(String path)
     }
   }
 }
@@ -102,7 +117,7 @@ Walker -up-|> Monstre
 
 Terrain -right-|> ElementMonde
 Mur -up-|> Terrain
-Escape.Escape --|> Application
+Escape.Escape -up-|> Application
 
 
 Escape.Monde.Monde -- "*" Personnage
@@ -110,6 +125,11 @@ Escape.Monde.Monde -- "*" Terrain
 
 
 Escape.Monde.Monde -- "1" GestionFichier
+
+' force layout
+Resources -[hidden]up-> GestionFichier
+GestionFichier -[hidden]up-> Donnees
+TypeMouvement -[hidden]right-> Escape.Monde.Monde
 
 
 @enduml

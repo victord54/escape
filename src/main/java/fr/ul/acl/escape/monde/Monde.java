@@ -28,21 +28,21 @@ public class Monde {
         char[][] donnees = GestionFichier.lireFichierCarte(carte);
 
         // On parcours les données
-        for (int j= 0; j < Donnees.hauteurMonde(); j++) {
-            for (int i = 0; i < Donnees.longeurMonde(); i++) {
+        for (int j= 0; j < Donnees.WORLD_HEIGHT; j++) {
+            for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
                 if(donnees[j][i] != '0'){
                     // Elements du terrain comme les murs et les trous
-                    if(donnees[j][i] == 'M'){
-                        this.terrains.add(new Mur(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurMur(),Donnees.largeurMur()));
+                    if(donnees[j][i] == Donnees.SYMBOL_WALL){
+                        this.terrains.add(new Mur(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.WALL_HEIGHT,Donnees.WALL_WIDTH));
                     }
 
                     // Personnages pose sur la carte hero et monstre
-                    if(donnees[j][i] == 'H' && !heroExiste){
-                        this.personnages.add(new Heros(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurHero(),Donnees.largeurHero(),1) );
+                    if(donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste){
+                        this.personnages.add(new Heros(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.HERO_HEIGHT,Donnees.HERO_WIDTH,1) );
                         heroExiste = true;
                     }
-                    if(donnees[j][i] == 'W'){
-                        this.personnages.add(new Walker(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurWalker(),Donnees.largeurWalker(), 1));
+                    if(donnees[j][i] == Donnees.SYMBOL_WALKER){
+                        this.personnages.add(new Walker(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.WALKER_HEIGHT,Donnees.WALKER_WIDTH, 1));
                     }
                 }
             }

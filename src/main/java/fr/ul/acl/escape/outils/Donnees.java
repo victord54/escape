@@ -10,73 +10,65 @@ public final class Donnees {
     public static final String GAME_TITLE = "Escape";
 
     /**
-     * The height of the game screen in boxes.
+     *
+     * symbol of Hero/player
      */
-    public static int hauteurMonde(){return 7;}
-    /**
-     * The width of the game screen in boxes.
-     */
-    public static int longeurMonde(){return 13;}
+    public static final char SYMBOL_HERO = 'H';
 
     /**
      *
-     * @return symbol of Hero/player
+     * symbol of monster : walker
      */
-    public static char symboleHero(){return 'H';}
+    public static final char SYMBOL_WALKER ='W';
 
     /**
      *
-     * @return symbol of monster : walker
+     * symbol of wall
      */
-    public static char symboleWalker(){return 'W';}
+    public static final char SYMBOL_WALL = 'M';
 
     /**
      *
-     * @return symbol of wall
+     * symbol of hole
      */
-    public static char symboleMur(){return 'M';}
+    public static final char SYMBOL_HOLE = 'T';
 
     /**
      *
-     * @return symbol of hole
+     * height of wall
      */
-    public static char symboleTrou(){return 'T';}
+    public static final int WALL_HEIGHT = 1;
 
     /**
      *
-     * @return height of wall
+     * width of wall
      */
-    public static int hauteurMur(){return 1;}
+    public static final int WALL_WIDTH = 1;
 
     /**
      *
-     * @return width of wall
+     * height of hero
      */
-    public static int largeurMur(){return 1;}
+    public static final int HERO_HEIGHT = 1;
 
     /**
      *
-     * @return height of hero
+     * width of hero
      */
-    public static int hauteurHero(){return 1;}
+
+    public static final int HERO_WIDTH = 1;
 
     /**
      *
-     * @return width of hero
+     * height of monster
      */
-    public static int largeurHero(){return 1;}
+    public static final int WALKER_HEIGHT = 1;
 
     /**
      *
-     * @return height of monster
+     *  width of monster
      */
-    public static int hauteurWalker(){return 1;}
-
-    /**
-     *
-     * @return width of hero
-     */
-    public static int largeurWalker(){return 1;}
+    public static final int WALKER_WIDTH = 1;
 
   public static final int WORLD_HEIGHT = 7;
     /**

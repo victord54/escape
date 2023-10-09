@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.GestionFichier;
 
@@ -8,12 +9,50 @@ import java.util.ArrayList;
 public class Monde {
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
-    private final GestionFichier gestionFichier = new GestionFichier();
 
     public Monde() {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
     }
+
+    /**
+     * Load map's informations in the world
+     * Charge les information de la carte dans le monde
+     * @param carte nom de la carte à charger
+     */
+    public void chargerCarte(String carte) throws Exception {
+        // Variable de vérification
+        boolean heroExiste = false;
+
+        this.personnages = new ArrayList<>();
+        this.terrains = new ArrayList<>();
+        // On récupère les informations de la carte
+        char[][] donnees = GestionFichier.lireFichierCarte(carte);
+
+        // On parcours les données
+        for (int j= 0; j < Donnees.hauteurMonde(); j++) {
+            for (int i = 0; i < Donnees.longeurMonde(); i++) {
+                if(donnees[j][i] != '0'){
+                    // Elements du terrain comme les murs et les trous
+                    if(donnees[j][i] == 'M'){
+                        this.terrains.add(new Mur(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurMur(),Donnees.largeurMur()));
+                    }
+
+                    // Personnages pose sur la carte hero et monstre
+                    if(donnees[j][i] == 'H' && !heroExiste){
+                        this.personnages.add(new Heros(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurHero(),Donnees.largeurHero()) );
+                        heroExiste = true;
+                    }
+                    if(donnees[j][i] == 'W'){
+                        this.personnages.add(new Walker(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurWalker(),Donnees.largeurWalker()));
+                    }
+                }
+            }
+        }
+        if(!heroExiste) throw new Exception("Where hero ?");
+    }
+
+
 
     /**
      * Function that return if there is a collision between two element of the world.

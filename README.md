@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
 
 # Escape
 ![Java CI with Maven](https://github.com/victord54/escape/actions/workflows/maven.yml/badge.svg)
@@ -37,15 +37,15 @@ mvn clean package
 ```
 
 #### Run
-> Replace X.Y-Z with the version number, e.g. `1.0-SNAPSHOT`.
+> Replace X.Y.Z with the version number, e.g. `1.0.0`.
 ##### GUI mode
 ```bash
-java -jar target/escape-X.Y-Z.jar
+java -jar target/escape-X.Y.Z.jar
 ```
 
 ##### CLI mode
 ```bash
-java -jar target/escape-X.Y-Z.jar --nowindow
+java -jar target/escape-X.Y.Z.jar --nowindow
 ```
 
 ## Docs
@@ -53,6 +53,6 @@ java -jar target/escape-X.Y-Z.jar --nowindow
 * [Sprint 0](docs/sprints/0)
 
 ### Latest UML diagrams
-* [Class diagram](./docs/sprints/0/uml/class-diagram.svg)\
-![Class diagram](./docs/sprints/0/uml/class-diagram.svg)
-* [Other diagrams](./docs/sprints/0/uml)
+* [Class diagram](docs/uml/class-diagram.svg)\
+![Class diagram](docs/uml/class-diagram.svg)
+* [Other diagrams](docs/uml)

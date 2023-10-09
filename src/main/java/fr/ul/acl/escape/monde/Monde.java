@@ -1,7 +1,7 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
+import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.GestionFichier;
 
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ public class Monde {
     /**
      * Load map's informations in the world
      * Charge les information de la carte dans le monde
+     *
      * @param carte nom de la carte à charger
      */
     public void chargerCarte(String carte) throws Exception {
@@ -28,28 +29,27 @@ public class Monde {
         char[][] donnees = GestionFichier.lireFichierCarte(carte);
 
         // On parcours les données
-        for (int j= 0; j < Donnees.WORLD_HEIGHT; j++) {
+        for (int j = 0; j < Donnees.WORLD_HEIGHT; j++) {
             for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
-                if(donnees[j][i] != '0'){
+                if (donnees[j][i] != '0') {
                     // Elements du terrain comme les murs et les trous
-                    if(donnees[j][i] == Donnees.SYMBOL_WALL){
-                        this.terrains.add(new Mur(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.WALL_HEIGHT,Donnees.WALL_WIDTH));
+                    if (donnees[j][i] == Donnees.SYMBOL_WALL) {
+                        this.terrains.add(new Mur(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALL_HEIGHT, Donnees.WALL_WIDTH));
                     }
 
                     // Personnages pose sur la carte hero et monstre
-                    if(donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste){
-                        this.personnages.add(new Heros(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.HERO_HEIGHT,Donnees.HERO_WIDTH,1) );
+                    if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
+                        this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH, 1));
                         heroExiste = true;
                     }
-                    if(donnees[j][i] == Donnees.SYMBOL_WALKER){
-                        this.personnages.add(new Walker(i*Donnees.WALL_WIDTH,j*Donnees.WALL_HEIGHT,Donnees.WALKER_HEIGHT,Donnees.WALKER_WIDTH, 1));
+                    if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
+                        this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH, 1));
                     }
                 }
             }
         }
-        if(!heroExiste) throw new Exception("Where hero ?");
+        if (!heroExiste) throw new Exception("Where hero ?");
     }
-
 
 
     /**

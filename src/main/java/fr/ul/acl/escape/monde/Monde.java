@@ -24,8 +24,6 @@ public class Monde {
         // Variable de vérification
         boolean heroExiste = false;
 
-        this.personnages = new ArrayList<>();
-        this.terrains = new ArrayList<>();
         // On récupère les informations de la carte
         char[][] donnees = GestionFichier.lireFichierCarte(carte);
 
@@ -40,11 +38,11 @@ public class Monde {
 
                     // Personnages pose sur la carte hero et monstre
                     if(donnees[j][i] == 'H' && !heroExiste){
-                        this.personnages.add(new Heros(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurHero(),Donnees.largeurHero()) );
+                        this.personnages.add(new Heros(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurHero(),Donnees.largeurHero(),1) );
                         heroExiste = true;
                     }
                     if(donnees[j][i] == 'W'){
-                        this.personnages.add(new Walker(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurWalker(),Donnees.largeurWalker()));
+                        this.personnages.add(new Walker(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurWalker(),Donnees.largeurWalker(), 1));
                     }
                 }
             }

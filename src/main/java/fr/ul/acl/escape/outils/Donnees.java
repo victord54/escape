@@ -8,6 +8,11 @@ public final class Donnees {
      * The title of the game.
      */
     public static final String GAME_TITLE = "Escape";
+
+    /**
+     * The height of the game screen in boxes.
+     */
+    public static int hauteurMonde(){return 7;}
     /**
      * The width of the game screen in boxes.
      */

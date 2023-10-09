@@ -1,10 +1,13 @@
 package fr.ul.acl.escape;
 
+import javafx.application.Application;
+
 /**
- * Just a no 'Application' class to launch the game with Maven.
+ * Just a no {@link Application Application} class to launch the game.
  */
 public class Launcher {
     public static void main(String[] args) {
-        HelloApplication.main(args);
+        if (args.length == 1 && args[0].equals("--nowindow")) Escape.main(args);
+        else Application.launch(Escape.class, args);
     }
 }

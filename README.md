@@ -1,4 +1,9 @@
+<div style="text-align: center">
+
 # Escape
+![Java CI with Maven](https://github.com/victord54/escape/actions/workflows/maven.yml/badge.svg)
+</div>
+
 ## Authors
 * [Victor DALLÉ](https://github.com/victord54)
 * [Claire KURTH](https://github.com/clairekth)
@@ -20,6 +25,11 @@
 mvn clean javafx:run
 ```
 
+#### Test
+```bash
+mvn clean test
+```
+
 ### Production
 #### Build
 ```bash
@@ -27,10 +37,16 @@ mvn clean package
 ```
 
 #### Run
+> Replace X.Y-Z with the version number, e.g. `1.0-SNAPSHOT`.
+##### GUI mode
 ```bash
 java -jar target/escape-X.Y-Z.jar
 ```
-> Replace X.Y-Z with the version number, e.g. `1.0-SNAPSHOT`.
+
+##### CLI mode
+```bash
+java -jar target/escape-X.Y-Z.jar --nowindow
+```
 
 ## Docs
 ### Sprints

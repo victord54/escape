@@ -1,5 +1,4 @@
 @startuml
-
 package Escape{
 
   package Monde {
@@ -27,23 +26,28 @@ package Escape{
       + boolean estTraversable()
     }
 
-    class Sol{
-    ..Constructeur..
-    + Sol(float x, float y, int hauteur, int largeur)
-    }
-
 
     abstract class Personnage {
       # float vitesse
       ..Constructeur..
       + Personnage(int x, int y, int largeur, int hauteur, int vitesse)
       ..Méthodes..
-      + déplacer(string typeMouvement)
+      + void déplacer(TypeMouvement typeMouvement)
+      + boolean estUnHeros()
+    }
+
+    enum TypeMouvement{
+        RIGHT
+        LEFT
+        TOP
+        DOWN
     }
 
     class Heros {
       ..Constructeur..
       + Heros(int x, int y, int largeur, int hauteur, int vitesse)
+      ..Méthodes..
+      + boolean estUnHeros()
     }
 
     abstract class Monstre {
@@ -51,36 +55,59 @@ package Escape{
       + Monstre(int x, int y, int largeur, int hauteur, int vitesse)
     }
 
-    class Walker{
+    class Walker {
       ..Constructeur..
       + Walker(int x, int y, int largeur, int hauteur, int vitesse)
     }
 
-    class Monde{
+    class Monde {
       # int nbLigne
       # int nbCol
       ..Constructeur..
       + Monde()
       ..Méthodes..
       + boolean collision(ElementMonde e1, ElementMonde e2)
-      + void gestionCollisions()
+      + Heros getHeros()
+      + void deplacementHeros(TypeMouvement typeMouvement)
+      + void addTerrains(Terrain t)
+      + void addPersonnage(Personnage p)
+      + void updateData()
+      + void chargerCarte(String carte)
     }
   }
 
   class Escape {
-    ..Constructeur..
-    + Escape()
+    ..Main..
+    + {static} void main(String[] args)
+    + void start(Stage stage)
   }
 
   package Outils {
+    class Donnees {
+        + {static} String GAME_TITLE
+        + {static} int WINDOW_DEFAULT_HEIGHT
+        + {static} int WINDOW_DEFAULT_WIDTH
+        + {static} int WORLD_HEIGHT
+        + {static} int WORLD_WIDTH
+    }
+
     class GestionFichier {
         ..Constructeur..
         + GestionFichier()
         ..Méthodes..
         + char[] lireFichierCarte(string nomFichier)
     }
+
+    class Resources {
+        - {static} Map<String, Image> assets
+        ..Méthodes..
+        + {static} URL get(String path)
+        + {static} Image getAsset(String path)
+    }
   }
 }
+
+class Application
 
 Escape.Escape -- "1" Escape.Monde.Monde
 Personnage -left-|> ElementMonde
@@ -90,7 +117,7 @@ Walker -up-|> Monstre
 
 Terrain -right-|> ElementMonde
 Mur -up-|> Terrain
-Sol -up-|> Terrain
+Escape.Escape -up-|> Application
 
 
 Escape.Monde.Monde -- "*" Personnage
@@ -98,5 +125,11 @@ Escape.Monde.Monde -- "*" Terrain
 
 
 Escape.Monde.Monde -- "1" GestionFichier
+
+' force layout
+Resources -[hidden]up-> GestionFichier
+GestionFichier -[hidden]up-> Donnees
+TypeMouvement -[hidden]right-> Escape.Monde.Monde
+
 
 @enduml

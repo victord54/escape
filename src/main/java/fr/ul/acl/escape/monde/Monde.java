@@ -35,16 +35,16 @@ public class Monde {
                 if(donnees[j][i] != '0'){
                     // Elements du terrain comme les murs et les trous
                     if(donnees[j][i] == 'M'){
-                        this.terrains.add(new Mur(i,j,Donnees.hauteurMur(),Donnees.largeurMur()));
+                        this.terrains.add(new Mur(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurMur(),Donnees.largeurMur()));
                     }
 
                     // Personnages pose sur la carte hero et monstre
                     if(donnees[j][i] == 'H' && !heroExiste){
-                        this.personnages.add(new Heros(i,j,Donnees.hauteurHero(),Donnees.largeurHero()) );
+                        this.personnages.add(new Heros(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurHero(),Donnees.largeurHero()) );
                         heroExiste = true;
                     }
                     if(donnees[j][i] == 'W'){
-                        this.personnages.add(new Walker(i,j,Donnees.hauteurWalker(),Donnees.largeurWalker()));
+                        this.personnages.add(new Walker(i*Donnees.largeurMur(),j*Donnees.hauteurMur(),Donnees.hauteurWalker(),Donnees.largeurWalker()));
                     }
                 }
             }

@@ -51,6 +51,7 @@ java -jar target/escape-X.Y.Z.jar --nowindow
 ## Docs
 ### Sprints
 * [Sprint 0](docs/sprints/0)
+* [Sprint 1](docs/sprints/1)
 
 ### Latest UML diagrams
 * [Class diagram](docs/uml/class-diagram.svg)\

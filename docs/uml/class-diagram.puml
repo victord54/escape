@@ -1,19 +1,19 @@
 @startuml
-package Escape{
+package Escape {
 
   package Monde {
     abstract class ElementMonde {
-      # float x
-      # float y
-      # int hauteur
-      # int largeur
+      # double x
+      # double y
+      # double hauteur
+      # double largeur
       ..Constructeur..
       + Monde()
 
     }
     abstract class Terrain {
       ..Constructeur..
-      + Terrain(float x, float y, int hauteur, int largeur)
+      + Terrain(double x, double y, double hauteur, double largeur)
       ..Méthodes..
       + boolean estTraversable()
 
@@ -21,16 +21,16 @@ package Escape{
 
     class Mur {
       ..Constructeur..
-      + Mur(float x, float y, int hauteur, int largeur)
+      + Mur(double x, double y, double hauteur, double largeur)
       ..Méthodes..
       + boolean estTraversable()
     }
 
 
     abstract class Personnage {
-      # float vitesse
+      # double vitesse
       ..Constructeur..
-      + Personnage(int x, int y, int largeur, int hauteur, int vitesse)
+      + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
       ..Méthodes..
       + void déplacer(TypeMouvement typeMouvement)
       + boolean estUnHeros()
@@ -45,19 +45,19 @@ package Escape{
 
     class Heros {
       ..Constructeur..
-      + Heros(int x, int y, int largeur, int hauteur, int vitesse)
+      + Heros(double x, double y, double largeur, double hauteur, double vitesse)
       ..Méthodes..
       + boolean estUnHeros()
     }
 
     abstract class Monstre {
       ..Constructeur..
-      + Monstre(int x, int y, int largeur, int hauteur, int vitesse)
+      + Monstre(double x, double y, double largeur, double hauteur, double vitesse)
     }
 
     class Walker {
       ..Constructeur..
-      + Walker(int x, int y, int largeur, int hauteur, int vitesse)
+      + Walker(double x, double y, double largeur, double hauteur, double vitesse)
     }
 
     class Monde {
@@ -90,6 +90,7 @@ package Escape{
         + {static} int WINDOW_DEFAULT_WIDTH
         + {static} int WORLD_HEIGHT
         + {static} int WORLD_WIDTH
+        ...
     }
 
     class GestionFichier {
@@ -114,13 +115,21 @@ package Escape{
 
 class Application
 
+
+' force layout
+Escape.Escape -[hidden]-> Escape.gui
+Resources -[hidden]up-> GestionFichier
+GestionFichier -[hidden]up-> Donnees
+TypeMouvement -[hidden]right-> ElementMonde
+
+
 Escape.Escape -- "1" Escape.Monde.Monde
-Personnage -left-|> ElementMonde
+Personnage -up-|> ElementMonde
 Heros -up-|> Personnage
 Monstre -up-|> Personnage
 Walker -up-|> Monstre
 
-Terrain -right-|> ElementMonde
+Terrain -up-|> ElementMonde
 Mur -up-|> Terrain
 Escape.Escape -up-|> Application
 
@@ -128,14 +137,8 @@ Escape.Escape -up-|> Application
 Escape.Monde.Monde -- "*" Personnage
 Escape.Monde.Monde -- "*" Terrain
 
-
 Escape.Monde.Monde -- "1" GestionFichier
 
-' force layout
-Resources -[hidden]up-> GestionFichier
-GestionFichier -[hidden]up-> Donnees
-TypeMouvement -[hidden]right-> Escape.Monde.Monde
-
-ElementMonde -up-"*" Sprite
+ElementMonde --"*" Escape.gui.Sprite
 
 @enduml

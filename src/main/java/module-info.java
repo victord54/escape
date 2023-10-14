@@ -5,6 +5,8 @@ module escape {
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
 
     exports fr.ul.acl.escape;
+    exports fr.ul.acl.escape.engine;
+    exports fr.ul.acl.escape.cli;
     exports fr.ul.acl.escape.gui;
     exports fr.ul.acl.escape.gui.engine;
     exports fr.ul.acl.escape.gui.views;

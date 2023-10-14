@@ -1,9 +1,9 @@
 package fr.ul.acl.escape.outils;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * manages interactions between external files and the program
@@ -11,25 +11,25 @@ import java.io.IOException;
 public class GestionFichier {
 
     /**
-     * lireFichierCarte is use for extract informations of map for load it in game
+     * lireFichierCarte is used to extract map information from a .txt file
      *
-     * @param nomFichier Name of the map (without .txt)
+     * @param nomCarte Name of the map (without .txt)
      * @return tab of element size of world
      */
-    public static char[][] lireFichierCarte(String nomFichier) {
+    public static char[][] lireFichierCarte(String nomCarte) {
 
         // Le tableau sera de la taille de la du monde
         char[][] tableau = new char[Donnees.WORLD_HEIGHT][Donnees.WORLD_WIDTH];
 
         try {
-            // Le fichier d'entrée se trouve dans le dossier cartes des ressources
-            File file = new File(Resources.get("maps/" + nomFichier + ".txt").getPath());
+            // Le fichier d'entrée se trouve dans le dossier "maps" des ressources
+            InputStream inputStream = Resources.getAsStream("maps/" + nomCarte + ".txt");
 
-            // Créer l'objet File Reader qui permet de lire le fichier texte
-            FileReader fileReader = new FileReader(file);
+            // Créer l'objet Reader qui permet de lire le fichier
+            InputStreamReader reader = new InputStreamReader(inputStream);
 
             // Créer l'objet BufferedReader qui récupère les informations du file reader
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
 
             // Actuellement, le fichier texte est lu ligne par ligne pour remplir de manière
             String line;
@@ -47,7 +47,7 @@ public class GestionFichier {
                 j++;
             }
             // ATTENTION : On ferme le Reader
-            fileReader.close();
+            reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();

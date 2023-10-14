@@ -104,6 +104,7 @@ package Escape {
         - {static} Map<String, Image> assets
         ..Méthodes..
         + {static} URL get(String path)
+        + {static} InputStream getAsStream(String path)}
         + {static} Image getAsset(String path)
     }
   }

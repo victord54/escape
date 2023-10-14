@@ -38,11 +38,10 @@ public class Monde {
                     }
 
                     // Personnages pose sur la carte hero et monstre
-                    if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
+                    else if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
                         this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH, 1));
                         heroExiste = true;
-                    }
-                    if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
+                    } else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
                         this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH, 1));
                     }
                 }
@@ -135,6 +134,11 @@ public class Monde {
         return null;
     }
 
-    public void updateData() {
+    public ArrayList<Personnage> getPersonnages() {
+        return personnages;
+    }
+
+    public ArrayList<Terrain> getTerrains() {
+        return terrains;
     }
 }

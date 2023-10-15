@@ -129,15 +129,15 @@ Engine -right-"1" GameController : # controller
 CLIController -down-|> GameController
 CLIEngine -down-|> Engine
 CLI .down.|> GameInterface
-CLI -right-"1" CLIController : # controller
-CLI -right-"1" CLIEngine : # engine
+CLI -right-"1" CLIController : - controller
+CLI -right-"1" CLIEngine : - engine
 
 ' gui
 GUIController -up-|> GameController
 GUIEngine -up-|> Engine
 GameView .up.|> GameInterface
-GameView --"1" GUIController : # controller
-GameView --"1" GUIEngine : # engine
+GameView --"1" GUIController : - controller
+GameView --"1" GUIEngine : - engine
 GUIEngine -down[hidden]- GUIController
 
 View --"1" ViewController : # controller

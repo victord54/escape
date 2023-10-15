@@ -77,54 +77,54 @@ package Escape {
     }
   }
 
-  class Escape {
-    ..Main..
-    + {static} void main(String[] args)
-    + void start(Stage stage)
-  }
-
   package Outils {
     class Donnees {
-        + {static} String GAME_TITLE
-        + {static} int WINDOW_DEFAULT_HEIGHT
-        + {static} int WINDOW_DEFAULT_WIDTH
-        + {static} int WORLD_HEIGHT
-        + {static} int WORLD_WIDTH
-        ...
+      + {static} String GAME_TITLE
+      + {static} int WINDOW_DEFAULT_HEIGHT
+      + {static} int WINDOW_DEFAULT_WIDTH
+      + {static} int WORLD_HEIGHT
+      + {static} int WORLD_WIDTH
+      ...
     }
 
     class GestionFichier {
-        ..Constructeur..
-        + GestionFichier()
-        ..Méthodes..
-        + char[] lireFichierCarte(string nomFichier)
+      ..Constructeur..
+      + GestionFichier()
+      ..Méthodes..
+      + char[] lireFichierCarte(string nomFichier)
     }
 
     class Resources {
-        - {static} Map<String, Image> assets
-        ..Méthodes..
-        + {static} URL get(String path)
-        + {static} InputStream getAsStream(String path)}
-        + {static} Image getAsset(String path)
+      - {static} Map<String, Image> assets
+      ..Méthodes..
+      + {static} URL get(String path)
+      + {static} InputStream getAsStream(String path)}
+      + {static} Image getAsset(String path)
     }
   }
 
   package gui {
     class Sprite
   }
+
+  package engine {
+    abstract class GameController {
+    }
+  }
 }
 
-class Application
+note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
+N_gui .. engine
+N_gui .. gui
 
 
 ' force layout
-Escape.Escape -[hidden]-> Escape.gui
 Resources -[hidden]up-> GestionFichier
 GestionFichier -[hidden]up-> Donnees
-TypeMouvement -[hidden]right-> ElementMonde
+engine -[hidden]right-> gui
 
 
-Escape.Escape -- "1" Escape.Monde.Monde
+GameController -- "1" Escape.Monde.Monde
 Personnage -up-|> ElementMonde
 Heros -up-|> Personnage
 Monstre -up-|> Personnage
@@ -132,7 +132,6 @@ Walker -up-|> Monstre
 
 Terrain -up-|> ElementMonde
 Mur -up-|> Terrain
-Escape.Escape -up-|> Application
 
 
 Escape.Monde.Monde -- "*" Personnage

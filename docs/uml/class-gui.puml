@@ -1,5 +1,42 @@
 @startuml
 
+package engine {
+    abstract class GameController {
+        # Monde monde
+        --
+        + {abstract} update(long): void
+    }
+
+    abstract class Engine {
+        + Engine(ui, controller)
+        + {abstract} start(): void
+        + {abstract} stop(): void
+        + {abstract} tick(long): void
+    }
+
+    interface GameInterface {
+        + render(): void
+    }
+}
+
+package cli {
+    class CLIController {
+        + start(): void
+        + stop(): void
+        + update(long): void
+    }
+
+    class CLIEngine {
+        + start(): void
+        + stop(): void
+        + tick(long): void
+    }
+
+    class CLI {
+        + render(): void
+    }
+}
+
 package gui {
     abstract class View {
         # Parent root
@@ -68,28 +105,48 @@ package gui {
     }
 
     package engine {
-        class Engine {
-            + handle(long): void
-            + start(): void
+        class GUIController {
+            + update(long): void
         }
 
-        interface GameInterface {
-            + render(): void
+        class GUIEngine {
+            - AnimationTimer timer
+            --
+            + tick(long): void
+            + start(): void
+            + stop(): void
+            + getComputedFPS(): int
+            + getFPS(): int
         }
     }
 }
 
+' engine
+Engine -left-"1" GameInterface : # ui
+Engine -right-"1" GameController : # controller
+
+' cli
+CLIController -down-|> GameController
+CLIEngine -down-|> Engine
+CLI .down.|> GameInterface
+CLI -right-"1" CLIController : - controller
+CLI -right-"1" CLIEngine : - engine
+
+' gui
+GUIController -up-|> GameController
+GUIEngine -up-|> Engine
+GameView .up.|> GameInterface
+GameView --"1" GUIController : - controller
+GameView --"1" GUIEngine : - engine
+GUIEngine -down[hidden]- GUIController
+
 View --"1" ViewController : # controller
 ViewManager -"*" View : - views
 
-' views
+' gui views
 HomeViewController -up-|> ViewController
 HomeView -up-|> View
 GameViewController -up-|> ViewController
 GameView -up-|> View
-
-' engine
-GameView ..up.|> GameInterface
-Engine -"1" GameInterface : - ui
 
 @enduml

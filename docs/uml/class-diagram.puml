@@ -1,19 +1,19 @@
 @startuml
-package Escape{
+package Escape {
 
   package Monde {
     abstract class ElementMonde {
-      # float x
-      # float y
-      # int hauteur
-      # int largeur
+      # double x
+      # double y
+      # double hauteur
+      # double largeur
       ..Constructeur..
       + Monde()
 
     }
     abstract class Terrain {
       ..Constructeur..
-      + Terrain(float x, float y, int hauteur, int largeur)
+      + Terrain(double x, double y, double hauteur, double largeur)
       ..Méthodes..
       + boolean estTraversable()
 
@@ -21,16 +21,16 @@ package Escape{
 
     class Mur {
       ..Constructeur..
-      + Mur(float x, float y, int hauteur, int largeur)
+      + Mur(double x, double y, double hauteur, double largeur)
       ..Méthodes..
       + boolean estTraversable()
     }
 
 
     abstract class Personnage {
-      # float vitesse
+      # double vitesse
       ..Constructeur..
-      + Personnage(int x, int y, int largeur, int hauteur, int vitesse)
+      + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
       ..Méthodes..
       + void déplacer(TypeMouvement typeMouvement)
       + boolean estUnHeros()
@@ -45,19 +45,19 @@ package Escape{
 
     class Heros {
       ..Constructeur..
-      + Heros(int x, int y, int largeur, int hauteur, int vitesse)
+      + Heros(double x, double y, double largeur, double hauteur, double vitesse)
       ..Méthodes..
       + boolean estUnHeros()
     }
 
     abstract class Monstre {
       ..Constructeur..
-      + Monstre(int x, int y, int largeur, int hauteur, int vitesse)
+      + Monstre(double x, double y, double largeur, double hauteur, double vitesse)
     }
 
     class Walker {
       ..Constructeur..
-      + Walker(int x, int y, int largeur, int hauteur, int vitesse)
+      + Walker(double x, double y, double largeur, double hauteur, double vitesse)
     }
 
     class Monde {
@@ -77,65 +77,68 @@ package Escape{
     }
   }
 
-  class Escape {
-    ..Main..
-    + {static} void main(String[] args)
-    + void start(Stage stage)
-  }
-
   package Outils {
     class Donnees {
-        + {static} String GAME_TITLE
-        + {static} int WINDOW_DEFAULT_HEIGHT
-        + {static} int WINDOW_DEFAULT_WIDTH
-        + {static} int WORLD_HEIGHT
-        + {static} int WORLD_WIDTH
+      + {static} String GAME_TITLE
+      + {static} int WINDOW_DEFAULT_HEIGHT
+      + {static} int WINDOW_DEFAULT_WIDTH
+      + {static} int WORLD_HEIGHT
+      + {static} int WORLD_WIDTH
+      ...
     }
 
     class GestionFichier {
-        ..Constructeur..
-        + GestionFichier()
-        ..Méthodes..
-        + char[] lireFichierCarte(string nomFichier)
+      ..Constructeur..
+      + GestionFichier()
+      ..Méthodes..
+      + char[] lireFichierCarte(string nomFichier)
     }
 
     class Resources {
-        - {static} Map<String, Image> assets
-        ..Méthodes..
-        + {static} URL get(String path)
-        + {static} Image getAsset(String path)
+      - {static} Map<String, Image> assets
+      ..Méthodes..
+      + {static} URL get(String path)
+      + {static} InputStream getAsStream(String path)}
+      + {static} Image getAsset(String path)
     }
   }
 
   package gui {
     class Sprite
   }
+
+  package engine {
+    abstract class GameController {
+    }
+  }
 }
 
-class Application
+note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
+N_gui .. engine
+N_gui .. gui
 
-Escape.Escape -- "1" Escape.Monde.Monde
-Personnage -left-|> ElementMonde
+
+' force layout
+Resources -[hidden]up-> GestionFichier
+GestionFichier -[hidden]up-> Donnees
+engine -[hidden]right-> gui
+
+
+GameController -- "1" Escape.Monde.Monde
+Personnage -up-|> ElementMonde
 Heros -up-|> Personnage
 Monstre -up-|> Personnage
 Walker -up-|> Monstre
 
-Terrain -right-|> ElementMonde
+Terrain -up-|> ElementMonde
 Mur -up-|> Terrain
-Escape.Escape -up-|> Application
 
 
 Escape.Monde.Monde -- "*" Personnage
 Escape.Monde.Monde -- "*" Terrain
 
-
 Escape.Monde.Monde -- "1" GestionFichier
 
-' force layout
-Resources -[hidden]up-> GestionFichier
-GestionFichier -[hidden]up-> Donnees
-TypeMouvement -[hidden]right-> Escape.Monde.Monde
-
-ElementMonde -up-"*" Sprite
+ElementMonde --"*" Escape.gui.Sprite
 
 @enduml

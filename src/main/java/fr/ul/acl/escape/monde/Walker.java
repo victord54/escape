@@ -2,7 +2,7 @@ package fr.ul.acl.escape.monde;
 
 public class Walker extends Monstre {
 
-    public Walker(float x, float y, int hauteur, int largeur, float vitesse) {
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur, vitesse);
     }
 

@@ -3,6 +3,7 @@ package fr.ul.acl.escape.outils;
 import fr.ul.acl.escape.Escape;
 import javafx.scene.image.Image;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,16 @@ public class Resources {
      */
     public static URL get(String path) {
         return Escape.class.getResource(path);
+    }
+
+    /**
+     * Get a stream from a resource from the 'resources/fr/ul/acl/escape' directory.
+     *
+     * @param path The path of the resource.
+     * @return The stream of the resource.
+     */
+    public static InputStream getAsStream(String path) {
+        return Escape.class.getResourceAsStream(path);
     }
 
     /**

@@ -13,11 +13,13 @@ public class Heros extends Personnage {
 
         if (typeMouvement == null) throw new MouvementNullException();
 
+        double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
+
         switch (typeMouvement) {
-            case RIGHT -> this.x += vitesse;
-            case LEFT -> this.x -= vitesse;
-            case UP -> this.y -= vitesse;
-            case DOWN -> this.y += vitesse;
+            case RIGHT -> this.x += vitesseTransformee;
+            case LEFT -> this.x -= vitesseTransformee;
+            case UP -> this.y -= vitesseTransformee;
+            case DOWN -> this.y += vitesseTransformee;
         }
     }
 

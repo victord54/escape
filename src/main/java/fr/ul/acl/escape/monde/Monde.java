@@ -92,12 +92,12 @@ public class Monde {
      * @param typeMouvement The Type of mouvement the Heros wants to make.
      * @throws MouvementNullException Exception throw if typeMouvement is null.
      */
-    public void deplacementHeros(TypeMouvement typeMouvement) throws MouvementNullException {
+    public void deplacementHeros(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
         if (typeMouvement == null) throw new MouvementNullException();
 
         Heros h = getHeros();
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur(), 1);
-        tmp.deplacer(typeMouvement);
+        tmp.deplacer(typeMouvement, deltaTime);
 
         boolean collision = false;
         for (Terrain t : terrains) {
@@ -118,7 +118,7 @@ public class Monde {
         }
 
         if (!collision) {
-            this.getHeros().deplacer(typeMouvement);
+            this.getHeros().deplacer(typeMouvement, deltaTime);
         }
     }
 

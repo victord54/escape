@@ -11,7 +11,13 @@ public abstract class Personnage extends ElementMonde {
         this.vitesse = vitesse;
     }
 
-    public abstract void deplacer(TypeMouvement typeMouvement) throws MouvementNullException;
+    /**
+     * Method who moves a Character
+     * @param typeMouvement : the movement type (RIGHT, LEFT, ...)
+     * @param deltaTime : the time difference since the last iteration
+     * @throws MouvementNullException : if movement type is null
+     */
+    public abstract void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException;
 
     public boolean estUnHeros() {
         return false;

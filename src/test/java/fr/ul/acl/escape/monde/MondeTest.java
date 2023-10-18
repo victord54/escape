@@ -43,21 +43,25 @@ class MondeTest {
     void deplacementHeros() throws MouvementNullException {
         Heros h = new Heros(5, 5, 1, 1, 1);
         monde.addPersonnage(h);
-        monde.deplacementHeros(TypeMouvement.LEFT);
+        monde.deplacementHeros(TypeMouvement.LEFT, 1);
         assertEquals(4, monde.getHeros().getX(), "T1");
         assertEquals(5, monde.getHeros().getY(), "T2");
 
-        monde.deplacementHeros(TypeMouvement.RIGHT);
+        monde.deplacementHeros(TypeMouvement.RIGHT, 1);
         assertEquals(5, monde.getHeros().getX(), "T3");
         assertEquals(5, monde.getHeros().getY(), "T4");
 
-        monde.deplacementHeros(TypeMouvement.UP);
+        monde.deplacementHeros(TypeMouvement.UP, 1);
         assertEquals(5, monde.getHeros().getX(), "T5");
         assertEquals(4, monde.getHeros().getY(), "T6");
 
-        monde.deplacementHeros(TypeMouvement.DOWN);
+        monde.deplacementHeros(TypeMouvement.DOWN, 1);
         assertEquals(5, monde.getHeros().getX(), "T7");
         assertEquals(5, monde.getHeros().getY(), "T9");
+
+        monde.deplacementHeros(TypeMouvement.DOWN, 0.5);
+        assertEquals(5, monde.getHeros().getX(), "T7");
+        assertEquals(4.5, monde.getHeros().getY(), "T9");
 
 
         Mur m1 = new Mur(2, 2, 2, 2);
@@ -73,20 +77,20 @@ class MondeTest {
         Walker w2 = new Walker(4, 3, 1, 1, 1);
         monde2.addPersonnage(w2);
 
-        monde2.deplacementHeros(TypeMouvement.LEFT); // Deplacement à gauche impossible car m1
+        monde2.deplacementHeros(TypeMouvement.LEFT, 1); // Deplacement à gauche impossible car m1
         assertEquals(4, monde2.getHeros().getX());
         assertEquals(2, monde2.getHeros().getY());
 
 
-        monde2.deplacementHeros(TypeMouvement.RIGHT); // Deplacement à gauche impossible car m2
+        monde2.deplacementHeros(TypeMouvement.RIGHT, 1); // Deplacement à gauche impossible car m2
         assertEquals(4, monde2.getHeros().getX());
         assertEquals(2, monde2.getHeros().getY());
 
-        monde2.deplacementHeros(TypeMouvement.DOWN); // Deplacement à gauche impossible car w1
+        monde2.deplacementHeros(TypeMouvement.DOWN, 1); // Deplacement à gauche impossible car w1
         assertEquals(4, monde2.getHeros().getX());
         assertEquals(2, monde2.getHeros().getY());
 
-        monde2.deplacementHeros(TypeMouvement.UP); // Deplacement à gauche impossible car w2
+        monde2.deplacementHeros(TypeMouvement.UP, 1); // Deplacement à gauche impossible car w2
         assertEquals(4, monde2.getHeros().getX());
         assertEquals(2, monde2.getHeros().getY());
 
@@ -94,6 +98,6 @@ class MondeTest {
 
     @Test
     void deplacementHerosNull() {
-        assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null));
+        assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null, 1));
     }
 }

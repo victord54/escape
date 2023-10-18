@@ -9,7 +9,7 @@ public class Heros extends Personnage {
     }
 
     @Override
-    public void deplacer(TypeMouvement typeMouvement) throws MouvementNullException {
+    public void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
 
         if (typeMouvement == null) throw new MouvementNullException();
 

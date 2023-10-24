@@ -32,7 +32,7 @@ package Escape {
       ..Constructeur..
       + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
       ..Méthodes..
-      + void déplacer(TypeMouvement typeMouvement)
+      + void déplacer(TypeMouvement typeMouvement, double deltaTime)
       + boolean estUnHeros()
     }
 
@@ -45,7 +45,7 @@ package Escape {
 
     class Heros {
       ..Constructeur..
-      + Heros(double x, double y, double largeur, double hauteur, double vitesse)
+      + Heros(double x, double y, double largeur, double hauteur)
       ..Méthodes..
       + boolean estUnHeros()
     }
@@ -57,7 +57,7 @@ package Escape {
 
     class Walker {
       ..Constructeur..
-      + Walker(double x, double y, double largeur, double hauteur, double vitesse)
+      + Walker(double x, double y, double largeur, double hauteur)
     }
 
     class Monde {
@@ -68,7 +68,7 @@ package Escape {
       ..Méthodes..
       + boolean collision(ElementMonde e1, ElementMonde e2)
       + Heros getHeros()
-      + void deplacementHeros(TypeMouvement typeMouvement)
+      + void deplacementHeros(TypeMouvement typeMouvement, double deltaTime)
       + void deplacementMonstres()
       + void addTerrains(Terrain t)
       + void addPersonnage(Personnage p)

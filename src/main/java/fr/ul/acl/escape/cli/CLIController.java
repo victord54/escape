@@ -28,28 +28,28 @@ public class CLIController extends GameController {
         switch (action) {
             case 1 -> {
                 try {
-                    monde.deplacementHeros(TypeMouvement.LEFT);
+                    monde.deplacementHeros(TypeMouvement.LEFT, 1);
                 } catch (MouvementNullException e) {
                     throw new RuntimeException(e);
                 }
             }
             case 2 -> {
                 try {
-                    monde.deplacementHeros(TypeMouvement.RIGHT);
+                    monde.deplacementHeros(TypeMouvement.RIGHT, 1);
                 } catch (MouvementNullException e) {
                     throw new RuntimeException(e);
                 }
             }
             case 3 -> {
                 try {
-                    monde.deplacementHeros(TypeMouvement.UP);
+                    monde.deplacementHeros(TypeMouvement.UP, 1);
                 } catch (MouvementNullException e) {
                     throw new RuntimeException(e);
                 }
             }
             case 4 -> {
                 try {
-                    monde.deplacementHeros(TypeMouvement.DOWN);
+                    monde.deplacementHeros(TypeMouvement.DOWN, 1);
                 } catch (MouvementNullException e) {
                     throw new RuntimeException(e);
                 }

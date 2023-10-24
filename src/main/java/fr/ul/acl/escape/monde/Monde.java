@@ -39,10 +39,10 @@ public class Monde {
 
                     // Personnages pose sur la carte hero et monstre
                     else if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
-                        this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH, 1));
+                        this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH));
                         heroExiste = true;
                     } else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
-                        this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH, 1));
+                        this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH));
                     }
                 }
             }
@@ -64,7 +64,7 @@ public class Monde {
         // e1 à droite de e2 -> pt gauche de e1 > pt droit e2
         // e1 au dessus de e2 -> pt bas de e < pt haut e2
 
-        return ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) && (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getLargeur() > e2.getY())));
+        return ((e1.getX() < e2.getX() + e2.getLargeur()) && (e1.getY() < e2.getY() + e2.getHauteur()) && (e1.getX() + e1.getLargeur() > e2.getX()) && ((e1.getY() + e1.getHauteur() > e2.getY())));
     }
 
     /**
@@ -92,12 +92,12 @@ public class Monde {
      * @param typeMouvement The Type of mouvement the Heros wants to make.
      * @throws MouvementNullException Exception throw if typeMouvement is null.
      */
-    public void deplacementHeros(TypeMouvement typeMouvement) throws MouvementNullException {
+    public void deplacementHeros(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
         if (typeMouvement == null) throw new MouvementNullException();
 
         Heros h = getHeros();
-        Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur(), 1);
-        tmp.deplacer(typeMouvement);
+        Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
+        tmp.deplacer(typeMouvement, deltaTime);
 
         boolean collision = false;
         for (Terrain t : terrains) {
@@ -118,7 +118,7 @@ public class Monde {
         }
 
         if (!collision) {
-            this.getHeros().deplacer(typeMouvement);
+            this.getHeros().deplacer(typeMouvement, deltaTime);
         }
     }
 

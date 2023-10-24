@@ -11,7 +11,7 @@ class HerosTest {
 
     @BeforeEach
     void setup() {
-        p = new Heros(0, 0, 1, 1, 1);
+        p = new Heros(0, 0, 1, 1);
     }
 
     @Test

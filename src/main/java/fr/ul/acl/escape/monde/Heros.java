@@ -1,11 +1,14 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
+import fr.ul.acl.escape.outils.Donnees;
+
+import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
 
 public class Heros extends Personnage {
 
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse) {
-        super(x, y, hauteur, largeur, vitesse);
+    public Heros(double x, double y, double hauteur, double largeur) {
+        super(x, y, hauteur, largeur, HERO_SPEED);
     }
 
     @Override

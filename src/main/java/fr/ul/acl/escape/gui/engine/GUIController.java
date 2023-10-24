@@ -3,6 +3,8 @@ package fr.ul.acl.escape.gui.engine;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.Personnage;
 import fr.ul.acl.escape.monde.Terrain;
+import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -30,7 +32,24 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     @Override
     public void update(long timeElapsed) {
-        // TODO: move hero according to keys pressed and vary speed according to timeElapsed
+        double timeInDouble= timeElapsed*10e-10;
+
+        try{
+            if(keysPressed.contains(KeyCode.Z)){
+                monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
+            }
+            if(keysPressed.contains(KeyCode.S)){
+                monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
+            }
+            if(keysPressed.contains(KeyCode.D)){
+                monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
+            }
+            if(keysPressed.contains(KeyCode.Q)){
+                monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
+            }
+        }catch(MouvementNullException ignored){
+
+        }
     }
 
     public ArrayList<Terrain> getTerrains() {

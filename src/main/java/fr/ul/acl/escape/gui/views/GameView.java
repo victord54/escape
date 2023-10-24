@@ -1,12 +1,12 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Settings;
+import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
-import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.gui.engine.GUIController;
-import fr.ul.acl.escape.engine.GameInterface;
+import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;

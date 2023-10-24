@@ -45,7 +45,7 @@ class MondeTest {
         Heros h = new Heros(5, 5, 1, 1);
         monde.addPersonnage(h);
         monde.deplacementHeros(TypeMouvement.LEFT, 1);
-        assertEquals(5-HERO_SPEED, monde.getHeros().getX(), "T1");
+        assertEquals(5 - HERO_SPEED, monde.getHeros().getX(), "T1");
         assertEquals(5, monde.getHeros().getY(), "T2");
 
         monde.deplacementHeros(TypeMouvement.RIGHT, 1);
@@ -54,7 +54,7 @@ class MondeTest {
 
         monde.deplacementHeros(TypeMouvement.UP, 1);
         assertEquals(5, monde.getHeros().getX(), "T5");
-        assertEquals(5-HERO_SPEED, monde.getHeros().getY(), "T6");
+        assertEquals(5 - HERO_SPEED, monde.getHeros().getY(), "T6");
 
         monde.deplacementHeros(TypeMouvement.DOWN, 1);
         assertEquals(5, monde.getHeros().getX(), "T7");
@@ -63,7 +63,7 @@ class MondeTest {
         //DeltaTime différent
         monde.deplacementHeros(TypeMouvement.DOWN, 0.5);
         assertEquals(5, monde.getHeros().getX(), "T7");
-        assertEquals(5+(HERO_SPEED*0.5), monde.getHeros().getY(), "T9");
+        assertEquals(5 + (HERO_SPEED * 0.5), monde.getHeros().getY(), "T9");
 
 
         Mur m1 = new Mur(2, 2, 2, 2);

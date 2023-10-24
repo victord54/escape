@@ -32,22 +32,22 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     @Override
     public void update(long timeElapsed) {
-        double timeInDouble= timeElapsed*10e-10;
+        double timeInDouble = timeElapsed * 10e-10;
 
-        try{
-            if(keysPressed.contains(KeyCode.Z)){
+        try {
+            if (keysPressed.contains(KeyCode.Z)) {
                 monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
             }
-            if(keysPressed.contains(KeyCode.S)){
+            if (keysPressed.contains(KeyCode.S)) {
                 monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
             }
-            if(keysPressed.contains(KeyCode.D)){
+            if (keysPressed.contains(KeyCode.D)) {
                 monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
             }
-            if(keysPressed.contains(KeyCode.Q)){
+            if (keysPressed.contains(KeyCode.Q)) {
                 monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
             }
-        }catch(MouvementNullException ignored){
+        } catch (MouvementNullException ignored) {
 
         }
     }

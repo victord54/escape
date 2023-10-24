@@ -51,11 +51,11 @@ class HerosTest {
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, 0.5);
-        assertEquals(p.x, p.vitesse*0.5);
+        assertEquals(p.x, p.vitesse * 0.5);
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, 0.1);
-        assertEquals(p.x, p.vitesse*0.1);
+        assertEquals(p.x, p.vitesse * 0.1);
     }
 
     @Test
@@ -66,7 +66,6 @@ class HerosTest {
         assertEquals(p.x, 0);
 
     }
-
 
 
     void reinitialiserCoordonnees(Personnage p) {

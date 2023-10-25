@@ -1,12 +1,14 @@
 package fr.ul.acl.escape.outils;
 
 import fr.ul.acl.escape.Escape;
+import fr.ul.acl.escape.Settings;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class Resources {
     /**
@@ -50,5 +52,24 @@ public class Resources {
             System.out.println("Loaded asset: " + path);
         }
         return assets.get(path);
+    }
+
+    /**
+     * Get the internationalization (i18n) bundle.
+     *
+     * @return The internationalization bundle.
+     */
+    public static ResourceBundle getI18NBundle() {
+        return ResourceBundle.getBundle(Escape.class.getPackage().getName().replace('.', '/') + "/i18n/strings", Settings.locale);
+    }
+
+    /**
+     * Get a string from the internationalization (i18n) bundle.
+     *
+     * @param key The key of the string.
+     * @return The string.
+     */
+    public static String getI18NString(String key) {
+        return getI18NBundle().getString(key);
     }
 }

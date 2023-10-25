@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.layout.*?>
-
-<StackPane fx:id="pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
-    <Canvas fx:id="gameBoard" focusTraversable="true" />
-    <Canvas fx:id="overlay" focusTraversable="true" />
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" xmlns="http://javafx.com/javafx/17.0.2-ea"
+           styleClass="background" stylesheets="@global.css"
+           fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
+    <Canvas fx:id="gameBoard" focusTraversable="true"/>
+    <Canvas fx:id="overlay" focusTraversable="true"/>
 </StackPane>

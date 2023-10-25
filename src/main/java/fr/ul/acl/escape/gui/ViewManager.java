@@ -2,6 +2,7 @@ package fr.ul.acl.escape.gui;
 
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.Resources;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -84,5 +85,29 @@ public class ViewManager {
     public void setFullScreen(boolean fullScreen) {
         Settings.fullScreen = fullScreen;
         stage.setFullScreen(fullScreen);
+    }
+
+    /**
+     * Set the title of the window.
+     *
+     * @param title The title of the window.
+     */
+    public void setTitle(String title) {
+        stage.setTitle(title);
+    }
+
+    /**
+     * Apply the settings to the window.
+     */
+    public void applySettings() {
+        this.setFullScreen(Settings.fullScreen);
+        this.setTitle(Resources.getI18NString("game.title"));
+    }
+
+    /**
+     * Quit the game.
+     */
+    public void quit() {
+        stage.close();
     }
 }

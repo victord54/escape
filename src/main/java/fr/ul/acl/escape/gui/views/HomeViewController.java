@@ -4,33 +4,21 @@ import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 
 public class HomeViewController extends ViewController {
 
     @FXML
-    private Label gameTitle;
-
-    @FXML
-    private CheckBox fullScreenCheckBox;
-
-    @FXML
-    protected void onButtonClick() {
+    protected void onClickStart() {
         ViewManager.getInstance().navigateTo(VIEWS.GAME);
     }
 
     @FXML
-    protected void onFullScreenToggle() {
-        ViewManager.getInstance().setFullScreen(fullScreenCheckBox.isSelected());
+    protected void onClickSettings() {
+        ViewManager.getInstance().navigateTo(VIEWS.SETTINGS);
     }
 
-    public void setGameTitle(String title) {
-        this.gameTitle.setText(title);
-    }
-
-    public void setFullScreenCheckBox(boolean fullScreen) {
-        this.fullScreenCheckBox.setSelected(fullScreen);
-        ViewManager.getInstance().setFullScreen(fullScreen);
+    @FXML
+    protected void onClickQuit() {
+        ViewManager.getInstance().quit();
     }
 }

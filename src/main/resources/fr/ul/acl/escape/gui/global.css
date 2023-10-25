@@ -1,0 +1,13 @@
+.background {
+    -fx-background-color: #232323;
+}
+
+.title {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.text {
+    -fx-text-fill: lightgray;
+}

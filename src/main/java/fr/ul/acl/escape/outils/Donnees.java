@@ -5,11 +5,6 @@ package fr.ul.acl.escape.outils;
  */
 public final class Donnees {
     /**
-     * The title of the game.
-     */
-    public static final String GAME_TITLE = "Escape";
-
-    /**
      * symbol of Hero/player
      */
     public static final char SYMBOL_HERO = 'H';

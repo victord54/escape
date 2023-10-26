@@ -114,9 +114,41 @@ package Escape {
   }
 
   class Settings {
-    + {static} boolean fullScreen
-    + {static} boolean showFps
-    + {static} Locale locale
+    - {static} PropertyChangeSupport pcs
+    + {static} Property<Boolean> FULL_SCREEN
+    + {static} Property<Boolean> SHOW_FPS
+    + {static} Property<Locale> LOCALE
+  }
+
+  class "Property <T> " as Property {
+    - T value
+    - String name
+    - Map<MyPropertyChangeListener<T>, PropertyChangeListener> listeners
+    - PropertyChangeSupport pcs
+    - boolean log
+    ..Constructeur..
+    + Property(PropertyChangeSupport, String, T, Getter<T>, Setter<T>)
+    + Property(T, Getter<T>, Setter<T>)
+    + Property(PropertyChangeSupport, String, T)
+    + Property(T)
+    ..Méthodes..
+    + T get()
+    + void set(T)
+    + void subscribe(MyPropertyChangeListener<T>)
+    + void unsubscribe(MyPropertyChangeListener<T>)
+    + void unsubscribeAll()
+    + void forceFire()
+    + Property<T> setLog(boolean)
+    - void fire(T)
+    - void log(String)
+  }
+
+  interface "Getter <T> " as Getter {
+    T get(T)
+  }
+
+  interface "Setter <T> " as Setter {
+    T set(T)
   }
 }
 
@@ -147,5 +179,11 @@ Escape.Monde.Monde -- "*" Terrain
 Escape.Monde.Monde -- "1" GestionFichier
 
 ElementMonde --"*" Escape.gui.Sprite
+
+' settings
+Settings -- Property
+Property --"1" Getter
+Property --"1" Setter
+
 
 @enduml

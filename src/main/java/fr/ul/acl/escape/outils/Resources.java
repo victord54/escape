@@ -49,7 +49,7 @@ public class Resources {
     public static Image getAsset(String path) {
         if (!assets.containsKey(path)) {
             assets.put(path, new Image(get(path).toString()));
-            System.out.println("Loaded asset: " + path);
+            if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
         }
         return assets.get(path);
     }
@@ -60,7 +60,7 @@ public class Resources {
      * @return The internationalization bundle.
      */
     public static ResourceBundle getI18NBundle() {
-        return ResourceBundle.getBundle(Escape.class.getPackage().getName().replace('.', '/') + "/i18n/strings", Settings.locale);
+        return ResourceBundle.getBundle(Escape.class.getPackage().getName().replace('.', '/') + "/i18n/strings", Settings.LOCALE.get());
     }
 
     /**

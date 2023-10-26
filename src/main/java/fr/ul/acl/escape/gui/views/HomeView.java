@@ -1,7 +1,7 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
-import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
@@ -20,7 +20,7 @@ public class HomeView extends View {
     @Override
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            ViewManager.getInstance().setFullScreen(false);
+            Settings.FULL_SCREEN.set(false);
         }
     }
 }

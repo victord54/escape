@@ -51,6 +51,12 @@ java -jar target/escape-X.Y.Z.jar
 java -jar target/escape-X.Y.Z.jar --nowindow
 ```
 
+##### Debug
+To see debug messages, add the `--debug` option.
+```bash
+java -jar target/escape-X.Y.Z.jar --debug [other options]
+```
+
 ## Docs
 ### Sprints
 * [Sprint 0](docs/sprints/0)

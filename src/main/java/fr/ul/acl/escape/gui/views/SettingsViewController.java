@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
@@ -12,7 +13,7 @@ public class SettingsViewController extends ViewController {
 
     @FXML
     private void onFullScreenToggle() {
-        ViewManager.getInstance().setFullScreen(fullScreenCheckBox.isSelected());
+        Settings.FULL_SCREEN.set(fullScreenCheckBox.isSelected());
     }
 
     @FXML
@@ -22,6 +23,5 @@ public class SettingsViewController extends ViewController {
 
     public void setFullScreenCheckBox(boolean fullScreen) {
         this.fullScreenCheckBox.setSelected(fullScreen);
-        ViewManager.getInstance().setFullScreen(fullScreen);
     }
 }

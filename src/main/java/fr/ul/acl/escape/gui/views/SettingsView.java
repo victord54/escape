@@ -17,6 +17,6 @@ public class SettingsView extends View {
 
     @Override
     public void onViewInit() {
-        ((SettingsViewController) controller).setFullScreenCheckBox(Settings.fullScreen);
+        ((SettingsViewController) controller).setFullScreenCheckBox(Settings.FULL_SCREEN.get());
     }
 }

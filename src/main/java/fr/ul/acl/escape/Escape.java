@@ -26,7 +26,6 @@ public class Escape extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         ViewManager.getInstance().setStage(stage);
-        ViewManager.getInstance().applySettings();
 
         // Register the views of the game
         ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView());
@@ -35,6 +34,9 @@ public class Escape extends Application {
 
         // Set the default view
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
+
+        // Apply settings
+        Settings.forceApply();
 
         // Show window
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

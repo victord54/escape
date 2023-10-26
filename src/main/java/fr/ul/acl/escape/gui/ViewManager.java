@@ -29,6 +29,8 @@ public class ViewManager {
 
     private ViewManager() {
         this.views = new HashMap<>();
+        Settings.LOCALE.subscribe((evt, oldValue, newValue) -> stage.setTitle(Resources.getI18NString("game.title")));
+        Settings.FULL_SCREEN.subscribe((evt, oldValue, newValue) -> stage.setFullScreen(newValue));
     }
 
     /**
@@ -74,34 +76,6 @@ public class ViewManager {
         stage.getScene().setRoot(view.getRoot());
         view.enableRootEvents();
         view.onViewDisplayed();
-    }
-
-    /**
-     * Set the full screen mode of the game.
-     * This method will also update the settings.
-     *
-     * @param fullScreen True to enable full screen mode, false otherwise.
-     */
-    public void setFullScreen(boolean fullScreen) {
-        Settings.fullScreen = fullScreen;
-        stage.setFullScreen(fullScreen);
-    }
-
-    /**
-     * Set the title of the window.
-     *
-     * @param title The title of the window.
-     */
-    public void setTitle(String title) {
-        stage.setTitle(title);
-    }
-
-    /**
-     * Apply the settings to the window.
-     */
-    public void applySettings() {
-        this.setFullScreen(Settings.fullScreen);
-        this.setTitle(Resources.getI18NString("game.title"));
     }
 
     /**

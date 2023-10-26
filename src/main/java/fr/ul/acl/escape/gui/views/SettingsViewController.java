@@ -11,12 +11,12 @@ public class SettingsViewController extends ViewController {
     private CheckBox fullScreenCheckBox;
 
     @FXML
-    protected void onFullScreenToggle() {
+    private void onFullScreenToggle() {
         ViewManager.getInstance().setFullScreen(fullScreenCheckBox.isSelected());
     }
 
     @FXML
-    protected void onClickBack() {
+    private void onClickBack() {
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
     }
 

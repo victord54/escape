@@ -14,6 +14,9 @@
 ## Description
 // TODO
 
+## Project management
+* [Trello](https://trello.com/b/WUfGrD7d/escape)
+
 ## Installation
 ### Requirements
 * Maven >= 3.4.1

@@ -79,7 +79,6 @@ package Escape {
 
   package Outils {
     class Donnees {
-      + {static} String GAME_TITLE
       + {static} int WINDOW_DEFAULT_HEIGHT
       + {static} int WINDOW_DEFAULT_WIDTH
       + {static} int WORLD_HEIGHT
@@ -100,6 +99,8 @@ package Escape {
       + {static} URL get(String path)
       + {static} InputStream getAsStream(String path)}
       + {static} Image getAsset(String path)
+      + {static} ResourceBundle getI18NBundle()
+      + {static} String getI18NString(String key)
     }
   }
 
@@ -110,6 +111,12 @@ package Escape {
   package engine {
     abstract class GameController {
     }
+  }
+
+  class Settings {
+    + {static} boolean fullScreen
+    + {static} boolean showFps
+    + {static} Locale locale
   }
 }
 

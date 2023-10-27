@@ -99,27 +99,8 @@ public class Monde {
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement, deltaTime);
 
-        boolean collision = false;
-        for (Terrain t : terrains) {
-            if (collision(tmp, t)) {
-                collision = true;
-                break;
-            }
-        }
-        if (!collision) {
-            for (Personnage p : personnages) {
-                if (!p.estUnHeros()) {
-                    if (collision(tmp, p)) {
-                        collision = true;
-                        break;
-                    }
-                }
-            }
-        }
+        if (!collisionAvec(tmp)) this.getHeros().deplacer(typeMouvement, deltaTime);
 
-        if (!collision) {
-            this.getHeros().deplacer(typeMouvement, deltaTime);
-        }
     }
 
     /**
@@ -141,4 +122,18 @@ public class Monde {
     public ArrayList<Terrain> getTerrains() {
         return terrains;
     }
+
+    public boolean collisionAvec(Personnage pers){
+        for (Terrain t : terrains ){
+            if (collision(pers, t)) return true;
+        }
+        for (Personnage p : personnages) {
+            if (pers.getId() != p.getId()) {
+                if (collision(pers, p)) return true;
+            }
+        }
+        return false;
+    }
+
+
 }

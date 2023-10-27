@@ -1,13 +1,18 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
+import fr.ul.acl.escape.outils.FabriqueId;
 
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
+    private int id;
+
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur);
         this.vitesse = vitesse;
+        id = FabriqueId.getInstance().getId();
+
     }
 
     /**
@@ -21,6 +26,10 @@ public abstract class Personnage extends ElementMonde {
 
     public boolean estUnHeros() {
         return false;
+    }
+
+    public int getId() {
+        return id;
     }
 
 }

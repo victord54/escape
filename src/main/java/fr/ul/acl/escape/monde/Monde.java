@@ -13,6 +13,8 @@ import org.jgrapht.alg.shortestpath.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.Math.*;
 
@@ -248,27 +250,21 @@ public class Monde {
                 t.start();
                 threads.add(t);
             }
-
-            for (Thread thread : threads) {
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+
 
         /*for (Personnage p : personnages){
             if (!p.estUnHeros()){
                 System.out.println("W : "+ p.toString());
                 deplacementMonstre((Monstre) p, timeInDouble);
-                //Heros h = this.getHeros();
-                *//*if (collision(p, h)){
-                    if (p.lastDeplacement == TypeMouvement.RIGHT) p.setX(h.getX() - p.getLargeur());
-                    else if (p.lastDeplacement == TypeMouvement.LEFT) p.setX(h.getX() + h.getLargeur());
-                    else if (p.lastDeplacement == TypeMouvement.UP) p.setY(h.getY() + h.getHauteur());
-                    else if (p.lastDeplacement == TypeMouvement.DOWN) p.setY(h.getY() - p.getHauteur());
-                }*//*
+
             }
         }*/
     }

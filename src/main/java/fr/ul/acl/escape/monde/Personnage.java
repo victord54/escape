@@ -33,7 +33,6 @@ public abstract class Personnage extends ElementMonde {
         if (typeMouvement == null) throw new MouvementNullException();
 
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
-
         switch (typeMouvement) {
             case RIGHT -> this.x += vitesseTransformee;
             case LEFT -> this.x -= vitesseTransformee;

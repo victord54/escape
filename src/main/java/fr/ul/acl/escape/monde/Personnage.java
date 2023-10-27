@@ -7,6 +7,7 @@ public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     private int id;
 
+    protected TypeMouvement lastDeplacement = TypeMouvement.DOWN;
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur);
@@ -39,6 +40,8 @@ public abstract class Personnage extends ElementMonde {
             case UP -> this.y -= vitesseTransformee;
             case DOWN -> this.y += vitesseTransformee;
         }
+
+        this.lastDeplacement = typeMouvement;
     }
     public boolean estUnHeros() {
         return false;
@@ -55,5 +58,9 @@ public abstract class Personnage extends ElementMonde {
     @Override
     public String toString() {
         return super.toString() + "id :" + this.id;
+    }
+
+    public TypeMouvement getLastDeplacement(){
+        return lastDeplacement;
     }
 }

@@ -26,5 +26,7 @@ public abstract class Monstre extends Personnage {
 
         this.x = (double) tmpX / 10000;
         this.y = (double) tmpY / 10000;
+
+        this.lastDeplacement = typeMouvement;
     }
 }

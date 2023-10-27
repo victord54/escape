@@ -114,7 +114,7 @@ class MondeTest {
         monde.addPersonnage(w);
         monde.addPersonnage(h);
         System.out.println(w);
-        monde.deplacementMontre(w,0);
+        monde.deplacementMonstre(w,0);
         System.out.println(w);
     }
 

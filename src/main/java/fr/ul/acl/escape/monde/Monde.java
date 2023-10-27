@@ -4,19 +4,17 @@ import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.GestionFichier;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.alg.shortestpath.*;
-import org.jgrapht.alg.shortestpath.BFSShortestPath;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.*;
-import static java.lang.System.exit;
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
@@ -112,7 +110,6 @@ public class Monde {
         tmp.deplacer(typeMouvement, deltaTime);
 
         if (!collisionAvec(tmp,false)) this.getHeros().deplacer(typeMouvement, deltaTime);
-
     }
 
     /**
@@ -151,7 +148,7 @@ public class Monde {
         return false;
     }
 
-    public void deplacementMontre(Monstre m, double timeInDouble) {
+    public void deplacementMonstre(Monstre m, double timeInDouble) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
         Point2D source = null;
         Point2D heros = null;
@@ -199,10 +196,11 @@ public class Monde {
         System.out.println("H : " + heros);
         if (source == null){
             System.out.println("x:" +(int) (m.getX()*mult) + "y:" +(int) (m.getY()*mult) );
-            exit(0);
+            return;
         }
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source,heros);
 
+        if (shortest == null) return;
         List<Point2D> list = shortest.getVertexList();
         if (list.size() == 1) return;
         Point2D first = list.get(1);
@@ -210,22 +208,27 @@ public class Monde {
         try {
             System.out.println("first : " +first );
             System.out.println("m : " + m );
+            TypeMouvement typeMouvement = null;
             if ((first.getX()) < (int) (m.getX()*mult)) {
-                System.out.println("L");
-                m.deplacer(TypeMouvement.LEFT, timeInDouble);
+                typeMouvement = TypeMouvement.LEFT;
+                //m.deplacer(TypeMouvement.LEFT, timeInDouble);
             }
             else if ((first.getX()) > (int) (m.getX()*mult)) {
-                System.out.println("R");
-                m.deplacer(TypeMouvement.RIGHT, timeInDouble);
+                typeMouvement = TypeMouvement.RIGHT;
+                //m.deplacer(TypeMouvement.RIGHT, timeInDouble);
             }
             else if ((first.getY()) > (int) (m.getY()*mult)) {
-                System.out.println("D");
-                m.deplacer(TypeMouvement.DOWN, timeInDouble);
+                typeMouvement = TypeMouvement.DOWN;
+                //m.deplacer(TypeMouvement.DOWN, timeInDouble);
             }
             else if ((first.getY()) < (int) (m.getY()*mult)) {
-                System.out.println("U");
-                m.deplacer(TypeMouvement.UP, timeInDouble);
+                typeMouvement = TypeMouvement.UP;
+                //m.deplacer(TypeMouvement.UP, timeInDouble);
             }
+            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
+            tmpWalker.deplacer(typeMouvement, timeInDouble);
+
+            if (!collisionAvec(tmpWalker,true)) m.deplacer(typeMouvement, timeInDouble);
         }catch (Exception e){
             System.out.println(e.toString());
         }
@@ -233,13 +236,13 @@ public class Monde {
 
 
     public void deplacementMonstres(double timeInDouble){
-        /*List<Thread> threads = new ArrayList<>();
+        List<Thread> threads = new ArrayList<>();
         for (Personnage p : personnages) {
             if (!p.estUnHeros()){
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        deplacementMontre((Monstre) p, timeInDouble);
+                        deplacementMonstre((Monstre) p, timeInDouble);
                     }
                 });
                 t.start();
@@ -253,16 +256,21 @@ public class Monde {
                     e.printStackTrace();
                 }
             }
-        }*/
-
-        for (Personnage p : personnages){
-            if (!p.estUnHeros()){
-                System.out.println("W : "+ p.toString());
-                deplacementMontre((Monstre) p, timeInDouble);
-            }
         }
 
-
-
+        /*for (Personnage p : personnages){
+            if (!p.estUnHeros()){
+                System.out.println("W : "+ p.toString());
+                deplacementMonstre((Monstre) p, timeInDouble);
+                //Heros h = this.getHeros();
+                *//*if (collision(p, h)){
+                    if (p.lastDeplacement == TypeMouvement.RIGHT) p.setX(h.getX() - p.getLargeur());
+                    else if (p.lastDeplacement == TypeMouvement.LEFT) p.setX(h.getX() + h.getLargeur());
+                    else if (p.lastDeplacement == TypeMouvement.UP) p.setY(h.getY() + h.getHauteur());
+                    else if (p.lastDeplacement == TypeMouvement.DOWN) p.setY(h.getY() - p.getHauteur());
+                }*//*
+            }
+        }*/
     }
+
 }

@@ -107,12 +107,28 @@ class MondeTest {
     }
 
     @Test
-    void getDeplacement() {
-        Walker w = new Walker(0., 0., 1, 1);
-        Heros h = new Heros(3, 3, 1, 1);
+    void deplacementMonstre() {
+        Walker w = new Walker(25, 25, 50, 50);
+        System.out.println(w);
+        Heros h = new Heros(350, 350, 50, 50);
+        monde.addPersonnage(w);
+        monde.addPersonnage(h);
+        System.out.println(w);
+        monde.deplacementMontre(w,0);
+        System.out.println(w);
+    }
+
+    @Test
+    void deplacementMonstres(){
+        Walker w = new Walker(25, 25, 50, 50);
+        Heros h = new Heros(350, 350, 50, 50);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 
-        System.out.println(monde.getDeplacement(w));
+        System.out.println(w.toString());
+        System.out.println("-----------");
+        monde.deplacementMonstres(1);
+        System.out.println("-----------");
+        System.out.println(w.toString());
     }
 }

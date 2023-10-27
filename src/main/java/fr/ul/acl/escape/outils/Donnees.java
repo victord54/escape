@@ -70,7 +70,7 @@ public final class Donnees {
      * speed of monster
      */
 
-    public static final int WALKER_SPEED = 4;
+    public static final double WALKER_SPEED = 0.05;
 
     /**
      * The height of the game screen in boxes.
@@ -85,12 +85,12 @@ public final class Donnees {
     /**
      * Default width of the window when the game starts.
      */
-    public static final int WINDOW_DEFAULT_WIDTH = 4;
+    public static final int WINDOW_DEFAULT_WIDTH = 800;
 
     /**
      * Default height of the window when the game starts.
      */
-    public static final int WINDOW_DEFAULT_HEIGHT = 4;
+    public static final int WINDOW_DEFAULT_HEIGHT = 600;
 
     private Donnees() {
     }

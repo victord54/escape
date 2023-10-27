@@ -28,8 +28,18 @@ public abstract class Personnage extends ElementMonde {
      * @param deltaTime     : the time difference since the last iteration
      * @throws MouvementNullException : if movement type is null
      */
-    public abstract void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException;
+    public void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
+        if (typeMouvement == null) throw new MouvementNullException();
 
+        double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
+
+        switch (typeMouvement) {
+            case RIGHT -> this.x += vitesseTransformee;
+            case LEFT -> this.x -= vitesseTransformee;
+            case UP -> this.y -= vitesseTransformee;
+            case DOWN -> this.y += vitesseTransformee;
+        }
+    }
     public boolean estUnHeros() {
         return false;
     }
@@ -40,5 +50,10 @@ public abstract class Personnage extends ElementMonde {
 
     public double getVitesse() {
         return vitesse;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "id :" + this.id;
     }
 }

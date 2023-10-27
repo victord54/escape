@@ -17,7 +17,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * The keys currently pressed.
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
-
+    private boolean t = false;
     public GUIController() {
         super(new Monde());
 
@@ -50,7 +50,16 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         } catch (MouvementNullException ignored) {
 
         }
+
+        /*if (!t) {
+            System.out.println(monde.getHeros().toString());
+            monde.deplacementMonstres(timeInDouble);
+        }
+        t = true;*/
+        monde.deplacementMonstres(timeInDouble);
+        //System.out.println(monde.getHeros().toString());
     }
+
 
     public ArrayList<Terrain> getTerrains() {
         return monde.getTerrains();
@@ -67,4 +76,5 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     public void onKeyReleased(KeyEvent event) {
         keysPressed.remove(event.getCode());
     }
+
 }

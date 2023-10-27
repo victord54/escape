@@ -10,12 +10,13 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.alg.shortestpath.AStarShortestPath;
+import org.jgrapht.alg.shortestpath.*;
 import org.jgrapht.alg.shortestpath.BFSShortestPath;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.*;
+import static java.lang.System.exit;
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
@@ -144,85 +145,124 @@ public class Monde {
                     if (collision(pers, p)) return true;
                 }
             }
-            if (pers.getId() == p.getId() && !p.estUnHeros()) if (collision(pers,p)) return true;
+            if (pers.getId() != p.getId() && !p.estUnHeros()) if (collision(pers,p)) return true;
 
         }
         return false;
     }
 
-    public Graph<Point2D, DefaultEdge> creerGraphe() {
-        Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-
-        for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
-            for (double j = 0. ; j < Donnees.WINDOW_DEFAULT_HEIGHT; j+= 0.5) {
-                graph.addVertex(new Point2D(i, j));
-            }
-        }
-        return graph;
-    }
-
-    public TypeMouvement getDeplacement(Monstre m) {
+    public void deplacementMontre(Monstre m, double timeInDouble) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        double width = m.getLargeur();
-        double height = m.getHauteur();
         Point2D source = null;
         Point2D heros = null;
-        for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
-            for (double j = 0.; j < Donnees.WINDOW_DEFAULT_HEIGHT; j += 0.5) {
+        //double v = 0.05;
+        int v = 500;
+        int mult = 10000;
+        for (int i = 0 ; i < Donnees.WORLD_WIDTH*mult; i+= v) {
+            for (int j = 0; j < Donnees.WORLD_HEIGHT*mult; j += v) {
                 Point2D courant = new Point2D(i, j);
-                Point2D droite = new Point2D(i+0.5, j);
-                Point2D bas = new Point2D(i, j+0.5);
+                Point2D droite = new Point2D(i+v, j);
+                Point2D bas = new Point2D(i, j+v);
                 tmp.addVertex(courant);
-                Walker w = new Walker(i, j, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + 0.5 < Donnees.WINDOW_DEFAULT_WIDTH && !collisionAvec(w,false) ) {
+                Walker w = new Walker((double) i /mult, (double) j /mult, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                if (i + v < Donnees.WORLD_WIDTH*mult && !collisionAvec(w,false) ) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
-                } else System.out.println(w);
+                }
 
-                if (j + 0.5 < Donnees.WINDOW_DEFAULT_HEIGHT && !collisionAvec(w,false) ) {
+                if (j + v < Donnees.WORLD_HEIGHT*mult && !collisionAvec(w,false) ) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
-                } else System.out.println(w);
+                }
 
-                Walker tmpCol = new Walker(i,j,0,0);
+                Walker tmpCol = new Walker((double) i /mult, (double) j /mult,0,0,0,-1);
                 if (source == null) {
-                    if (collision(tmpCol,m)) source = courant;
+                    //if (collision(tmpCol, m)) source = courant;
+                    if (i == (int) (m.getX()*mult) && j == (int) (m.getY()*mult)) source = new Point2D(i,j);
                 }
                 if (heros == null) {
                     if (collision(tmpCol, getHeros())) heros = courant;
                 }
             }
         }
-        System.out.println(tmp.vertexSet());
-        System.out.println("-----------------------");
-        System.out.println(tmp.edgeSet());
 
-        /*        AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
+        AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
             public double getCostEstimate(Point2D Point2D, Point2D v1) {
                 return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
             }
-        });*/
-        BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        });
+        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+        System.out.println("----------");
+        System.out.println("S : " + source);
+        System.out.println("H : " + heros);
+        if (source == null){
+            System.out.println("x:" +(int) (m.getX()*mult) + "y:" +(int) (m.getY()*mult) );
+            exit(0);
+        }
+        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source,heros);
 
-
-
-        System.out.println(source.getX());
-        System.out.println(source.getY());
-        System.out.println(heros.getX());
-        System.out.println(heros.getY());
-        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(new Point2D(0.5, 0.5), new Point2D(3.5, 3.5));
         List<Point2D> list = shortest.getVertexList();
-        Point2D first = list.get(0);
+        if (list.size() == 1) return;
+        Point2D first = list.get(1);
+
+        try {
+            System.out.println("first : " +first );
+            System.out.println("m : " + m );
+            if ((first.getX()) < (int) (m.getX()*mult)) {
+                System.out.println("L");
+                m.deplacer(TypeMouvement.LEFT, timeInDouble);
+            }
+            else if ((first.getX()) > (int) (m.getX()*mult)) {
+                System.out.println("R");
+                m.deplacer(TypeMouvement.RIGHT, timeInDouble);
+            }
+            else if ((first.getY()) > (int) (m.getY()*mult)) {
+                System.out.println("D");
+                m.deplacer(TypeMouvement.DOWN, timeInDouble);
+            }
+            else if ((first.getY()) < (int) (m.getY()*mult)) {
+                System.out.println("U");
+                m.deplacer(TypeMouvement.UP, timeInDouble);
+            }
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+    }
+
+
+    public void deplacementMonstres(double timeInDouble){
+        /*List<Thread> threads = new ArrayList<>();
+        for (Personnage p : personnages) {
+            if (!p.estUnHeros()){
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        deplacementMontre((Monstre) p, timeInDouble);
+                    }
+                });
+                t.start();
+                threads.add(t);
+            }
+
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }*/
+
+        for (Personnage p : personnages){
+            if (!p.estUnHeros()){
+                System.out.println("W : "+ p.toString());
+                deplacementMontre((Monstre) p, timeInDouble);
+            }
+        }
 
 
 
-        if (first.getX() < m.getX())
-            return TypeMouvement.LEFT;
-        else if (first.getX() > m.getX())
-            return TypeMouvement.RIGHT;
-        else if (first.getY() > m.getY())
-            return TypeMouvement.DOWN;
-        else return TypeMouvement.UP;
     }
 }

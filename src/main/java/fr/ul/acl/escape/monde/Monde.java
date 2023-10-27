@@ -3,7 +3,7 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.GestionFichier;
-import fr.ul.acl.escape.outils.Noeud;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -110,7 +110,7 @@ public class Monde {
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement, deltaTime);
 
-        if (!collisionAvec(tmp)) this.getHeros().deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmp,false)) this.getHeros().deplacer(typeMouvement, deltaTime);
 
     }
 
@@ -134,51 +134,56 @@ public class Monde {
         return terrains;
     }
 
-    public boolean collisionAvec(Personnage pers){
+    public boolean collisionAvec(Personnage pers, boolean checkAvecHeros){
         for (Terrain t : terrains ){
             if (collision(pers, t)) return true;
         }
         for (Personnage p : personnages) {
-            if (pers.getId() != p.getId()) {
-                if (collision(pers, p)) return true;
+            if (checkAvecHeros){
+                if (pers.getId() != p.getId()) {
+                    if (collision(pers, p)) return true;
+                }
             }
+            if (pers.getId() == p.getId() && !p.estUnHeros()) if (collision(pers,p)) return true;
+
         }
         return false;
     }
 
-    public Graph<Noeud, DefaultEdge> creerGraphe() {
-        Graph<Noeud, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+    public Graph<Point2D, DefaultEdge> creerGraphe() {
+        Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
 
         for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
             for (double j = 0. ; j < Donnees.WINDOW_DEFAULT_HEIGHT; j+= 0.5) {
-                graph.addVertex(new Noeud(i, j));
+                graph.addVertex(new Point2D(i, j));
             }
         }
         return graph;
     }
 
     public TypeMouvement getDeplacement(Monstre m) {
-        Graph<Noeud, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
+        Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
         double width = m.getLargeur();
         double height = m.getHauteur();
-        Noeud source = null;
-        Noeud heros = null;
+        Point2D source = null;
+        Point2D heros = null;
         for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
             for (double j = 0.; j < Donnees.WINDOW_DEFAULT_HEIGHT; j += 0.5) {
-                Noeud courant = new Noeud(i, j);
-                Noeud droite = new Noeud(i+0.5, j);
-                Noeud bas = new Noeud(i, j+0.5);
+                Point2D courant = new Point2D(i, j);
+                Point2D droite = new Point2D(i+0.5, j);
+                Point2D bas = new Point2D(i, j+0.5);
                 tmp.addVertex(courant);
                 Walker w = new Walker(i, j, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + 0.5 < Donnees.WINDOW_DEFAULT_WIDTH) {
+                if (i + 0.5 < Donnees.WINDOW_DEFAULT_WIDTH && !collisionAvec(w,false) ) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
-                }
+                } else System.out.println(w);
 
-                if (j + 0.5 < Donnees.WINDOW_DEFAULT_HEIGHT) {
+                if (j + 0.5 < Donnees.WINDOW_DEFAULT_HEIGHT && !collisionAvec(w,false) ) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
-                }
+                } else System.out.println(w);
+
                 Walker tmpCol = new Walker(i,j,0,0);
                 if (source == null) {
                     if (collision(tmpCol,m)) source = courant;
@@ -188,14 +193,17 @@ public class Monde {
                 }
             }
         }
+        System.out.println(tmp.vertexSet());
+        System.out.println("-----------------------");
         System.out.println(tmp.edgeSet());
-/*        AStarShortestPath<Noeud, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Noeud>() {
+
+        /*        AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
-            public double getCostEstimate(Noeud noeud, Noeud v1) {
-                return sqrt(pow(v1.getX() - noeud.getX(), 2) + pow(v1.getY() - noeud.getY(), 2));
+            public double getCostEstimate(Point2D Point2D, Point2D v1) {
+                return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
             }
         });*/
-        BFSShortestPath<Noeud, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
 
 
 
@@ -203,9 +211,9 @@ public class Monde {
         System.out.println(source.getY());
         System.out.println(heros.getX());
         System.out.println(heros.getY());
-        GraphPath<Noeud, DefaultEdge> shortest = shortestPath.getPath(source, heros);
-        List<Noeud> list = shortest.getVertexList();
-        Noeud first = list.get(0);
+        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(new Point2D(0.5, 0.5), new Point2D(3.5, 3.5));
+        List<Point2D> list = shortest.getVertexList();
+        Point2D first = list.get(0);
 
 
 

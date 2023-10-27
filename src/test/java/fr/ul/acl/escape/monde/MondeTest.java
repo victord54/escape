@@ -108,8 +108,8 @@ class MondeTest {
 
     @Test
     void getDeplacement() {
-        Walker w = new Walker(0., 0., 5, 5);
-        Heros h = new Heros(50, 50, 5, 5);
+        Walker w = new Walker(0., 0., 1, 1);
+        Heros h = new Heros(3, 3, 1, 1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 

@@ -1,6 +1,7 @@
 module escape {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.jgrapht.core;
 
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
 

@@ -15,6 +15,12 @@ public abstract class Personnage extends ElementMonde {
 
     }
 
+    public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id){
+        super(x, y, hauteur, largeur);
+        this.vitesse = vitesse;
+        this.id = id;
+    }
+
     /**
      * Method who moves a Character
      *
@@ -32,4 +38,7 @@ public abstract class Personnage extends ElementMonde {
         return id;
     }
 
+    public double getVitesse() {
+        return vitesse;
+    }
 }

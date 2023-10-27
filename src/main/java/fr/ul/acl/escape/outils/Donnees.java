@@ -85,12 +85,12 @@ public final class Donnees {
     /**
      * Default width of the window when the game starts.
      */
-    public static final int WINDOW_DEFAULT_WIDTH = 800;
+    public static final int WINDOW_DEFAULT_WIDTH = 80;
 
     /**
      * Default height of the window when the game starts.
      */
-    public static final int WINDOW_DEFAULT_HEIGHT = 600;
+    public static final int WINDOW_DEFAULT_HEIGHT = 60;
 
     private Donnees() {
     }

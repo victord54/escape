@@ -105,4 +105,14 @@ class MondeTest {
     void deplacementHerosNull() {
         assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null, 1));
     }
+
+    @Test
+    void getDeplacement() {
+        Walker w = new Walker(0., 0., 5, 5);
+        Heros h = new Heros(50, 50, 5, 5);
+        monde.addPersonnage(w);
+        monde.addPersonnage(h);
+
+        System.out.println(monde.getDeplacement(w));
+    }
 }

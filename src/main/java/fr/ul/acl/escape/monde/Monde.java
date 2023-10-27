@@ -3,8 +3,19 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.GestionFichier;
-
+import fr.ul.acl.escape.outils.Noeud;
+import javafx.scene.Node;
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.alg.shortestpath.AStarShortestPath;
+import org.jgrapht.alg.shortestpath.BFSShortestPath;
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.*;
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
@@ -135,5 +146,75 @@ public class Monde {
         return false;
     }
 
+    public Graph<Noeud, DefaultEdge> creerGraphe() {
+        Graph<Noeud, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
 
+        for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
+            for (double j = 0. ; j < Donnees.WINDOW_DEFAULT_HEIGHT; j+= 0.5) {
+                graph.addVertex(new Noeud(i, j));
+            }
+        }
+        return graph;
+    }
+
+    public TypeMouvement getDeplacement(Monstre m) {
+        Graph<Noeud, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
+        double width = m.getLargeur();
+        double height = m.getHauteur();
+        Noeud source = null;
+        Noeud heros = null;
+        for (double i = 0. ; i < Donnees.WINDOW_DEFAULT_WIDTH; i+= 0.5) {
+            for (double j = 0.; j < Donnees.WINDOW_DEFAULT_HEIGHT; j += 0.5) {
+                Noeud courant = new Noeud(i, j);
+                Noeud droite = new Noeud(i+0.5, j);
+                Noeud bas = new Noeud(i, j+0.5);
+                tmp.addVertex(courant);
+                Walker w = new Walker(i, j, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                if (i + 0.5 < Donnees.WINDOW_DEFAULT_WIDTH) {
+                    tmp.addVertex(droite);
+                    tmp.addEdge(courant, droite);
+                }
+
+                if (j + 0.5 < Donnees.WINDOW_DEFAULT_HEIGHT) {
+                    tmp.addVertex(bas);
+                    tmp.addEdge(courant, bas);
+                }
+                Walker tmpCol = new Walker(i,j,0,0);
+                if (source == null) {
+                    if (collision(tmpCol,m)) source = courant;
+                }
+                if (heros == null) {
+                    if (collision(tmpCol, getHeros())) heros = courant;
+                }
+            }
+        }
+        System.out.println(tmp.edgeSet());
+/*        AStarShortestPath<Noeud, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Noeud>() {
+            @Override
+            public double getCostEstimate(Noeud noeud, Noeud v1) {
+                return sqrt(pow(v1.getX() - noeud.getX(), 2) + pow(v1.getY() - noeud.getY(), 2));
+            }
+        });*/
+        BFSShortestPath<Noeud, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+
+
+
+        System.out.println(source.getX());
+        System.out.println(source.getY());
+        System.out.println(heros.getX());
+        System.out.println(heros.getY());
+        GraphPath<Noeud, DefaultEdge> shortest = shortestPath.getPath(source, heros);
+        List<Noeud> list = shortest.getVertexList();
+        Noeud first = list.get(0);
+
+
+
+        if (first.getX() < m.getX())
+            return TypeMouvement.LEFT;
+        else if (first.getX() > m.getX())
+            return TypeMouvement.RIGHT;
+        else if (first.getY() > m.getY())
+            return TypeMouvement.DOWN;
+        else return TypeMouvement.UP;
+    }
 }

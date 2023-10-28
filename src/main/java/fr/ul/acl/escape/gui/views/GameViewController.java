@@ -24,4 +24,8 @@ public class GameViewController extends ViewController {
     public Canvas getOverlay() {
         return overlay;
     }
+
+    @Override
+    public void applyLanguage() {
+    }
 }

@@ -64,7 +64,7 @@ public class GameView extends View implements GameInterface {
         this.root = loader.load();
         this.controller = loader.getController();
 
-        Settings.SHOW_FPS.subscribe((evt, oldValue, newValue) -> {
+        Settings.showFps.subscribe((evt, oldValue, newValue) -> {
             drawOverlay = newValue;
             if (!drawOverlay) clearCanvas(overlay);
         });
@@ -104,7 +104,7 @@ public class GameView extends View implements GameInterface {
             engine.stop();
             ViewManager.getInstance().navigateTo(VIEWS.HOME);
         } else if (event.getCode() == KeyCode.SPACE) {
-            Settings.SHOW_FPS.set(!Settings.SHOW_FPS.get());
+            Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {
             drawGrid = !drawGrid;
         } else {

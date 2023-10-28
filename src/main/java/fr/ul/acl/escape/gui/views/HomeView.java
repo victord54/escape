@@ -20,7 +20,7 @@ public class HomeView extends View {
     @Override
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            Settings.FULL_SCREEN.set(false);
+            Settings.fullScreen.set(false);
         }
     }
 }

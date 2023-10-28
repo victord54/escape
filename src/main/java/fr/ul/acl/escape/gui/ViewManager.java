@@ -29,8 +29,11 @@ public class ViewManager {
 
     private ViewManager() {
         this.views = new HashMap<>();
-        Settings.LOCALE.subscribe((evt, oldValue, newValue) -> stage.setTitle(Resources.getI18NString("game.title")));
-        Settings.FULL_SCREEN.subscribe((evt, oldValue, newValue) -> stage.setFullScreen(newValue));
+        Settings.locale.subscribe((evt, oldValue, newValue) -> {
+            stage.setTitle(Resources.getI18NString("game.title"));
+            views.forEach((viewName, view) -> view.controller.applyLanguage());
+        });
+        Settings.fullScreen.subscribe((evt, oldValue, newValue) -> stage.setFullScreen(newValue));
     }
 
     /**

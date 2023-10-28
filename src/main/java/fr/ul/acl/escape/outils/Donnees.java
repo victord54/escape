@@ -1,5 +1,7 @@
 package fr.ul.acl.escape.outils;
 
+import java.util.*;
+
 /**
  * Static game information common to all classes.
  */
@@ -71,6 +73,13 @@ public final class Donnees {
      * Default height of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
+    /**
+     * The supported locales.
+     */
+    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            Locale.ENGLISH,
+            Locale.FRENCH
+    )));
     /**
      * If the game is in debug mode.
      */

@@ -49,7 +49,9 @@ package gui {
         + onKeyReleased(KeyEvent): void
     }
 
-    abstract class ViewController {}
+    abstract class ViewController {
+        + {abstract} applyLanguage(): void
+    }
 
     enum VIEWS {
         HOME
@@ -71,6 +73,7 @@ package gui {
 
     package views {
         class HomeViewController {
+            + applyLanguage(): void
             - onClickStart(): void
             - onClickSettings(): void
             - onClickQuit(): void
@@ -81,6 +84,7 @@ package gui {
             - canvas: Canvas
             - overlay: Canvas
             --
+            + applyLanguage(): void
             + getPane(): StackPane
             + getGameBoard(): Canvas
             + getOverlay(): Canvas
@@ -88,7 +92,10 @@ package gui {
 
         class SettingsViewController {
             - fullScreenCheckBox: CheckBox
+            - languageComboBox: ComboBox
             --
+            + applyLanguage(): void
+            + getLanguageComboBox(): ComboBox
             + setFullScreenCheckBox(boolean): void
             - onFullScreenToggle(): void
             - onClickBack(): void

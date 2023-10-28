@@ -4,16 +4,28 @@ import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 public class SettingsViewController extends ViewController {
     @FXML
+    private Label settingsTitle;
+    @FXML
     private CheckBox fullScreenCheckBox;
+    @FXML
+    private Label settingsLanguage;
+    @FXML
+    private ComboBox<String> languageComboBox;
+    @FXML
+    private Button backButton;
 
     @FXML
     private void onFullScreenToggle() {
-        Settings.FULL_SCREEN.set(fullScreenCheckBox.isSelected());
+        Settings.fullScreen.set(fullScreenCheckBox.isSelected());
     }
 
     @FXML
@@ -23,5 +35,17 @@ public class SettingsViewController extends ViewController {
 
     public void setFullScreenCheckBox(boolean fullScreen) {
         this.fullScreenCheckBox.setSelected(fullScreen);
+    }
+
+    public ComboBox<String> getLanguageComboBox() {
+        return languageComboBox;
+    }
+
+    @Override
+    public void applyLanguage() {
+        settingsTitle.setText(Resources.getI18NString("settings"));
+        fullScreenCheckBox.setText(Resources.getI18NString("settings.fullscreen"));
+        settingsLanguage.setText(Resources.getI18NString("settings.language"));
+        backButton.setText(Resources.getI18NString("back"));
     }
 }

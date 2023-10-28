@@ -99,7 +99,9 @@ package Escape {
       + {static} URL get(String path)
       + {static} InputStream getAsStream(String path)}
       + {static} Image getAsset(String path)
+      + {static} ResourceBundle getI18NBundle(Locale locale)
       + {static} ResourceBundle getI18NBundle()
+      + {static} String getI18NString(String key, Locale locale)
       + {static} String getI18NString(String key)
     }
   }
@@ -115,9 +117,9 @@ package Escape {
 
   class Settings {
     - {static} PropertyChangeSupport pcs
-    + {static} Property<Boolean> FULL_SCREEN
-    + {static} Property<Boolean> SHOW_FPS
-    + {static} Property<Locale> LOCALE
+    + {static} Property<Boolean> fullScreen
+    + {static} Property<Boolean> showFps
+    + {static} Property<Locale> locale
   }
 
   class "Property <T> " as Property {

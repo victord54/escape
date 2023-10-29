@@ -18,10 +18,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
     private boolean t = false;
-
+    private int i ;
     public GUIController() {
         super(new Monde());
-
+        i = 5;
         try {
             monde.chargerCarte("carte01");
         } catch (Exception e) {
@@ -51,8 +51,12 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         } catch (MouvementNullException ignored) {
         }
 
-        if (t) monde.deplacementMonstres();
-        t = !t;
+        if (i == 0)
+        {
+            monde.deplacementMonstres();
+            i = 5;
+        }
+        i--;
     }
 
 

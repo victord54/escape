@@ -92,6 +92,11 @@ public final class Donnees {
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
 
+    /**
+     * Conversion factor to transform float to int.
+     */
+    public static final int CONVERSION_FACTOR = 10000;
+
     private Donnees() {
     }
 }

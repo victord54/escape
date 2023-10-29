@@ -111,7 +111,7 @@ public class Monde {
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement, deltaTime);
 
-        if (!collisionAvec(tmp,false)) this.getHeros().deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmp, false)) this.getHeros().deplacer(typeMouvement, deltaTime);
     }
 
     /**
@@ -126,58 +126,80 @@ public class Monde {
         return null;
     }
 
+    /**
+     * Function that get all the Personnage of the world.
+     *
+     * @return ArrayList of Personnage.
+     */
     public ArrayList<Personnage> getPersonnages() {
         return personnages;
     }
 
+    /**
+     * Function that get all the Terrain of the world.
+     *
+     * @return ArrayList of Terrain.
+     */
     public ArrayList<Terrain> getTerrains() {
         return terrains;
     }
 
-    public boolean collisionAvec(Personnage pers, boolean checkAvecHeros){
-        for (Terrain t : terrains ){
+    /**
+     * Function that check if a personnage is on collision with an element of the world.
+     *
+     * @param pers           The Personnage which we want to check if he is on collision.
+     * @param checkAvecHeros True if check with the Hero too, false otherwise.
+     * @return true if collision, false otherwise.
+     */
+    public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
+        for (Terrain t : terrains) {
             if (collision(pers, t)) return true;
         }
         for (Personnage p : personnages) {
-            if (checkAvecHeros){
+            if (checkAvecHeros) {
                 if (pers.getId() != p.getId()) {
                     if (collision(pers, p)) return true;
                 }
             }
-            if (pers.getId() != p.getId() && !p.estUnHeros()) if (collision(pers,p)) return true;
+            if (pers.getId() != p.getId() && !p.estUnHeros()) if (collision(pers, p)) return true;
 
         }
         return false;
     }
 
-    public void deplacementMonstre(Monstre m, double timeInDouble) {
+    /**
+     * Function that move a Monstre.
+     *
+     * @param m The Monstre that we want to move.
+     */
+    public void deplacementMonstre(Monstre m) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
         Point2D source = null;
         Point2D heros = null;
         //double v = 0.05;
         int v = 500;
-        int mult = 10000;
-        for (int i = 0 ; i < Donnees.WORLD_WIDTH*mult; i+= v) {
-            for (int j = 0; j < Donnees.WORLD_HEIGHT*mult; j += v) {
+        int mult = Donnees.CONVERSION_FACTOR;
+        for (int i = 0; i < Donnees.WORLD_WIDTH * mult; i += v) {
+            for (int j = 0; j < Donnees.WORLD_HEIGHT * mult; j += v) {
                 Point2D courant = new Point2D(i, j);
-                Point2D droite = new Point2D(i+v, j);
-                Point2D bas = new Point2D(i, j+v);
+                Point2D droite = new Point2D(i + v, j);
+                Point2D bas = new Point2D(i, j + v);
                 tmp.addVertex(courant);
-                Walker w = new Walker((double) i /mult, (double) j /mult, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + v < Donnees.WORLD_WIDTH*mult && !collisionAvec(w,false) ) {
+                Walker w = new Walker((double) i / mult, (double) j / mult, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                if (i + v < Donnees.WORLD_WIDTH * mult && !collisionAvec(w, false)) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
                 }
 
-                if (j + v < Donnees.WORLD_HEIGHT*mult && !collisionAvec(w,false) ) {
+                if (j + v < Donnees.WORLD_HEIGHT * mult && !collisionAvec(w, false)) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
                 }
 
-                Walker tmpCol = new Walker((double) i /mult, (double) j /mult,0,0,0,-1);
+                Walker tmpCol = new Walker((double) i / mult, (double) j / mult, 0, 0, 0, -1);
                 if (source == null) {
                     //if (collision(tmpCol, m)) source = courant;
-                    if (i == (int) (m.getX()*mult) && j == (int) (m.getY()*mult)) source = new Point2D(i,j);
+                    if (i == (int) (m.getX() * mult) && j == (int) (m.getY() * mult)) source = new Point2D(i, j);
                 }
                 if (heros == null) {
                     if (collision(tmpCol, getHeros())) heros = courant;
@@ -185,22 +207,19 @@ public class Monde {
             }
         }
 
-        AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
+        /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
             public double getCostEstimate(Point2D Point2D, Point2D v1) {
                 return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
             }
-        });
+        });*/
         //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
-        //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
-        System.out.println("----------");
-        System.out.println("S : " + source);
-        System.out.println("H : " + heros);
-        if (source == null){
-            System.out.println("x:" +(int) (m.getX()*mult) + "y:" +(int) (m.getY()*mult) );
-            return;
-        }
-        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source,heros);
+
+        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+
+        if (source == null) return;
+
+        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
         if (shortest == null) return;
         List<Point2D> list = shortest.getVertexList();
@@ -208,43 +227,35 @@ public class Monde {
         Point2D first = list.get(1);
 
         try {
-            System.out.println("first : " +first );
-            System.out.println("m : " + m );
             TypeMouvement typeMouvement = null;
-            if ((first.getX()) < (int) (m.getX()*mult)) {
-                typeMouvement = TypeMouvement.LEFT;
-                //m.deplacer(TypeMouvement.LEFT, timeInDouble);
-            }
-            else if ((first.getX()) > (int) (m.getX()*mult)) {
-                typeMouvement = TypeMouvement.RIGHT;
-                //m.deplacer(TypeMouvement.RIGHT, timeInDouble);
-            }
-            else if ((first.getY()) > (int) (m.getY()*mult)) {
-                typeMouvement = TypeMouvement.DOWN;
-                //m.deplacer(TypeMouvement.DOWN, timeInDouble);
-            }
-            else if ((first.getY()) < (int) (m.getY()*mult)) {
-                typeMouvement = TypeMouvement.UP;
-                //m.deplacer(TypeMouvement.UP, timeInDouble);
-            }
-            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-            tmpWalker.deplacer(typeMouvement, timeInDouble);
+            if ((first.getX()) < (int) (m.getX() * mult)) typeMouvement = TypeMouvement.LEFT;
+            else if ((first.getX()) > (int) (m.getX() * mult)) typeMouvement = TypeMouvement.RIGHT;
+            else if ((first.getY()) > (int) (m.getY() * mult)) typeMouvement = TypeMouvement.DOWN;
+            else if ((first.getY()) < (int) (m.getY() * mult)) typeMouvement = TypeMouvement.UP;
 
-            if (!collisionAvec(tmpWalker,true)) m.deplacer(typeMouvement, timeInDouble);
-        }catch (Exception e){
-            System.out.println(e.toString());
+            if (typeMouvement == null) return;
+
+            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
+            tmpWalker.deplacer(typeMouvement);
+
+            if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement);
+        } catch (Exception e) {
+
         }
     }
 
 
-    public void deplacementMonstres(double timeInDouble){
+    /**
+     * Function that move all the Monstres of the world.
+     */
+    public void deplacementMonstres() {
         List<Thread> threads = new ArrayList<>();
         for (Personnage p : personnages) {
-            if (!p.estUnHeros()){
+            if (!p.estUnHeros()) {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        deplacementMonstre((Monstre) p, timeInDouble);
+                        deplacementMonstre((Monstre) p);
                     }
                 });
                 t.start();
@@ -258,15 +269,6 @@ public class Monde {
                 e.printStackTrace();
             }
         }
-
-
-        /*for (Personnage p : personnages){
-            if (!p.estUnHeros()){
-                System.out.println("W : "+ p.toString());
-                deplacementMonstre((Monstre) p, timeInDouble);
-
-            }
-        }*/
     }
 
 }

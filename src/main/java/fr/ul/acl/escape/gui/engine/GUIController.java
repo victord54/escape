@@ -1,6 +1,9 @@
 package fr.ul.acl.escape.gui.engine;
 
-import fr.ul.acl.escape.monde.*;
+import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.Personnage;
+import fr.ul.acl.escape.monde.Terrain;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +17,8 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * The keys currently pressed.
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
-    private boolean t = false;
+    private final boolean t = false;
+
     public GUIController() {
         super(new Monde());
 
@@ -48,13 +52,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         }
 
-        /*if (!t) {
-            System.out.println(monde.getHeros().toString());
-            monde.deplacementMonstres(timeInDouble);
-        }
-        t = true;*/
-        monde.deplacementMonstres(timeInDouble);
-        //System.out.println(monde.getHeros().toString());
+        monde.deplacementMonstres();
     }
 
 

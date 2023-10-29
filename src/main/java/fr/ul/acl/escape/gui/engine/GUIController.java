@@ -17,7 +17,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * The keys currently pressed.
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
-    private final boolean t = false;
+    private boolean t = false;
 
     public GUIController() {
         super(new Monde());
@@ -49,10 +49,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
                 monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
             }
         } catch (MouvementNullException ignored) {
-
         }
 
-        monde.deplacementMonstres();
+        if (t) monde.deplacementMonstres();
+        t = !t;
     }
 
 

@@ -177,7 +177,7 @@ public class Monde {
         Point2D source = null;
         Point2D heros = null;
         //double v = 0.05;
-        int v = 500;
+        int v = 1000;
         int mult = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * mult; i += v) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * mult; j += v) {

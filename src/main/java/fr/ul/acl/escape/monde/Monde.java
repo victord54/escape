@@ -177,7 +177,7 @@ public class Monde {
         Point2D source = null;
         Point2D heros = null;
         //double v = 0.05;
-        int v = 500;
+        int v = 1000;
         int mult = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * mult; i += v) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * mult; j += v) {
@@ -196,34 +196,26 @@ public class Monde {
                     tmp.addEdge(courant, bas);
                 }
 
-                Walker tmpCol = new Walker(((double) i / mult), (double) j / mult, 0.001, 0.001, 0, -1);
+                Walker tmpCol = new Walker((double) i / mult, (double) j / mult, m.getHauteur()/mult, m.getLargeur()/mult, 0, -1);
                 if (source == null) {
                     if (collision(tmpCol, m)) source = courant;
                     //if (i == (int) (m.getX() * mult) && j == (int) (m.getY() * mult)) source = new Point2D(i, j);
-                    /*int k = (int) ((m.getX() + 0.1)*mult);
-                    int k2 = (int) ((m.getX())*mult);
-                    int l = (int) ((m.getY() + 0.1 )* mult);
-                    int l2 = (int) ((m.getY() )* mult);
-
-                    System.out.println(" i:" + i + " j: " +  j +" k:" +  k  + " k2: " + k2 + " l: " + l + " l2:" + l2);
-                    if (i >= k2 && i <= k && j >= l2 && j <= l) source = new Point2D(i,j);*/
                 }
-                tmpCol = new Walker(((double) i / mult), (double) j / mult, 0, 0, 0, -1);
                 if (heros == null) {
                     if (collision(tmpCol, getHeros())) heros = courant;
                 }
             }
         }
 
-        AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
+        /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
             public double getCostEstimate(Point2D Point2D, Point2D v1) {
                 return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
             }
-        });
+        });*/
         //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
 
-        //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
         if (source == null) return;
 
@@ -248,7 +240,7 @@ public class Monde {
 
             if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement);
         } catch (Exception e) {
-            System.out.println(e);
+
         }
     }
 

@@ -167,6 +167,15 @@ public class Monde {
         return false;
     }
 
+    public static int intLePlusProche(int value, int multiple) {
+        int remainder = value % multiple;
+        if (remainder == 0) {
+            return value;
+        } else {
+            return ((value / multiple) + 1) * multiple;
+        }
+    }
+
     /**
      * Function that move a Monstre.
      *
@@ -196,14 +205,14 @@ public class Monde {
                     tmp.addEdge(courant, bas);
                 }
 
-                Walker tmpCol = new Walker((double) i / mult, (double) j / mult, m.getHauteur()/mult, m.getLargeur()/mult, 0, -1);
+                /*Walker tmpCol = new Walker((double) i / mult, (double) j / mult, m.getHauteur()/mult, m.getLargeur()/mult, 0, -1);
                 if (source == null) {
                     if (collision(tmpCol, m)) source = courant;
                     //if (i == (int) (m.getX() * mult) && j == (int) (m.getY() * mult)) source = new Point2D(i, j);
                 }
                 if (heros == null) {
                     if (collision(tmpCol, getHeros())) heros = courant;
-                }
+                }*/
             }
         }
 
@@ -217,6 +226,12 @@ public class Monde {
 
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
+        source = new Point2D(intLePlusProche((int) (m.getX()*mult), v), intLePlusProche((int) (m.getY()*mult), v));
+        heros = new Point2D(intLePlusProche((int) (getHeros().getX()*mult), v), intLePlusProche((int) (getHeros().getY()*mult), v));
+
+        System.out.println("Source:" + source + "Monstre x:" +  m.getX()*mult + "Monstre y;" + m.getY()*mult);
+        System.out.println("Heros:" + heros + "Heros x:" +  getHeros().getX()*mult + "Heros y;" + getHeros().getY()*mult);
+
         if (source == null) return;
 
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
@@ -224,6 +239,7 @@ public class Monde {
         if (shortest == null) return;
         List<Point2D> list = shortest.getVertexList();
         if (list.size() == 1) return;
+        System.out.println(list);
         Point2D first = list.get(1);
 
         try {

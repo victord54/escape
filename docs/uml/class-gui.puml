@@ -49,11 +49,14 @@ package gui {
         + onKeyReleased(KeyEvent): void
     }
 
-    abstract class ViewController {}
+    abstract class ViewController {
+        + {abstract} applyLanguage(): void
+    }
 
     enum VIEWS {
         HOME
         GAME
+        SETTINGS
     }
 
     class ViewManager {
@@ -65,37 +68,56 @@ package gui {
         + setStage(Stage): void
         + registerView(VIEWS, View): void
         + navigateTo(VIEWS): void
-        + setFullScreen(boolean): void
+        + quit(): void
     }
 
     package views {
         class HomeViewController {
-            - gameTitle: String
-            - fullScreenCheckBox: CheckBox
-            --
-            # onButtonClick(): void
-            # onFullScreenToggle(): void
-            + setGameTitle(String): void
-            + setFullScreenCheckBox(boolean): void
+            + applyLanguage(): void
+            - onClickStart(): void
+            - onClickSettings(): void
+            - onClickQuit(): void
         }
 
         class GameViewController {
+            - pane: StackPane
             - canvas: Canvas
+            - overlay: Canvas
             --
-            + getCanvas(): Canvas
+            + applyLanguage(): void
+            + getPane(): StackPane
+            + getGameBoard(): Canvas
+            + getOverlay(): Canvas
+        }
+
+        class SettingsViewController {
+            - fullScreenCheckBox: CheckBox
+            - languageComboBox: ComboBox
+            --
+            + applyLanguage(): void
+            + getLanguageComboBox(): ComboBox
+            + setFullScreenCheckBox(boolean): void
+            - onFullScreenToggle(): void
+            - onClickBack(): void
         }
 
         class HomeView {
             + HomeView()
-            + onViewInit(): void
             + onKeyPressed(KeyEvent): void
         }
 
         class GameView {
             + GameView()
             + onViewDisplayed(): void
-            - draw(Canvas, Number): void
             + render(): void
+            - drawGameBoard(Canvas, double): void
+            - drawOverlay(Canvas): void
+            - clearCanvas(Canvas): void
+        }
+
+        class SettingsView {
+            + SettingsView()
+            + onViewInit(): void
         }
     }
 
@@ -140,13 +162,15 @@ GameView --"1" GUIController : - controller
 GameView --"1" GUIEngine : - engine
 GUIEngine -down[hidden]- GUIController
 
-View --"1" ViewController : # controller
-ViewManager -"*" View : - views
+View -left-"1" ViewController : # controller
+ViewManager -left-"*" View : - views
 
 ' gui views
 HomeViewController -up-|> ViewController
 HomeView -up-|> View
 GameViewController -up-|> ViewController
 GameView -up-|> View
+SettingsViewController -up-|> ViewController
+SettingsView -up-|> View
 
 @enduml

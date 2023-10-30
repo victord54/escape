@@ -54,10 +54,20 @@ public class GameView extends View implements GameInterface {
      */
     private boolean drawGrid = false;
 
+    /**
+     * If true, the overlay is drawn on the overlay canvas.
+     */
+    private boolean drawOverlay = false;
+
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         this.root = loader.load();
         this.controller = loader.getController();
+
+        Settings.showFps.subscribe((evt, oldValue, newValue) -> {
+            drawOverlay = newValue;
+            if (!drawOverlay) clearCanvas(overlay);
+        });
     }
 
     @Override
@@ -94,7 +104,7 @@ public class GameView extends View implements GameInterface {
             engine.stop();
             ViewManager.getInstance().navigateTo(VIEWS.HOME);
         } else if (event.getCode() == KeyCode.SPACE) {
-            Settings.showFps = !Settings.showFps;
+            Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {
             drawGrid = !drawGrid;
         } else {
@@ -105,6 +115,12 @@ public class GameView extends View implements GameInterface {
     @Override
     public void onKeyReleased(KeyEvent event) {
         gameController.onKeyReleased(event);
+    }
+
+    @Override
+    public void render() {
+        this.drawGameBoard(gameBoard, elementSize.doubleValue());
+        this.drawOverlay(overlay);
     }
 
     /**
@@ -153,23 +169,25 @@ public class GameView extends View implements GameInterface {
      * @param canvas The canvas to draw on.
      */
     private void drawOverlay(Canvas canvas) {
-        if (engine == null) return;
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        if (engine == null || !drawOverlay) return;
 
         // clear canvas
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        clearCanvas(canvas);
 
         // write FPS
-        if (Settings.showFps) {
-            gc.setFill(Color.LIGHTGREEN);
-            gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
-        }
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.LIGHTGREEN);
+        gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
     }
 
-    @Override
-    public void render() {
-        this.drawGameBoard(gameBoard, elementSize.doubleValue());
-        this.drawOverlay(overlay);
+    /**
+     * Clear the canvas.
+     *
+     * @param canvas The canvas to clear.
+     */
+    private void clearCanvas(Canvas canvas) {
+        if (canvas == null) return;
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }

@@ -191,21 +191,21 @@ public class Monde {
      */
     public void deplacementMonstre(Monstre m) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        int v = 1000;
-        int mult = Donnees.CONVERSION_FACTOR;
-        for (int i = 0; i < Donnees.WORLD_WIDTH * mult; i += v) {
-            for (int j = 0; j < Donnees.WORLD_HEIGHT * mult; j += v) {
+        int pas = 1000;
+        int conversionFactor = Donnees.CONVERSION_FACTOR;
+        for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
+            for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
                 Point2D courant = new Point2D(i, j);
-                Point2D droite = new Point2D(i + v, j);
-                Point2D bas = new Point2D(i, j + v);
+                Point2D droite = new Point2D(i + pas, j);
+                Point2D bas = new Point2D(i, j + pas);
                 tmp.addVertex(courant);
-                Walker w = new Walker((double) i / mult, (double) j / mult, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + v < Donnees.WORLD_WIDTH * mult && !collisionAvec(w, false)) {
+                Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                if (i + pas < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvec(w, false)) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
                 }
 
-                if (j + v < Donnees.WORLD_HEIGHT * mult && !collisionAvec(w, false)) {
+                if (j + pas < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvec(w, false)) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
                 }
@@ -222,8 +222,8 @@ public class Monde {
 
         //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
-        Point2D source = new Point2D(intLePlusProche((int) (m.getX() * mult), v), intLePlusProche((int) (m.getY() * mult), v));
-        Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * mult), v), intLePlusProche((int) (getHeros().getY() * mult), v));
+        Point2D source = new Point2D(intLePlusProche((int) (m.getX() * conversionFactor), pas), intLePlusProche((int) (m.getY() * conversionFactor), pas));
+        Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
 
         if (source == null) return;
 
@@ -236,10 +236,10 @@ public class Monde {
 
         try {
             TypeMouvement typeMouvement = null;
-            if ((first.getX()) < (int) (m.getX() * mult)) typeMouvement = TypeMouvement.LEFT;
-            else if ((first.getX()) > (int) (m.getX() * mult)) typeMouvement = TypeMouvement.RIGHT;
-            else if ((first.getY()) > (int) (m.getY() * mult)) typeMouvement = TypeMouvement.DOWN;
-            else if ((first.getY()) < (int) (m.getY() * mult)) typeMouvement = TypeMouvement.UP;
+            if ((first.getX()) < (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.LEFT;
+            else if ((first.getX()) > (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.RIGHT;
+            else if ((first.getY()) > (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.DOWN;
+            else if ((first.getY()) < (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.UP;
 
             if (typeMouvement == null) return;
 

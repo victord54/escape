@@ -191,7 +191,7 @@ public class Monde {
      */
     public void deplacementMonstre(Monstre m, double deltaTime) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 900;
+        int pas = 950;
         int conversionFactor = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
@@ -227,7 +227,12 @@ public class Monde {
 
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
-        if (shortest == null) return;
+        if (shortest == null){
+            Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
+            shortestPath = new DijkstraShortestPath<>(graphAlternatif);
+            shortest = shortestPath.getPath(source, heros);
+            if (shortest == null) return;
+        }
         List<Point2D> list = shortest.getVertexList();
         if (list.size() == 1) return;
         Point2D first = list.get(1);
@@ -254,6 +259,37 @@ public class Monde {
         }
     }
 
+    public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas){
+        Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
+        int conversionFactor = Donnees.CONVERSION_FACTOR;
+        for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
+            for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
+                Point2D courant = new Point2D(i, j);
+                Point2D droite = new Point2D(i + pas, j);
+                Point2D bas = new Point2D(i, j + pas);
+                tmp.addVertex(courant);
+                Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                if (i + pas < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
+                    tmp.addVertex(droite);
+                    tmp.addEdge(courant, droite);
+                }
+
+                if (j + pas < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvecTerrains(w)) {
+                    tmp.addVertex(bas);
+                    tmp.addEdge(courant, bas);
+                }
+            }
+        }
+
+        return tmp;
+    }
+
+    public boolean collisionAvecTerrains(Personnage p){
+        for (Terrain t : terrains){
+            if (collision(p, t)) return true;
+        }
+        return false;
+    }
 
     /**
      * Method that move all the Monstres of the world.

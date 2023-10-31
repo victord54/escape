@@ -45,12 +45,18 @@ public class Resources {
      * The asset is loaded only once.
      *
      * @param path The path of the asset.
-     * @return The asset.
+     * @return The asset (or null if it failed to load).
      */
     public static Image getAsset(String path) {
         if (!assets.containsKey(path)) {
-            assets.put(path, new Image(get(path).toString()));
-            if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+            InputStream is = getAsStream(path);
+            if (is == null) {
+                assets.put(path, null);
+                if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
+            } else {
+                assets.put(path, new Image(is));
+                if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+            }
         }
         return assets.get(path);
     }

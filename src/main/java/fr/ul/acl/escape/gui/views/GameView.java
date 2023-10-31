@@ -7,6 +7,7 @@ import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
+import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -147,18 +149,14 @@ public class GameView extends View implements GameInterface {
         }
 
         // draw game environment
-        this.gameController.getTerrains().forEach(terrain -> {
-            gc.setFill(Color.FIREBRICK);
-            gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, Math.ceil(terrain.getLargeur() * elementSize), Math.ceil(terrain.getHauteur() * elementSize));
-        });
+        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, Resources.getAsset("assets/wall.png"), Color.FIREBRICK));
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                gc.drawImage(Resources.getAsset("assets/UL.png"), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+                renderElement(gc, personnage, elementSize, Resources.getAsset("assets/UL.png"), Color.YELLOW);
             } else {
-                gc.setFill(Color.BLUEVIOLET);
-                gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, Math.ceil(personnage.getLargeur() * elementSize), Math.ceil(personnage.getHauteur() * elementSize));
+                renderElement(gc, personnage, elementSize, Resources.getAsset("assets/monster.png"), Color.BLUEVIOLET);
             }
         });
     }
@@ -189,5 +187,24 @@ public class GameView extends View implements GameInterface {
         if (canvas == null) return;
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    /**
+     * Draw an element on the canvas.
+     *
+     * @param gc           The graphics context of the canvas.
+     * @param elementMonde The element to draw.
+     * @param elementSize  The size of a square element on the game board.
+     * @param asset        The asset to draw.
+     * @param color        The color to draw if the asset can't be loaded.
+     */
+    // TODO: get color and asset from elementMonde
+    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, Image asset, Color color) {
+        if (asset == null) {
+            gc.setFill(color);
+            gc.fillRect(elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, Math.ceil(elementMonde.getLargeur() * elementSize), Math.ceil(elementMonde.getHauteur() * elementSize));
+            return;
+        }
+        gc.drawImage(asset, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
     }
 }

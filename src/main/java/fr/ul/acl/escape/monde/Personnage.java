@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.FabriqueId;
 
 public abstract class Personnage extends ElementMonde {

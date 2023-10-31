@@ -7,16 +7,17 @@ import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
+import org.jgrapht.alg.shortestpath.AStarShortestPath;
+import org.jgrapht.alg.shortestpath.BFSShortestPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.alg.shortestpath.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
@@ -167,6 +168,13 @@ public class Monde {
         return false;
     }
 
+    /**
+     * Method that returns the nearest integer greater than value, which is a multiple of multiple
+     *
+     * @param value    the value.
+     * @param multiple the multiple.
+     * @return nearest integer grater than value and which is a multiple of multiple.
+     */
     public static int intLePlusProche(int value, int multiple) {
         int remainder = value % multiple;
         if (remainder == 0) {
@@ -177,15 +185,12 @@ public class Monde {
     }
 
     /**
-     * Function that move a Monstre.
+     * Method that move a Monstre.
      *
      * @param m The Monstre that we want to move.
      */
     public void deplacementMonstre(Monstre m) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        Point2D source = null;
-        Point2D heros = null;
-        //double v = 0.05;
         int v = 1000;
         int mult = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * mult; i += v) {
@@ -204,15 +209,6 @@ public class Monde {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
                 }
-
-                /*Walker tmpCol = new Walker((double) i / mult, (double) j / mult, m.getHauteur()/mult, m.getLargeur()/mult, 0, -1);
-                if (source == null) {
-                    if (collision(tmpCol, m)) source = courant;
-                    //if (i == (int) (m.getX() * mult) && j == (int) (m.getY() * mult)) source = new Point2D(i, j);
-                }
-                if (heros == null) {
-                    if (collision(tmpCol, getHeros())) heros = courant;
-                }*/
             }
         }
 
@@ -222,15 +218,12 @@ public class Monde {
                 return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
             }
         });*/
-        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
 
-        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+        //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
-        source = new Point2D(intLePlusProche((int) (m.getX()*mult), v), intLePlusProche((int) (m.getY()*mult), v));
-        heros = new Point2D(intLePlusProche((int) (getHeros().getX()*mult), v), intLePlusProche((int) (getHeros().getY()*mult), v));
-
-        System.out.println("Source:" + source + "Monstre x:" +  m.getX()*mult + "Monstre y;" + m.getY()*mult);
-        System.out.println("Heros:" + heros + "Heros x:" +  getHeros().getX()*mult + "Heros y;" + getHeros().getY()*mult);
+        Point2D source = new Point2D(intLePlusProche((int) (m.getX() * mult), v), intLePlusProche((int) (m.getY() * mult), v));
+        Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * mult), v), intLePlusProche((int) (getHeros().getY() * mult), v));
 
         if (source == null) return;
 
@@ -239,7 +232,6 @@ public class Monde {
         if (shortest == null) return;
         List<Point2D> list = shortest.getVertexList();
         if (list.size() == 1) return;
-        System.out.println(list);
         Point2D first = list.get(1);
 
         try {
@@ -262,7 +254,7 @@ public class Monde {
 
 
     /**
-     * Function that move all the Monstres of the world.
+     * Method that move all the Monstres of the world.
      */
     public void deplacementMonstres() {
         List<Thread> threads = new ArrayList<>();

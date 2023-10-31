@@ -33,23 +33,4 @@ public abstract class Monstre extends Personnage {
         this.y = (double) tmpY / Donnees.CONVERSION_FACTOR;
 
     }
-
-    /**
-     * Method who moves a Heros
-     *
-     * @param typeMouvement : the movement type (RIGHT, LEFT, ...)
-     * @param deltaTime     : the time difference since the last iteration
-     * @throws MouvementNullException : if movement type is null
-     */
-    public void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
-        if (typeMouvement == null) throw new MouvementNullException();
-
-        double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
-        switch (typeMouvement) {
-            case RIGHT -> this.x += vitesseTransformee;
-            case LEFT -> this.x -= vitesseTransformee;
-            case UP -> this.y -= vitesseTransformee;
-            case DOWN -> this.y += vitesseTransformee;
-        }
-    }
 }

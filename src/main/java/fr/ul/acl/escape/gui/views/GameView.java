@@ -149,7 +149,7 @@ public class GameView extends View implements GameInterface {
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> {
             gc.setFill(Color.FIREBRICK);
-            gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
+            gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, Math.ceil(terrain.getLargeur() * elementSize), Math.ceil(terrain.getHauteur() * elementSize));
         });
 
         // draw game entities
@@ -158,7 +158,7 @@ public class GameView extends View implements GameInterface {
                 gc.drawImage(Resources.getAsset("assets/UL.png"), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
             } else {
                 gc.setFill(Color.BLUEVIOLET);
-                gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+                gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, Math.ceil(personnage.getLargeur() * elementSize), Math.ceil(personnage.getHauteur() * elementSize));
             }
         });
     }

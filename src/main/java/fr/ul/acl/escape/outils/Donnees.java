@@ -70,7 +70,7 @@ public final class Donnees {
      * speed of monster
      */
 
-    public static final double WALKER_SPEED = 0.025;
+    public static final double WALKER_SPEED = 1.8;
 
     /**
      * The height of the game screen in boxes.

@@ -189,9 +189,9 @@ public class Monde {
      *
      * @param m The Monstre that we want to move.
      */
-    public void deplacementMonstre(Monstre m) {
+    public void deplacementMonstre(Monstre m, double deltaTime) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 1000;
+        int pas = 900;
         int conversionFactor = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
@@ -215,17 +215,15 @@ public class Monde {
         /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
             public double getCostEstimate(Point2D Point2D, Point2D v1) {
-                return sqrt(pow(v1.getX() - Point2D.getX(), 2) + pow(v1.getY() - Point2D.getY(), 2));
+                return sqrt(pow((int) (v1.getX()*conversionFactor) - (int) (Point2D.getX()*conversionFactor), 2) + pow((int) (v1.getY()*conversionFactor) - (int) (Point2D.getY()*conversionFactor), 2));
             }
         });*/
-        BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
 
-        //DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
         Point2D source = new Point2D(intLePlusProche((int) (m.getX() * conversionFactor), pas), intLePlusProche((int) (m.getY() * conversionFactor), pas));
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
-
-        if (source == null) return;
 
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
@@ -236,17 +234,21 @@ public class Monde {
 
         try {
             TypeMouvement typeMouvement = null;
-            if ((first.getX()) < (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.LEFT;
+            if (first.getX() < source.getX() ) typeMouvement = TypeMouvement.LEFT;
+            else if ((first.getX()) > source.getX()) typeMouvement = TypeMouvement.RIGHT;
+            else if ((first.getY()) > source.getY()) typeMouvement = TypeMouvement.DOWN;
+            else if ((first.getY()) < source.getY()) typeMouvement = TypeMouvement.UP;
+            /*if ((first.getX()) < (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.LEFT;
             else if ((first.getX()) > (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.RIGHT;
             else if ((first.getY()) > (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.DOWN;
-            else if ((first.getY()) < (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.UP;
+            else if ((first.getY()) < (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.UP;*/
 
             if (typeMouvement == null) return;
 
             Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-            tmpWalker.deplacer(typeMouvement);
+            tmpWalker.deplacer(typeMouvement, deltaTime);
 
-            if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement);
+            if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
         } catch (Exception e) {
 
         }
@@ -256,14 +258,14 @@ public class Monde {
     /**
      * Method that move all the Monstres of the world.
      */
-    public void deplacementMonstres() {
+    public void deplacementMonstres(double deltaTime) {
         List<Thread> threads = new ArrayList<>();
         for (Personnage p : personnages) {
             if (!p.estUnHeros()) {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        deplacementMonstre((Monstre) p);
+                        deplacementMonstre((Monstre) p, deltaTime);
                     }
                 });
                 t.start();

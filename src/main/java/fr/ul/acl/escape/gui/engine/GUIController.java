@@ -52,7 +52,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         } catch (MouvementNullException ignored) {
         }
 
-        monde.deplacementMonstres();
+        monde.deplacementMonstres(timeInDouble);
     }
 
 

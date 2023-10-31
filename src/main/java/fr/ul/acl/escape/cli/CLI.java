@@ -34,7 +34,7 @@ public class CLI implements GameInterface {
             for (int x = 0; x < Donnees.WORLD_WIDTH; x++) {
                 boolean isThereElement = false;
                 for (Terrain terrain : controller.getTerrains()) {
-                    if (terrain.getX() == x && terrain.getY() == y) {
+                    if (terrain.getX() >= x && terrain.getX() < x + terrain.getLargeur() && terrain.getY() >= y && terrain.getY() < y + terrain.getHauteur()) {
                         System.out.print("[" + Donnees.SYMBOL_WALL + "]");
                         isThereElement = true;
                         break;
@@ -42,7 +42,7 @@ public class CLI implements GameInterface {
                 }
                 if (isThereElement) continue;
                 for (Personnage personnage : controller.getPersonnages()) {
-                    if (personnage.getX() == x && personnage.getY() == y) {
+                    if (personnage.getX() >= x && personnage.getX() < x + personnage.getLargeur() && personnage.getY() >= y && personnage.getY() < y + personnage.getHauteur()) {
                         System.out.print("[" + (personnage.estUnHeros() ? Donnees.SYMBOL_HERO : Donnees.SYMBOL_WALKER) + "]");
                         isThereElement = true;
                         break;
@@ -58,11 +58,7 @@ public class CLI implements GameInterface {
 
         if (Donnees.DEBUG) {
             for (Personnage p : controller.getPersonnages()) {
-                if (p.estUnHeros()) {
-                    System.out.println("Heros: " + p);
-                } else {
-                    System.out.println("Monstre: " + p);
-                }
+                System.out.println((p.estUnHeros() ? "Hero: " : "Monstre: ") + p);
             }
         } else {
             System.out.println(controller.getHeros().toString());

@@ -4,7 +4,6 @@ import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.Personnage;
 import fr.ul.acl.escape.monde.Terrain;
 import fr.ul.acl.escape.monde.TypeMouvement;
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -34,23 +33,23 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     public void update(long timeElapsed) {
         double timeInDouble = timeElapsed * 10e-10;
 
-        try {
-            if (keysPressed.contains(KeyCode.Z)) {
-                monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
-            }
-            if (keysPressed.contains(KeyCode.S)) {
-                monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
-            }
-            if (keysPressed.contains(KeyCode.D)) {
-                monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
-            }
-            if (keysPressed.contains(KeyCode.Q)) {
-                monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
-            }
-        } catch (MouvementNullException ignored) {
-
+        if (keysPressed.contains(KeyCode.Z)) {
+            monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
         }
+        if (keysPressed.contains(KeyCode.S)) {
+            monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
+        }
+        if (keysPressed.contains(KeyCode.D)) {
+            monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
+        }
+        if (keysPressed.contains(KeyCode.Q)) {
+            monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
+        }
+
+
+        monde.deplacementMonstres(timeInDouble);
     }
+
 
     public ArrayList<Terrain> getTerrains() {
         return monde.getTerrains();
@@ -67,4 +66,5 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     public void onKeyReleased(KeyEvent event) {
         keysPressed.remove(event.getCode());
     }
+
 }

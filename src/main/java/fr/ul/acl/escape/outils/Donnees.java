@@ -55,8 +55,8 @@ public final class Donnees {
     /**
      * speed of monster
      */
+    public static final int WALKER_SPEED = 2;
 
-    public static final int WALKER_SPEED = 4;
     /**
      * The height of the game screen in boxes.
      */
@@ -84,6 +84,11 @@ public final class Donnees {
      * If the game is in debug mode.
      */
     public static boolean DEBUG = false;
+
+    /**
+     * Conversion factor to transform float to int.
+     */
+    public static final int CONVERSION_FACTOR = 10000;
 
     private Donnees() {
     }

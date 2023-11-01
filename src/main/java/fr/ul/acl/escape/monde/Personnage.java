@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.FabriqueId;
 
 public abstract class Personnage extends ElementMonde {
@@ -26,11 +25,8 @@ public abstract class Personnage extends ElementMonde {
      *
      * @param typeMouvement : the movement type (RIGHT, LEFT, ...)
      * @param deltaTime     : the time difference since the last iteration
-     * @throws MouvementNullException : if movement type is null
      */
-    public void deplacer(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
-        if (typeMouvement == null) throw new MouvementNullException();
-
+    public void deplacer(TypeMouvement typeMouvement, double deltaTime) {
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
         switch (typeMouvement) {
             case RIGHT -> this.x += vitesseTransformee;

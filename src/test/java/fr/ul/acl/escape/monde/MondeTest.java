@@ -125,10 +125,10 @@ class MondeTest {
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 
-        System.out.println(w.toString());
+        System.out.println(w);
         System.out.println("-----------");
         monde.deplacementMonstres(1);
         System.out.println("-----------");
-        System.out.println(w.toString());
+        System.out.println(w);
     }
 }

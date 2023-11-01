@@ -1,14 +1,10 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.GestionFichier;
 import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
-import org.jgrapht.alg.shortestpath.AStarShortestPath;
-import org.jgrapht.alg.shortestpath.BFSShortestPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -16,8 +12,6 @@ import org.jgrapht.graph.SimpleGraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
@@ -103,11 +97,8 @@ public class Monde {
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
      *
      * @param typeMouvement The Type of mouvement the Heros wants to make.
-     * @throws MouvementNullException Exception throw if typeMouvement is null.
      */
-    public void deplacementHeros(TypeMouvement typeMouvement, double deltaTime) throws MouvementNullException {
-        if (typeMouvement == null) throw new MouvementNullException();
-
+    public void deplacementHeros(TypeMouvement typeMouvement, double deltaTime) {
         Heros h = getHeros();
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement, deltaTime);
@@ -217,14 +208,6 @@ public class Monde {
             }
         }
 
-        /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(graph, new AStarAdmissibleHeuristic<Point2D>() {
-            @Override
-            public double getCostEstimate(Point2D Point2D, Point2D v1) {
-                return sqrt(pow((int) (v1.getX()*conversionFactor) - (int) (Point2D.getX()*conversionFactor), 2) + pow((int) (v1.getY()*conversionFactor) - (int) (Point2D.getY()*conversionFactor), 2));
-            }
-        });*/
-        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(graph);
-
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
 
         // Check si le noeud source est pas en dehors en haut ou à gauche
@@ -258,15 +241,12 @@ public class Monde {
 
         if (typeMouvement == null) return;
 
-        try {
-            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-            tmpWalker.deplacer(typeMouvement, deltaTime);
+        Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
+        tmpWalker.deplacer(typeMouvement, deltaTime);
 
-            if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
-        } catch (Exception e) {
-
-        }
+        if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
     }
+
 
     /**
      * Method that create an alternative graph for the Monstre with node that can be in a Monstre.
@@ -335,7 +315,7 @@ public class Monde {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }

@@ -55,6 +55,8 @@ public class CLIController extends GameController {
                 }
             }
         }
+
+        monde.deplacementMonstres(1);
     }
 
     public Heros getHeros() {

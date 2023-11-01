@@ -301,12 +301,7 @@ public class Monde {
         List<Thread> threads = new ArrayList<>();
         for (Personnage p : personnages) {
             if (!p.estUnHeros()) {
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        deplacementMonstre((Monstre) p, deltaTime);
-                    }
-                });
+                Thread t = new Thread(() -> deplacementMonstre((Monstre) p, deltaTime));
                 t.start();
                 threads.add(t);
             }

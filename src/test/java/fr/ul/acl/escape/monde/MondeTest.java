@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +40,7 @@ class MondeTest {
     }
 
     @Test
-    void deplacementHeros() throws MouvementNullException {
+    void deplacementHeros() {
         Heros h = new Heros(5, 5, 1, 1);
         monde.addPersonnage(h);
         monde.deplacementHeros(TypeMouvement.LEFT, 1);
@@ -102,11 +101,6 @@ class MondeTest {
     }
 
     @Test
-    void deplacementHerosNull() {
-        assertThrows(MouvementNullException.class, () -> monde.deplacementHeros(null, 1));
-    }
-
-    @Test
     void deplacementMonstre() {
         Walker w = new Walker(1, 1, 1, 1);
         System.out.println(w);
@@ -114,12 +108,12 @@ class MondeTest {
         monde.addPersonnage(w);
         monde.addPersonnage(h);
         System.out.println(w);
-        monde.deplacementMonstre(w,1);
+        monde.deplacementMonstre(w, 1);
         System.out.println(w);
     }
 
     @Test
-    void deplacementMonstres(){
+    void deplacementMonstres() {
         Walker w = new Walker(1, 1, 1, 1);
         Heros h = new Heros(6, 6, 1, 1);
         monde.addPersonnage(w);

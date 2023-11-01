@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.monde;
 
-import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ class HerosTest {
     }
 
     @Test
-    void testDeplacerTypeMouvementCorrect() throws MouvementNullException {
+    void testDeplacerTypeMouvementCorrect() {
 
 
         //Right
@@ -44,7 +43,7 @@ class HerosTest {
     }
 
     @Test
-    void testDeplacerDeltaTimeCorrects() throws MouvementNullException {
+    void testDeplacerDeltaTimeCorrects() {
 
         p.deplacer(TypeMouvement.RIGHT, 1);
         assertEquals(p.x, p.vitesse);
@@ -59,7 +58,7 @@ class HerosTest {
     }
 
     @Test
-    void testDeplacerDeltaTimeIncorrect() throws MouvementNullException {
+    void testDeplacerDeltaTimeIncorrect() {
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, -0.5);

@@ -43,11 +43,11 @@ public final class Donnees {
      * speed of hero
      */
 
-    public static final int HERO_SPEED = 1;
+    public static final int HERO_SPEED = 4;
     /**
      * height of monster
      */
-    public static final int WALKER_HEIGHT = 4;
+    public static final int WALKER_HEIGHT = 1;
     /**
      * width of monster
      */

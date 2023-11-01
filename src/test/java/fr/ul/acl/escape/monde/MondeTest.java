@@ -108,9 +108,9 @@ class MondeTest {
 
     @Test
     void deplacementMonstre() {
-        Walker w = new Walker(25, 25, 50, 50);
+        Walker w = new Walker(1, 1, 1, 1);
         System.out.println(w);
-        Heros h = new Heros(350, 350, 50, 50);
+        Heros h = new Heros(6, 6, 1, 1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
         System.out.println(w);
@@ -120,8 +120,8 @@ class MondeTest {
 
     @Test
     void deplacementMonstres(){
-        Walker w = new Walker(25, 25, 50, 50);
-        Heros h = new Heros(350, 350, 50, 50);
+        Walker w = new Walker(1, 1, 1, 1);
+        Heros h = new Heros(6, 6, 1, 1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 

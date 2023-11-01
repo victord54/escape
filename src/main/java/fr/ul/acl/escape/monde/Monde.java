@@ -227,7 +227,7 @@ public class Monde {
 
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
-        if (shortest == null){
+        if (shortest == null) {
             Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
@@ -239,14 +239,10 @@ public class Monde {
 
         try {
             TypeMouvement typeMouvement = null;
-            if (first.getX() < source.getX() ) typeMouvement = TypeMouvement.LEFT;
+            if (first.getX() < source.getX()) typeMouvement = TypeMouvement.LEFT;
             else if ((first.getX()) > source.getX()) typeMouvement = TypeMouvement.RIGHT;
             else if ((first.getY()) > source.getY()) typeMouvement = TypeMouvement.DOWN;
             else if ((first.getY()) < source.getY()) typeMouvement = TypeMouvement.UP;
-            /*if ((first.getX()) < (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.LEFT;
-            else if ((first.getX()) > (int) (m.getX() * conversionFactor)) typeMouvement = TypeMouvement.RIGHT;
-            else if ((first.getY()) > (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.DOWN;
-            else if ((first.getY()) < (int) (m.getY() * conversionFactor)) typeMouvement = TypeMouvement.UP;*/
 
             if (typeMouvement == null) return;
 
@@ -259,7 +255,14 @@ public class Monde {
         }
     }
 
-    public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas){
+    /**
+     * Method that create an alternative graph for the Monstre with node that can be in a Monstre.
+     *
+     * @param m   The Monstre we want to move.
+     * @param pas The increment for the construction of the graph.
+     * @return A Graph<Point2, DefaultEdge> for m.
+     **/
+    public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas) {
         Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
         int conversionFactor = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
@@ -284,8 +287,14 @@ public class Monde {
         return tmp;
     }
 
-    public boolean collisionAvecTerrains(Personnage p){
-        for (Terrain t : terrains){
+    /**
+     * Method that check if there is collision between a Personnage and one of the Terrain.
+     *
+     * @param p The Personnage we need to check.
+     * @return true if there is a collision, false otherwise.
+     */
+    public boolean collisionAvecTerrains(Personnage p) {
+        for (Terrain t : terrains) {
             if (collision(p, t)) return true;
         }
         return false;
@@ -312,7 +321,7 @@ public class Monde {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

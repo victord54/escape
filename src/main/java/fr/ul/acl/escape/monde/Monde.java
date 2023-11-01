@@ -200,12 +200,12 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 tmp.addVertex(courant);
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + pas < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvec(w, false)) {
+                if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvec(w, false)) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
                 }
 
-                if (j + pas < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvec(w, false)) {
+                if (j + pas + ((int) ((m.getHauteur() - 0.1) * conversionFactor)) < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvec(w, false)) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
                 }
@@ -222,7 +222,11 @@ public class Monde {
 
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
 
-        Point2D source = new Point2D(intLePlusProche((int) (m.getX() * conversionFactor), pas), intLePlusProche((int) (m.getY() * conversionFactor), pas));
+        int sourceX = intLePlusProche((int) (m.getX() * conversionFactor), pas);
+        int sourceY = intLePlusProche((int) (m.getY() * conversionFactor), pas);
+        if (sourceX < 0) sourceX = 0;
+        if (sourceY < 0) sourceY = 0;
+        Point2D source = new Point2D(sourceX, sourceY);
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
 
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
@@ -272,12 +276,12 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 tmp.addVertex(courant);
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                if (i + pas < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
+                if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
                     tmp.addVertex(droite);
                     tmp.addEdge(courant, droite);
                 }
 
-                if (j + pas < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvecTerrains(w)) {
+                if (j + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvecTerrains(w)) {
                     tmp.addVertex(bas);
                     tmp.addEdge(courant, bas);
                 }

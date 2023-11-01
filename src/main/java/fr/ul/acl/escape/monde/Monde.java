@@ -190,38 +190,44 @@ public class Monde {
      * @param m The Monstre that we want to move.
      */
     public void deplacementMonstre(Monstre m, double deltaTime) {
-        Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 950;
-        int conversionFactor = Donnees.CONVERSION_FACTOR;
+        Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        int pas = 900; // Incrémentation pour construire les noeuds
+        int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
                 Point2D courant = new Point2D(i, j);
                 Point2D droite = new Point2D(i + pas, j);
                 Point2D bas = new Point2D(i, j + pas);
-                tmp.addVertex(courant);
+                graph.addVertex(courant);
+
+                // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrains ou un monstres)
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+
+                // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
                 if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvec(w, false)) {
-                    tmp.addVertex(droite);
-                    tmp.addEdge(courant, droite);
+                    graph.addVertex(droite);
+                    graph.addEdge(courant, droite);
                 }
 
+                // Test si noeud à gauche est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
                 if (j + pas + ((int) ((m.getHauteur() - 0.1) * conversionFactor)) < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvec(w, false)) {
-                    tmp.addVertex(bas);
-                    tmp.addEdge(courant, bas);
+                    graph.addVertex(bas);
+                    graph.addEdge(courant, bas);
                 }
             }
         }
 
-        /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(tmp, new AStarAdmissibleHeuristic<Point2D>() {
+        /*AStarShortestPath<Point2D, DefaultEdge> shortestPath = new AStarShortestPath<>(graph, new AStarAdmissibleHeuristic<Point2D>() {
             @Override
             public double getCostEstimate(Point2D Point2D, Point2D v1) {
                 return sqrt(pow((int) (v1.getX()*conversionFactor) - (int) (Point2D.getX()*conversionFactor), 2) + pow((int) (v1.getY()*conversionFactor) - (int) (Point2D.getY()*conversionFactor), 2));
             }
         });*/
-        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(tmp);
+        //BFSShortestPath<Point2D, DefaultEdge> shortestPath = new BFSShortestPath<>(graph);
 
-        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(tmp);
+        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
 
+        // Check si le noeud source est pas en dehors en haut ou à gauche
         int sourceX = intLePlusProche((int) (m.getX() * conversionFactor), pas);
         int sourceY = intLePlusProche((int) (m.getY() * conversionFactor), pas);
         if (sourceX < 0) sourceX = 0;
@@ -232,24 +238,27 @@ public class Monde {
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
         if (shortest == null) {
+            // Pas de chemins vers le héros = trop de monstres directement autour de lui. Génération d'un graphe qui ne prend pas en compte les monstres
+            // dans ce cas afin que les monstres se dirigent quand même vers le héros.
             Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
             if (shortest == null) return;
         }
+
         List<Point2D> list = shortest.getVertexList();
         if (list.size() == 1) return;
         Point2D first = list.get(1);
 
+        TypeMouvement typeMouvement = null;
+        if (first.getX() < source.getX()) typeMouvement = TypeMouvement.LEFT;
+        else if ((first.getX()) > source.getX()) typeMouvement = TypeMouvement.RIGHT;
+        else if ((first.getY()) > source.getY()) typeMouvement = TypeMouvement.DOWN;
+        else if ((first.getY()) < source.getY()) typeMouvement = TypeMouvement.UP;
+
+        if (typeMouvement == null) return;
+
         try {
-            TypeMouvement typeMouvement = null;
-            if (first.getX() < source.getX()) typeMouvement = TypeMouvement.LEFT;
-            else if ((first.getX()) > source.getX()) typeMouvement = TypeMouvement.RIGHT;
-            else if ((first.getY()) > source.getY()) typeMouvement = TypeMouvement.DOWN;
-            else if ((first.getY()) < source.getY()) typeMouvement = TypeMouvement.UP;
-
-            if (typeMouvement == null) return;
-
             Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
             tmpWalker.deplacer(typeMouvement, deltaTime);
 
@@ -267,28 +276,29 @@ public class Monde {
      * @return A Graph<Point2, DefaultEdge> for m.
      **/
     public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas) {
-        Graph<Point2D, DefaultEdge> tmp = new SimpleGraph<>(DefaultEdge.class);
+        Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         int conversionFactor = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
                 Point2D courant = new Point2D(i, j);
                 Point2D droite = new Point2D(i + pas, j);
                 Point2D bas = new Point2D(i, j + pas);
-                tmp.addVertex(courant);
+                graph.addVertex(courant);
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                // On ne test pas si le noeud est sur un Personnage
                 if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
-                    tmp.addVertex(droite);
-                    tmp.addEdge(courant, droite);
+                    graph.addVertex(droite);
+                    graph.addEdge(courant, droite);
                 }
 
                 if (j + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_HEIGHT * conversionFactor && !collisionAvecTerrains(w)) {
-                    tmp.addVertex(bas);
-                    tmp.addEdge(courant, bas);
+                    graph.addVertex(bas);
+                    graph.addEdge(courant, bas);
                 }
             }
         }
 
-        return tmp;
+        return graph;
     }
 
     /**

@@ -3,34 +3,41 @@ package fr.ul.acl.escape.gui.views;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class HomeViewController extends ViewController {
+    @FXML
+    private Label title;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button settingsButton;
+    @FXML
+    private Button quitButton;
 
     @FXML
-    private Label gameTitle;
-
-    @FXML
-    private CheckBox fullScreenCheckBox;
-
-    @FXML
-    protected void onButtonClick() {
+    private void onClickStart() {
         ViewManager.getInstance().navigateTo(VIEWS.GAME);
     }
 
     @FXML
-    protected void onFullScreenToggle() {
-        ViewManager.getInstance().setFullScreen(fullScreenCheckBox.isSelected());
+    private void onClickSettings() {
+        ViewManager.getInstance().navigateTo(VIEWS.SETTINGS);
     }
 
-    public void setGameTitle(String title) {
-        this.gameTitle.setText(title);
+    @FXML
+    private void onClickQuit() {
+        ViewManager.getInstance().quit();
     }
 
-    public void setFullScreenCheckBox(boolean fullScreen) {
-        this.fullScreenCheckBox.setSelected(fullScreen);
-        ViewManager.getInstance().setFullScreen(fullScreen);
+    @Override
+    public void applyLanguage() {
+        title.setText(Resources.getI18NString("game.title"));
+        startButton.setText(Resources.getI18NString("game.start"));
+        settingsButton.setText(Resources.getI18NString("settings"));
+        quitButton.setText(Resources.getI18NString("quit"));
     }
 }

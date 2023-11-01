@@ -14,6 +14,9 @@
 ## Description
 // TODO
 
+## Project management
+* [Trello](https://trello.com/b/WUfGrD7d/escape)
+
 ## Installation
 ### Requirements
 * Maven >= 3.4.1
@@ -46,6 +49,12 @@ java -jar target/escape-X.Y.Z.jar
 ##### CLI mode
 ```bash
 java -jar target/escape-X.Y.Z.jar --nowindow
+```
+
+##### Debug
+To see debug messages, add the `--debug` option.
+```bash
+java -jar target/escape-X.Y.Z.jar --debug [other options]
 ```
 
 ## Docs

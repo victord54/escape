@@ -2,21 +2,33 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20.0" styleClass="background"
+      stylesheets="@global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="fr.ul.acl.escape.gui.views.HomeViewController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="gameTitle" text="Game" textAlignment="CENTER">
-        <font>
-            <Font name="System Bold" size="42.0"/>
-        </font>
-    </Label>
-    <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" text="FullScreen" onAction="#onFullScreenToggle"/>
-    <Button onAction="#onButtonClick" text="Start!"/>
+    <Label fx:id="title" styleClass="title" text="%game.title"/>
+    <Button
+            fx:id="startButton"
+            defaultButton="true"
+            mnemonicParsing="false"
+            onAction="#onClickStart"
+            text="%game.start"
+    />
+    <Button
+            fx:id="settingsButton"
+            mnemonicParsing="false"
+            onAction="#onClickSettings"
+            text="%settings"
+    />
+    <Button
+            fx:id="quitButton"
+            mnemonicParsing="false"
+            onAction="#onClickQuit"
+            text="%quit"
+    />
 </VBox>

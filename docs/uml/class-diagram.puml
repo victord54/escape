@@ -79,7 +79,6 @@ package Escape {
 
   package Outils {
     class Donnees {
-      + {static} String GAME_TITLE
       + {static} int WINDOW_DEFAULT_HEIGHT
       + {static} int WINDOW_DEFAULT_WIDTH
       + {static} int WORLD_HEIGHT
@@ -100,6 +99,10 @@ package Escape {
       + {static} URL get(String path)
       + {static} InputStream getAsStream(String path)}
       + {static} Image getAsset(String path)
+      + {static} ResourceBundle getI18NBundle(Locale locale)
+      + {static} ResourceBundle getI18NBundle()
+      + {static} String getI18NString(String key, Locale locale)
+      + {static} String getI18NString(String key)
     }
   }
 
@@ -110,6 +113,44 @@ package Escape {
   package engine {
     abstract class GameController {
     }
+  }
+
+  class Settings {
+    - {static} PropertyChangeSupport pcs
+    + {static} Property<Boolean> fullScreen
+    + {static} Property<Boolean> showFps
+    + {static} Property<Locale> locale
+  }
+
+  class "Property <T> " as Property {
+    - T value
+    - String name
+    - Map<MyPropertyChangeListener<T>, PropertyChangeListener> listeners
+    - PropertyChangeSupport pcs
+    - boolean log
+    ..Constructeur..
+    + Property(PropertyChangeSupport, String, T, Getter<T>, Setter<T>)
+    + Property(T, Getter<T>, Setter<T>)
+    + Property(PropertyChangeSupport, String, T)
+    + Property(T)
+    ..Méthodes..
+    + T get()
+    + void set(T)
+    + void subscribe(MyPropertyChangeListener<T>)
+    + void unsubscribe(MyPropertyChangeListener<T>)
+    + void unsubscribeAll()
+    + void forceFire()
+    + Property<T> setLog(boolean)
+    - void fire(T)
+    - void log(String)
+  }
+
+  interface "Getter <T> " as Getter {
+    T get(T)
+  }
+
+  interface "Setter <T> " as Setter {
+    T set(T)
   }
 }
 
@@ -140,5 +181,11 @@ Escape.Monde.Monde -- "*" Terrain
 Escape.Monde.Monde -- "1" GestionFichier
 
 ElementMonde --"*" Escape.gui.Sprite
+
+' settings
+Settings -- Property
+Property --"1" Getter
+Property --"1" Setter
+
 
 @enduml

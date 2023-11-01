@@ -38,6 +38,7 @@ public abstract class View {
      * Fired when the view is initialized, before it is displayed.
      */
     public void onViewInit() {
+        controller.applyLanguage();
     }
 
     /**

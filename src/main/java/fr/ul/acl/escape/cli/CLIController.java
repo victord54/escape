@@ -1,10 +1,10 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameController;
-import fr.ul.acl.escape.monde.Heros;
-import fr.ul.acl.escape.monde.Monde;
-import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.*;
 import fr.ul.acl.escape.monde.exceptions.MouvementNullException;
+
+import java.util.ArrayList;
 
 public class CLIController extends GameController {
     /**
@@ -59,6 +59,14 @@ public class CLIController extends GameController {
 
     public Heros getHeros() {
         return monde.getHeros();
+    }
+
+    public ArrayList<Personnage> getPersonnages() {
+        return monde.getPersonnages();
+    }
+
+    public ArrayList<Terrain> getTerrains() {
+        return monde.getTerrains();
     }
 
     public void setAction(int action) {

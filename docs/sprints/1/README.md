@@ -1,4 +1,6 @@
 # Sprint 1
+## Release
+[v1.0.0](https://github.com/victord54/escape/releases/tag/V1)
 
 ## Backlog
 ### Récits

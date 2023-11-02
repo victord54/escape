@@ -4,7 +4,7 @@ import fr.ul.acl.escape.outils.FabriqueId;
 
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
-    private int id;
+    private final int id;
 
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {

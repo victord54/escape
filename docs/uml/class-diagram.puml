@@ -9,6 +9,14 @@ package Escape {
       # double largeur
       ..Constructeur..
       + Monde()
+      ..Méthodes..
+      + double getX()
+      + void setX(double x)
+      + double getY()
+      + void setY(double y)
+      + double getHauteur()
+      + double getLargeur()
+      + String toString()
 
     }
     abstract class Terrain {
@@ -29,17 +37,22 @@ package Escape {
 
     abstract class Personnage {
       # double vitesse
+      - int id
       ..Constructeur..
       + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
+      + Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id)
       ..Méthodes..
       + void déplacer(TypeMouvement typeMouvement, double deltaTime)
       + boolean estUnHeros()
+      + int getId()
+      + double getVitesse()
+      + String toString()
     }
 
     enum TypeMouvement{
         RIGHT
         LEFT
-        TOP
+        UP
         DOWN
     }
 
@@ -52,12 +65,13 @@ package Escape {
 
     abstract class Monstre {
       ..Constructeur..
-      + Monstre(double x, double y, double largeur, double hauteur, double vitesse)
+      + Monstre(double x, double y, double largeur, double hauteur, double vitesse, int id)
     }
 
     class Walker {
       ..Constructeur..
       + Walker(double x, double y, double largeur, double hauteur)
+      + Walker(double x, double y, double hauteur, double largeur)
     }
 
     class Monde {
@@ -74,6 +88,12 @@ package Escape {
       + void addPersonnage(Personnage p)
       + void updateData()
       + void chargerCarte(String carte)
+      + boolean collisionAvec(Personnage pers, boolean checkAvecHeros)
+      + {static} int intLePlusProche(int value, int multiple)
+      + void deplacementMonstre(Monstre m, double deltaTime)
+      + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas)
+      + boolean collisionAvecTerrains(Personnage p)
+      + void deplacementMonstres(double deltaTime)
     }
   }
 

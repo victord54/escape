@@ -152,6 +152,14 @@ public class GameView extends View implements GameInterface {
             gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
         });
 
+        // draw game objects
+        this.gameController.getObjets().forEach(objet -> {
+            if (objet.estCoeur()){
+                gc.setFill(Color.RED);
+                gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
+            }
+        });
+
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
@@ -161,6 +169,8 @@ public class GameView extends View implements GameInterface {
                 gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
             }
         });
+
+
     }
 
     /**

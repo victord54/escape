@@ -103,6 +103,8 @@ public final class Donnees {
      */
     public static final int CONVERSION_FACTOR = 10000;
 
+    public static final double HEART_VALUE = 1.0;
+
     private Donnees() {
     }
 }

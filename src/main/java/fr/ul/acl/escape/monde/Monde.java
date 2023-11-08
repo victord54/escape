@@ -51,8 +51,14 @@ public class Monde {
                     else if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
                         this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH));
                         heroExiste = true;
-                    } else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
+                    }
+
+                    else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
                         this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH));
+                    }
+
+                    else if (donnees[j][i] == Donnees.SYMBOL_HEART) {
+                        this.objets.add(new Coeur(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HEART_HEIGHT, Donnees.HEART_WIDTH, Donnees.HEART_VALUE));
                     }
                 }
             }

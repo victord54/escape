@@ -23,6 +23,19 @@ public final class Donnees {
      */
     public static final char SYMBOL_HOLE = 'T';
     /**
+     * symbol of heart
+     */
+    public static final char SYMBOL_HEART = 'C';
+    /**
+     * height of heart
+     */
+    public static final double HEART_HEIGHT = 0.3;
+
+    /**
+     * width of heart
+     */
+    public static final double HEART_WIDTH = 0.3;
+    /**
      * height of wall
      */
     public static final int WALL_HEIGHT = 1;

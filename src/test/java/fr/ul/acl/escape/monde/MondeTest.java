@@ -125,4 +125,30 @@ class MondeTest {
         System.out.println("-----------");
         System.out.println(w);
     }
+
+    @Test
+    void heroCollisionAvecObjet(){
+        Heros h = new Heros(6, 6, 1, 1);
+        Coeur c = new Coeur(6,6,0.2,0.2, 1);
+        monde.addPersonnage(h);
+        monde.addObjet(c);
+
+        monde.heroCollisionAvecObjet();
+
+        assertEquals(monde.getObjets().size(), 0);
+
+        monde.addObjet(c);
+        monde.addObjet(c);
+
+        monde.heroCollisionAvecObjet();
+        assertEquals(monde.getObjets().size(), 1);
+
+        Coeur c2 = new Coeur(8,8,0.2,0.2,1);
+        monde.addObjet(c2);
+        monde.heroCollisionAvecObjet();
+        assertEquals(monde.getObjets().size(), 1);
+        monde.heroCollisionAvecObjet();
+        assertEquals(monde.getObjets().size(), 1);
+
+    }
 }

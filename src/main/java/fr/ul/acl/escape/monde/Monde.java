@@ -9,6 +9,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,12 @@ import java.util.List;
 public class Monde {
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
+    private ArrayList<Objet> objets;
 
     public Monde() {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
+        objets = new ArrayList<>();
     }
 
     /**
@@ -92,7 +95,12 @@ public class Monde {
         this.personnages.add(p);
     }
 
-
+    /**
+     * Function that add an Objet to the ArrayList of Objet.
+     *
+     * @param o The Objet to be added.
+     */
+    public void addObjet(Objet o){ this.objets.add(o); }
     /**
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
      *
@@ -135,6 +143,13 @@ public class Monde {
     public ArrayList<Terrain> getTerrains() {
         return terrains;
     }
+
+    /**
+     * Function that get all the Objet of the world.
+     *
+     * @return ArrayList of Objet.
+     */
+    public ArrayList<Objet> getObjets(){ return objets;}
 
     /**
      * Function that check if a personnage is on collision with an element of the world.
@@ -312,6 +327,22 @@ public class Monde {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void heroCollisionAvecObjet(){
+        Heros h = this.getHeros();
+        Objet objetRamasse = null;
+        for (Objet o : objets){
+            if (collision(h, o)){
+                objetRamasse = o;
+                break;
+            }
+        }
+        if (objetRamasse == null) return;
+        if (objetRamasse.estCoeur()){
+            System.out.println("Coeur ramassé");
+            objets.remove(objetRamasse);
         }
     }
 

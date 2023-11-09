@@ -55,9 +55,9 @@ public class GameView extends View implements GameInterface {
     private boolean drawGrid = false;
 
     /**
-     * If true, the overlay is drawn on the overlay canvas.
+     * If true, the value of the FPS is drawn on the overlay canvas.
      */
-    private boolean drawOverlay = false;
+    private boolean drawFPS = false;
 
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
@@ -65,8 +65,8 @@ public class GameView extends View implements GameInterface {
         this.controller = loader.getController();
 
         Settings.showFps.subscribe((evt, oldValue, newValue) -> {
-            drawOverlay = newValue;
-            if (!drawOverlay) clearCanvas(overlay);
+            drawFPS = newValue;
+            if (!drawFPS) clearCanvas(overlay);
         });
     }
 
@@ -169,15 +169,17 @@ public class GameView extends View implements GameInterface {
      * @param canvas The canvas to draw on.
      */
     private void drawOverlay(Canvas canvas) {
-        if (engine == null || !drawOverlay) return;
-
         // clear canvas
         clearCanvas(canvas);
 
         // write FPS
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.LIGHTGREEN);
-        gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
+
+        if (engine != null && drawFPS ){
+            gc.setFill(Color.LIGHTGREEN);
+            gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
+        }
+
 
         // number of hearts the hero currently has
         double coeurs = this.gameController.getHeros().getCoeurs();

@@ -2,9 +2,7 @@ package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.engine.GameInterface;
-import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
-import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.outils.Donnees;
@@ -53,21 +51,18 @@ public class GameView extends View implements GameInterface {
      * Dev purpose only.
      */
     private boolean drawGrid = false;
-
     /**
-     * If true, the overlay is drawn on the overlay canvas.
+     * If true, the FPS is drawn on the overlay canvas.
      */
-    private boolean drawOverlay = false;
+    private boolean drawFPS = false;
 
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
+        loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();
 
-        Settings.showFps.subscribe((evt, oldValue, newValue) -> {
-            drawOverlay = newValue;
-            if (!drawOverlay) clearCanvas(overlay);
-        });
+        Settings.showFps.subscribe((evt, oldValue, newValue) -> drawFPS = newValue);
     }
 
     @Override
@@ -92,17 +87,33 @@ public class GameView extends View implements GameInterface {
 
         // init game controller
         gameController = new GUIController();
+        ((GameViewController) controller).setButtonsListener(new GameViewController.ButtonsListener() {
+            @Override
+            public void onClickOnSaveAndQuit() {
+                if (engine != null) {
+                    engine.stop();
+                    engine = null;
+                }
+
+                saveGame();
+            }
+
+            @Override
+            public void onClickOnResume() {
+                if (engine != null) engine.paused.set(false);
+            }
+        });
 
         // start engine
-        engine = new GUIEngine(this, gameController);
+        this.engine = new GUIEngine(this, gameController);
+        engine.paused.subscribe((evt, oldValue, newValue) -> ((GameViewController) controller).setPauseMenuVisible(newValue));
         engine.start();
     }
 
     @Override
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            engine.stop();
-            ViewManager.getInstance().navigateTo(VIEWS.HOME);
+            engine.paused.set(!engine.paused.get());
         } else if (event.getCode() == KeyCode.SPACE) {
             Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {
@@ -169,15 +180,23 @@ public class GameView extends View implements GameInterface {
      * @param canvas The canvas to draw on.
      */
     private void drawOverlay(Canvas canvas) {
-        if (engine == null || !drawOverlay) return;
+        if (engine == null) return;
 
         // clear canvas
         clearCanvas(canvas);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // pause menu
+        if (engine.paused.get()) {
+            gc.setFill(new Color(0, 0, 0, 0.75));
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        }
 
         // write FPS
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.LIGHTGREEN);
-        gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
+        if (drawFPS) {
+            gc.setFill(Color.LIGHTGREEN);
+            gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
+        }
     }
 
     /**
@@ -189,5 +208,10 @@ public class GameView extends View implements GameInterface {
         if (canvas == null) return;
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    // TODO: save game
+    private void saveGame() {
+
     }
 }

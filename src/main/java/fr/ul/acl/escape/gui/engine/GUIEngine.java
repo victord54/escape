@@ -17,7 +17,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
     /**
      * The elapsed time since the last update in nanoseconds.
      */
-    private long elapsed = 0;
+    private long deltaTime = 0;
 
     /**
      * The time of the previous second in nanoseconds.
@@ -59,11 +59,11 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
         nbFrames++;
 
         // update and render
-        this.controller.update(elapsed);
+        this.controller.update(deltaTime);
         this.ui.render();
 
         // update elapsed time
-        elapsed = now - lastUpdate;
+        deltaTime = now - lastUpdate;
         lastUpdate = now;
     }
 
@@ -85,7 +85,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
      * Returns the number of frames that should be rendered in the last second.
      */
     public int getComputedFPS() {
-        return (int) (1e9f / elapsed);
+        return (int) (1e9f / deltaTime);
     }
 
     /**

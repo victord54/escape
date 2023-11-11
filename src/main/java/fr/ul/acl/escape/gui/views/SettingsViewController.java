@@ -21,11 +21,18 @@ public class SettingsViewController extends ViewController {
     @FXML
     private ComboBox<String> languageComboBox;
     @FXML
+    private Button resetButton;
+    @FXML
     private Button backButton;
 
     @FXML
     private void onFullScreenToggle() {
         Settings.fullScreen.set(fullScreenCheckBox.isSelected());
+    }
+
+    @FXML
+    private void onClickReset() {
+        Settings.reset();
     }
 
     @FXML
@@ -46,6 +53,11 @@ public class SettingsViewController extends ViewController {
         settingsTitle.setText(Resources.getI18NString("settings"));
         fullScreenCheckBox.setText(Resources.getI18NString("settings.fullscreen"));
         settingsLanguage.setText(Resources.getI18NString("settings.language"));
+        resetButton.setText(Resources.getI18NString("settings.reset"));
         backButton.setText(Resources.getI18NString("back"));
+    }
+
+    public void resetFocus() {
+        backButton.requestFocus();
     }
 }

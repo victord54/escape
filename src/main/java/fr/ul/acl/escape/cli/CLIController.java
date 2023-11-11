@@ -23,7 +23,7 @@ public class CLIController extends GameController {
     }
 
     @Override
-    public void update(long elapsed) {
+    public void update(long deltaTime) {
         switch (action) {
             case 1 -> monde.deplacementHeros(TypeMouvement.LEFT, 1);
             case 2 -> monde.deplacementHeros(TypeMouvement.RIGHT, 1);

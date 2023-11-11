@@ -30,8 +30,8 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     }
 
     @Override
-    public void update(long timeElapsed) {
-        double timeInDouble = timeElapsed * 10e-10;
+    public void update(long deltaTime) {
+        double timeInDouble = deltaTime * 10e-10;
 
         if (keysPressed.contains(KeyCode.Z)) {
             monde.deplacementHeros(TypeMouvement.UP, timeInDouble);

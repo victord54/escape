@@ -15,7 +15,7 @@ public abstract class GameController {
     /**
      * Updates the game state.
      *
-     * @param elapsed The elapsed time since the last update in nanoseconds.
+     * @param deltaTime The elapsed time since the last update in nanoseconds.
      */
-    public abstract void update(long elapsed);
+    public abstract void update(long deltaTime);
 }

@@ -36,7 +36,7 @@ public class Escape extends Application {
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
 
         // Apply settings
-        Settings.forceApply();
+        Settings.load();
 
         // Show window
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

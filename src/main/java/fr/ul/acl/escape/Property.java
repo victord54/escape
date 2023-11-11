@@ -163,6 +163,13 @@ public class Property<T> {
     }
 
     /**
+     * @return The identifier of the property.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Fire a property change event.
      *
      * @param oldValue The old value of the property.

@@ -160,7 +160,11 @@ package Escape {
     + {static} Property<Boolean> showFps
     + {static} Property<Locale> locale
     ..Méthodes..
-    + {static} void forceApply()
+    + {static} void reset()
+    + {static} void load()
+    + {static} void save()
+    - {static} boolean ensureSettingsFileExists()
+    - {static} void initAutoSave()
   }
 
   class "Property <T> " as Property {

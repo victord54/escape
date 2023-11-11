@@ -3,6 +3,8 @@ module escape {
     requires javafx.fxml;
     requires org.jgrapht.core;
     requires java.desktop;
+    requires net.harawata.appdirs;
+    requires org.json;
 
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
 

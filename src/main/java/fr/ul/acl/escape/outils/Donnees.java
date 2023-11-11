@@ -1,11 +1,17 @@
 package fr.ul.acl.escape.outils;
 
+import net.harawata.appdirs.AppDirsFactory;
+
 import java.util.*;
 
 /**
  * Static game information common to all classes.
  */
 public final class Donnees {
+    /**
+     * Folder where the game data is stored.
+     */
+    public static final String APPDATA_FOLDER = AppDirsFactory.getInstance().getUserDataDir("Escape", null, "UL");
     /**
      * symbol of Hero/player
      */

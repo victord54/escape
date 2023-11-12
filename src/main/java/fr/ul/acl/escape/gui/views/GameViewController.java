@@ -92,7 +92,7 @@ public class GameViewController extends ViewController {
         ViewManager.getInstance().navigateTo(VIEWS.HOME);
     }
 
-    public interface ButtonsListener {
+    interface ButtonsListener {
         void save();
 
         void quit();

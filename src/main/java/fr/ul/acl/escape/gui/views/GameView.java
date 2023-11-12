@@ -6,6 +6,7 @@ import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
@@ -20,10 +21,13 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class GameView extends View implements GameInterface {
+import static java.io.File.separator;
+
+public class GameView extends View implements GameInterface, GameViewController.ButtonsListener {
     /**
      * Canvas of the game board. Contains the game elements.
      */
@@ -70,25 +74,7 @@ public class GameView extends View implements GameInterface {
         GameViewController controller = (GameViewController) this.controller;
 
         controller.setPauseMenuVisible(false);
-        controller.setButtonsListener(new GameViewController.ButtonsListener() {
-            @Override
-            public void save() {
-                saveGame();
-            }
-
-            @Override
-            public void quit() {
-                if (engine != null) {
-                    engine.stop();
-                    engine = null;
-                }
-            }
-
-            @Override
-            public void resume() {
-                if (engine != null) engine.paused.set(false);
-            }
-        });
+        controller.setButtonsListener(this);
 
         StackPane centerPane = controller.getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -217,9 +203,25 @@ public class GameView extends View implements GameInterface {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    // TODO: save game
-    private void saveGame() {
+    @Override
+    public void save() {
         if (gameController == null) return;
-        System.out.println(this.gameController.getJSON().toString(4));
+        JSONObject json = gameController.getJSON();
+        long date = System.currentTimeMillis();
+        json.put("date", date);
+        FileManager.write(json, "saves" + separator + date + ".json");
+    }
+
+    @Override
+    public void quit() {
+        if (engine == null) return;
+        engine.stop();
+        engine = null;
+    }
+
+    @Override
+    public void resume() {
+        if (engine == null) return;
+        engine.paused.set(false);
     }
 }

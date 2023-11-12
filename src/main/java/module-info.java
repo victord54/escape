@@ -5,6 +5,7 @@ module escape {
     requires java.desktop;
     requires net.harawata.appdirs;
     requires org.json;
+    requires spring.core;
 
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
 

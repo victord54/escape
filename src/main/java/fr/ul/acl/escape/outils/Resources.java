@@ -63,7 +63,7 @@ public class Resources {
      * @see Resources#getI18NBundle()
      */
     public static ResourceBundle getI18NBundle(Locale locale) {
-        return ResourceBundle.getBundle(Escape.class.getPackage().getName().replace('.', '/') + "/i18n/strings", locale);
+        return ResourceBundle.getBundle(getPackagePath() + "/i18n/strings", locale);
     }
 
     /**
@@ -97,5 +97,12 @@ public class Resources {
      */
     public static String getI18NString(String key) {
         return getI18NBundle().getString(key);
+    }
+
+    /**
+     * @return The relative path of resources folder.
+     */
+    public static String getPackagePath() {
+        return Escape.class.getPackage().getName().replace('.', '/');
     }
 }

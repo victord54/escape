@@ -1,17 +1,20 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.Escape;
 import org.json.JSONObject;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Utility class to read and write JSON files from the app data folder or the resources.
@@ -79,7 +82,17 @@ public class FileManager {
         String fullpath = getPathFor(folder);
         if (fullpath == null) return new ArrayList<>();
 
-        return getJSONFiles(new File(fullpath))
+        File dir = new File(fullpath);
+        if (!dir.exists() || !dir.isDirectory()) {
+            return new ArrayList<>();
+        }
+
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(files)
+                .filter(file -> file.getName().toLowerCase().endsWith(".json") && file.isFile())
                 .map(file -> readFile(folder + File.separator + file.getName()))
                 .toList();
     }
@@ -108,11 +121,19 @@ public class FileManager {
      * @return the list of JSON objects read, or an empty list if the folder could not be read
      */
     public static List<JSONObject> readResourceDirectory(String folder) {
-        URL url = Resources.get(folder);
-        if (url == null) return new ArrayList<>();
+        ClassLoader cl = Escape.class.getClassLoader();
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
 
-        return getJSONFiles(new File(url.getFile()))
-                .map(file -> readResourceFile(folder + "/" + file.getName()))
+        Resource[] resources;
+        try {
+            resources = resolver.getResources("classpath:" + Resources.getPackagePath() + "/" + folder + "/**/*.json");
+        } catch (IOException e) {
+            System.err.println("Could not read '" + folder + "' folder from resources");
+            return new ArrayList<>();
+        }
+
+        return Arrays.stream(resources)
+                .map(resource -> readResourceFile(folder + "/" + resource.getFilename()))
                 .toList();
     }
 
@@ -125,24 +146,5 @@ public class FileManager {
     private static String getPathFor(String path) {
         if (path == null || path.isEmpty()) return null;
         return Donnees.APPDATA_FOLDER + File.separator + path;
-    }
-
-    /**
-     * Get the JSON files from the given directory.
-     *
-     * @param dir directory to read from
-     * @return the stream of JSON files
-     */
-    private static Stream<File> getJSONFiles(File dir) {
-        if (dir == null || !dir.exists() || !dir.isDirectory()) {
-            return Stream.empty();
-        }
-
-        File[] files = dir.listFiles();
-        if (files == null) {
-            return Stream.empty();
-        }
-        return Arrays.stream(files)
-                .filter(file -> file.getName().toLowerCase().endsWith(".json") && file.isFile());
     }
 }

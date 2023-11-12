@@ -56,8 +56,8 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         return monde.getPersonnages();
     }
 
-    public Heros getHeros(){
-       return monde.getHeros();
+    public Heros getHeros() {
+        return monde.getHeros();
     }
 
     public void onKeyPressed(KeyEvent event) {

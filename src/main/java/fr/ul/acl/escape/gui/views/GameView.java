@@ -175,7 +175,7 @@ public class GameView extends View implements GameInterface {
         // write FPS
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        if (engine != null && drawFPS ){
+        if (engine != null && drawFPS) {
             gc.setFill(Color.LIGHTGREEN);
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
@@ -192,37 +192,37 @@ public class GameView extends View implements GameInterface {
         // quartile of heats remaining (0.75,0.5,0.25)
         double coeursRestantsNonPleins = coeurs - nbCoeursRestantPleins;
         // number of lost hearts full
-        int coeursPerduPleins = (int) coeursPerdu ;
+        int coeursPerduPleins = (int) coeursPerdu;
 
         int deplacement = 0;
 
         // draw full heart
-        for (int i = 0; i < nbCoeursRestantPleins ; i ++){
+        for (int i = 0; i < nbCoeursRestantPleins; i++) {
             gc.setFill(Color.RED);
-            gc.fillRect(10+(deplacement*30), 10, 25, 25);
-            deplacement ++;
+            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
+            deplacement++;
         }
 
         // draw if there is a heart not full
-        if (coeursRestantsNonPleins == 0.75){
+        if (coeursRestantsNonPleins == 0.75) {
             gc.setFill(Color.BLUEVIOLET);
-            gc.fillRect(10+(deplacement*30), 10, 25, 25);
-            deplacement ++;
-        } else if (coeursRestantsNonPleins == 0.5){
-            gc.setFill(Color.BLUE);
-            gc.fillRect(10+(deplacement*30), 10, 25, 25);
+            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
             deplacement++;
-        } else if (coeursRestantsNonPleins == 0.25){
+        } else if (coeursRestantsNonPleins == 0.5) {
+            gc.setFill(Color.BLUE);
+            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
+            deplacement++;
+        } else if (coeursRestantsNonPleins == 0.25) {
             gc.setFill(Color.ORANGE);
-            gc.fillRect(10+(deplacement*30), 10, 25, 25);
+            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
             deplacement++;
         }
 
         // draw the lost hearts
-        for (int i = 0 ; i < coeursPerduPleins ; i ++){
+        for (int i = 0; i < coeursPerduPleins; i++) {
             gc.setFill(Color.PINK);
-            gc.fillRect(10+(deplacement*30), 10, 25, 25);
-            deplacement ++;
+            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
+            deplacement++;
         }
     }
 

@@ -5,7 +5,6 @@ import fr.ul.acl.escape.outils.FabriqueId;
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     private final int id;
-
     protected double coeurs;
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
@@ -49,15 +48,20 @@ public abstract class Personnage extends ElementMonde {
         return vitesse;
     }
 
-    public double getCoeurs(){
+    public double getCoeurs() {
         return coeurs;
     }
 
-    public void setCoeurs(double c){
+    public void setCoeurs(double c) {
         coeurs = c;
     }
 
-    public void coeursPerdu(double c){
+    /**
+     * Method that reduce the number of hearts.
+     *
+     * @param c Number of lost hearts.
+     */
+    public void coeursPerdu(double c) {
         coeurs -= c;
     }
 

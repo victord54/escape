@@ -26,6 +26,9 @@ public class GameViewController extends ViewController {
     private Button resumeButton;
     @FXML
     private Button saveAndQuitButton;
+    @FXML
+    private Button quitButton;
+
     private ButtonsListener buttonsListener;
 
     public StackPane getPane() {
@@ -45,6 +48,7 @@ public class GameViewController extends ViewController {
         pauseTitle.setText(Resources.getI18NString("game.pause"));
         resumeButton.setText(Resources.getI18NString("game.resume"));
         saveAndQuitButton.setText(Resources.getI18NString("game.saveAndQuit"));
+        quitButton.setText(Resources.getI18NString("game.quit"));
     }
 
     public void setButtonsListener(ButtonsListener listener) {
@@ -61,7 +65,7 @@ public class GameViewController extends ViewController {
     private void onClickResume() {
         // call the listener
         if (this.buttonsListener != null) {
-            this.buttonsListener.onClickOnResume();
+            this.buttonsListener.resume();
         }
     }
 
@@ -69,7 +73,19 @@ public class GameViewController extends ViewController {
     private void onClickSaveAndQuit() {
         // call the listener
         if (this.buttonsListener != null) {
-            this.buttonsListener.onClickOnSaveAndQuit();
+            this.buttonsListener.save();
+            this.buttonsListener.quit();
+        }
+
+        // go back to the home view
+        ViewManager.getInstance().navigateTo(VIEWS.HOME);
+    }
+
+    @FXML
+    private void onClickQuit() {
+        // call the listener
+        if (this.buttonsListener != null) {
+            this.buttonsListener.quit();
         }
 
         // go back to the home view
@@ -77,8 +93,10 @@ public class GameViewController extends ViewController {
     }
 
     public interface ButtonsListener {
-        void onClickOnSaveAndQuit();
+        void save();
 
-        void onClickOnResume();
+        void quit();
+
+        void resume();
     }
 }

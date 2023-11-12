@@ -10,7 +10,7 @@
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
     <Canvas fx:id="gameBoard" focusTraversable="true" />
     <Canvas fx:id="overlay" focusTraversable="true" />
-    <VBox fx:id="pauseMenu" alignment="CENTER" disable="true" spacing="20.0">
+    <VBox fx:id="pauseMenu" alignment="CENTER" spacing="20.0">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
@@ -20,5 +20,6 @@
                 text="%game.resume" />
         <Button fx:id="saveAndQuitButton" mnemonicParsing="false" onAction="#onClickSaveAndQuit"
                 text="%game.saveAndQuit" />
+        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%game.quit" />
     </VBox>
 </StackPane>

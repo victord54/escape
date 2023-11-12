@@ -6,6 +6,7 @@ import fr.ul.acl.escape.monde.Terrain;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -67,4 +68,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         keysPressed.remove(event.getCode());
     }
 
+    public JSONObject getJSON() {
+        return monde.toJSON();
+    }
 }

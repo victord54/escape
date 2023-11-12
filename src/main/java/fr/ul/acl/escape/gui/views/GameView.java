@@ -67,10 +67,33 @@ public class GameView extends View implements GameInterface {
 
     @Override
     public void onViewDisplayed() {
-        StackPane centerPane = ((GameViewController) controller).getPane();
+        GameViewController controller = (GameViewController) this.controller;
+
+        controller.setPauseMenuVisible(false);
+        controller.setButtonsListener(new GameViewController.ButtonsListener() {
+            @Override
+            public void save() {
+                saveGame();
+            }
+
+            @Override
+            public void quit() {
+                if (engine != null) {
+                    engine.stop();
+                    engine = null;
+                }
+            }
+
+            @Override
+            public void resume() {
+                if (engine != null) engine.paused.set(false);
+            }
+        });
+
+        StackPane centerPane = controller.getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        gameBoard = ((GameViewController) controller).getGameBoard();
-        overlay = ((GameViewController) controller).getOverlay();
+        gameBoard = controller.getGameBoard();
+        overlay = controller.getOverlay();
 
         // binding game board to center pane
         elementSize = Bindings.min(centerPane.widthProperty().divide(Donnees.WORLD_WIDTH), centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
@@ -87,26 +110,10 @@ public class GameView extends View implements GameInterface {
 
         // init game controller
         gameController = new GUIController();
-        ((GameViewController) controller).setButtonsListener(new GameViewController.ButtonsListener() {
-            @Override
-            public void onClickOnSaveAndQuit() {
-                if (engine != null) {
-                    engine.stop();
-                    engine = null;
-                }
-
-                saveGame();
-            }
-
-            @Override
-            public void onClickOnResume() {
-                if (engine != null) engine.paused.set(false);
-            }
-        });
 
         // start engine
         this.engine = new GUIEngine(this, gameController);
-        engine.paused.subscribe((evt, oldValue, newValue) -> ((GameViewController) controller).setPauseMenuVisible(newValue));
+        engine.paused.subscribe((evt, oldValue, newValue) -> controller.setPauseMenuVisible(newValue));
         engine.start();
     }
 
@@ -212,6 +219,7 @@ public class GameView extends View implements GameInterface {
 
     // TODO: save game
     private void saveGame() {
-
+        if (gameController == null) return;
+        System.out.println(this.gameController.getJSON().toString(4));
     }
 }

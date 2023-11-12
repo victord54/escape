@@ -1,21 +1,22 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.outils.FabriqueId;
+import org.json.JSONObject;
 
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     private final int id;
 
 
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
-        super(x, y, hauteur, largeur);
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
+        super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         id = FabriqueId.getInstance().getId();
 
     }
 
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(x, y, hauteur, largeur);
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
+        super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.id = id;
     }
@@ -53,4 +54,9 @@ public abstract class Personnage extends ElementMonde {
         return super.toString() + "id :" + this.id;
     }
 
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("id", id);
+        return json;
+    }
 }

@@ -8,6 +8,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,30 @@ import java.util.List;
 public class Monde {
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
+    /**
+     * Last map loaded
+     */
+    private String carte;
 
     public Monde() {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
+    }
+
+    /**
+     * Method that returns the nearest integer greater than value, which is a multiple of multiple
+     *
+     * @param value    the value.
+     * @param multiple the multiple.
+     * @return nearest integer grater than value and which is a multiple of multiple.
+     */
+    public static int intLePlusProche(int value, int multiple) {
+        int remainder = value % multiple;
+        if (remainder == 0) {
+            return value;
+        } else {
+            return ((value / multiple) + 1) * multiple;
+        }
     }
 
     /**
@@ -29,6 +50,8 @@ public class Monde {
      * @param carte nom de la carte à charger
      */
     public void chargerCarte(String carte) throws Exception {
+        this.carte = carte;
+
         // Variable de vérification
         boolean heroExiste = false;
 
@@ -54,9 +77,8 @@ public class Monde {
                 }
             }
         }
-        if (!heroExiste) throw new Exception("Where hero ?");
+        if (!heroExiste) throw new Exception("Where hero?");
     }
-
 
     /**
      * Function that return if there is a collision between two element of the world.
@@ -91,7 +113,6 @@ public class Monde {
     public void addPersonnage(Personnage p) {
         this.personnages.add(p);
     }
-
 
     /**
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
@@ -157,22 +178,6 @@ public class Monde {
 
         }
         return false;
-    }
-
-    /**
-     * Method that returns the nearest integer greater than value, which is a multiple of multiple
-     *
-     * @param value    the value.
-     * @param multiple the multiple.
-     * @return nearest integer grater than value and which is a multiple of multiple.
-     */
-    public static int intLePlusProche(int value, int multiple) {
-        int remainder = value % multiple;
-        if (remainder == 0) {
-            return value;
-        } else {
-            return ((value / multiple) + 1) * multiple;
-        }
     }
 
     /**
@@ -315,4 +320,13 @@ public class Monde {
         }
     }
 
+    /**
+     * @return a JSON representation of the world
+     */
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("map", carte);
+        json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
+        return json;
+    }
 }

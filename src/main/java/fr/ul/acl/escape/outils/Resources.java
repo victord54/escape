@@ -63,6 +63,7 @@ public class Resources {
      * @see Resources#getI18NBundle()
      */
     public static ResourceBundle getI18NBundle(Locale locale) {
+        if (locale == null) return ResourceBundle.getBundle(getPackagePath() + "/i18n/strings");
         return ResourceBundle.getBundle(getPackagePath() + "/i18n/strings", locale);
     }
 

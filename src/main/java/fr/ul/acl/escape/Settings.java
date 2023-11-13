@@ -1,6 +1,7 @@
 package fr.ul.acl.escape;
 
 import fr.ul.acl.escape.outils.FileManager;
+import org.apache.commons.lang3.LocaleUtils;
 import org.json.JSONObject;
 
 import java.beans.PropertyChangeSupport;
@@ -25,7 +26,7 @@ public class Settings {
 
     public static final Property<Boolean> fullScreen = new Property<>(pcs, "fullScreen", false).setLog(DEBUG);
     public static final Property<Boolean> showFps = new Property<>(pcs, "showFps", false).setLog(DEBUG);
-    public static final Property<Locale> locale = new Property<>(pcs, "locale", Locale.getDefault()).setLog(DEBUG);
+    public static final Property<Locale> locale = new Property<>(pcs, "locale", (Locale) null).setLog(DEBUG);
 
     /**
      * Restore the default settings.
@@ -53,7 +54,8 @@ public class Settings {
 
         if (json.has(fullScreen.getName())) fullScreen.set(json.getBoolean(fullScreen.getName()));
         if (json.has(showFps.getName())) showFps.set(json.getBoolean(showFps.getName()));
-        if (json.has(locale.getName())) locale.set(new Locale(json.getString(locale.getName())));
+        if (json.has(locale.getName())) locale.set(LocaleUtils.toLocale(json.getString(locale.getName())));
+        else locale.set(Locale.getDefault());
 
         initAutoSave();
     }

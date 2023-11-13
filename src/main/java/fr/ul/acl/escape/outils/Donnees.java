@@ -4,6 +4,7 @@ import fr.ul.acl.escape.Launcher;
 import net.harawata.appdirs.AppDirsFactory;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Static game information common to all classes.
@@ -20,10 +21,11 @@ public final class Donnees {
     /**
      * The supported locales.
      */
-    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+    public static final List<Locale> SUPPORTED_LOCALES = Collections.unmodifiableList(Arrays.asList(
             Locale.ENGLISH,
-            Locale.FRENCH
-    )));
+            Locale.FRANCE,
+            Locale.CANADA_FRENCH
+    ));
 
     /**
      * symbol of Hero/player

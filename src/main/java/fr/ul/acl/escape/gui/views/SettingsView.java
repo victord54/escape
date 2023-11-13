@@ -9,26 +9,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
 
 public class SettingsView extends View {
-    private boolean comboBoxPreventEvent = false;
-
     private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
         ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
     };
-
     private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
         ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
-        comboBoxPreventEvent = true;
-        if (languageComboBox.getItems().contains(Resources.getI18NString("language", newValue))) {
-            languageComboBox.getSelectionModel().select(Resources.getI18NString("language", newValue));
-        } else {
-            languageComboBox.getSelectionModel().selectFirst();
-        }
-        comboBoxPreventEvent = false;
+        languageComboBox.getSelectionModel().select(newValue.getDisplayName(newValue));
     };
 
     public SettingsView() throws IOException {
@@ -43,23 +34,29 @@ public class SettingsView extends View {
         super.onViewInit();
         SettingsViewController controller = (SettingsViewController) this.controller;
 
+        // set the full screen check box
         controller.setFullScreenCheckBox(Settings.fullScreen.get());
 
+        // populate the language combo box
         ComboBox<String> languageComboBox = controller.getLanguageComboBox();
-        Map<String, Locale> availableLangs = Donnees.SUPPORTED_LOCALES.stream().map(locale -> {
-            String lang = Resources.getI18NString("language", locale);
-            return Map.entry(lang, locale);
-        }).collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
-
         languageComboBox.onActionProperty().set(null);
-        languageComboBox.getItems().setAll(availableLangs.keySet());
-        languageComboBox.getSelectionModel().select(Resources.getI18NString("language", Settings.locale.get()));
+        List<Locale> supportedLocales = Donnees.SUPPORTED_LOCALES;
+        languageComboBox.getItems().setAll(supportedLocales.stream().map(locale -> locale.getDisplayName(locale)).toArray(String[]::new));
+
+        // select the current locale
+        Locale currentLocale = Settings.locale.get();
+        languageComboBox.getSelectionModel().select(currentLocale.getDisplayName(currentLocale));
+
+        // update the locale when the user selects a new one
         languageComboBox.onActionProperty().set((evt) -> {
-            if (comboBoxPreventEvent) return;
-            String lang = languageComboBox.getSelectionModel().getSelectedItem();
-            Settings.locale.set(availableLangs.get(lang));
+            String selectedLocaleName = languageComboBox.getSelectionModel().getSelectedItem();
+            Settings.locale.set(supportedLocales.stream()
+                    .filter((locale) -> locale.getDisplayName(locale).equals(selectedLocaleName))
+                    .findFirst()
+                    .orElse(Locale.getDefault()));
         });
 
+        // update properties when they change from outside the view
         Settings.fullScreen.subscribeIfNot(fullScreenListener);
         Settings.locale.subscribeIfNot(localeListener);
     }

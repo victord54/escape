@@ -18,7 +18,7 @@
 * [Trello](https://trello.com/b/WUfGrD7d/escape)
 
 ## Installation
-> [!IMPORTANT] \
+> [!IMPORTANT]
 > Copy the file [`.env.dist`](.env.dist) to `.env` and fill in the values.
 
 ### Requirements
@@ -43,7 +43,7 @@ mvn clean package
 ```
 
 #### Run
-> [!NOTE] \
+> [!NOTE]
 > Replace X.Y.Z with the version number, e.g. `1.0.0`.
 ##### GUI mode
 ```bash

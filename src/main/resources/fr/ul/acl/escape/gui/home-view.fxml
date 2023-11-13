@@ -20,6 +20,13 @@
             text="%game.start"
     />
     <Button
+            fx:id="loadButton"
+            disable="true"
+            mnemonicParsing="false"
+            onAction="#onClickLoad"
+            text="%game.load"
+    />
+    <Button
             fx:id="settingsButton"
             mnemonicParsing="false"
             onAction="#onClickSettings"

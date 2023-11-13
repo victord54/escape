@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
+import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+
 /**
  * Utility class to read and write JSON files from the app data folder or the resources.
  */
@@ -113,6 +116,8 @@ public class FileManager {
 
     /**
      * Read all the JSON files from the given path in the app data folder.
+     * JSON files should have the {@link FileType#JSON} extension.
+     * Encrypted files should have the {@link FileType#ENCRYPTED} extension.
      *
      * @param folder            path to read from, relative to the app data folder, use {@link File#separator} as a separator
      * @param filesAreEncrypted whether the files to read are encrypted
@@ -131,7 +136,10 @@ public class FileManager {
         if (files == null) {
             return new ArrayList<>();
         }
-        return Arrays.stream(files).filter(file -> file.getName().toLowerCase().endsWith(".json") && file.isFile()).map(file -> readFile(folder + File.separator + file.getName(), filesAreEncrypted)).toList();
+        return Arrays.stream(files)
+                .filter(file -> file.getName().toLowerCase().endsWith((filesAreEncrypted ? ENCRYPTED : JSON).extension) && file.isFile())
+                .map(file -> readFile(folder + File.separator + file.getName(), filesAreEncrypted))
+                .toList();
     }
 
     /**
@@ -254,5 +262,20 @@ public class FileManager {
         }
 
         return new SecretKeySpec(keyHash, "AES");
+    }
+
+    /**
+     * Available file types.
+     * Get the extension with {@link FileType#extension}.
+     */
+    public enum FileType {
+        JSON(".json"),
+        ENCRYPTED(".enc");
+
+        public final String extension;
+
+        FileType(String extension) {
+            this.extension = extension;
+        }
     }
 }

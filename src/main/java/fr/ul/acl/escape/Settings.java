@@ -9,12 +9,13 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import static fr.ul.acl.escape.outils.Donnees.DEBUG;
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
 public class Settings {
     /**
      * Path to the settings file.
      */
-    private static final String SETTINGS_FILEPATH = "settings.json";
+    private static final String SETTINGS_FILEPATH = "settings" + JSON.extension;
     /**
      * Whether the auto save has been initialized.
      */

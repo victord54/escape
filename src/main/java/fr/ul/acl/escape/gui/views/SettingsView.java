@@ -14,12 +14,16 @@ import java.util.Locale;
 import java.util.Set;
 
 public class SettingsView extends View {
+    private boolean comboBoxPreventEvent = false;
+
     private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
         ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
     };
     private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
         ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
+        comboBoxPreventEvent = true;
         languageComboBox.getSelectionModel().select(newValue.getDisplayName(newValue));
+        comboBoxPreventEvent = false;
     };
 
     public SettingsView() throws IOException {
@@ -49,6 +53,7 @@ public class SettingsView extends View {
 
         // update the locale when the user selects a new one
         languageComboBox.onActionProperty().set((evt) -> {
+            if (comboBoxPreventEvent) return;
             String selectedLocaleName = languageComboBox.getSelectionModel().getSelectedItem();
             Settings.locale.set(supportedLocales.stream()
                     .filter((locale) -> locale.getDisplayName(locale).equals(selectedLocaleName))

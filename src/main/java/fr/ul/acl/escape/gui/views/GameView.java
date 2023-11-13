@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static java.io.File.separator;
 
 public class GameView extends View implements GameInterface, GameViewController.ButtonsListener {
@@ -209,7 +210,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         JSONObject json = gameController.getJSON();
         long date = System.currentTimeMillis();
         json.put("date", date);
-        FileManager.write(json, "saves" + separator + date + ".json", true);
+        FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
     }
 
     @Override

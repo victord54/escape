@@ -14,6 +14,8 @@ public class HomeViewController extends ViewController {
     @FXML
     private Button startButton;
     @FXML
+    private Button loadButton;
+    @FXML
     private Button settingsButton;
     @FXML
     private Button quitButton;
@@ -21,6 +23,11 @@ public class HomeViewController extends ViewController {
     @FXML
     private void onClickStart() {
         ViewManager.getInstance().navigateTo(VIEWS.GAME);
+    }
+
+    @FXML
+    private void onClickLoad() {
+        //ViewManager.getInstance().navigateTo(VIEWS.LOAD);
     }
 
     @FXML
@@ -37,7 +44,15 @@ public class HomeViewController extends ViewController {
     public void applyLanguage() {
         title.setText(Resources.getI18NString("game.title"));
         startButton.setText(Resources.getI18NString("game.start"));
+        loadButton.setText(Resources.getI18NString("game.load"));
         settingsButton.setText(Resources.getI18NString("settings"));
         quitButton.setText(Resources.getI18NString("quit"));
+    }
+
+    public void isThereSaves(boolean isThereSaves) {
+        loadButton.setDisable(!isThereSaves);
+        (isThereSaves ? loadButton : startButton).requestFocus();
+        (isThereSaves ? startButton : loadButton).setDefaultButton(false);
+        (isThereSaves ? loadButton : startButton).setDefaultButton(true);
     }
 }

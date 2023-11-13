@@ -6,10 +6,15 @@ import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.views.GameView;
 import fr.ul.acl.escape.gui.views.HomeView;
 import fr.ul.acl.escape.gui.views.SettingsView;
+import fr.ul.acl.escape.outils.Resources;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.beans.EventHandler;
 import java.io.IOException;
 
 public class Escape extends Application {
@@ -37,6 +42,15 @@ public class Escape extends Application {
 
         // Apply settings
         Settings.load();
+
+        // Validate environment
+        Dotenv dotenv = Dotenv.load();
+        if (dotenv.get("ENCRYPTION_KEY") == null || dotenv.get("ENCRYPTION_KEY").isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));
+            alert.setHeaderText(Resources.getI18NString("warning.noEncryptionKey.message"));
+            alert.showAndWait();
+        }
 
         // Show window
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

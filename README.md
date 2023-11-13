@@ -18,6 +18,9 @@
 * [Trello](https://trello.com/b/WUfGrD7d/escape)
 
 ## Installation
+> [!IMPORTANT] \
+> Copy the file [`.env.dist`](.env.dist) to `.env` and fill in the values.
+
 ### Requirements
 * Maven >= 3.4.1
 * Java >= 17
@@ -40,6 +43,7 @@ mvn clean package
 ```
 
 #### Run
+> [!NOTE] \
 > Replace X.Y.Z with the version number, e.g. `1.0.0`.
 ##### GUI mode
 ```bash

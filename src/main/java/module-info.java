@@ -6,6 +6,7 @@ module escape {
     requires net.harawata.appdirs;
     requires org.json;
     requires spring.core;
+    requires io.github.cdimascio.dotenv.java;
 
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
 

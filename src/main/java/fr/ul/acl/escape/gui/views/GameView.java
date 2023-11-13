@@ -209,7 +209,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         JSONObject json = gameController.getJSON();
         long date = System.currentTimeMillis();
         json.put("date", date);
-        FileManager.write(json, "saves" + separator + date + ".json");
+        FileManager.write(json, "saves" + separator + date + ".json", true);
     }
 
     @Override

@@ -42,14 +42,14 @@ public class Settings {
     public static void save() {
         JSONObject json = new JSONObject();
         Arrays.asList(fullScreen, showFps, locale).forEach(property -> json.put(property.getName(), property.get()));
-        FileManager.write(json, SETTINGS_FILEPATH);
+        FileManager.write(json, SETTINGS_FILEPATH, false);
     }
 
     /**
      * Load the settings from the settings file.
      */
     public static void load() {
-        JSONObject json = FileManager.readFile(SETTINGS_FILEPATH);
+        JSONObject json = FileManager.readFile(SETTINGS_FILEPATH, false);
 
         if (json.has(fullScreen.getName())) fullScreen.set(json.getBoolean(fullScreen.getName()));
         if (json.has(showFps.getName())) showFps.set(json.getBoolean(showFps.getName()));

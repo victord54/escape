@@ -59,6 +59,8 @@ public class GameView extends View implements GameInterface {
      */
     private boolean drawOverlay = false;
 
+    private int iteration_heros = 0;
+
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         this.root = loader.load();
@@ -155,11 +157,15 @@ public class GameView extends View implements GameInterface {
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                gc.drawImage(Resources.getAsset("assets/UL.png"), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
-            } else {
-                gc.setFill(Color.BLUEVIOLET);
-                gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+                if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
+                gc.drawImage(personnage.getSprite(iteration_heros), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
             }
+            int iteration = 0;
+            if (personnage.isMoving()) {
+                iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
+            }
+            gc.drawImage(personnage.getSprite(iteration), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+
         });
     }
 

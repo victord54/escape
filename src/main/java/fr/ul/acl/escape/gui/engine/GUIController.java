@@ -34,15 +34,20 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         double timeInDouble = timeElapsed * 10e-10;
 
         if (keysPressed.contains(KeyCode.Z)) {
+            monde.getHeros().setMoving(true);
             monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
         }
         if (keysPressed.contains(KeyCode.S)) {
+            monde.getHeros().setMoving(true);
             monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
         }
         if (keysPressed.contains(KeyCode.D)) {
+            monde.getHeros().setMoving(true);
+
             monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
         }
         if (keysPressed.contains(KeyCode.Q)) {
+            monde.getHeros().setMoving(true);
             monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
         }
 
@@ -64,6 +69,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     }
 
     public void onKeyReleased(KeyEvent event) {
+        monde.getHeros().setMoving(false);
         keysPressed.remove(event.getCode());
     }
 

@@ -1,17 +1,21 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.outils.FabriqueId;
+import javafx.scene.image.Image;
 
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     private final int id;
+
+    protected boolean isMoving = false;
+
+    protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
 
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur);
         this.vitesse = vitesse;
         id = FabriqueId.getInstance().getId();
-
     }
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id) {
@@ -29,10 +33,22 @@ public abstract class Personnage extends ElementMonde {
     public void deplacer(TypeMouvement typeMouvement, double deltaTime) {
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
         switch (typeMouvement) {
-            case RIGHT -> this.x += vitesseTransformee;
-            case LEFT -> this.x -= vitesseTransformee;
-            case UP -> this.y -= vitesseTransformee;
-            case DOWN -> this.y += vitesseTransformee;
+            case RIGHT -> {
+                this.x += vitesseTransformee;
+                dernierMouvement = TypeMouvement.RIGHT;
+            }
+            case LEFT -> {
+                this.x -= vitesseTransformee;
+                dernierMouvement = TypeMouvement.LEFT;
+            }
+            case UP -> {
+                this.y -= vitesseTransformee;
+                dernierMouvement = TypeMouvement.UP;
+            }
+            case DOWN -> {
+                this.y += vitesseTransformee;
+                dernierMouvement = TypeMouvement.DOWN;
+            }
         }
     }
 
@@ -53,4 +69,19 @@ public abstract class Personnage extends ElementMonde {
         return super.toString() + "id :" + this.id;
     }
 
+    public TypeMouvement getDernierMouvement() {
+        return dernierMouvement;
+    }
+
+    public Image getSprite(int i) {
+        return sprites.get(dernierMouvement)[i].getSprite();
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
+    }
 }

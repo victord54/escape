@@ -181,6 +181,7 @@ public class Monde {
      * @param m The Monstre that we want to move.
      */
     public void deplacementMonstre(Monstre m, double deltaTime) {
+        m.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         int pas = 900; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
@@ -244,7 +245,10 @@ public class Monde {
         Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
         tmpWalker.deplacer(typeMouvement, deltaTime);
 
-        if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmpWalker, true)) {
+            m.deplacer(typeMouvement, deltaTime);
+            m.setMoving(true);
+        }
     }
 
 

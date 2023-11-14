@@ -194,35 +194,35 @@ public class GameView extends View implements GameInterface {
         // number of lost hearts full
         int coeursPerduPleins = (int) coeursPerdu;
 
-        int deplacement = 0;
+        int decalage = 0;
 
         // draw full heart
         for (int i = 0; i < nbCoeursRestantPleins; i++) {
             gc.setFill(Color.RED);
-            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
-            deplacement++;
+            gc.fillRect(10 + (decalage * 30), 10, 25, 25);
+            decalage++;
         }
 
         // draw if there is a heart not full
         if (coeursRestantsNonPleins == 0.75) {
             gc.setFill(Color.BLUEVIOLET);
-            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
-            deplacement++;
+            gc.fillRect(10 + (decalage * 30), 10, 25, 25);
+            decalage++;
         } else if (coeursRestantsNonPleins == 0.5) {
             gc.setFill(Color.BLUE);
-            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
-            deplacement++;
+            gc.fillRect(10 + (decalage * 30), 10, 25, 25);
+            decalage++;
         } else if (coeursRestantsNonPleins == 0.25) {
             gc.setFill(Color.ORANGE);
-            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
-            deplacement++;
+            gc.fillRect(10 + (decalage * 30), 10, 25, 25);
+            decalage++;
         }
 
         // draw the lost hearts
         for (int i = 0; i < coeursPerduPleins; i++) {
             gc.setFill(Color.PINK);
-            gc.fillRect(10 + (deplacement * 30), 10, 25, 25);
-            deplacement++;
+            gc.fillRect(10 + (decalage * 30), 10, 25, 25);
+            decalage++;
         }
     }
 

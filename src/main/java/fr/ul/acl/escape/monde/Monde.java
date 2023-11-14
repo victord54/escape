@@ -166,13 +166,9 @@ public class Monde {
      * @param multiple the multiple.
      * @return nearest integer grater than value and which is a multiple of multiple.
      */
-    public static int intLePlusProche(int value, int multiple) {
-        int remainder = value % multiple;
-        if (remainder == 0) {
-            return value;
-        } else {
-            return ((value / multiple) + 1) * multiple;
-        }
+    public int intLePlusProche(int value, int multiple) {
+        return multiple * ((value+multiple/2)/multiple);
+
     }
 
     /**
@@ -182,7 +178,7 @@ public class Monde {
      */
     public void deplacementMonstre(Monstre m, double deltaTime) {
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 900; // Incrémentation pour construire les noeuds
+        int pas = 2500; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < Donnees.WORLD_WIDTH * conversionFactor; i += pas) {
             for (int j = 0; j < Donnees.WORLD_HEIGHT * conversionFactor; j += pas) {
@@ -208,8 +204,6 @@ public class Monde {
             }
         }
 
-        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
-
         // Check si le noeud source est pas en dehors en haut ou à gauche
         int sourceX = intLePlusProche((int) (m.getX() * conversionFactor), pas);
         int sourceY = intLePlusProche((int) (m.getY() * conversionFactor), pas);
@@ -218,8 +212,16 @@ public class Monde {
         Point2D source = new Point2D(sourceX, sourceY);
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
 
-        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
+        pathfinding(m, pas, graph, source, heros, deltaTime);
 
+    }
+
+    public void pathfinding(Monstre m, int pas, Graph<Point2D, DefaultEdge> graph, Point2D source, Point2D heros, double deltaTime){
+        DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
+        GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
+        TypeMouvement typeMouvement = null;
+
+        boolean alternateGraph = false;
         if (shortest == null) {
             // Pas de chemins vers le héros = trop de monstres directement autour de lui. Génération d'un graphe qui ne prend pas en compte les monstres
             // dans ce cas afin que les monstres se dirigent quand même vers le héros.
@@ -227,13 +229,14 @@ public class Monde {
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
             if (shortest == null) return;
+            else alternateGraph = true;
         }
 
         List<Point2D> list = shortest.getVertexList();
+
         if (list.size() == 1) return;
         Point2D first = list.get(1);
 
-        TypeMouvement typeMouvement = null;
         if (first.getX() < source.getX()) typeMouvement = TypeMouvement.LEFT;
         else if ((first.getX()) > source.getX()) typeMouvement = TypeMouvement.RIGHT;
         else if ((first.getY()) > source.getY()) typeMouvement = TypeMouvement.DOWN;
@@ -244,8 +247,31 @@ public class Monde {
         Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
         tmpWalker.deplacer(typeMouvement, deltaTime);
 
-        if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmpWalker, true)) {
+            m.deplacer(typeMouvement, deltaTime);
+            return;
+        }
+
+        if (collisionAvecTerrains(tmpWalker)){
+            if (typeMouvement == TypeMouvement.LEFT || typeMouvement == TypeMouvement.RIGHT){
+                if (first.getY() > m.getY()*Donnees.CONVERSION_FACTOR) typeMouvement = TypeMouvement.DOWN;
+                else typeMouvement = TypeMouvement.UP;
+            } else {
+                if (first.getX() > m.getX()*Donnees.CONVERSION_FACTOR) typeMouvement = TypeMouvement.RIGHT;
+                else typeMouvement = TypeMouvement.LEFT;
+            }
+            tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
+            tmpWalker.deplacer(typeMouvement, deltaTime);
+
+            if (!collisionAvec(tmpWalker, true)) {
+                m.deplacer(typeMouvement, deltaTime);
+            }
+        }
+
     }
+
+
+
 
 
     /**
@@ -289,7 +315,9 @@ public class Monde {
      */
     public boolean collisionAvecTerrains(Personnage p) {
         for (Terrain t : terrains) {
-            if (collision(p, t)) return true;
+            if (!t.estTraversable()) {
+                if (collision(p, t)) return true;
+            }
         }
         return false;
     }

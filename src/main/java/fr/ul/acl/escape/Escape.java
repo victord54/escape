@@ -5,6 +5,7 @@ import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.views.GameView;
 import fr.ul.acl.escape.gui.views.HomeView;
+import fr.ul.acl.escape.gui.views.SavesView;
 import fr.ul.acl.escape.gui.views.SettingsView;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -36,6 +37,7 @@ public class Escape extends Application {
         ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView());
         ViewManager.getInstance().registerView(VIEWS.GAME, new GameView());
         ViewManager.getInstance().registerView(VIEWS.SETTINGS, new SettingsView());
+        ViewManager.getInstance().registerView(VIEWS.SAVES, new SavesView());
 
         // Set the default view
         ViewManager.getInstance().navigateTo(VIEWS.HOME);

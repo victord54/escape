@@ -27,7 +27,7 @@ public class HomeViewController extends ViewController {
 
     @FXML
     private void onClickLoad() {
-        //ViewManager.getInstance().navigateTo(VIEWS.LOAD);
+        ViewManager.getInstance().navigateTo(VIEWS.SAVES);
     }
 
     @FXML

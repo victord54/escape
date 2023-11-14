@@ -9,16 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 public class SettingsView extends View {
-    private boolean comboBoxPreventEvent = false;
-
     private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
         ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
     };
+    private boolean comboBoxPreventEvent = false;
     private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
         ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
         comboBoxPreventEvent = true;
@@ -44,8 +42,12 @@ public class SettingsView extends View {
         // populate the language combo box
         ComboBox<String> languageComboBox = controller.getLanguageComboBox();
         languageComboBox.onActionProperty().set(null);
-        List<Locale> supportedLocales = Donnees.SUPPORTED_LOCALES;
-        languageComboBox.getItems().setAll(supportedLocales.stream().map(locale -> locale.getDisplayName(locale)).toArray(String[]::new));
+        Set<Locale> supportedLocales = Donnees.SUPPORTED_LOCALES;
+        languageComboBox.getItems().setAll(supportedLocales
+                .stream()
+                .map(locale -> locale.getDisplayName(locale))
+                .sorted()
+                .toList());
 
         // select the current locale
         Locale currentLocale = Settings.locale.get();

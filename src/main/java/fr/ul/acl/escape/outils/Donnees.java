@@ -21,11 +21,11 @@ public final class Donnees {
     /**
      * The supported locales.
      */
-    public static final List<Locale> SUPPORTED_LOCALES = Collections.unmodifiableList(Arrays.asList(
+    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             Locale.ENGLISH,
             Locale.FRANCE,
             Locale.CANADA_FRENCH
-    ));
+    )));
 
     /**
      * symbol of Hero/player

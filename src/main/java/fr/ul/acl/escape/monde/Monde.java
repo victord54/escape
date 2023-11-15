@@ -11,6 +11,7 @@ import org.jgrapht.graph.SimpleGraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class Monde {
@@ -226,25 +227,29 @@ public class Monde {
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
 
-        m.reinitialiseListMouvementsEssayes();
 
-        boolean alternateGraph = false;
+        boolean random = false;
+
         if (shortest == null) {
             // Pas de chemins vers le héros = trop de monstres directement autour de lui. Génération d'un graphe qui ne prend pas en compte les monstres
             // dans ce cas afin que les monstres se dirigent quand même vers le héros.
             Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
-            if (shortest == null) return;
-            else alternateGraph = true;
+
+            if (shortest == null) random = true;
         }
 
+        // déplacement random car pas de chemin = monstre bloqué
+        if (random) {
+            this.mouvementRandom(m, deltaTime);
+            return;
+        }
         List<Point2D> list = shortest.getVertexList();
 
         if (list.size() == 1) return;
         Point2D first = list.get(1);
         TypeMouvement typeMouvement = getMouvement(source, first, m);
-
         if (typeMouvement == null) return;
 
         Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
@@ -276,12 +281,14 @@ public class Monde {
 
                 // Le mouvement est pas dans la liste donc on peut l'essayer
                 if (!m.mouvementDansList(typeMouvement)) {
+
                     tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
                     tmpWalker.deplacer(typeMouvement, deltaTime);
 
                     if (!collisionAvec(tmpWalker, true)) {
                         m.deplacer(typeMouvement, deltaTime);
                         m.setLastMouvement(typeMouvement);
+                        m.reinitialiseListMouvementsEssayes();
                         return;
                     }
                     m.addMouvementEssayes(typeMouvement);
@@ -299,6 +306,33 @@ public class Monde {
         else if ((target.getY()) < source.getY() && !m.mouvementDansList(TypeMouvement.UP)) return TypeMouvement.UP;
 
         return null;
+    }
+
+    public void mouvementRandom(Monstre m, double deltaTime){
+        ArrayList<TypeMouvement> list = new ArrayList<>();
+        list.add(TypeMouvement.UP);
+        list.add(TypeMouvement.DOWN);
+        list.add(TypeMouvement.LEFT);
+        list.add(TypeMouvement.RIGHT);
+
+        Random r = new Random();
+        int randomNb;
+        ArrayList<TypeMouvement> mvtEssaye = new ArrayList<>();
+        while (true){
+            randomNb = r.nextInt(4);
+            TypeMouvement typeMouvement = list.get(randomNb);
+            if (mvtEssaye.contains(typeMouvement)) continue;
+            mvtEssaye.add(typeMouvement);
+            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
+            tmpWalker.deplacer(typeMouvement, deltaTime);
+
+            if (!collisionAvec(tmpWalker, true)) {
+                m.deplacer(typeMouvement, deltaTime);
+                m.setLastMouvement(typeMouvement);
+                return;
+            }
+        }
+
     }
 
 

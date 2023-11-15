@@ -145,7 +145,9 @@ public class Monde {
      */
     public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
         for (Terrain t : terrains) {
-            if (collision(pers, t)) return true;
+            if (!t.estTraversable()) {
+                if (collision(pers, t)) return true;
+            }
         }
         for (Personnage p : personnages) {
             if (checkAvecHeros) {

@@ -71,4 +71,14 @@ class HerosTest {
         p.x = 0;
         p.y = 0;
     }
+
+    @Test
+    void testCoeursPerdu(){
+        p.coeursPerdu(0.25);
+        assertEquals(p.coeurs, 2.75);
+        p.coeursPerdu(1.0);
+        assertEquals(p.coeurs,1.75);
+        p.coeursPerdu(1.75);
+        assertEquals(p.coeurs, 0);
+    }
 }

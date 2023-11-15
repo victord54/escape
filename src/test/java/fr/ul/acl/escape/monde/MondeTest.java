@@ -128,8 +128,9 @@ class MondeTest {
 
     @Test
     void intLePlusProche(){
-        assertEquals(monde.intLePlusProche(1004,500),1000);
-        assertEquals(monde.intLePlusProche(1350,500),1500);
+        assertEquals(1500,monde.intLePlusProche(1004,500));
+        assertEquals(1500,monde.intLePlusProche(1350,500));
+        assertEquals(500, monde.intLePlusProche(500,500));
 
 
     }

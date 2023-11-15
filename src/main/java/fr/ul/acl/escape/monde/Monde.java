@@ -226,6 +226,7 @@ public class Monde {
     public void pathfinding(Monstre m, int pas, Graph<Point2D, DefaultEdge> graph, Point2D source, Point2D heros, double deltaTime) {
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
+        m.reinitialiseListMouvementsEssayes();
 
 
         boolean random = false;
@@ -288,7 +289,6 @@ public class Monde {
                     if (!collisionAvec(tmpWalker, true)) {
                         m.deplacer(typeMouvement, deltaTime);
                         m.setLastMouvement(typeMouvement);
-                        m.reinitialiseListMouvementsEssayes();
                         return;
                     }
                     m.addMouvementEssayes(typeMouvement);
@@ -296,6 +296,9 @@ public class Monde {
 
             }
         }
+
+        // Si vraiment aucun mouvement n'a été fait, mouvement random
+        this.mouvementRandom(m, deltaTime);
 
     }
 
@@ -388,21 +391,6 @@ public class Monde {
      * Method that move all the Monstres of the world.
      */
     public void deplacementMonstres(double deltaTime) {
-        List<Thread> threads = new ArrayList<>();
-       /* for (Personnage p : personnages) {
-            if (!p.estUnHeros()) {
-                Thread t = new Thread(() -> deplacementMonstre((Monstre) p, deltaTime));
-                t.start();
-                threads.add(t);
-            }
-        }
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
         for (Personnage p : personnages) {
             if (!p.estUnHeros()) {
                 deplacementMonstre((Monstre) p, deltaTime);

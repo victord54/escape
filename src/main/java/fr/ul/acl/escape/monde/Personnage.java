@@ -1,13 +1,18 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.scene.image.Image;
+
+import java.util.HashMap;
 
 public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     private final int id;
 
     protected boolean isMoving = false;
+
+    protected HashMap<TypeMouvement, Sprite[]> sprites;
 
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
 
@@ -16,12 +21,14 @@ public abstract class Personnage extends ElementMonde {
         super(x, y, hauteur, largeur);
         this.vitesse = vitesse;
         id = FabriqueId.getInstance().getId();
+        sprites = new HashMap<>();
     }
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id) {
         super(x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.id = id;
+        sprites = new HashMap<>();
     }
 
     /**

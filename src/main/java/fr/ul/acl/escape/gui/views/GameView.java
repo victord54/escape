@@ -150,8 +150,9 @@ public class GameView extends View implements GameInterface {
 
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> {
-            gc.setFill(Color.FIREBRICK);
-            gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
+            gc.drawImage(terrain.getSprite(), terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
+            //gc.setFill(Color.FIREBRICK);
+            //gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
         });
 
         // draw game entities

@@ -151,8 +151,6 @@ public class GameView extends View implements GameInterface {
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> {
             gc.drawImage(terrain.getSprite(), terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
-            //gc.setFill(Color.FIREBRICK);
-            //gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
         });
 
         // draw game entities
@@ -205,30 +203,36 @@ public class GameView extends View implements GameInterface {
 
         // draw full heart
         for (int i = 0; i < nbCoeursRestantPleins; i++) {
-            gc.setFill(Color.RED);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            // gc.setFill(Color.RED);
+            // gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
 
         // draw if there is a heart not full
         if (coeursRestantsNonPleins == 0.75) {
-            gc.setFill(Color.BLUEVIOLET);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            // gc.setFill(Color.BLUEVIOLET);
+            // gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         } else if (coeursRestantsNonPleins == 0.5) {
-            gc.setFill(Color.BLUE);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            // gc.setFill(Color.BLUE);
+            // gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+
             decalage++;
         } else if (coeursRestantsNonPleins == 0.25) {
-            gc.setFill(Color.ORANGE);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            // gc.setFill(Color.ORANGE);
+            // gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
 
         // draw the lost hearts
         for (int i = 0; i < coeursPerduPleins; i++) {
-            gc.setFill(Color.PINK);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            // gc.setFill(Color.PINK);
+            // gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
     }

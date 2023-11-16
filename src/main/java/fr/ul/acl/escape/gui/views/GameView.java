@@ -1,8 +1,11 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.engine.GameInterface;
+import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.outils.Donnees;
@@ -14,6 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -61,6 +67,11 @@ public class GameView extends View implements GameInterface, GameViewController.
      */
     private boolean drawFPS = false;
 
+    /**
+     * Previous save data if the game is loaded from a save.
+     */
+    private SaveData save;
+
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
@@ -71,7 +82,8 @@ public class GameView extends View implements GameInterface, GameViewController.
     }
 
     @Override
-    public void onViewDisplayed() {
+    public void onViewDisplayed(Object... args) {
+        super.onViewDisplayed();
         GameViewController controller = (GameViewController) this.controller;
 
         controller.setPauseMenuVisible(false);
@@ -96,11 +108,18 @@ public class GameView extends View implements GameInterface, GameViewController.
         gameBoard.heightProperty().addListener((observable, oldValue, newValue) -> render());
 
         // init game controller
-        gameController = new GUIController();
+        if (args.length > 0 && args[0] instanceof SaveData) {
+            save = (SaveData) args[0];
+            gameController = new GUIController(save.getJSON());
+        } else {
+            gameController = new GUIController();
+        }
 
         // start engine
         this.engine = new GUIEngine(this, gameController);
-        engine.paused.subscribe((evt, oldValue, newValue) -> controller.setPauseMenuVisible(newValue));
+        engine.paused.subscribe((evt, oldValue, newValue) -> {
+            controller.setPauseMenuVisible(newValue);
+        });
         engine.start();
     }
 
@@ -208,9 +227,31 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void save() {
         if (gameController == null) return;
         JSONObject json = gameController.getJSON();
-        long date = System.currentTimeMillis();
-        json.put("date", date);
-        FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
+
+        if (save != null) {
+            // TODO: add button in the pause menu if save != null to overwrite the save instead of asking
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(Resources.getI18NString("save.overwrite"));
+            alert.setHeaderText(Resources.getI18NString("save.overwrite.message"));
+
+            ButtonType overwrite = new ButtonType(Resources.getI18NString("save.overwrite.overwrite"));
+            ButtonType newSave = new ButtonType(Resources.getI18NString("save.overwrite.new"));
+            ButtonType cancel = new ButtonType(Resources.getI18NString("cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(overwrite, newSave, cancel);
+
+            alert.showAndWait().ifPresent(type -> {
+                if (type == cancel) return;
+
+                long date = System.currentTimeMillis();
+                json.put("date", date);
+                FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
+                if (type == overwrite) {
+                    save.deleteFromFS();
+                }
+
+                quit();
+            });
+        }
     }
 
     @Override
@@ -218,6 +259,9 @@ public class GameView extends View implements GameInterface, GameViewController.
         if (engine == null) return;
         engine.stop();
         engine = null;
+
+        // go back to main menu
+        ViewManager.getInstance().navigateTo(VIEWS.HOME);
     }
 
     @Override

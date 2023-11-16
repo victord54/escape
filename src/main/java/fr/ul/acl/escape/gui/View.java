@@ -44,7 +44,7 @@ public abstract class View {
     /**
      * Fired when the view is displayed.
      */
-    public void onViewDisplayed() {
+    public void onViewDisplayed(Object... args) {
     }
 
     /**

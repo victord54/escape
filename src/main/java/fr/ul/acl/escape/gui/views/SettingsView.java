@@ -69,7 +69,7 @@ public class SettingsView extends View {
     }
 
     @Override
-    public void onViewDisplayed() {
+    public void onViewDisplayed(Object... args) {
         super.onViewDisplayed();
         ((SettingsViewController) controller).resetFocus();
     }

@@ -5,6 +5,7 @@ import static fr.ul.acl.escape.outils.Donnees.DEBUG;
 /**
  * Unifies the error handling of the application.
  */
+// TODO: show a dialog in GUI mode
 public class ErrorBehavior {
     /**
      * Crash the application.

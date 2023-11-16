@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Manage the views of the game.
@@ -69,8 +70,9 @@ public class ViewManager {
      * Navigate to the named view.
      *
      * @param viewName The identifier of the view to navigate to.
+     * @param args     The arguments to pass to the view (optional).
      */
-    public void navigateTo(VIEWS viewName) {
+    public void navigateTo(VIEWS viewName, Object... args) {
         View view = views.get(viewName);
         view.onViewInit();
         if (stage.getScene() == null) {
@@ -78,7 +80,7 @@ public class ViewManager {
         }
         stage.getScene().setRoot(view.getRoot());
         view.enableRootEvents();
-        view.onViewDisplayed();
+        view.onViewDisplayed(args);
     }
 
     /**

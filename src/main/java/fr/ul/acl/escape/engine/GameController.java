@@ -6,11 +6,7 @@ public abstract class GameController {
     /**
      * The game world.
      */
-    protected final Monde monde;
-
-    protected GameController(Monde monde) {
-        this.monde = monde;
-    }
+    protected Monde monde;
 
     /**
      * Updates the game state.

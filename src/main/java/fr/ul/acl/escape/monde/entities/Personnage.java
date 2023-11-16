@@ -1,5 +1,7 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.entities;
 
+import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import org.json.JSONObject;
 
@@ -57,6 +59,18 @@ public abstract class Personnage extends ElementMonde {
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("id", id);
+        json.put("speed", vitesse);
         return json;
+    }
+
+    public static Personnage fromJSON(JSONObject json) {
+        Type type = Type.valueOf(json.getString("type"));
+        if (type == Type.HERO) {
+            return Heros.fromJSON(json);
+        } else if (type == Type.WALKER) {
+            return Walker.fromJSON(json);
+        } else {
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
     }
 }

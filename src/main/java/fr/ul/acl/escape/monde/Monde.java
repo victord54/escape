@@ -1,5 +1,11 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Monstre;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.entities.Walker;
+import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.GestionFichier;
@@ -23,6 +29,9 @@ public class Monde {
      */
     private String carte;
 
+    /**
+     * Create a new world with no elements.
+     */
     public Monde() {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
@@ -50,7 +59,7 @@ public class Monde {
      *
      * @param carte nom de la carte à charger
      */
-    public void chargerCarte(String carte) throws Exception {
+    private void chargerCarte(String carte) throws Exception {
         this.carte = carte;
 
         // Variable de vérification
@@ -328,6 +337,23 @@ public class Monde {
         JSONObject json = new JSONObject();
         json.put("map", carte);
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
+        // TODO: add collectibles
         return json;
+    }
+
+    public static Monde fromMap(String map) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(map);
+        return monde;
+    }
+
+    public static Monde fromJSON(JSONObject json) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(json.getString("map"));
+        monde.personnages.clear();
+        json.getJSONArray("entities").forEach(entity -> {
+            monde.personnages.add(Personnage.fromJSON((JSONObject) entity));
+        });
+        return monde;
     }
 }

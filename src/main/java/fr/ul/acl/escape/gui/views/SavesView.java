@@ -1,17 +1,16 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.SaveData;
+import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SavesView extends View {
     public SavesView() throws IOException {
@@ -22,7 +21,7 @@ public class SavesView extends View {
     }
 
     @Override
-    public void onViewDisplayed() {
+    public void onViewDisplayed(Object... args) {
         super.onViewDisplayed();
         SavesViewController controller = (SavesViewController) this.controller;
 
@@ -41,19 +40,18 @@ public class SavesView extends View {
     }
 
     private static SaveData getSaveData(Map.Entry<String, JSONObject> saveEntry, List<SaveData> savesList, SavesViewController controller) {
-        SaveData saveData = new SaveData(saveEntry.getValue());
+        SaveData saveData = new SaveData(saveEntry);
         saveData.setListener(new SaveComponent.SaveButtonsListener() {
             @Override
             public void onLoad() {
-                // TODO: load file
-                System.out.println("load");
+                ViewManager.getInstance().navigateTo(VIEWS.GAME, saveData);
             }
 
             @Override
             public void onDelete() {
                 savesList.remove(saveData);
                 controller.setSaves(savesList);
-                FileManager.delete(saveEntry.getKey());
+                saveData.deleteFromFS();
             }
         });
         return saveData;

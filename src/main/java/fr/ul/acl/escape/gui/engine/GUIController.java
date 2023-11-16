@@ -1,9 +1,9 @@
 package fr.ul.acl.escape.gui.engine;
 
 import fr.ul.acl.escape.monde.Monde;
-import fr.ul.acl.escape.monde.Personnage;
-import fr.ul.acl.escape.monde.Terrain;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,13 +19,28 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
 
+    /**
+     * Create a new controller with a new world from a default map.
+     */
     public GUIController() {
-        super(new Monde());
-
         try {
-            monde.chargerCarte("carte01");
+            monde = Monde.fromMap("carte01");
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
+        }
+    }
+
+    /**
+     * Create a new controller from a JSON object.
+     *
+     * @param json The JSON object.
+     *             See {@link Monde#toJSON()} for the format.
+     */
+    public GUIController(JSONObject json) {
+        try {
+            monde = Monde.fromJSON(json);
+        } catch (Exception e) {
+            ErrorBehavior.crash(e, "Failed to load map from JSON");
         }
     }
 

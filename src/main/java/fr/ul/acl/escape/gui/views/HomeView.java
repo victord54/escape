@@ -28,7 +28,7 @@ public class HomeView extends View {
     }
 
     @Override
-    public void onViewDisplayed() {
+    public void onViewDisplayed(Object... args) {
         super.onViewDisplayed();
         Map<String, JSONObject> saves = FileManager.readDirectory("saves", true);
         ((HomeViewController) controller).isThereSaves(!saves.isEmpty());

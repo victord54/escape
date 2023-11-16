@@ -51,12 +51,12 @@ public class SaveComponent extends ListCell<SaveData> {
 
     @FXML
     private void load(ActionEvent actionEvent) {
-        getItem().load();
+        getItem().onLoad();
     }
 
     @FXML
     private void delete(ActionEvent actionEvent) {
-        getItem().delete();
+        getItem().onDelete();
     }
 
     @Override

@@ -1,7 +1,11 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameController;
-import fr.ul.acl.escape.monde.*;
+import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
@@ -13,10 +17,8 @@ public class CLIController extends GameController {
     private int action;
 
     protected CLIController() {
-        super(new Monde());
-
         try {
-            monde.chargerCarte("carte01");
+            monde = Monde.fromMap("carte01");
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }

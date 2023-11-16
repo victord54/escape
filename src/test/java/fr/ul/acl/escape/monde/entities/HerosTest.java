@@ -1,5 +1,6 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.entities;
 
+import fr.ul.acl.escape.monde.TypeMouvement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,26 +20,26 @@ class HerosTest {
 
         //Right
         p.deplacer(TypeMouvement.RIGHT, 1);
-        assertEquals(p.x, p.vitesse);
-        assertEquals(p.y, 0f);
+        assertEquals(p.getX(), p.vitesse);
+        assertEquals(p.getY(), 0f);
 
         //Left
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.LEFT, 1);
-        assertEquals(p.x, -p.vitesse);
-        assertEquals(p.y, 0f);
+        assertEquals(p.getX(), -p.vitesse);
+        assertEquals(p.getY(), 0f);
 
         //Forward
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.UP, 1);
-        assertEquals(p.x, 0f);
-        assertEquals(p.y, -p.vitesse);
+        assertEquals(p.getX(), 0f);
+        assertEquals(p.getY(), -p.vitesse);
 
         //Back
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.DOWN, 1);
-        assertEquals(p.x, 0f);
-        assertEquals(p.y, p.vitesse);
+        assertEquals(p.getX(), 0f);
+        assertEquals(p.getY(), p.vitesse);
 
     }
 
@@ -46,15 +47,15 @@ class HerosTest {
     void testDeplacerDeltaTimeCorrects() {
 
         p.deplacer(TypeMouvement.RIGHT, 1);
-        assertEquals(p.x, p.vitesse);
+        assertEquals(p.getX(), p.vitesse);
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, 0.5);
-        assertEquals(p.x, p.vitesse * 0.5);
+        assertEquals(p.getX(), p.vitesse * 0.5);
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, 0.1);
-        assertEquals(p.x, p.vitesse * 0.1);
+        assertEquals(p.getX(), p.vitesse * 0.1);
     }
 
     @Test
@@ -62,13 +63,13 @@ class HerosTest {
 
         reinitialiserCoordonnees(p);
         p.deplacer(TypeMouvement.RIGHT, -0.5);
-        assertEquals(p.x, 0);
+        assertEquals(p.getX(), 0);
 
     }
 
 
     void reinitialiserCoordonnees(Personnage p) {
-        p.x = 0;
-        p.y = 0;
+        p.setX(0);
+        p.setY(0);
     }
 }

@@ -1,8 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
-import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -74,11 +72,7 @@ public class GameViewController extends ViewController {
         // call the listener
         if (this.buttonsListener != null) {
             this.buttonsListener.save();
-            this.buttonsListener.quit();
         }
-
-        // go back to the home view
-        ViewManager.getInstance().navigateTo(VIEWS.HOME);
     }
 
     @FXML
@@ -87,12 +81,9 @@ public class GameViewController extends ViewController {
         if (this.buttonsListener != null) {
             this.buttonsListener.quit();
         }
-
-        // go back to the home view
-        ViewManager.getInstance().navigateTo(VIEWS.HOME);
     }
 
-    interface ButtonsListener {
+    public interface ButtonsListener {
         void save();
 
         void quit();

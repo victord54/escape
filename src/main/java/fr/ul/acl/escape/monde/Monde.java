@@ -337,9 +337,7 @@ public class Monde {
         for (Personnage p : personnages) {
             if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros())
                 monstresDansHitBoxAttaque.add(p);
-            System.out.println(hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros());
         }
-        System.out.println(monstresDansHitBoxAttaque.size());
         hero.attaquer(monstresDansHitBoxAttaque);
         for (Personnage p : monstresDansHitBoxAttaque) {
             if (!p.estVivant()) detruirePersonnage(p);

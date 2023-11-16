@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Save;
+import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class SavesView extends View {
     public SavesView() throws IOException {
@@ -25,66 +26,36 @@ public class SavesView extends View {
         super.onViewDisplayed();
         SavesViewController controller = (SavesViewController) this.controller;
 
-        List<JSONObject> saves1 = FileManager.readDirectory("saves", true);
-        List<JSONObject> saves = new ArrayList<>(saves1);
-        saves.add(new JSONObject() {{
-            put("date", 0);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 1);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 2);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 3);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 4);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 5);
-            put("level", -1);
-            put("life", -1);
-        }});
-        saves.add(new JSONObject() {{
-            put("date", 6);
-            put("level", -1);
-            put("life", -1);
-        }});
+        Map<String, JSONObject> saves = FileManager.readDirectory("saves", true);
 
-        List<Save> savesList = new ArrayList<>();
-        for (JSONObject save : saves) {
-            Save s = new Save(save);
-            s.setListener(new SaveComponent.SaveButtonsListener() {
-                @Override
-                public void onLoad() {
-                    // TODO: load file
-                    System.out.println("load");
-                }
-
-                @Override
-                public void onDelete() {
-                    savesList.remove(s);
-                    controller.setSaves(savesList);
-                    // TODO: delete file
-                }
-            });
-            savesList.add(s);
+        List<SaveData> savesList = new ArrayList<>();
+        for (Map.Entry<String, JSONObject> save : saves.entrySet()) {
+            SaveData saveData = getSaveData(save, savesList, controller);
+            savesList.add(saveData);
         }
-        savesList.sort(Comparator.comparingLong(Save::getTimestamp).reversed());
+        savesList.sort(Comparator.comparingLong(SaveData::getTimestamp).reversed());
+
         controller.initialize();
         controller.setSaves(savesList);
         controller.applyLanguage();
+    }
+
+    private static SaveData getSaveData(Map.Entry<String, JSONObject> saveEntry, List<SaveData> savesList, SavesViewController controller) {
+        SaveData saveData = new SaveData(saveEntry.getValue());
+        saveData.setListener(new SaveComponent.SaveButtonsListener() {
+            @Override
+            public void onLoad() {
+                // TODO: load file
+                System.out.println("load");
+            }
+
+            @Override
+            public void onDelete() {
+                savesList.remove(saveData);
+                controller.setSaves(savesList);
+                FileManager.delete(saveEntry.getKey());
+            }
+        });
+        return saveData;
     }
 }

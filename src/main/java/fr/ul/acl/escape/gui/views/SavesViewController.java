@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Save;
+import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
@@ -17,13 +17,13 @@ public class SavesViewController extends ViewController {
     @FXML
     private Label savesTitle;
     @FXML
-    private ListView<Save> savesListView;
+    private ListView<SaveData> savesListView;
     @FXML
     private Label savesListViewEmptyMsg;
     @FXML
     private Button backButton;
 
-    private ObservableList<Save> savesList;
+    private ObservableList<SaveData> savesList;
 
     public void initialize() {
         savesList = savesListView.getItems();
@@ -39,8 +39,8 @@ public class SavesViewController extends ViewController {
         savesListView.refresh();
     }
 
-    public void setSaves(Collection<Save> saves) {
-        savesList.setAll(saves);
+    public void setSaves(Collection<SaveData> saveData) {
+        savesList.setAll(saveData);
     }
 
     @FXML

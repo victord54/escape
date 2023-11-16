@@ -10,27 +10,14 @@ import java.time.format.FormatStyle;
 
 import static fr.ul.acl.escape.Settings.locale;
 
-public class Save {
+public class SaveData {
     private SaveComponent.SaveButtonsListener listener;
     private final long timestamp;
-    private final String date;
     private final int level;
     private final int life;
 
-    public Save(JSONObject json) {
-        if (!json.has("date")) {
-            this.date = "";
-            this.timestamp = 0;
-        } else {
-            DateTimeFormatter formatter = DateTimeFormatter
-                    .ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
-                    .withLocale(locale.get())
-                    .withZone(ZoneId.systemDefault());
-            timestamp = json.getLong("date");
-
-
-            this.date = formatter.format(Instant.ofEpochMilli(timestamp));
-        }
+    public SaveData(JSONObject json) {
+        this.timestamp = json.has("date") ? json.getLong("date") : 0;
         this.level = json.has("level") ? json.getInt("level") : -1;
         this.life = json.has("life") ? json.getInt("life") : -1;
     }
@@ -44,7 +31,11 @@ public class Save {
     }
 
     public String getDate() {
-        return date;
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
+                .withLocale(locale.get())
+                .withZone(ZoneId.systemDefault());
+        return formatter.format(Instant.ofEpochMilli(timestamp));
     }
 
     public int getLevel() {

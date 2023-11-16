@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Save;
+import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class SaveComponent extends ListCell<Save> {
+public class SaveComponent extends ListCell<SaveData> {
     @FXML
     private Pane pane;
     @FXML
@@ -59,7 +59,7 @@ public class SaveComponent extends ListCell<Save> {
     }
 
     @Override
-    protected void updateItem(Save item, boolean empty) {
+    protected void updateItem(SaveData item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
             setText(null);

@@ -10,7 +10,7 @@ import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 public class HomeView extends View {
     public HomeView() throws IOException {
@@ -30,7 +30,7 @@ public class HomeView extends View {
     @Override
     public void onViewDisplayed() {
         super.onViewDisplayed();
-        List<JSONObject> saves = FileManager.readDirectory("saves", true);
+        Map<String, JSONObject> saves = FileManager.readDirectory("saves", true);
         ((HomeViewController) controller).isThereSaves(!saves.isEmpty());
     }
 }

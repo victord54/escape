@@ -20,10 +20,10 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
@@ -32,6 +32,24 @@ import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
  * Utility class to read and write JSON files from the app data folder or the resources.
  */
 public class FileManager {
+    /**
+     * Delete the file at the given path in the app data folder.
+     *
+     * @param path path to delete, relative to the app data folder, use {@link File#separator} as a separator
+     * @return whether the file was successfully deleted
+     */
+    public static boolean delete(String path) {
+        String fullpath = getPathFor(path);
+        if (fullpath == null) return false;
+
+        File file = new File(fullpath);
+        if (!file.exists()) {
+            return false;
+        }
+
+        return file.delete();
+    }
+
     /**
      * Write the given JSON object to the given path in the app data folder.
      *
@@ -121,25 +139,34 @@ public class FileManager {
      *
      * @param folder            path to read from, relative to the app data folder, use {@link File#separator} as a separator
      * @param filesAreEncrypted whether the files to read are encrypted
-     * @return the list of JSON objects read, or an empty list if the folder could not be read
+     * @return a map of the files read, with the path as key and the JSON object as value
      */
-    public static List<JSONObject> readDirectory(String folder, boolean filesAreEncrypted) {
+    public static Map<String, JSONObject> readDirectory(String folder, boolean filesAreEncrypted) {
         String fullpath = getPathFor(folder);
-        if (fullpath == null) return new ArrayList<>();
+        if (fullpath == null) return new HashMap<>();
 
         File dir = new File(fullpath);
         if (!dir.exists() || !dir.isDirectory()) {
-            return new ArrayList<>();
+            return new HashMap<>();
         }
 
         File[] files = dir.listFiles();
         if (files == null) {
-            return new ArrayList<>();
+            return new HashMap<>();
         }
-        return Arrays.stream(files)
-                .filter(file -> file.getName().toLowerCase().endsWith((filesAreEncrypted ? ENCRYPTED : JSON).extension) && file.isFile())
-                .map(file -> readFile(folder + File.separator + file.getName(), filesAreEncrypted))
-                .toList();
+
+        Map<String, JSONObject> map = new HashMap<>();
+        Arrays.stream(files).forEach(file -> {
+            if (!file.getName().toLowerCase().endsWith((filesAreEncrypted ? ENCRYPTED : JSON).extension) || !file.isFile()) {
+                return;
+            }
+
+            String filePath = folder + File.separator + file.getName();
+            JSONObject json = readFile(filePath, filesAreEncrypted);
+            map.put(filePath, json);
+        });
+
+        return map;
     }
 
     /**
@@ -163,10 +190,10 @@ public class FileManager {
      * Read all the JSON files from the given path in the 'resources' folder.
      *
      * @param folder path to read from, relative to the 'resources' folder, use / as a separator
-     * @return the list of JSON objects read, or an empty list if the folder could not be read
+     * @return a map of the files read, with the path as key and the JSON object as value
      */
     // FIXME: is this method really useful? if not, remove dependency to Spring
-    public static List<JSONObject> readResourceDirectory(String folder) {
+    public static Map<String, JSONObject> readResourceDirectory(String folder) {
         ClassLoader cl = Escape.class.getClassLoader();
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
 
@@ -175,10 +202,17 @@ public class FileManager {
             resources = resolver.getResources("classpath:" + Resources.getPackagePath() + "/" + folder + "/**/*.json");
         } catch (IOException e) {
             System.err.println("Could not read '" + folder + "' folder from resources");
-            return new ArrayList<>();
+            return new HashMap<>();
         }
 
-        return Arrays.stream(resources).map(resource -> readResourceFile(folder + "/" + resource.getFilename())).toList();
+        Map<String, JSONObject> map = new HashMap<>();
+        Arrays.stream(resources).forEach(resource -> {
+            String filePath = folder + "/" + resource.getFilename();
+            JSONObject json = readResourceFile(filePath);
+            map.put(filePath, json);
+        });
+
+        return map;
     }
 
     /**
@@ -269,8 +303,7 @@ public class FileManager {
      * Get the extension with {@link FileType#extension}.
      */
     public enum FileType {
-        JSON(".json"),
-        ENCRYPTED(".enc");
+        JSON(".json"), ENCRYPTED(".enc");
 
         public final String extension;
 

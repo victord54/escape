@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;
 import fr.ul.acl.escape.gui.Sprite;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
@@ -31,6 +32,7 @@ public class Heros extends Personnage {
         tab_sprite_up[1] = new Sprite(path, 46, 124, 29, 31);
         tab_sprite_up[2] = new Sprite(path, 86, 124, 29, 31);
         sprites.put(TypeMouvement.UP, tab_sprite_up);
+        coeurs = HERO_HEART;
     }
 
     @Override

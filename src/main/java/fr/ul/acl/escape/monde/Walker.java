@@ -3,7 +3,7 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.gui.Sprite;
 
 import static fr.ul.acl.escape.outils.Donnees.WALKER_SPEED;
-
+import static fr.ul.acl.escape.outils.Donnees.WALKER_HEART;
 public class Walker extends Monstre {
 
     public Walker(double x, double y, double hauteur, double largeur) {
@@ -13,6 +13,7 @@ public class Walker extends Monstre {
 
     public Walker(double x, double y, double hauteur, double largeur, double vitesse, int id) {
         super(x, y, hauteur, largeur, vitesse, id);
+        coeurs = WALKER_HEART;
         //setSprites();
     }
 

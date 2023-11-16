@@ -1,9 +1,6 @@
 package fr.ul.acl.escape.gui.engine;
 
-import fr.ul.acl.escape.monde.Monde;
-import fr.ul.acl.escape.monde.Personnage;
-import fr.ul.acl.escape.monde.Terrain;
-import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -62,6 +59,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public ArrayList<Personnage> getPersonnages() {
         return monde.getPersonnages();
+    }
+
+    public Heros getHeros() {
+        return monde.getHeros();
     }
 
     public void onKeyPressed(KeyEvent event) {

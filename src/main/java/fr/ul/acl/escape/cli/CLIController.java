@@ -2,6 +2,7 @@ package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.*;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
 
@@ -17,8 +18,7 @@ public class CLIController extends GameController {
         try {
             monde.chargerCarte("carte01");
         } catch (Exception e) {
-            System.err.println("Erreur lors du chargement de la carte");
-            System.exit(1);
+            ErrorBehavior.crash(e, "Failed to load map");
         }
     }
 

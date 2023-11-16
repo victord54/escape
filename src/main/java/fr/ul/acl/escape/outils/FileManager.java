@@ -73,7 +73,7 @@ public class FileManager {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             encrypted = cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
         } catch (GeneralSecurityException e) {
-            System.err.println("Could not encrypt content");
+            ErrorBehavior.handle(e, "Could not encrypt content");
             return false;
         }
 
@@ -101,7 +101,7 @@ public class FileManager {
                 cipher.init(Cipher.DECRYPT_MODE, key);
                 decrypted = cipher.doFinal(Base64.getDecoder().decode(content));
             } catch (GeneralSecurityException e) {
-                System.err.println("Could not decrypt content");
+                ErrorBehavior.handle(e, "Could not decrypt content");
                 return new JSONObject();
             }
             content = new String(decrypted, StandardCharsets.UTF_8);
@@ -127,7 +127,7 @@ public class FileManager {
         try {
             return new String(Files.readAllBytes(Paths.get(fullpath)));
         } catch (Exception e) {
-            System.err.println("Could not read '" + path + "' file");
+            ErrorBehavior.handle(e, "Could not read '" + path + "' file");
             return null;
         }
     }
@@ -181,7 +181,7 @@ public class FileManager {
             String content = new String(stream.readAllBytes());
             return new JSONObject(content);
         } catch (Exception e) {
-            System.err.println("Could not read '" + path + "' file from resources");
+            ErrorBehavior.handle(e, "Could not read '" + path + "' file from resources");
             return new JSONObject();
         }
     }
@@ -201,7 +201,7 @@ public class FileManager {
         try {
             resources = resolver.getResources("classpath:" + Resources.getPackagePath() + "/" + folder + "/**/*.json");
         } catch (IOException e) {
-            System.err.println("Could not read '" + folder + "' folder from resources");
+            ErrorBehavior.handle(e, "Could not read '" + folder + "' folder from resources");
             return new HashMap<>();
         }
 
@@ -237,7 +237,7 @@ public class FileManager {
         try (FileWriter writer = new FileWriter(fullpath)) {
             writer.write(content);
         } catch (Exception e) {
-            System.err.println("Could not save '" + path + "' file");
+            ErrorBehavior.handle(e, "Could not write '" + path + "' file");
             return false;
         }
 
@@ -256,7 +256,7 @@ public class FileManager {
         try {
             return new JSONObject(json);
         } catch (Exception e) {
-            System.err.println("Could not parse to JSON");
+            ErrorBehavior.handle(e, "Could not parse to JSON");
             return new JSONObject();
         }
     }
@@ -291,7 +291,7 @@ public class FileManager {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             keyHash = digest.digest(key.getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
-            System.err.println("Could not create SHA-256 digest");
+            ErrorBehavior.handle(e, "Could not create SHA-256 digest");
             return null;
         }
 

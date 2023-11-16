@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.GestionFichier;
 import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
@@ -315,7 +316,7 @@ public class Monde {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                ErrorBehavior.handle(e, "A thread was interrupted before it completed its task.");
             }
         }
     }

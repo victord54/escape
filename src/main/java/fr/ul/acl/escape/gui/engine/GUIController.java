@@ -4,6 +4,7 @@ import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.Personnage;
 import fr.ul.acl.escape.monde.Terrain;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
@@ -24,9 +25,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         try {
             monde.chargerCarte("carte01");
         } catch (Exception e) {
-            System.err.println("Error while loading map");
-            e.printStackTrace();
-            System.exit(1);
+            ErrorBehavior.crash(e, "Failed to load map");
         }
     }
 

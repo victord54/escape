@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.SaveData;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +44,7 @@ public class SaveComponent extends ListCell<SaveData> {
             try {
                 loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                ErrorBehavior.handle(e, "Failed to load 'save-component.fxml' component.");
             }
         }
     }

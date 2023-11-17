@@ -12,10 +12,14 @@ import org.jgrapht.graph.SimpleGraph;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
+
 
 public class Monde {
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
+
+    private long dernierCoupsEffectueParHero = System.currentTimeMillis();
 
     public Monde() {
         personnages = new ArrayList<>();
@@ -103,7 +107,8 @@ public class Monde {
         Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
         tmp.deplacer(typeMouvement, deltaTime);
 
-        if (!collisionAvec(tmp, false)) this.getHeros().deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
+        else h.setOrientation(typeMouvement); //Pour pouvoir se tourner même quand on ne peut pas se déplacer
     }
 
     /**
@@ -315,6 +320,37 @@ public class Monde {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Initiates an attack action for the hero.
+     * Checks for a cooldown period and performs an attack if the cooldown has elapsed.
+     * Detects and targets enemies within the hero's attack hitbox, inflicts damage, and
+     * removes defeated enemies.
+     */
+    public void heroAttaque() {
+        if (System.currentTimeMillis() - dernierCoupsEffectueParHero < HERO_HIT_COUNTDOWN) return;
+        dernierCoupsEffectueParHero = System.currentTimeMillis();
+
+        List<Personnage> monstresDansHitBoxAttaque = new ArrayList<>();
+        Heros hero = getHeros();
+        for (Personnage p : personnages) {
+            if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros())
+                monstresDansHitBoxAttaque.add(p);
+        }
+        hero.attaquer(monstresDansHitBoxAttaque);
+        for (Personnage p : monstresDansHitBoxAttaque) {
+            if (!p.estVivant()) detruirePersonnage(p);
+        }
+    }
+
+    /**
+     * Erases the specified character from the world
+     *
+     * @param p The character to be destroyed.
+     */
+    public void detruirePersonnage(Personnage p) {
+        this.personnages.remove(p);
     }
 
 }

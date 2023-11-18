@@ -23,7 +23,9 @@ public class GameViewController extends ViewController {
     @FXML
     private Button resumeButton;
     @FXML
-    private Button saveAndQuitButton;
+    private Button saveNewButton;
+    @FXML
+    private Button saveOverwriteButton;
     @FXML
     private Button quitButton;
 
@@ -45,15 +47,18 @@ public class GameViewController extends ViewController {
     public void applyLanguage() {
         pauseTitle.setText(Resources.getI18NString("game.pause"));
         resumeButton.setText(Resources.getI18NString("game.resume"));
-        saveAndQuitButton.setText(Resources.getI18NString("game.saveAndQuit"));
-        quitButton.setText(Resources.getI18NString("game.quit"));
+        saveNewButton.setText(Resources.getI18NString("save.saveAndQuit"));
+        saveOverwriteButton.setText(Resources.getI18NString("save.overwrite"));
+        quitButton.setText(Resources.getI18NString("save.quit"));
     }
 
     public void setButtonsListener(ButtonsListener listener) {
         this.buttonsListener = listener;
     }
 
-    public void setPauseMenuVisible(boolean visible) {
+    public void setPauseMenuVisible(boolean visible, boolean hasSave) {
+        saveNewButton.setText(hasSave ? Resources.getI18NString("save.saveNew") : Resources.getI18NString("save.saveAndQuit"));
+        saveOverwriteButton.setDisable(!hasSave);
         pauseMenu.setVisible(visible);
         pauseMenu.setDisable(!visible);
         if (visible) resumeButton.requestFocus();
@@ -68,10 +73,18 @@ public class GameViewController extends ViewController {
     }
 
     @FXML
-    private void onClickSaveAndQuit() {
+    private void onClickSaveNew() {
         // call the listener
         if (this.buttonsListener != null) {
-            this.buttonsListener.save();
+            this.buttonsListener.save(false);
+        }
+    }
+
+    @FXML
+    private void onClickSaveOverwrite() {
+        // call the listener
+        if (this.buttonsListener != null) {
+            this.buttonsListener.save(true);
         }
     }
 
@@ -84,7 +97,7 @@ public class GameViewController extends ViewController {
     }
 
     public interface ButtonsListener {
-        void save();
+        void save(boolean overwrite);
 
         void quit();
 

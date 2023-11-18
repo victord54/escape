@@ -86,7 +86,17 @@ public class GameView extends View implements GameInterface, GameViewController.
         super.onViewDisplayed();
         GameViewController controller = (GameViewController) this.controller;
 
-        controller.setPauseMenuVisible(false);
+        // init game controller
+        if (args.length > 0 && args[0] instanceof SaveData) {
+            save = (SaveData) args[0];
+            gameController = new GUIController(save.getJSON());
+        } else {
+            save = null;
+            gameController = new GUIController();
+        }
+
+        // init game board
+        controller.setPauseMenuVisible(false, save != null);
         controller.setButtonsListener(this);
 
         StackPane centerPane = controller.getPane();
@@ -107,18 +117,10 @@ public class GameView extends View implements GameInterface, GameViewController.
         gameBoard.widthProperty().addListener((observable, oldValue, newValue) -> render());
         gameBoard.heightProperty().addListener((observable, oldValue, newValue) -> render());
 
-        // init game controller
-        if (args.length > 0 && args[0] instanceof SaveData) {
-            save = (SaveData) args[0];
-            gameController = new GUIController(save.getJSON());
-        } else {
-            gameController = new GUIController();
-        }
-
         // start engine
         this.engine = new GUIEngine(this, gameController);
         engine.paused.subscribe((evt, oldValue, newValue) -> {
-            controller.setPauseMenuVisible(newValue);
+            controller.setPauseMenuVisible(newValue, save != null);
         });
         engine.start();
     }
@@ -224,34 +226,17 @@ public class GameView extends View implements GameInterface, GameViewController.
     }
 
     @Override
-    public void save() {
+    public void save(boolean overwrite) {
         if (gameController == null) return;
         JSONObject json = gameController.getJSON();
 
-        if (save != null) {
-            // TODO: add button in the pause menu if save != null to overwrite the save instead of asking
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle(Resources.getI18NString("save.overwrite"));
-            alert.setHeaderText(Resources.getI18NString("save.overwrite.message"));
-
-            ButtonType overwrite = new ButtonType(Resources.getI18NString("save.overwrite.overwrite"));
-            ButtonType newSave = new ButtonType(Resources.getI18NString("save.overwrite.new"));
-            ButtonType cancel = new ButtonType(Resources.getI18NString("cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
-            alert.getButtonTypes().setAll(overwrite, newSave, cancel);
-
-            alert.showAndWait().ifPresent(type -> {
-                if (type == cancel) return;
-
-                long date = System.currentTimeMillis();
-                json.put("date", date);
-                FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
-                if (type == overwrite) {
-                    save.deleteFromFS();
-                }
-
-                quit();
-            });
+        long date = System.currentTimeMillis();
+        json.put("date", date);
+        FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
+        if (save != null && overwrite) {
+            save.deleteFromFS();
         }
+        quit();
     }
 
     @Override

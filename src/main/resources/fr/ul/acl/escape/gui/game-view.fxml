@@ -18,8 +18,10 @@
         <Label fx:id="pauseTitle" styleClass="title" text="%game.pause" />
         <Button fx:id="resumeButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickResume"
                 text="%game.resume" />
-        <Button fx:id="saveAndQuitButton" mnemonicParsing="false" onAction="#onClickSaveAndQuit"
-                text="%game.saveAndQuit" />
-        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%game.quit" />
+        <Button fx:id="saveNewButton" mnemonicParsing="false" onAction="#onClickSaveNew"
+                text="%save.saveAndQuit" />
+        <Button fx:id="saveOverwriteButton" mnemonicParsing="false" onAction="#onClickSaveOverwrite"
+                text="%save.overwrite" />
+        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%save.quit" />
     </VBox>
 </StackPane>

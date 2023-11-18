@@ -1,11 +1,13 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.Launcher;
+import javafx.scene.control.Alert;
+
 import static fr.ul.acl.escape.outils.Donnees.DEBUG;
 
 /**
  * Unifies the error handling of the application.
  */
-// TODO: show a dialog in GUI mode
 public class ErrorBehavior {
     /**
      * Crash the application.
@@ -15,6 +17,13 @@ public class ErrorBehavior {
      */
     public static void crash(Exception e, String message) {
         handle(e, message);
+        if (!Launcher.getArgs().contains("--nowindow")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(message);
+            alert.setContentText(e.toString());
+            alert.showAndWait();
+        }
         System.exit(1);
     }
 

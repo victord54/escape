@@ -12,7 +12,9 @@ public abstract class Personnage extends ElementMonde {
     private final int id;
     protected double coeurs;
 
-    public TypeMouvement orientation;
+    protected double degats;
+
+    protected TypeMouvement orientation;
 
     public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur);

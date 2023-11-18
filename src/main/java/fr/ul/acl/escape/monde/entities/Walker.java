@@ -18,6 +18,5 @@ public class Walker extends Monstre {
 
     public Walker(JSONObject json) {
         super(json);
-        coeurs = json.getDouble("life");
     }
 }

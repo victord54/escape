@@ -57,12 +57,10 @@ public final class Donnees {
     /**
      * width of hero
      */
-
     public static final double HERO_WIDTH = 0.9;
     /**
      * speed of hero
      */
-
     public static final int HERO_SPEED = 4;
     /**
      * number of hero's hearts
@@ -88,12 +86,10 @@ public final class Donnees {
      * speed of monster
      */
     public static final int WALKER_SPEED = 2;
-
     /**
      * Number of walker's hearts
      */
     public static final double WALKER_HEART = 3;
-
     /**
      * The height of the game screen in boxes.
      */

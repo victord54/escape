@@ -48,6 +48,7 @@ public abstract class Personnage extends ElementMonde {
         }
     }
 
+    @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("id", id);

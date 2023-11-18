@@ -14,19 +14,7 @@ public class Walker extends Monstre {
         super(Type.WALKER, x, y, hauteur, largeur, vitesse, id);
     }
 
-    public static Walker fromJSON(JSONObject json) {
-        return json.has("id") && json.has("speed") ? new Walker(
-                json.getDouble("x"),
-                json.getDouble("y"),
-                json.getDouble("height"),
-                json.getDouble("width"),
-                json.getDouble("speed"),
-                json.getInt("id")
-        ) : new Walker(
-                json.getDouble("x"),
-                json.getDouble("y"),
-                json.getDouble("height"),
-                json.getDouble("width")
-        );
+    public Walker(JSONObject json) {
+        super(json);
     }
 }

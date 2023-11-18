@@ -18,8 +18,6 @@ import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -232,11 +230,20 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         long date = System.currentTimeMillis();
         json.put("date", date);
-        FileManager.write(json, "saves" + separator + date + ENCRYPTED.extension, true);
-        if (save != null && overwrite) {
-            save.deleteFromFS();
+
+        if (FileManager.write(json, SaveData.FOLDER + separator + date + ENCRYPTED.extension, true)) {
+            if (save != null && overwrite) {
+                save.deleteFromFS();
+            }
+            quit();
+            return;
         }
-        quit();
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(Resources.getI18NString("error.cannotSave"));
+        alert.setHeaderText(Resources.getI18NString("error.cannotSave.message"));
+        alert.setContentText(Resources.getI18NString("error.cannotSave.details"));
+        alert.showAndWait();
     }
 
     @Override

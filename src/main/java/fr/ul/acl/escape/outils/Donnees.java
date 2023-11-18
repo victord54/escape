@@ -4,7 +4,6 @@ import fr.ul.acl.escape.Launcher;
 import net.harawata.appdirs.AppDirsFactory;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Static game information common to all classes.

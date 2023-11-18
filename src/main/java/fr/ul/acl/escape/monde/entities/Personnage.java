@@ -6,8 +6,8 @@ import fr.ul.acl.escape.outils.FabriqueId;
 import org.json.JSONObject;
 
 public abstract class Personnage extends ElementMonde {
-    protected double vitesse;
     private final int id;
+    protected double vitesse;
 
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
@@ -21,6 +21,30 @@ public abstract class Personnage extends ElementMonde {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.id = id;
+    }
+
+    public Personnage(JSONObject json) {
+        super(json);
+        this.id = json.optInt("id", FabriqueId.getInstance().getId());
+        this.vitesse = json.optDouble("speed");
+    }
+
+    public static Personnage fromJSON(JSONObject json) {
+        Type type = Type.valueOf(json.getString("type"));
+        if (type == Type.HERO) {
+            return new Heros(json);
+        } else if (type == Type.WALKER) {
+            return new Walker(json);
+        } else {
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
+    }
+
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("id", id);
+        json.put("speed", vitesse);
+        return json;
     }
 
     /**
@@ -54,23 +78,5 @@ public abstract class Personnage extends ElementMonde {
     @Override
     public String toString() {
         return super.toString() + "id :" + this.id;
-    }
-
-    public JSONObject toJSON() {
-        JSONObject json = super.toJSON();
-        json.put("id", id);
-        json.put("speed", vitesse);
-        return json;
-    }
-
-    public static Personnage fromJSON(JSONObject json) {
-        Type type = Type.valueOf(json.getString("type"));
-        if (type == Type.HERO) {
-            return Heros.fromJSON(json);
-        } else if (type == Type.WALKER) {
-            return Walker.fromJSON(json);
-        } else {
-            throw new IllegalArgumentException("Unknown type: " + type);
-        }
     }
 }

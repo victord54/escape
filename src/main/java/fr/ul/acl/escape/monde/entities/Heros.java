@@ -10,17 +10,12 @@ public class Heros extends Personnage {
         super(ElementMonde.Type.HERO, x, y, hauteur, largeur, HERO_SPEED);
     }
 
+    public Heros(JSONObject json) {
+        super(json);
+    }
+
     @Override
     public boolean estUnHeros() {
         return true;
-    }
-
-    public static Heros fromJSON(JSONObject json) {
-        return new Heros(
-                json.getDouble("x"),
-                json.getDouble("y"),
-                json.getDouble("height"),
-                json.getDouble("width")
-        );
     }
 }

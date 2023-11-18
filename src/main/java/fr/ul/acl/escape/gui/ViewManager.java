@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Manage the views of the game.

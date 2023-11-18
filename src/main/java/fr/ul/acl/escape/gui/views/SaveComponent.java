@@ -35,30 +35,6 @@ public class SaveComponent extends ListCell<SaveData> {
 
     private FXMLLoader loader;
 
-    private void init() {
-        if (loader == null) {
-            loader = new FXMLLoader(Resources.get("gui/save-component.fxml"));
-            loader.setResources(Resources.getI18NBundle());
-            loader.setController(this);
-
-            try {
-                loader.load();
-            } catch (IOException e) {
-                ErrorBehavior.handle(e, "Failed to load 'save-component.fxml' component.");
-            }
-        }
-    }
-
-    @FXML
-    private void load(ActionEvent actionEvent) {
-        getItem().onLoad();
-    }
-
-    @FXML
-    private void delete(ActionEvent actionEvent) {
-        getItem().onDelete();
-    }
-
     @Override
     protected void updateItem(SaveData item, boolean empty) {
         super.updateItem(item, empty);
@@ -88,9 +64,45 @@ public class SaveComponent extends ListCell<SaveData> {
         }
     }
 
+    /**
+     * Initialize the component if it is not already done.
+     */
+    private void init() {
+        if (loader == null) {
+            loader = new FXMLLoader(Resources.get("gui/save-component.fxml"));
+            loader.setResources(Resources.getI18NBundle());
+            loader.setController(this);
+
+            try {
+                loader.load();
+            } catch (IOException e) {
+                ErrorBehavior.handle(e, "Failed to load 'save-component.fxml' component.");
+            }
+        }
+    }
+
+    @FXML
+    private void load(ActionEvent actionEvent) {
+        getItem().onLoad();
+    }
+
+    @FXML
+    private void delete(ActionEvent actionEvent) {
+        getItem().onDelete();
+    }
+
+    /**
+     * The listener for the buttons of the save component.
+     */
     public interface SaveButtonsListener {
+        /**
+         * Called when the load button is clicked.
+         */
         void onLoad();
 
+        /**
+         * Called when the delete button is clicked.
+         */
         void onDelete();
     }
 }

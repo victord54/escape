@@ -49,6 +49,11 @@ public class HomeViewController extends ViewController {
         quitButton.setText(Resources.getI18NString("quit"));
     }
 
+    /**
+     * Set the main button depending on if there are saves or not.
+     *
+     * @param isThereSaves true if there are saves, false otherwise
+     */
     public void isThereSaves(boolean isThereSaves) {
         loadButton.setDisable(!isThereSaves);
         (isThereSaves ? loadButton : startButton).requestFocus();

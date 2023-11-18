@@ -25,7 +25,7 @@ public class SavesViewController extends ViewController {
 
     private ObservableList<SaveData> savesList;
 
-    public void initialize() {
+    public void init() {
         savesList = savesListView.getItems();
         savesListView.setItems(savesList);
         savesListView.setCellFactory(param -> new SaveComponent());

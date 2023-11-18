@@ -52,10 +52,21 @@ public class GameViewController extends ViewController {
         quitButton.setText(Resources.getI18NString("save.quit"));
     }
 
+    /**
+     * Set the listener for the buttons.
+     *
+     * @param listener the listener
+     */
     public void setButtonsListener(ButtonsListener listener) {
         this.buttonsListener = listener;
     }
 
+    /**
+     * Set the visibility of the pause menu.
+     *
+     * @param visible true to show the pause menu, false to hide it
+     * @param hasSave true if there is a save to overwrite, false otherwise
+     */
     public void setPauseMenuVisible(boolean visible, boolean hasSave) {
         saveNewButton.setText(hasSave ? Resources.getI18NString("save.saveNew") : Resources.getI18NString("save.saveAndQuit"));
         saveOverwriteButton.setDisable(!hasSave);
@@ -66,41 +77,47 @@ public class GameViewController extends ViewController {
 
     @FXML
     private void onClickResume() {
-        // call the listener
-        if (this.buttonsListener != null) {
-            this.buttonsListener.resume();
-        }
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.resume();
     }
 
     @FXML
     private void onClickSaveNew() {
-        // call the listener
-        if (this.buttonsListener != null) {
-            this.buttonsListener.save(false);
-        }
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.save(false);
     }
 
     @FXML
     private void onClickSaveOverwrite() {
-        // call the listener
-        if (this.buttonsListener != null) {
-            this.buttonsListener.save(true);
-        }
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.save(true);
     }
 
     @FXML
     private void onClickQuit() {
-        // call the listener
-        if (this.buttonsListener != null) {
-            this.buttonsListener.quit();
-        }
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.quit();
     }
 
+    /**
+     * The listener for the buttons of the game view.
+     */
     public interface ButtonsListener {
+        /**
+         * Action to perform when the user clicks on the save button.
+         *
+         * @param overwrite true to overwrite the save, false to create a new one
+         */
         void save(boolean overwrite);
 
+        /**
+         * Action to perform when the user clicks on the quit button.
+         */
         void quit();
 
+        /**
+         * Action to perform when the user clicks on the resume button.
+         */
         void resume();
     }
 }

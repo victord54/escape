@@ -10,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class SavesView extends View {
     public SavesView() throws IOException {
@@ -20,25 +23,14 @@ public class SavesView extends View {
         this.controller = loader.getController();
     }
 
-    @Override
-    public void onViewDisplayed(Object... args) {
-        super.onViewDisplayed();
-        SavesViewController controller = (SavesViewController) this.controller;
-
-        Map<String, JSONObject> saves = FileManager.readDirectory("saves", true);
-
-        List<SaveData> savesList = new ArrayList<>();
-        for (Map.Entry<String, JSONObject> save : saves.entrySet()) {
-            SaveData saveData = getSaveData(save, savesList, controller);
-            savesList.add(saveData);
-        }
-        savesList.sort(Comparator.comparingLong(SaveData::getTimestamp).reversed());
-
-        controller.initialize();
-        controller.setSaves(savesList);
-        controller.applyLanguage();
-    }
-
+    /**
+     * Create a {@link SaveData} from a {@link Map.Entry}
+     *
+     * @param saveEntry  the entry
+     * @param savesList  the list of saves
+     * @param controller the view controller
+     * @return the save data
+     */
     private static SaveData getSaveData(Map.Entry<String, JSONObject> saveEntry, List<SaveData> savesList, SavesViewController controller) {
         SaveData saveData = new SaveData(saveEntry);
         saveData.setListener(new SaveComponent.SaveButtonsListener() {
@@ -55,5 +47,24 @@ public class SavesView extends View {
             }
         });
         return saveData;
+    }
+
+    @Override
+    public void onViewDisplayed(Object... args) {
+        super.onViewDisplayed();
+        SavesViewController controller = (SavesViewController) this.controller;
+
+        Map<String, JSONObject> saves = FileManager.readDirectory(SaveData.FOLDER, true);
+
+        List<SaveData> savesList = new ArrayList<>();
+        for (Map.Entry<String, JSONObject> save : saves.entrySet()) {
+            SaveData saveData = getSaveData(save, savesList, controller);
+            savesList.add(saveData);
+        }
+        savesList.sort(Comparator.comparingLong(SaveData::getTimestamp).reversed());
+
+        controller.init();
+        controller.setSaves(savesList);
+        controller.applyLanguage();
     }
 }

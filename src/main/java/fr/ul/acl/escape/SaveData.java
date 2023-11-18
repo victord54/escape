@@ -12,11 +12,32 @@ import java.util.Map;
 
 import static fr.ul.acl.escape.Settings.locale;
 
+/**
+ * Represents a save file.
+ */
 public class SaveData {
+    /**
+     * The folder where the saves are stored.
+     */
+    public static final String FOLDER = "saves";
+    /**
+     * The filename of the save.
+     */
     private final String filename;
+    /**
+     * The JSON representation of the save.
+     */
     private final JSONObject json;
+    /**
+     * The actions to perform when the save is loaded or deleted.
+     */
     private SaveComponent.SaveButtonsListener listener;
 
+    /**
+     * Create a SaveData from existing data.
+     *
+     * @param saveEntry the save data, as a map entry (filename, JSON)
+     */
     public SaveData(Map.Entry<String, JSONObject> saveEntry) {
         this.filename = saveEntry.getKey();
         this.json = saveEntry.getValue();
@@ -28,10 +49,6 @@ public class SaveData {
 
     public JSONObject getJSON() {
         return json;
-    }
-
-    public void setListener(SaveComponent.SaveButtonsListener listener) {
-        this.listener = listener;
     }
 
     public long getTimestamp() {
@@ -51,10 +68,20 @@ public class SaveData {
         return json.has("life") ? json.getInt("life") : -1;
     }
 
+    public void setListener(SaveComponent.SaveButtonsListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * Should load the save and start the game.
+     */
     public void onLoad() {
         listener.onLoad();
     }
 
+    /**
+     * Should delete the save.
+     */
     public void onDelete() {
         listener.onDelete();
     }

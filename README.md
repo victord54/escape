@@ -19,7 +19,15 @@
 
 ## Installation
 > [!IMPORTANT]
+>
 > Copy the file [`.env.dist`](.env.dist) to `.env` and fill in the values.
+
+> [!NOTE]
+>
+> One way to easily generate a random secret key is to use the following command:
+> ```bash
+> openssl rand -hex 64
+> ```
 
 ### Requirements
 * Maven >= 3.4.1

@@ -17,10 +17,6 @@ public class Settings {
      */
     private static final String SETTINGS_FILEPATH = "settings" + JSON.extension;
     /**
-     * Whether the auto save has been initialized.
-     */
-    private static boolean autoSaveInitialized = false;
-    /**
      * Common {@link PropertyChangeSupport} instance.
      */
     private static final PropertyChangeSupport pcs = new PropertyChangeSupport(Settings.class);
@@ -28,6 +24,11 @@ public class Settings {
     public static final Property<Boolean> fullScreen = new Property<>(pcs, "fullScreen", false).setLog(DEBUG);
     public static final Property<Boolean> showFps = new Property<>(pcs, "showFps", false).setLog(DEBUG);
     public static final Property<Locale> locale = new Property<>(pcs, "locale", (Locale) null).setLog(DEBUG);
+
+    /**
+     * Whether the auto save has been initialized.
+     */
+    private static boolean autoSaveInitialized = false;
 
     /**
      * Restore the default settings.

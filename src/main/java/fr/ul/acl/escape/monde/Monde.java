@@ -53,6 +53,22 @@ public class Monde {
         }
     }
 
+    public static Monde fromMap(String map) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(map);
+        return monde;
+    }
+
+    public static Monde fromJSON(JSONObject json) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(json.getString("map"));
+        monde.personnages.clear();
+        json.getJSONArray("entities").forEach(entity -> {
+            monde.personnages.add(Personnage.fromJSON((JSONObject) entity));
+        });
+        return monde;
+    }
+
     /**
      * Load map's informations in the world
      * Charge les information de la carte dans le monde
@@ -68,7 +84,7 @@ public class Monde {
         // On récupère les informations de la carte
         char[][] donnees = GestionFichier.lireFichierCarte(carte);
 
-        // On parcours les données
+        // On parcourt les données
         for (int j = 0; j < Donnees.WORLD_HEIGHT; j++) {
             for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
                 if (donnees[j][i] != '0') {
@@ -206,7 +222,7 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 graph.addVertex(courant);
 
-                // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrains ou un monstres)
+                // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrain ou un monstre)
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
 
                 // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
@@ -262,7 +278,6 @@ public class Monde {
         if (!collisionAvec(tmpWalker, true)) m.deplacer(typeMouvement, deltaTime);
     }
 
-
     /**
      * Method that create an alternative graph for the Monstre with node that can be in a Monstre.
      *
@@ -280,7 +295,7 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 graph.addVertex(courant);
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                // On ne test pas si le noeud est sur un Personnage
+                // On ne teste pas si le noeud est sur un Personnage
                 if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
@@ -339,21 +354,5 @@ public class Monde {
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
         // TODO: add collectibles
         return json;
-    }
-
-    public static Monde fromMap(String map) throws Exception {
-        Monde monde = new Monde();
-        monde.chargerCarte(map);
-        return monde;
-    }
-
-    public static Monde fromJSON(JSONObject json) throws Exception {
-        Monde monde = new Monde();
-        monde.chargerCarte(json.getString("map"));
-        monde.personnages.clear();
-        json.getJSONArray("entities").forEach(entity -> {
-            monde.personnages.add(Personnage.fromJSON((JSONObject) entity));
-        });
-        return monde;
     }
 }

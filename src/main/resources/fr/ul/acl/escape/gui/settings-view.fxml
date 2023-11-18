@@ -23,5 +23,6 @@
         <ComboBox fx:id="languageComboBox" prefWidth="150.0" />
     </HBox>
     <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset" />
+    <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder" />
     <Button fx:id="backButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickBack" text="%back" />
 </VBox>

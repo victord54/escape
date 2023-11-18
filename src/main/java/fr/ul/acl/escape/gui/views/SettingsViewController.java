@@ -4,12 +4,15 @@ import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+
+import static fr.ul.acl.escape.Escape.Host;
 
 public class SettingsViewController extends ViewController {
     @FXML
@@ -23,6 +26,8 @@ public class SettingsViewController extends ViewController {
     @FXML
     private Button resetButton;
     @FXML
+    private Button openFolderButton;
+    @FXML
     private Button backButton;
 
     @FXML
@@ -33,6 +38,11 @@ public class SettingsViewController extends ViewController {
     @FXML
     private void onClickReset() {
         Settings.reset();
+    }
+
+    @FXML
+    private void openFolder() {
+        Host.showDocument(Donnees.APPDATA_FOLDER);
     }
 
     @FXML
@@ -54,6 +64,7 @@ public class SettingsViewController extends ViewController {
         fullScreenCheckBox.setText(Resources.getI18NString("settings.fullscreen"));
         settingsLanguage.setText(Resources.getI18NString("settings.language"));
         resetButton.setText(Resources.getI18NString("settings.reset"));
+        openFolderButton.setText(Resources.getI18NString("settings.openFolder"));
         backButton.setText(Resources.getI18NString("back"));
     }
 

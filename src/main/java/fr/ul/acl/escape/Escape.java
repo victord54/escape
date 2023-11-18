@@ -10,6 +10,7 @@ import fr.ul.acl.escape.gui.views.SettingsView;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Escape extends Application {
+    public static HostServices Host;
+
     /**
      * CLI entry point.
      */
@@ -29,6 +32,8 @@ public class Escape extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
+        Host = getHostServices();
+
         ViewManager.getInstance().setStage(stage);
 
         // Register the views of the game

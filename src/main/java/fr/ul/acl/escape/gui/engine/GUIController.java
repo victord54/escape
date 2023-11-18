@@ -14,6 +14,11 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
 
+    /**
+     * If true, the key R is pressed.
+     */
+    boolean rKeyPressed = false;
+
     public GUIController() {
         super(new Monde());
 
@@ -43,10 +48,14 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         if (keysPressed.contains(KeyCode.Q)) {
             monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
         }
-        if (keysPressed.contains(KeyCode.R)){
-            monde.heroCollisionAvecObjet();
-        }
 
+        // Ramasser object
+        if (keysPressed.contains(KeyCode.R) && !rKeyPressed) {
+            monde.heroCollisionAvecObjet();
+            rKeyPressed = true;
+        } else if (!keysPressed.contains(KeyCode.R)) {
+            rKeyPressed = false;
+        }
 
         //Attaquer
         if (keysPressed.contains(KeyCode.ENTER)) {
@@ -66,7 +75,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         return monde.getPersonnages();
     }
 
-    public ArrayList<Objet> getObjets() { return monde.getObjets();}
+    public ArrayList<Objet> getObjets() {
+        return monde.getObjets();
+    }
 
     public Heros getHeros() {
         return monde.getHeros();

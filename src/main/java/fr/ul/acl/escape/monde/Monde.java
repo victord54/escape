@@ -372,10 +372,14 @@ public class Monde {
      */
     public void detruirePersonnage(Personnage p) {
         this.personnages.remove(p);
+        double random = Math.random();
+        if (random < Donnees.CHANCE_OF_HEART_DROP) {
+            this.objets.add(new Coeur(p.getX(), p.getY(), Donnees.HEART_HEIGHT, Donnees.HEART_WIDTH, Donnees.HEART_VALUE));
+        }
     }
 
     /**
-     * Method that check if the Hero is on collision with an Objet.
+     * Method that check if the Hero is on collision with an Objet. If he is, the object is picked up.
      */
     public void heroCollisionAvecObjet() {
         Heros h = this.getHeros();
@@ -389,6 +393,8 @@ public class Monde {
         if (objetRamasse == null) return;
         if (objetRamasse.estCoeur()) {
             objets.remove(objetRamasse);
+            Coeur c = (Coeur) objetRamasse;
+            h.coeursGagne(c.getValeur());
         }
     }
 

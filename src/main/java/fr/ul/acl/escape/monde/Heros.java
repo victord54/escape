@@ -1,5 +1,7 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.outils.Donnees;
+
 import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;
 import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
 

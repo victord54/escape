@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.outils.Donnees;
 import javafx.geometry.Rectangle2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -130,5 +131,26 @@ class HerosTest {
     void reinitialiserCoordonnees(Personnage p) {
         p.x = 0;
         p.y = 0;
+    }
+
+    @Test
+    void coeursGagneDejaFull(){
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(), WALKER_HEART);
+
+    }
+
+    @Test
+    void coeursGagneSuiteA1Ramassage(){
+        p.coeursPerdu(1);
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(), WALKER_HEART);
+    }
+
+    @Test
+    void coeursGagneLorsquePasUneVieEntierePerdue(){
+        p.coeursPerdu(0.25);
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(),WALKER_HEART);
     }
 }

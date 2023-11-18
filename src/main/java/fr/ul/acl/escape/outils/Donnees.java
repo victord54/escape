@@ -120,7 +120,15 @@ public final class Donnees {
      */
     public static final int CONVERSION_FACTOR = 10000;
 
+    /**
+     * The value of a heart.
+     */
     public static final double HEART_VALUE = 1.0;
+
+    /**
+     * The chance of a heart drop by a Monstre.
+     */
+    public static final double CHANCE_OF_HEART_DROP = 0.4;
 
     private Donnees() {
     }

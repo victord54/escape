@@ -176,7 +176,7 @@ public class Monde {
     }
 
     /**
-     * Method that move a Monstre.
+     * Method that create a graph and then move a Monstre with a pathfinding.
      *
      * @param m The Monstre that we want to move.
      */
@@ -223,11 +223,20 @@ public class Monde {
 
     }
 
+    /**
+     * Pathfinding algorithm for a Monstre.
+     *
+     * @param m         The Monstre that we want to move.
+     * @param pas       The increment for the construction of the alternate graph.
+     * @param graph     The graph.
+     * @param source    The node source.
+     * @param heros     The node target.
+     * @param deltaTime The time difference since the last iteration.
+     */
     public void pathfinding(Monstre m, int pas, Graph<Point2D, DefaultEdge> graph, Point2D source, Point2D heros, double deltaTime) {
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
         m.reinitialiseListMouvementsEssayes();
-
 
         boolean random = false;
 
@@ -302,16 +311,32 @@ public class Monde {
 
     }
 
+    /**
+     * Method that return the TypeMouvement that the Monstre need to do to go from source to target.
+     *
+     * @param source The node source.
+     * @param target The node target.
+     * @param m      The Monstre.
+     * @return The TypeMouvement that the Monstre need to do to go from source to target.
+     */
     public TypeMouvement getMouvement(Point2D source, Point2D target, Monstre m) {
         if (target.getX() < source.getX() && !m.mouvementDansList(TypeMouvement.LEFT)) return TypeMouvement.LEFT;
-        else if ((target.getX()) > source.getX() && !m.mouvementDansList(TypeMouvement.RIGHT)) return TypeMouvement.RIGHT;
+        else if ((target.getX()) > source.getX() && !m.mouvementDansList(TypeMouvement.RIGHT))
+            return TypeMouvement.RIGHT;
         else if ((target.getY()) > source.getY() && !m.mouvementDansList(TypeMouvement.DOWN)) return TypeMouvement.DOWN;
         else if ((target.getY()) < source.getY() && !m.mouvementDansList(TypeMouvement.UP)) return TypeMouvement.UP;
 
         return null;
     }
 
-    public void mouvementRandom(Monstre m, double deltaTime){
+    /**
+     * Method that move a Monstre randomly.
+     *
+     * @param m         The Monstre that we want to move.
+     * @param deltaTime The time difference since the last iteration.
+     */
+    public void mouvementRandom(Monstre m, double deltaTime) {
+        // Liste des mouvements possibles
         ArrayList<TypeMouvement> list = new ArrayList<>();
         list.add(TypeMouvement.UP);
         list.add(TypeMouvement.DOWN);
@@ -321,10 +346,12 @@ public class Monde {
         Random r = new Random();
         int randomNb;
         ArrayList<TypeMouvement> mvtEssaye = new ArrayList<>();
-        while (true){
+        while (true) {
             randomNb = r.nextInt(4);
             TypeMouvement typeMouvement = list.get(randomNb);
             if (mvtEssaye.contains(typeMouvement)) continue;
+
+            // Le mouvement n'a pas encore été essayé
             mvtEssaye.add(typeMouvement);
             Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
             tmpWalker.deplacer(typeMouvement, deltaTime);
@@ -335,7 +362,6 @@ public class Monde {
                 return;
             }
         }
-
     }
 
 
@@ -388,7 +414,7 @@ public class Monde {
     }
 
     /**
-     * Method that move all the Monstres of the world.
+     * Method that move all the Monstre of the world.
      */
     public void deplacementMonstres(double deltaTime) {
         for (Personnage p : personnages) {

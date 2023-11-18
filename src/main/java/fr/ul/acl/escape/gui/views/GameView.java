@@ -22,7 +22,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 
@@ -160,11 +159,6 @@ public class GameView extends View implements GameInterface {
             } else {
                 gc.setFill(Color.BLUEVIOLET);
                 gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
-                gc.setFill(Color.BLACK);  // Couleur du texte
-                gc.setFont(new Font("Arial", 12));  // Taille et police du texte
-                double textX = personnage.getX() * elementSize + 5;  // Ajustez la position du texte selon vos besoins
-                double textY = personnage.getY() * elementSize + 15;  // Ajustez la position du texte selon vos besoins
-                gc.fillText(""+personnage.getId(), textX, textY);
             }
         });
     }

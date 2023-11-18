@@ -51,6 +51,7 @@ public abstract class Personnage extends ElementMonde {
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("id", id);
+        json.put("life", coeurs);
         json.put("speed", vitesse);
         return json;
     }

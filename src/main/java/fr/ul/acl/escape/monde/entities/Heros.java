@@ -14,6 +14,7 @@ public class Heros extends Personnage {
 
     public Heros(JSONObject json) {
         super(json);
+        coeurs = json.getDouble("life");
     }
 
     @Override

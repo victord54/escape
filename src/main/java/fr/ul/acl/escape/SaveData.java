@@ -2,6 +2,7 @@ package fr.ul.acl.escape;
 
 import fr.ul.acl.escape.gui.views.SaveComponent;
 import fr.ul.acl.escape.outils.FileManager;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.Instant;
@@ -64,8 +65,18 @@ public class SaveData {
         return json.has("level") ? json.getInt("level") : -1;
     }
 
-    public int getLife() {
-        return json.has("life") ? json.getInt("life") : -1;
+    public double getLife() {
+        if (!json.has("entities")) return -1;
+
+        JSONArray entities = json.getJSONArray("entities");
+        for (int i = 0; i < entities.length(); i++) {
+            JSONObject entity = entities.getJSONObject(i);
+            if (entity.getString("type").equals("HERO")) {
+                return entity.has("life") ? entity.getDouble("life") : -1;
+            }
+        }
+
+        return -1;
     }
 
     public void setListener(SaveComponent.SaveButtonsListener listener) {

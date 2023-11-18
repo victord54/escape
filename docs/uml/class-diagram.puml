@@ -40,11 +40,26 @@ package Escape {
         + Piege(double x, double y, double hauteur, double largeur)
     }
 
+    abstract class Objet extends ElementMonde {
+        ..Constructeur..
+        + Objet(double x, double y, double hauteur, double largeur)
+        ..Méthodes..
+        + boolean estCoeur()
+    }
+
+    class Coeur extends Objet {
+        # double valeur;
+        ..Constructeur..
+        + Coeur(double x, double y, double hauteur, double largeur)
+        ..Méthodes..
+        + boolean estCoeur()
+    }
+
 
     abstract class Personnage {
       # double vitesse
       - int id
-      - double pointDeVie
+      # double coeurs
       - double degats
       ..Constructeur..
       + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
@@ -52,9 +67,9 @@ package Escape {
       ..Méthodes..
       + void deplacer(TypeMouvement typeMouvement, double deltaTime)
       + boolean estUnHeros()
-      + int getId()
-      + double getVitesse()
       + String toString()
+      + void coeursGagne(double c)
+      + void coeursPerdu(double c)
     }
 
     enum TypeMouvement{
@@ -101,6 +116,7 @@ package Escape {
       + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas)
       + boolean collisionAvecTerrains(Personnage p)
       + void deplacementMonstres(double deltaTime)
+      + void heroCollisionAvecObjet()
     }
   }
 
@@ -218,6 +234,7 @@ Mur -up-|> Terrain
 
 Escape.Monde.Monde -- "*" Personnage
 Escape.Monde.Monde -- "*" Terrain
+Escape.Monde.Monde -- "*" Objet
 
 Escape.Monde.Monde -- "1" GestionFichier
 

@@ -210,6 +210,50 @@ public class GameView extends View implements GameInterface, GameViewController.
             gc.setFill(Color.LIGHTGREEN);
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
+
+        // number of hearts the hero currently has
+        double coeurs = this.gameController.getHeros().getCoeurs();
+        // number max of hearts the hero can have
+        double coeursMax = Donnees.HERO_HEART;
+        // number of lost hearts
+        double coeursPerdu = coeursMax - coeurs;
+        // number of full hearts remaining
+        int nbCoeursRestantPleins = (int) (coeurs);
+        // quartile of heats remaining (0.75,0.5,0.25)
+        double coeursRestantsNonPleins = coeurs - nbCoeursRestantPleins;
+        // number of lost hearts full
+        int coeursPerduPleins = (int) coeursPerdu;
+
+        int decalage = 0;
+
+        // draw full heart
+        for (int i = 0; i < nbCoeursRestantPleins; i++) {
+            gc.setFill(Color.RED);
+            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            decalage++;
+        }
+
+        // draw if there is a heart not full
+        if (coeursRestantsNonPleins == 0.75) {
+            gc.setFill(Color.BLUEVIOLET);
+            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            decalage++;
+        } else if (coeursRestantsNonPleins == 0.5) {
+            gc.setFill(Color.BLUE);
+            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            decalage++;
+        } else if (coeursRestantsNonPleins == 0.25) {
+            gc.setFill(Color.ORANGE);
+            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            decalage++;
+        }
+
+        // draw the lost hearts
+        for (int i = 0; i < coeursPerduPleins; i++) {
+            gc.setFill(Color.PINK);
+            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            decalage++;
+        }
     }
 
     /**

@@ -2,6 +2,7 @@ package fr.ul.acl.escape.gui.engine;
 
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.ErrorBehavior;
@@ -48,6 +49,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     public void update(long deltaTime) {
         double timeInDouble = deltaTime * 10e-10;
 
+        //Déplacements
         if (keysPressed.contains(KeyCode.Z)) {
             monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
         }
@@ -61,6 +63,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
         }
 
+        //Attaquer
+        if (keysPressed.contains(KeyCode.ENTER)) {
+            monde.heroAttaque();
+        }
 
         monde.deplacementMonstres(timeInDouble);
     }
@@ -72,6 +78,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public ArrayList<Personnage> getPersonnages() {
         return monde.getPersonnages();
+    }
+
+    public Heros getHeros() {
+        return monde.getHeros();
     }
 
     public void onKeyPressed(KeyEvent event) {

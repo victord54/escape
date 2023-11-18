@@ -12,10 +12,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.beans.EventHandler;
 import java.io.IOException;
 
 public class Escape extends Application {
@@ -51,6 +49,7 @@ public class Escape extends Application {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));
             alert.setHeaderText(Resources.getI18NString("warning.noEncryptionKey.message"));
+            alert.setContentText(Resources.getI18NString("warning.noEncryptionKey.details"));
             alert.showAndWait();
         }
 

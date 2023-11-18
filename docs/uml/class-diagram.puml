@@ -34,10 +34,18 @@ package Escape {
       + boolean estTraversable()
     }
 
+    class Piege extends Terrain {
+        - double degats
+        ..Constructeur..
+        + Piege(double x, double y, double hauteur, double largeur)
+    }
+
 
     abstract class Personnage {
       # double vitesse
       - int id
+      - double pointDeVie
+      - double degats
       ..Constructeur..
       + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
       + Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id)

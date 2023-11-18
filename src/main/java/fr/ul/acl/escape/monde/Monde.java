@@ -9,7 +9,6 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,13 +50,9 @@ public class Monde {
                     else if (donnees[j][i] == Donnees.SYMBOL_HERO && !heroExiste) {
                         this.personnages.add(new Heros(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HERO_HEIGHT, Donnees.HERO_WIDTH));
                         heroExiste = true;
-                    }
-
-                    else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
+                    } else if (donnees[j][i] == Donnees.SYMBOL_WALKER) {
                         this.personnages.add(new Walker(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.WALKER_HEIGHT, Donnees.WALKER_WIDTH));
-                    }
-
-                    else if (donnees[j][i] == Donnees.SYMBOL_HEART) {
+                    } else if (donnees[j][i] == Donnees.SYMBOL_HEART) {
                         this.objets.add(new Coeur(i * Donnees.WALL_WIDTH, j * Donnees.WALL_HEIGHT, Donnees.HEART_HEIGHT, Donnees.HEART_WIDTH, Donnees.HEART_VALUE));
                     }
                 }
@@ -106,7 +101,10 @@ public class Monde {
      *
      * @param o The Objet to be added.
      */
-    public void addObjet(Objet o){ this.objets.add(o); }
+    public void addObjet(Objet o) {
+        this.objets.add(o);
+    }
+
     /**
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
      *
@@ -155,7 +153,9 @@ public class Monde {
      *
      * @return ArrayList of Objet.
      */
-    public ArrayList<Objet> getObjets(){ return objets;}
+    public ArrayList<Objet> getObjets() {
+        return objets;
+    }
 
     /**
      * Function that check if a personnage is on collision with an element of the world.
@@ -336,18 +336,20 @@ public class Monde {
         }
     }
 
-    public void heroCollisionAvecObjet(){
+    /**
+     * Method that check if the Hero is on collision with an Objet.
+     */
+    public void heroCollisionAvecObjet() {
         Heros h = this.getHeros();
         Objet objetRamasse = null;
-        for (Objet o : objets){
-            if (collision(h, o)){
+        for (Objet o : objets) {
+            if (collision(h, o)) {
                 objetRamasse = o;
                 break;
             }
         }
         if (objetRamasse == null) return;
-        if (objetRamasse.estCoeur()){
-            System.out.println("Coeur ramassé");
+        if (objetRamasse.estCoeur()) {
             objets.remove(objetRamasse);
         }
     }

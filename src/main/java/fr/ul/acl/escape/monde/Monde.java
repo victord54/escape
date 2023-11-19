@@ -7,7 +7,6 @@ import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.Mur;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
-import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.GestionFichier;
 import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
@@ -44,6 +43,7 @@ public class Monde {
 
     /**
      * Create a Monde from a map
+     *
      * @param map
      * @return
      * @throws Exception
@@ -56,6 +56,7 @@ public class Monde {
 
     /**
      * Create a Monde from a JSON representation
+     *
      * @param json
      * @return
      * @throws Exception
@@ -316,15 +317,14 @@ public class Monde {
         // On fait le mouvement prévu si il est réalisable
         if (!collisionAvec(tmpWalker, true)) {
             m.deplacer(typeMouvement, deltaTime);
-            m.setLastMouvement(typeMouvement);
             return;
         }
 
         // le mouvement n'a pas pu être effectué donc on essaye le dernier qui avait réussi
         tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-        tmpWalker.deplacer(m.getDernierMouvementReussi(), deltaTime);
+        tmpWalker.deplacer(m.getOrientation(), deltaTime);
         if (!collisionAvec(tmpWalker, true)) {
-            m.deplacer(m.getDernierMouvementReussi(), deltaTime);
+            m.deplacer(m.getOrientation(), deltaTime);
             return;
         }
 
@@ -345,7 +345,6 @@ public class Monde {
 
                     if (!collisionAvec(tmpWalker, true)) {
                         m.deplacer(typeMouvement, deltaTime);
-                        m.setLastMouvement(typeMouvement);
                         return;
                     }
                     m.addMouvementEssayes(typeMouvement);
@@ -406,7 +405,6 @@ public class Monde {
 
             if (!collisionAvec(tmpWalker, true)) {
                 m.deplacer(typeMouvement, deltaTime);
-                m.setLastMouvement(typeMouvement);
                 return;
             }
         }

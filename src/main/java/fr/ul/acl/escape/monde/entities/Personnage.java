@@ -160,4 +160,8 @@ public abstract class Personnage extends ElementMonde {
         return super.toString() + "id :" + this.id;
     }
 
+    public TypeMouvement getOrientation() {
+        return orientation;
+    }
+
 }

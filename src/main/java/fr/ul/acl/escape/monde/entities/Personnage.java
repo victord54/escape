@@ -8,27 +8,24 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static fr.ul.acl.escape.monde.TypeMouvement.UP;
-
 public abstract class Personnage extends ElementMonde {
     private final int id;
     protected double vitesse;
     protected double coeurs;
-
-    public TypeMouvement orientation;
+    protected TypeMouvement orientation;
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         id = FabriqueId.getInstance().getId();
-        orientation = UP;
+        orientation = TypeMouvement.DOWN;
     }
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.id = id;
-        orientation = UP;
+        orientation = TypeMouvement.DOWN;
     }
 
     public Personnage(JSONObject json) {

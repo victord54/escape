@@ -25,6 +25,7 @@ public final class Donnees {
             Locale.FRANCE,
             Locale.CANADA_FRENCH
     )));
+
     /**
      * symbol of Hero/player
      */
@@ -52,16 +53,15 @@ public final class Donnees {
     /**
      * height of hero
      */
-    public static final double HERO_HEIGHT = 0.9;
+    public static final double HERO_HEIGHT = 0.8;
     /**
      * width of hero
      */
-    public static final double HERO_WIDTH = 0.9;
+    public static final double HERO_WIDTH = 0.8;
     /**
      * speed of hero
      */
     public static final int HERO_SPEED = 4;
-
     /**
      * number of hero's hearts
      */
@@ -75,6 +75,14 @@ public final class Donnees {
      */
     public static final double HERO_HIT_COUNTDOWN = 500;
     /**
+     * height of monster
+     */
+    public static final double WALKER_HEIGHT = 0.8;
+    /**
+     * width of monster
+     */
+    public static final double WALKER_WIDTH = 0.5;
+    /**
      * speed of monster
      */
     public static final int WALKER_SPEED = 2;
@@ -82,6 +90,14 @@ public final class Donnees {
      * Number of walker's hearts
      */
     public static final double WALKER_HEART = 3;
+    /**
+     * The height of the game screen in boxes.
+     */
+    public static final int WORLD_HEIGHT = 12;
+    /**
+     * The height of the game screen in boxes.
+     */
+    public static final int WORLD_WIDTH = 18;
     /**
      * Default width of the window when the game starts.
      */

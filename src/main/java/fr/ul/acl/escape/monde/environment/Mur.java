@@ -1,8 +1,7 @@
 package fr.ul.acl.escape.monde.environment;
 
-import fr.ul.acl.escape.monde.ElementMonde;
-
 import fr.ul.acl.escape.gui.Sprite;
+import fr.ul.acl.escape.monde.ElementMonde;
 import javafx.scene.image.Image;
 
 public class Mur extends Terrain {

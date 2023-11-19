@@ -1,8 +1,14 @@
 package fr.ul.acl.escape.gui.engine;
 
-import fr.ul.acl.escape.monde.*;
+import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,22 +20,36 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
 
+    /**
+     * Create a new controller with a new world from a default map.
+     */
     public GUIController() {
-        super(new Monde());
-
         try {
-            monde.chargerCarte("carte01");
+            monde = Monde.fromMap("carte01");
         } catch (Exception e) {
-            System.err.println("Error while loading map");
-            e.printStackTrace();
-            System.exit(1);
+            ErrorBehavior.crash(e, "Failed to load map");
+        }
+    }
+
+    /**
+     * Create a new controller from a JSON object.
+     *
+     * @param json The JSON object.
+     *             See {@link Monde#toJSON()} for the format.
+     */
+    public GUIController(JSONObject json) {
+        try {
+            monde = Monde.fromJSON(json);
+        } catch (Exception e) {
+            ErrorBehavior.crash(e, "Failed to load map from JSON");
         }
     }
 
     @Override
-    public void update(long timeElapsed) {
-        double timeInDouble = timeElapsed * 10e-10;
+    public void update(long deltaTime) {
+        double timeInDouble = deltaTime * 10e-10;
 
+        //Déplacements
         if (keysPressed.contains(KeyCode.Z)) {
             monde.getHeros().setMoving(true);
             monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
@@ -48,6 +68,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
         }
 
+        //Attaquer
+        if (keysPressed.contains(KeyCode.ENTER)) {
+            monde.heroAttaque();
+        }
 
         monde.deplacementMonstres(timeInDouble);
     }
@@ -74,4 +98,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         keysPressed.remove(event.getCode());
     }
 
+    public JSONObject getJSON() {
+        return monde.toJSON();
+    }
 }

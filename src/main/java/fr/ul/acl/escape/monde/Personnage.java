@@ -1,3 +1,4 @@
+
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.gui.Sprite;

@@ -1,4 +1,7 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.entities;
+
+import fr.ul.acl.escape.monde.ElementMonde;
+import org.json.JSONObject;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;
 import fr.ul.acl.escape.gui.Sprite;
@@ -7,7 +10,7 @@ import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
 
 public class Heros extends Personnage {
     public Heros(double x, double y, double hauteur, double largeur) {
-        super(x, y, hauteur, largeur, HERO_SPEED);
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, HERO_SPEED);
         String path = "assets/heros.png";
         Sprite[] tab_sprite_down = new Sprite[3];
         tab_sprite_down[0] = new Sprite(path, 6, 5, 29, 31);
@@ -33,6 +36,10 @@ public class Heros extends Personnage {
         tab_sprite_up[2] = new Sprite(path, 86, 124, 29, 31);
         sprites.put(TypeMouvement.UP, tab_sprite_up);
         coeurs = HERO_HEART;
+    }
+
+    public Heros(JSONObject json) {
+        super(json);
     }
 
     @Override

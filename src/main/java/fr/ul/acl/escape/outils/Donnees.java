@@ -1,11 +1,31 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.Launcher;
+import net.harawata.appdirs.AppDirsFactory;
+
 import java.util.*;
 
 /**
  * Static game information common to all classes.
  */
 public final class Donnees {
+    /**
+     * Folder where the game data is stored.
+     */
+    public static final String APPDATA_FOLDER = AppDirsFactory.getInstance().getUserDataDir("Escape", null, "UL");
+    /**
+     * If the game is in debug mode.
+     */
+    public static final boolean DEBUG = Launcher.getArgs().contains("--debug");
+    /**
+     * The supported locales.
+     */
+    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            Locale.ENGLISH,
+            Locale.FRANCE,
+            Locale.CANADA_FRENCH
+    )));
+
     /**
      * symbol of Hero/player
      */
@@ -26,46 +46,55 @@ public final class Donnees {
      * height of wall
      */
     public static final int WALL_HEIGHT = 1;
+
     /**
      * width of wall
      */
     public static final int WALL_WIDTH = 1;
+
     /**
      * height of hero
      */
     public static final double HERO_HEIGHT = 0.8;
+
     /**
      * width of hero
      */
-
     public static final double HERO_WIDTH = 0.8;
     /**
      * speed of hero
      */
-
     public static final int HERO_SPEED = 4;
+
     /**
      * number of hero's hearts
      */
     public static final double HERO_HEART = 3;
+
+    /**
+     * hero hit damage
+     */
+    public static final double HERO_HIT = 1;
+    /**
+     * countdown between two hero hit in ms
+     */
+    public static final double HERO_HIT_COUNTDOWN = 500;
     /**
      * height of monster
      */
-    public static final double WALKER_HEIGHT = 1.2;
+    public static final double WALKER_HEIGHT = 0.8;
     /**
      * width of monster
      */
-    public static final double WALKER_WIDTH = 0.6;
+    public static final double WALKER_WIDTH = 0.5;
     /**
      * speed of monster
      */
     public static final int WALKER_SPEED = 2;
-
     /**
      * Number of walker's hearts
      */
     public static final double WALKER_HEART = 3;
-
     /**
      * The height of the game screen in boxes.
      */

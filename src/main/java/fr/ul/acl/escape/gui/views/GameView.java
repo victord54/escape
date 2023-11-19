@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.gui.VIEWS;
@@ -8,6 +9,7 @@ import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
@@ -15,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -22,10 +25,14 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class GameView extends View implements GameInterface {
+import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
+import static java.io.File.separator;
+
+public class GameView extends View implements GameInterface, GameViewController.ButtonsListener {
     /**
      * Canvas of the game board. Contains the game elements.
      */
@@ -53,7 +60,6 @@ public class GameView extends View implements GameInterface {
      * Dev purpose only.
      */
     private boolean drawGrid = false;
-
     /**
      * If true, the value of the FPS is drawn on the overlay canvas.
      */
@@ -61,23 +67,42 @@ public class GameView extends View implements GameInterface {
 
     private int iteration_heros = 0;
 
+    /**
+     * Previous save data if the game is loaded from a save.
+     */
+    private SaveData save;
+
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
+        loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();
 
-        Settings.showFps.subscribe((evt, oldValue, newValue) -> {
-            drawFPS = newValue;
-            if (!drawFPS) clearCanvas(overlay);
-        });
+        Settings.showFps.subscribe((evt, oldValue, newValue) -> drawFPS = newValue);
     }
 
     @Override
-    public void onViewDisplayed() {
-        StackPane centerPane = ((GameViewController) controller).getPane();
+    public void onViewDisplayed(Object... args) {
+        super.onViewDisplayed();
+        GameViewController controller = (GameViewController) this.controller;
+
+        // init game controller
+        if (args.length > 0 && args[0] instanceof SaveData) {
+            save = (SaveData) args[0];
+            gameController = new GUIController(save.getJSON());
+        } else {
+            save = null;
+            gameController = new GUIController();
+        }
+
+        // init game board
+        controller.setPauseMenuVisible(false, save != null);
+        controller.setButtonsListener(this);
+
+        StackPane centerPane = controller.getPane();
         centerPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        gameBoard = ((GameViewController) controller).getGameBoard();
-        overlay = ((GameViewController) controller).getOverlay();
+        gameBoard = controller.getGameBoard();
+        overlay = controller.getOverlay();
 
         // binding game board to center pane
         elementSize = Bindings.min(centerPane.widthProperty().divide(Donnees.WORLD_WIDTH), centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
@@ -92,19 +117,18 @@ public class GameView extends View implements GameInterface {
         gameBoard.widthProperty().addListener((observable, oldValue, newValue) -> render());
         gameBoard.heightProperty().addListener((observable, oldValue, newValue) -> render());
 
-        // init game controller
-        gameController = new GUIController();
-
         // start engine
-        engine = new GUIEngine(this, gameController);
+        this.engine = new GUIEngine(this, gameController);
+        engine.paused.subscribe((evt, oldValue, newValue) -> {
+            controller.setPauseMenuVisible(newValue, save != null);
+        });
         engine.start();
     }
 
     @Override
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
-            engine.stop();
-            ViewManager.getInstance().navigateTo(VIEWS.HOME);
+            engine.paused.set(!engine.paused.get());
         } else if (event.getCode() == KeyCode.SPACE) {
             Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {
@@ -174,17 +198,23 @@ public class GameView extends View implements GameInterface {
      * @param canvas The canvas to draw on.
      */
     private void drawOverlay(Canvas canvas) {
+        if (engine == null) return;
+
         // clear canvas
         clearCanvas(canvas);
-
-        // write FPS
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        if (engine != null && drawFPS) {
+        // pause menu
+        if (engine.paused.get()) {
+            gc.setFill(new Color(0, 0, 0, 0.75));
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        }
+
+        // write FPS
+        if (drawFPS) {
             gc.setFill(Color.LIGHTGREEN);
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
-
 
         // number of hearts the hero currently has
         double coeurs = this.gameController.getHeros().getCoeurs();
@@ -246,5 +276,44 @@ public class GameView extends View implements GameInterface {
         if (canvas == null) return;
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    @Override
+    public void save(boolean overwrite) {
+        if (gameController == null) return;
+        JSONObject json = gameController.getJSON();
+
+        long date = System.currentTimeMillis();
+        json.put("date", date);
+
+        if (FileManager.write(json, SaveData.FOLDER + separator + date + ENCRYPTED.extension, true)) {
+            if (save != null && overwrite) {
+                save.deleteFromFS();
+            }
+            quit();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(Resources.getI18NString("error.cannotSave"));
+        alert.setHeaderText(Resources.getI18NString("error.cannotSave.message"));
+        alert.setContentText(Resources.getI18NString("error.cannotSave.details"));
+        alert.showAndWait();
+    }
+
+    @Override
+    public void quit() {
+        if (engine == null) return;
+        engine.stop();
+        engine = null;
+
+        // go back to main menu
+        ViewManager.getInstance().navigateTo(VIEWS.HOME);
+    }
+
+    @Override
+    public void resume() {
+        if (engine == null) return;
+        engine.paused.set(false);
     }
 }

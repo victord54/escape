@@ -23,7 +23,17 @@ public abstract class GameController {
         return monde.toJSONSave();
     }
 
-    public Monde getMonde() {
-        return monde;
+    /**
+     * @return the height of the world
+     */
+    public int getHeight() {
+        return monde.getHeight();
+    }
+
+    /**
+     * @return the width of the world
+     */
+    public int getWidth() {
+        return monde.getWidth();
     }
 }

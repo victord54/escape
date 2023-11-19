@@ -12,6 +12,11 @@ public class Mur extends Terrain {
         super(json);
     }
 
+    @Override
+    public char getSymbol() {
+        return 'X';
+    }
+
     public boolean estTraversable() {
         return false;
     }

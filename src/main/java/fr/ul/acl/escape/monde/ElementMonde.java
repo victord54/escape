@@ -73,6 +73,11 @@ public abstract class ElementMonde {
     }
 
     /**
+     * @return a char representing the ElementMonde (for the console)
+     */
+    public abstract char getSymbol();
+
+    /**
      * Concrete types of ElementMonde
      * Used for JSON serialization ONLY!
      */

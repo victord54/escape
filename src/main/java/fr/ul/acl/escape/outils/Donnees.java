@@ -25,7 +25,6 @@ public final class Donnees {
             Locale.FRANCE,
             Locale.CANADA_FRENCH
     )));
-
     /**
      * symbol of Hero/player
      */
@@ -62,6 +61,7 @@ public final class Donnees {
      * speed of hero
      */
     public static final int HERO_SPEED = 4;
+
     /**
      * number of hero's hearts
      */
@@ -74,14 +74,6 @@ public final class Donnees {
      * countdown between two hero hit in ms
      */
     public static final double HERO_HIT_COUNTDOWN = 500;
-    /**
-     * height of monster
-     */
-    public static final double WALKER_HEIGHT = 0.9;
-    /**
-     * width of monster
-     */
-    public static final double WALKER_WIDTH = 0.9;
     /**
      * speed of monster
      */

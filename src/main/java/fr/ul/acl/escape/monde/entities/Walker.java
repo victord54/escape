@@ -16,6 +16,11 @@ public class Walker extends Monstre {
         coeurs = WALKER_HEART;
     }
 
+    @Override
+    public char getSymbol() {
+        return 'w';
+    }
+
     public Walker(JSONObject json) {
         super(json);
     }

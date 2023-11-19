@@ -19,6 +19,7 @@ package Escape {
             + ElementMonde(JSONObject)
             ..Méthodes..
             + JSONObject toJSON()
+            + {abstract} char getSymbol()
         }
 
         package Environment {

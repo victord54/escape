@@ -17,6 +17,11 @@ public class Heros extends Personnage {
     }
 
     @Override
+    public char getSymbol() {
+        return 'h';
+    }
+
+    @Override
     public boolean estUnHeros() {
         return true;
     }

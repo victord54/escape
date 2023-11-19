@@ -21,7 +21,7 @@ public abstract class Personnage extends ElementMonde {
         this.coeurs = coeurs;
         this.maxCoeurs = maxCoeurs;
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
-        orientation = TypeMouvement.DOWN;
+        this.orientation = TypeMouvement.DOWN;
     }
 
     public Personnage(JSONObject json) {
@@ -30,6 +30,7 @@ public abstract class Personnage extends ElementMonde {
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
         this.maxCoeurs = json.getDouble("maxLife");
+        this.orientation = TypeMouvement.DOWN;
     }
 
     public static Personnage fromJSON(JSONObject json) {

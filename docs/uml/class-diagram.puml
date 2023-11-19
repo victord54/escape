@@ -28,6 +28,7 @@ package Escape {
                 + Terrain(Type, double, double, double, double)
                 + Terrain(JSONObject)
                 ..Méthodes..
+                + {static} Terrain fromJSON(JSONObject)
                 + boolean estTraversable()
             }
 
@@ -37,6 +38,7 @@ package Escape {
                 + Mur(JSONObject)
                 ..Méthodes..
                 + boolean estTraversable()
+                + char getSymbol()
             }
 
             class BordureMonde extends Terrain {
@@ -44,9 +46,13 @@ package Escape {
                 + BordureMonde(double, double)
                 ..Méthodes..
                 + boolean estTraversable()
+                + char getSymbol()
             }
 
             class Piege extends Terrain {
+
+                // TODO
+
                 - double degats
                 ..Constructeur..
                 + Piege(double, double, double, double)
@@ -56,13 +62,13 @@ package Escape {
 
         package Entities {
             abstract class Personnage {
-                - int id
-                - double degats
+                # int id
                 # double vitesse
                 # double coeurs
+                # double coeursMax
+                - double degats
                 ..Constructeur..
-                + Personnage(Type, double, double, double, double, double)
-                + Personnage(Type, double, double, double, double, double, int)
+                + Personnage(Type, double, double, double, double, double, double, double, int)
                 + Personnage(JSONObject)
                 ..Méthodes..
                 + {static} Personnage fromJSON(JSONObject)
@@ -73,21 +79,23 @@ package Escape {
                 + Rectangle2D getHitboxCollision()
                 + boolean estUnHeros()
                 + boolean estVivant()
+                + {abstract} Personnage clone()
             }
 
             class Heros extends Personnage {
                 ..Constructeur..
-                + Heros(double, double, double, double)
+                + Heros(double, double, double, double, double, double, double, int)
                 + Heros(JSONObject)
                 ..Méthodes..
                 + boolean estUnHeros()
+                + char getSymbol()
+                + Heros clone()
             }
 
             abstract class Monstre extends Personnage {
                 # ArrayList<TypeMouvement> derniersMouvementsEssayes
                 ..Constructeur..
-                + Monstre(Type, double, double, double, double, double)
-                + Monstre(Type, double, double, double, double, double, int)
+                + Monstre(Type, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
@@ -95,9 +103,11 @@ package Escape {
 
             class Walker extends Monstre {
                 ..Constructeur..
-                + Walker(double, double, double, double)
-                + Walker(double, double, double, double, double, int)
+                + Walker(double, double, double, double, double, double, double, int)
                 + Walker(JSONObject)
+                ..Méthodes..
+                + char getSymbol()
+                + Walker clone()
             }
         }
 

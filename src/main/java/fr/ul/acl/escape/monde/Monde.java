@@ -1,6 +1,13 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Monstre;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.entities.Walker;
+import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.GestionFichier;
 import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
@@ -8,6 +15,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +27,47 @@ import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
 public class Monde {
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
+    /**
+     * Last map loaded
+     */
+    private String carte;
 
     private long dernierCoupsEffectueParHero = System.currentTimeMillis();
 
+    /**
+     * Create a new world with no elements.
+     */
     public Monde() {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
+    }
+
+    /**
+     * Create a Monde from a map
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public static Monde fromMap(String map) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(map);
+        return monde;
+    }
+
+    /**
+     * Create a Monde from a JSON representation
+     * @param json
+     * @return
+     * @throws Exception
+     */
+    public static Monde fromJSON(JSONObject json) throws Exception {
+        Monde monde = new Monde();
+        monde.chargerCarte(json.getString("map"));
+        monde.personnages.clear();
+        json.getJSONArray("entities").forEach(entity -> {
+            monde.personnages.add(Personnage.fromJSON((JSONObject) entity));
+        });
+        return monde;
     }
 
     /**
@@ -33,14 +76,16 @@ public class Monde {
      *
      * @param carte nom de la carte à charger
      */
-    public void chargerCarte(String carte) throws Exception {
+    private void chargerCarte(String carte) throws Exception {
+        this.carte = carte;
+
         // Variable de vérification
         boolean heroExiste = false;
 
         // On récupère les informations de la carte
         char[][] donnees = GestionFichier.lireFichierCarte(carte);
 
-        // On parcours les données
+        // On parcourt les données
         for (int j = 0; j < Donnees.WORLD_HEIGHT; j++) {
             for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
                 if (donnees[j][i] != '0') {
@@ -59,9 +104,8 @@ public class Monde {
                 }
             }
         }
-        if (!heroExiste) throw new Exception("Where hero ?");
+        if (!heroExiste) throw new Exception("Where hero?");
     }
-
 
     /**
      * Function that return if there is a collision between two element of the world.
@@ -97,7 +141,6 @@ public class Monde {
         this.personnages.add(p);
     }
 
-
     /**
      * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
      *
@@ -109,7 +152,7 @@ public class Monde {
         tmp.deplacer(typeMouvement, deltaTime);
 
         if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
-        else h.setOrientation(typeMouvement); //Pour pouvoir se tourner même quand on ne peut pas se déplacer
+        else h.setOrientation(typeMouvement); // Pour pouvoir se tourner même quand on ne peut pas se déplacer
     }
 
     /**
@@ -196,7 +239,7 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 graph.addVertex(courant);
 
-                // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrains ou un monstres)
+                // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrain ou un monstre)
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
 
                 // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
@@ -369,7 +412,6 @@ public class Monde {
         }
     }
 
-
     /**
      * Method that create an alternative graph for the Monstre with node that can be in a Monstre.
      *
@@ -387,7 +429,7 @@ public class Monde {
                 Point2D bas = new Point2D(i, j + pas);
                 graph.addVertex(courant);
                 Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
-                // On ne test pas si le noeud est sur un Personnage
+                // On ne teste pas si le noeud est sur un Personnage
                 if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < Donnees.WORLD_WIDTH * conversionFactor && !collisionAvecTerrains(w)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
@@ -460,4 +502,14 @@ public class Monde {
         this.personnages.remove(p);
     }
 
+    /**
+     * @return a JSON representation of the world
+     */
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("map", carte);
+        json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
+        // TODO: add collectibles
+        return json;
+    }
 }

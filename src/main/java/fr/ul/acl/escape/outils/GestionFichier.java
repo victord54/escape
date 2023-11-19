@@ -50,7 +50,7 @@ public class GestionFichier {
             reader.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorBehavior.handle(e, "Failed to read map file");
         }
         return tableau;
     }

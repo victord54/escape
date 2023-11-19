@@ -1,13 +1,18 @@
+* {
+    -background-color: #232323;
+    -text-color: white;
+}
+
 .background {
-    -fx-background-color: #232323;
+    -fx-background-color: -background-color;
 }
 
 .title {
     -fx-font-size: 42px;
     -fx-font-weight: bold;
-    -fx-text-fill: white;
+    -fx-text-fill: -text-color;
 }
 
 .text {
-    -fx-text-fill: lightgray;
+    -fx-text-fill: -text-color;
 }

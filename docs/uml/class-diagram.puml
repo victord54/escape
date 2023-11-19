@@ -73,10 +73,13 @@ package Escape {
             }
 
             abstract class Monstre extends Personnage {
+                # ArrayList<TypeMouvement> derniersMouvementsEssayes
                 ..Constructeur..
                 + Monstre(Type, double, double, double, double, double)
                 + Monstre(Type, double, double, double, double, double, int)
                 + Monstre(JSONObject)
+                + void reinitialiseListMouvementsEssayes()
+                + boolean mouvementDansList(TypeMouvement)
             }
 
             class Walker extends Monstre {
@@ -90,14 +93,17 @@ package Escape {
             ..Constructeur..
             + Monde()
             ..Méthodes..
-            + {static} int intLePlusProche(int, int)
             + {static} Monde fromMap(String)
             + {static} Monde fromJSON(JSONObject)
+            + int intLePlusProche(int, int)
             + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre, int)
             + void heroAttaque()
             + void deplacementHeros(TypeMouvement, double)
             + void deplacementMonstres()
-            + void deplacementMonstres(double)
+            + void deplacementMonstre(Monstre, double)
+            + void pathfinding(Monstre, int, Graph<Point2D, DefaultEdge>, Point2D, Point2D, double)
+            + TypeMouvement getMouvement(Point2D, Point2D, Monstre)
+            + void mouvementRandom(Monstre, double)
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
             # boolean collision(ElementMonde, ElementMonde)

@@ -124,4 +124,11 @@ class MondeTest {
         System.out.println("-----------");
         System.out.println(w);
     }
+
+    @Test
+    void intLePlusProche(){
+        assertEquals(1500,monde.intLePlusProche(1004,500));
+        assertEquals(1500,monde.intLePlusProche(1350,500));
+        assertEquals(500, monde.intLePlusProche(500,500));
+    }
 }

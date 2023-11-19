@@ -1,8 +1,8 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameInterface;
-import fr.ul.acl.escape.monde.Personnage;
-import fr.ul.acl.escape.monde.Terrain;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
 
 import java.util.Scanner;

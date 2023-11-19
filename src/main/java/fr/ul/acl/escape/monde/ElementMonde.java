@@ -1,16 +1,46 @@
 package fr.ul.acl.escape.monde;
 
-public abstract class ElementMonde {
+import org.json.JSONObject;
 
+public abstract class ElementMonde {
     protected final double hauteur;
     protected final double largeur;
+    /**
+     * ElementMonde type, private use only, for JSON serialization
+     */
+    private final Type type;
     protected double x, y;
 
-    public ElementMonde(double x, double y, double hauteur, double largeur) {
+    public ElementMonde(Type type, double x, double y, double hauteur, double largeur) {
+        this.type = type;
         this.x = x;
         this.y = y;
         this.hauteur = hauteur;
         this.largeur = largeur;
+    }
+
+    /**
+     * Create an ElementMonde from a JSON object
+     * No checks are made on the JSON object
+     *
+     * @param json the JSON object
+     */
+    public ElementMonde(JSONObject json) {
+        this.type = Type.valueOf(json.getString("type"));
+        this.x = json.getDouble("x");
+        this.y = json.getDouble("y");
+        this.hauteur = json.getDouble("height");
+        this.largeur = json.getDouble("width");
+    }
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("type", type);
+        json.put("x", x);
+        json.put("y", y);
+        json.put("height", hauteur);
+        json.put("width", largeur);
+        return json;
     }
 
     public double getX() {
@@ -40,5 +70,13 @@ public abstract class ElementMonde {
     @Override
     public String toString() {
         return "ElementMonde{" + "x=" + x + ", y=" + y + ", hauteur=" + hauteur + ", largeur=" + largeur + '}';
+    }
+
+    /**
+     * Concrete types of ElementMonde
+     * Used for JSON serialization ONLY!
+     */
+    public enum Type {
+        HERO, WALKER, WALL
     }
 }

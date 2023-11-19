@@ -44,7 +44,7 @@ package gui {
         + getRoot(): Parent
         + enableRootEvents(): void
         + onViewInit(): void
-        + onViewDisplayed(): void
+        + onViewDisplayed(Object...): void
         + onKeyPressed(KeyEvent): void
         + onKeyReleased(KeyEvent): void
     }
@@ -57,6 +57,7 @@ package gui {
         HOME
         GAME
         SETTINGS
+        SAVES
     }
 
     class ViewManager {
@@ -67,7 +68,7 @@ package gui {
         + {static} getInstance(): ViewManager
         + setStage(Stage): void
         + registerView(VIEWS, View): void
-        + navigateTo(VIEWS): void
+        + navigateTo(VIEWS, Object...): void
         + quit(): void
     }
 
@@ -101,15 +102,27 @@ package gui {
             - onClickBack(): void
         }
 
+        class SavesViewController {
+            - savesListView: ListView<SaveData>
+            - savesList: ObservableList<SaveData>
+            --
+            + applyLanguage(): void
+            + setSaves(ObservableList<SaveData>): void
+        }
+
         class HomeView {
             + HomeView()
+            + onViewDisplayed(Object...): void
             + onKeyPressed(KeyEvent): void
         }
 
         class GameView {
             + GameView()
-            + onViewDisplayed(): void
+            + onViewDisplayed(Object...): void
             + render(): void
+            + save(boolean): void
+            + quit(): void
+            + resume(): void
             - drawGameBoard(Canvas, double): void
             - drawOverlay(Canvas): void
             - clearCanvas(Canvas): void
@@ -118,6 +131,18 @@ package gui {
         class SettingsView {
             + SettingsView()
             + onViewInit(): void
+            + onViewDisplayed(Object...): void
+        }
+
+        class SavesView {
+            + SavesView()
+            + onViewDisplayed(Object...): void
+        }
+
+        class SaveComponent {
+            + updateItem(SaveData, boolean): void
+            - load(ActionEvent): void
+            - delete(ActionEvent): void
         }
     }
 
@@ -128,6 +153,8 @@ package gui {
 
     package engine {
         class GUIController {
+            + onKeyPressed(KeyEvent): void
+            + onKeyReleased(KeyEvent): void
             + update(long): void
         }
 
@@ -172,5 +199,7 @@ GameViewController -up-|> ViewController
 GameView -up-|> View
 SettingsViewController -up-|> ViewController
 SettingsView -up-|> View
+SavesViewController -up-|> ViewController
+SavesView -up-|> View
 
 @enduml

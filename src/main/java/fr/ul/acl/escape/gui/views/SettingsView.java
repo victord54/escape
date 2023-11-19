@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.Property;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.outils.Donnees;
@@ -8,11 +9,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
 
 public class SettingsView extends View {
+    private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
+        ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
+    };
+    private boolean comboBoxPreventEvent = false;
+    private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
+        ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
+        comboBoxPreventEvent = true;
+        languageComboBox.getSelectionModel().select(newValue.getDisplayName(newValue));
+        comboBoxPreventEvent = false;
+    };
+
     public SettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/settings-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
@@ -23,21 +34,43 @@ public class SettingsView extends View {
     @Override
     public void onViewInit() {
         super.onViewInit();
+        SettingsViewController controller = (SettingsViewController) this.controller;
 
-        ((SettingsViewController) controller).setFullScreenCheckBox(Settings.fullScreen.get());
+        // set the full screen check box
+        controller.setFullScreenCheckBox(Settings.fullScreen.get());
 
-        ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
-        Map<String, Locale> availableLangs = Donnees.SUPPORTED_LOCALES.stream().map(locale -> {
-            String lang = Resources.getI18NString("language", locale);
-            return Map.entry(lang, locale);
-        }).collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
-
+        // populate the language combo box
+        ComboBox<String> languageComboBox = controller.getLanguageComboBox();
         languageComboBox.onActionProperty().set(null);
-        languageComboBox.getItems().setAll(availableLangs.keySet());
-        languageComboBox.getSelectionModel().select(Resources.getI18NString("language", Settings.locale.get()));
+        Set<Locale> supportedLocales = Donnees.SUPPORTED_LOCALES;
+        languageComboBox.getItems().setAll(supportedLocales
+                .stream()
+                .map(locale -> locale.getDisplayName(locale))
+                .sorted()
+                .toList());
+
+        // select the current locale
+        Locale currentLocale = Settings.locale.get();
+        languageComboBox.getSelectionModel().select(currentLocale.getDisplayName(currentLocale));
+
+        // update the locale when the user selects a new one
         languageComboBox.onActionProperty().set((evt) -> {
-            String lang = languageComboBox.getSelectionModel().getSelectedItem();
-            Settings.locale.set(availableLangs.get(lang));
+            if (comboBoxPreventEvent) return;
+            String selectedLocaleName = languageComboBox.getSelectionModel().getSelectedItem();
+            Settings.locale.set(supportedLocales.stream()
+                    .filter((locale) -> locale.getDisplayName(locale).equals(selectedLocaleName))
+                    .findFirst()
+                    .orElse(Locale.getDefault()));
         });
+
+        // update properties when they change from outside the view
+        Settings.fullScreen.subscribeIfNot(fullScreenListener);
+        Settings.locale.subscribeIfNot(localeListener);
+    }
+
+    @Override
+    public void onViewDisplayed(Object... args) {
+        super.onViewDisplayed();
+        ((SettingsViewController) controller).resetFocus();
     }
 }

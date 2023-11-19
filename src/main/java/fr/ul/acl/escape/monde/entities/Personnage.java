@@ -1,31 +1,60 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.entities;
 
+import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
+import org.json.JSONObject;
 
 import java.util.List;
 
 import static fr.ul.acl.escape.monde.TypeMouvement.UP;
 
 public abstract class Personnage extends ElementMonde {
-    protected double vitesse;
     private final int id;
+    protected double vitesse;
     protected double coeurs;
 
     public TypeMouvement orientation;
 
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
-        super(x, y, hauteur, largeur);
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
+        super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         id = FabriqueId.getInstance().getId();
         orientation = UP;
     }
 
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(x, y, hauteur, largeur);
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
+        super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.id = id;
         orientation = UP;
+    }
+
+    public Personnage(JSONObject json) {
+        super(json);
+        this.id = json.optInt("id", FabriqueId.getInstance().getId());
+        this.vitesse = json.optDouble("speed");
+    }
+
+    public static Personnage fromJSON(JSONObject json) {
+        Type type = Type.valueOf(json.getString("type"));
+        if (type == Type.HERO) {
+            return new Heros(json);
+        } else if (type == Type.WALKER) {
+            return new Walker(json);
+        } else {
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("id", id);
+        json.put("life", coeurs);
+        json.put("speed", vitesse);
+        return json;
     }
 
     /**

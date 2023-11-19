@@ -1,11 +1,31 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.Launcher;
+import net.harawata.appdirs.AppDirsFactory;
+
 import java.util.*;
 
 /**
  * Static game information common to all classes.
  */
 public final class Donnees {
+    /**
+     * Folder where the game data is stored.
+     */
+    public static final String APPDATA_FOLDER = AppDirsFactory.getInstance().getUserDataDir("Escape", null, "UL");
+    /**
+     * If the game is in debug mode.
+     */
+    public static final boolean DEBUG = Launcher.getArgs().contains("--debug");
+    /**
+     * The supported locales.
+     */
+    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            Locale.ENGLISH,
+            Locale.FRANCE,
+            Locale.CANADA_FRENCH
+    )));
+
     /**
      * symbol of Hero/player
      */
@@ -37,12 +57,10 @@ public final class Donnees {
     /**
      * width of hero
      */
-
     public static final double HERO_WIDTH = 0.9;
     /**
      * speed of hero
      */
-
     public static final int HERO_SPEED = 4;
     /**
      * number of hero's hearts
@@ -68,12 +86,10 @@ public final class Donnees {
      * speed of monster
      */
     public static final int WALKER_SPEED = 2;
-
     /**
      * Number of walker's hearts
      */
     public static final double WALKER_HEART = 3;
-
     /**
      * The height of the game screen in boxes.
      */
@@ -90,18 +106,6 @@ public final class Donnees {
      * Default height of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
-    /**
-     * The supported locales.
-     */
-    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            Locale.ENGLISH,
-            Locale.FRENCH
-    )));
-    /**
-     * If the game is in debug mode.
-     */
-    public static boolean DEBUG = false;
-
     /**
      * Conversion factor to transform float to int.
      */

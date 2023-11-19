@@ -1,232 +1,269 @@
 @startuml
 package Escape {
+    package Monde {
+        enum TypeMouvement{
+            RIGHT
+            LEFT
+            UP
+            DOWN
+        }
 
-  package Monde {
-    abstract class ElementMonde {
-      # double x
-      # double y
-      # double hauteur
-      # double largeur
-      ..Constructeur..
-      + ElementMonde(double x, double y, double hauteur, double largeur)
-      ..Méthodes..
-      + double getX()
-      + void setX(double x)
-      + double getY()
-      + void setY(double y)
-      + double getHauteur()
-      + double getLargeur()
-      + String toString()
+        abstract class ElementMonde {
+            # double x
+            # double y
+            # double hauteur
+            # double largeur
+            - Type type
+            ..Constructeur..
+            + ElementMonde(Type, double, double, double, double)
+            + ElementMonde(JSONObject)
+            ..Méthodes..
+            + JSONObject toJSON()
+        }
 
+        package Environment {
+            abstract class Terrain {
+                ..Constructeur..
+                + Terrain(Type, double, double, double, double)
+                ..Méthodes..
+                + boolean estTraversable()
+            }
+
+            class Mur extends Terrain {
+                ..Constructeur..
+                + Mur(double, double, double, double)
+                ..Méthodes..
+                + boolean estTraversable()
+            }
+
+            class Piege extends Terrain {
+                - double degats
+                ..Constructeur..
+                + Piege(double, double, double, double)
+            }
+        }
+
+        package Entities {
+            abstract class Personnage {
+                - int id
+                - double degats
+                # double vitesse
+                # double coeurs
+                ..Constructeur..
+                + Personnage(Type, double, double, double, double, double)
+                + Personnage(Type, double, double, double, double, double, int)
+                + Personnage(JSONObject)
+                ..Méthodes..
+                + {static} Personnage fromJSON(JSONObject)
+                + JSONObject toJSON()
+                + void deplacer(TypeMouvement, double)
+                + void attaquer(List<Personnage>)
+                + Rectangle2D getHitboxAttaque()
+                + Rectangle2D getHitboxCollision()
+                + boolean estUnHeros()
+                + boolean estVivant()
+            }
+
+            class Heros extends Personnage {
+                ..Constructeur..
+                + Heros(double, double, double, double)
+                + Heros(JSONObject)
+                ..Méthodes..
+                + boolean estUnHeros()
+            }
+
+            abstract class Monstre extends Personnage {
+                ..Constructeur..
+                + Monstre(Type, double, double, double, double, double)
+                + Monstre(Type, double, double, double, double, double, int)
+                + Monstre(JSONObject)
+            }
+
+            class Walker extends Monstre {
+                ..Constructeur..
+                + Walker(double, double, double, double)
+                + Walker(double, double, double, double, double, int)
+            }
+        }
+
+        class Monde {
+            ..Constructeur..
+            + Monde()
+            ..Méthodes..
+            + {static} int intLePlusProche(int, int)
+            + {static} Monde fromMap(String)
+            + {static} Monde fromJSON(JSONObject)
+            + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre, int)
+            + void heroAttaque()
+            + void deplacementHeros(TypeMouvement, double)
+            + void deplacementMonstres()
+            + void deplacementMonstres(double)
+            + boolean collisionAvec(Personnage, boolean)
+            + boolean collisionAvecTerrains(Personnage)
+            # boolean collision(ElementMonde, ElementMonde)
+            - void chargerCarte(String)
+        }
     }
-    abstract class Terrain {
-      ..Constructeur..
-      + Terrain(double x, double y, double hauteur, double largeur)
-      ..Méthodes..
-      + boolean estTraversable()
 
+    package Outils {
+        class Donnees {
+            + {static} String APPDATA_FOLDER
+            + {static} boolean DEBUG
+            + {static} Set<Locale> SUPPORTED_LOCALES
+            + {static} double HERO_HEIGHT
+            ...
+            ..Constructeur..
+            - Donnees()
+        }
+
+        class GestionFichier {
+            ..Constructeur..
+            + GestionFichier()
+            ..Méthodes..
+            + {static} char[][] lireFichierCarte(String)
+        }
+
+        class Resources {
+            - {static} Map<String, Image> assets
+            ..Constructeur..
+            - Resources()
+            ..Méthodes..
+            + {static} URL get(String)
+            + {static} InputStream getAsStream(String)
+            + {static} Image getAsset(String)
+            + {static} ResourceBundle getI18NBundle(Locale)
+            + {static} ResourceBundle getI18NBundle()
+            + {static} String getI18NString(String, Locale)
+            + {static} String getI18NString(String)
+        }
+
+        class FabriqueId {
+            - {static} FabriqueId instance
+            - int id
+            ..Constructeur..
+            - FabriqueId()
+            ..Méthodes..
+            + {static} FabriqueId getInstance()
+            + int getId()
+        }
+
+        class ErrorBehavior {
+            ..Méthodes..
+            + {static} void handle(Exception, String)
+            + {static} void crash(Exception, String)
+        }
+
+        class FileManager {
+            + {static} boolean delete(String)
+            + {static} boolean write(JSONObject, String, boolean)
+            + {static} JSONObject readFile(String, boolean)
+            + {static} Map<String, JSONObject> readDirectory(String, boolean)
+            + {static} JSONObject readResourceFile(String)
+            + {static} Map<String, JSONObject> readResourceDirectory(String)
+            - {static} boolean writeString(String, String)
+            - {static} String readString(String)
+            - {static} JSONObject readJSONString(String)
+            - {static} SecretKey getSecretKey()
+        }
     }
 
-    class Mur {
-      ..Constructeur..
-      + Mur(double x, double y, double hauteur, double largeur)
-      ..Méthodes..
-      + boolean estTraversable()
+    package gui {
+        class Sprite
     }
 
-    class Piege extends Terrain {
-        - double degats
+    package engine {
+        abstract class GameController
+    }
+
+    class SaveData {
+        - String filename
+        - JSONObject json
         ..Constructeur..
-        + Piege(double x, double y, double hauteur, double largeur)
-    }
-
-
-    abstract class Personnage {
-      # double vitesse
-      - int id
-      - double pointDeVie
-      - double degats
-      ..Constructeur..
-      + Personnage(double x, double y, double largeur, double hauteur, double vitesse)
-      + Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id)
-      ..Méthodes..
-      + void deplacer(TypeMouvement typeMouvement, double deltaTime)
-      + boolean estUnHeros()
-      + int getId()
-      + double getVitesse()
-      + String toString()
-    }
-
-    enum TypeMouvement{
-        RIGHT
-        LEFT
-        UP
-        DOWN
-    }
-
-    class Heros {
-      ..Constructeur..
-      + Heros(double x, double y, double largeur, double hauteur)
-      ..Méthodes..
-      + boolean estUnHeros()
-    }
-
-    abstract class Monstre {
-      ..Constructeur..
-      + Monstre(double x, double y, double hauteur, double largeur, double vitesse)
-      + Monstre(double x, double y, double largeur, double hauteur, double vitesse, int id)
-    }
-
-    class Walker {
-      ..Constructeur..
-      + Walker(double x, double y, double hauteur, double largeur)
-      + Walker(double x, double y, double hauteur, double largeur, double vitesse, int id)
-    }
-
-    class Monde {
-      ..Constructeur..
-      + Monde()
-      ..Méthodes..
-      + void chargerCarte(String carte)
-      + boolean collision(ElementMonde e1, ElementMonde e2)
-      + void addTerrains(Terrain t)
-      + void addPersonnage(Personnage p)
-      + void deplacementHeros(TypeMouvement typeMouvement, double deltaTime)
-      + Heros getHeros()
-      + ArrayList<Personnage> getPersonnages()
-      + ArrayList<Terrain> getTerrains()
-      + boolean collisionAvec(Personnage pers, boolean checkAvecHeros)
-      + {static} int intLePlusProche(int value, int multiple)
-      + void deplacementMonstres()
-      + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas)
-      + boolean collisionAvecTerrains(Personnage p)
-      + void deplacementMonstres(double deltaTime)
-    }
-  }
-
-  package Outils {
-    class Donnees {
-      + {static} int WINDOW_DEFAULT_HEIGHT
-      + {static} int WINDOW_DEFAULT_WIDTH
-      + {static} int WORLD_HEIGHT
-      + {static} int WORLD_WIDTH
-      ...
-    }
-
-    class GestionFichier {
-      ..Constructeur..
-      + GestionFichier()
-      ..Méthodes..
-      + {static} char[][] lireFichierCarte(String nomCarte)
-    }
-
-    class Resources {
-      - {static} Map<String, Image> assets
-      ..Constructeur..
-      - Resources()
-      ..Méthodes..
-      + {static} URL get(String path)
-      + {static} InputStream getAsStream(String path)
-      + {static} Image getAsset(String path)
-      + {static} ResourceBundle getI18NBundle(Locale locale)
-      + {static} ResourceBundle getI18NBundle()
-      + {static} String getI18NString(String key, Locale locale)
-      + {static} String getI18NString(String key)
-    }
-
-    class FabriqueId {
-        - {static} FabriqueId instance
-        - int id
-        ..Constructeur..
-        - FabriqueId()
+        + SaveData(Map.Entry<String, JSONObject>)
         ..Méthodes..
-        + {static} FabriqueId getInstance()
-        + int getId()
+        + String getDate()
+        + double getLife()
+        + int getLevel()
+        + void deleteFromFS()
     }
-  }
 
-  package gui {
-    class Sprite
-  }
-
-  package engine {
-    abstract class GameController {
+    class Settings {
+        - {static} PropertyChangeSupport pcs
+        + {static} Property<Boolean> fullScreen
+        + {static} Property<Boolean> showFps
+        + {static} Property<Locale> locale
+        ..Méthodes..
+        + {static} void reset()
+        + {static} void load()
+        + {static} void save()
+        - {static} boolean ensureSettingsFileExists()
+        - {static} void initAutoSave()
     }
-  }
 
-  class Settings {
-    - {static} PropertyChangeSupport pcs
-    + {static} Property<Boolean> fullScreen
-    + {static} Property<Boolean> showFps
-    + {static} Property<Locale> locale
-    ..Méthodes..
-    + {static} void forceApply()
-  }
+    class "Property <T> " as Property {
+        - T value
+        - String name
+        - Map<MyPropertyChangeListener<T>, PropertyChangeListener> listeners
+        - PropertyChangeSupport pcs
+        - boolean log
+        ..Constructeur..
+        + Property(PropertyChangeSupport, String, T, Getter<T>, Setter<T>)
+        + Property(T, Getter<T>, Setter<T>)
+        + Property(PropertyChangeSupport, String, T)
+        + Property(T)
+        ..Méthodes..
+        + T get()
+        + void set(T)
+        + void subscribe(MyPropertyChangeListener<T>)
+        + void subscribeIfNot(MyPropertyChangeListener<T>)
+        + void unsubscribe(MyPropertyChangeListener<T>)
+        + void unsubscribeAll()
+        + void forceFire()
+        + Property<T> setLog(boolean)
+        - void fire(T)
+        - void log(String)
+    }
 
-  class "Property <T> " as Property {
-    - T value
-    - String name
-    - Map<MyPropertyChangeListener<T>, PropertyChangeListener> listeners
-    - PropertyChangeSupport pcs
-    - boolean log
-    ..Constructeur..
-    + Property(PropertyChangeSupport, String, T, Getter<T>, Setter<T>)
-    + Property(T, Getter<T>, Setter<T>)
-    + Property(PropertyChangeSupport, String, T)
-    + Property(T)
-    ..Méthodes..
-    + T get()
-    + void set(T)
-    + void subscribe(MyPropertyChangeListener<T>)
-    + void unsubscribe(MyPropertyChangeListener<T>)
-    + void unsubscribeAll()
-    + void forceFire()
-    + Property<T> setLog(boolean)
-    - void fire(T)
-    - void log(String)
-  }
+    interface "Getter <T> " as Getter {
+        T get(T)
+    }
 
-  interface "Getter <T> " as Getter {
-    T get(T)
-  }
-
-  interface "Setter <T> " as Setter {
-    T set(T)
-  }
+    interface "Setter <T> " as Setter {
+        T set(T)
+    }
 }
 
+
+' notes
 note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
-N_gui .. engine
+N_gui .left. engine
 N_gui .. gui
+
+note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
+N_json ... ElementMonde::Type
 
 
 ' force layout
-Resources -[hidden]up-> GestionFichier
-GestionFichier -[hidden]up-> Donnees
-engine -[hidden]right-> gui
+Outils -[hidden]up- gui
+N_json .[hidden].. ElementMonde::Type
 
 
-GameController -- "1" Escape.Monde.Monde
-Personnage -up-|> ElementMonde
-Heros -up-|> Personnage
-Monstre -up-|> Personnage
-Walker -up-|> Monstre
-
-Terrain -up-|> ElementMonde
-Mur -up-|> Terrain
-
-
-Escape.Monde.Monde -- "*" Personnage
-Escape.Monde.Monde -- "*" Terrain
-
-Escape.Monde.Monde -- "1" GestionFichier
-
+' elements monde
 ElementMonde --"*" Escape.gui.Sprite
+Personnage --"1" TypeMouvement : + orientation
+
+Personnage -up--|> ElementMonde
+Terrain -up--|> ElementMonde
+Escape.Monde.Monde --- "*" Personnage
+Escape.Monde.Monde --- "*" Terrain
+
 
 ' settings
 Settings -- Property
 Property --"1" Getter
 Property --"1" Setter
 
+
+GameController -- "1" Escape.Monde.Monde
 
 @enduml

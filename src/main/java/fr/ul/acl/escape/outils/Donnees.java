@@ -16,7 +16,7 @@ public final class Donnees {
     /**
      * If the game is in debug mode.
      */
-    public static final boolean DEBUG = Launcher.getArgs().contains("--debug");
+    public static final boolean DEBUG = Launcher.getArgs() != null && Launcher.getArgs().contains("--debug");
     /**
      * The supported locales.
      */
@@ -25,6 +25,8 @@ public final class Donnees {
             Locale.FRANCE,
             Locale.CANADA_FRENCH
     )));
+
+    public static final boolean CLI_MODE = (Launcher.getArgs() != null && Launcher.getArgs().contains("--nowindow")) || isJUnitTest();
 
     /**
      * symbol of Hero/player
@@ -116,6 +118,15 @@ public final class Donnees {
      * Conversion factor to transform float to int.
      */
     public static final int CONVERSION_FACTOR = 10000;
+
+    private static boolean isJUnitTest() {
+        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+            if (element.getClassName().startsWith("org.junit.")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private Donnees() {
     }

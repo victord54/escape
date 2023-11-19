@@ -10,8 +10,8 @@ public class Sprite {
 
     public Sprite(String path, double x, double y, double width, double height) {
         spriteSheet = Resources.getAsset(path);
-        WritableImage imageRewrite = new WritableImage(spriteSheet.getPixelReader(), (int) x, (int) y, (int) width, (int) height);
-        spriteSheet = imageRewrite;
+        if (spriteSheet == null) return;
+        spriteSheet = new WritableImage(spriteSheet.getPixelReader(), (int) x, (int) y, (int) width, (int) height);
     }
 
     public Image getSprite() {

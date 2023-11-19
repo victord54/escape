@@ -17,7 +17,7 @@ public class ErrorBehavior {
      */
     public static void crash(Exception e, String message) {
         handle(e, message);
-        if (!Launcher.getArgs().contains("--nowindow")) {
+        if (!Donnees.CLI_MODE) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(message);

@@ -7,6 +7,7 @@ import static java.lang.System.currentTimeMillis;
 public abstract class Monstre extends Personnage {
 
     long derniereAttaque = currentTimeMillis();
+    double delayAttaque;
 
     public Monstre(double x, double y, double hauteur, double largeur, double vitesse) {
         super(x, y, hauteur, largeur, vitesse);
@@ -18,7 +19,7 @@ public abstract class Monstre extends Personnage {
 
     @Override
     public void attaquer(List<Personnage> touches) {
-        if (currentTimeMillis() - derniereAttaque < 500) return;
+        if (currentTimeMillis() - derniereAttaque < delayAttaque) return;
         derniereAttaque = currentTimeMillis();
         for (Personnage p : touches) {
             p.coeursPerdu(this.degats);

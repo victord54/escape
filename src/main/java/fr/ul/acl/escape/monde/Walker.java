@@ -8,6 +8,7 @@ public class Walker extends Monstre {
         super(x, y, hauteur, largeur, WALKER_SPEED);
         coeurs = WALKER_HEART;
         degats = WALKER_HIT;
+        delayAttaque = WALKER_HIT_COUNTDOWN;
     }
 
     public Walker(double x, double y, double hauteur, double largeur, double vitesse, int id) {

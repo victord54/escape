@@ -80,6 +80,11 @@ public final class Donnees {
     public static final double WALKER_HIT = 1;
 
     /**
+     * Walker hit damage
+     */
+    public static final double WALKER_HIT_COUNTDOWN = 1;
+
+    /**
      * The height of the game screen in boxes.
      */
     public static final int WORLD_HEIGHT = 12;

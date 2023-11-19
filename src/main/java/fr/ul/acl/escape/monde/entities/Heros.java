@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.monde.entities;
 
 import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;

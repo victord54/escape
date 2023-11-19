@@ -82,11 +82,11 @@ public final class Donnees {
     /**
      * height of monster
      */
-    public static final double WALKER_HEIGHT = 0.8;
+    public static final double WALKER_HEIGHT = 0.9;
     /**
      * width of monster
      */
-    public static final double WALKER_WIDTH = 0.5;
+    public static final double WALKER_WIDTH = 0.6;
     /**
      * speed of monster
      */
@@ -111,17 +111,6 @@ public final class Donnees {
      * Default height of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
-    /**
-     * The supported locales.
-     */
-    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            Locale.ENGLISH,
-            Locale.FRENCH
-    )));
-    /**
-     * If the game is in debug mode.
-     */
-    public static boolean DEBUG = false;
 
     /**
      * Conversion factor to transform float to int.

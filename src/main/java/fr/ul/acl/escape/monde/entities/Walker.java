@@ -3,6 +3,8 @@ package fr.ul.acl.escape.monde.entities;
 import fr.ul.acl.escape.gui.Sprite;
 
 import static fr.ul.acl.escape.outils.Donnees.WALKER_SPEED;
+
+import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
 import static fr.ul.acl.escape.outils.Donnees.WALKER_HEART;

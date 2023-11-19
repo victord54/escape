@@ -7,7 +7,7 @@ public class BordureMonde extends Terrain {
 
     @Override
     public char getSymbol() {
-        return 'X';
+        return '█';
     }
 
     public boolean estTraversable() {

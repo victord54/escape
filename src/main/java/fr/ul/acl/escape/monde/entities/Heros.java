@@ -3,13 +3,9 @@ package fr.ul.acl.escape.monde.entities;
 import fr.ul.acl.escape.monde.ElementMonde;
 import org.json.JSONObject;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;
-import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
-
 public class Heros extends Personnage {
-    public Heros(double x, double y, double hauteur, double largeur) {
-        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, HERO_SPEED);
-        coeurs = HERO_HEART;
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 
     public Heros(JSONObject json) {
@@ -18,11 +14,16 @@ public class Heros extends Personnage {
 
     @Override
     public char getSymbol() {
-        return 'h';
+        return 'H';
     }
 
     @Override
     public boolean estUnHeros() {
         return true;
+    }
+
+    @Override
+    public Heros clone() {
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 }

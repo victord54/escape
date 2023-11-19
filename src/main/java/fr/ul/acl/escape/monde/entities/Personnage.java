@@ -9,22 +9,18 @@ import org.json.JSONObject;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
-    private final int id;
+    protected final int id;
     protected double vitesse;
     protected double coeurs;
+    protected double maxCoeurs;
     protected TypeMouvement orientation;
 
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
-        id = FabriqueId.getInstance().getId();
-        orientation = TypeMouvement.DOWN;
-    }
-
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(type, x, y, hauteur, largeur);
-        this.vitesse = vitesse;
-        this.id = id;
+        this.coeurs = coeurs;
+        this.maxCoeurs = maxCoeurs;
+        this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         orientation = TypeMouvement.DOWN;
     }
 
@@ -33,6 +29,7 @@ public abstract class Personnage extends ElementMonde {
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
+        this.maxCoeurs = json.getDouble("maxLife");
     }
 
     public static Personnage fromJSON(JSONObject json) {
@@ -51,6 +48,7 @@ public abstract class Personnage extends ElementMonde {
         JSONObject json = super.toJSON();
         json.put("id", id);
         json.put("life", coeurs);
+        json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
         return json;
     }
@@ -132,6 +130,18 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
+    public double getMaxCoeurs() {
+        return maxCoeurs;
+    }
+
+    public void setHauteur(double h) {
+        this.hauteur = h;
+    }
+
+    public void setLargeur(double l) {
+        this.largeur = l;
+    }
+
     public void setCoeurs(double c) {
         coeurs = c;
     }
@@ -162,4 +172,8 @@ public abstract class Personnage extends ElementMonde {
         return orientation;
     }
 
+    /**
+     * @return a copy of the Personnage
+     */
+    public abstract Personnage clone();
 }

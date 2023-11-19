@@ -8,8 +8,6 @@ import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
-import fr.ul.acl.escape.monde.Monde;
-import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -215,7 +213,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         // number of hearts the hero currently has
         double coeurs = this.gameController.getHeros().getCoeurs();
         // number max of hearts the hero can have
-        double coeursMax = Donnees.HERO_HEART;
+        double coeursMax = this.gameController.getHeros().getMaxCoeurs();
         // number of lost hearts
         double coeursPerdu = coeursMax - coeurs;
         // number of full hearts remaining

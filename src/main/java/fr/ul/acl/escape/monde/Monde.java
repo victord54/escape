@@ -3,7 +3,6 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
-import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
@@ -97,12 +96,18 @@ public class Monde {
                 monde.terrains.add(new BordureMonde(monde.width - 1, i));
             }
             // add terrains
-            json.getJSONArray("environment").forEach(terrain -> {
-                monde.terrains.add(Terrain.fromJSON((JSONObject) terrain));
+            json.getJSONArray("environment").forEach(jsonTerrain -> {
+                Terrain terrain = Terrain.fromJSON((JSONObject) jsonTerrain);
+                if (terrain.getX() < 1 || terrain.getX() > monde.width - 2 || terrain.getY() < 1 || terrain.getY() > monde.height - 2)
+                    throw new IllegalArgumentException("Terrain out of bounds: " + jsonTerrain);
+                monde.terrains.add(terrain);
             });
         }
-        json.getJSONArray("entities").forEach(entity -> {
-            monde.personnages.add(Personnage.fromJSON((JSONObject) entity));
+        json.getJSONArray("entities").forEach(jsonEntity -> {
+            Personnage entity = Personnage.fromJSON((JSONObject) jsonEntity);
+            if (entity.getX() < 1 || entity.getX() > monde.width - 2 || entity.getY() < 1 || entity.getY() > monde.height - 2)
+                throw new IllegalArgumentException("Entity out of bounds: " + jsonEntity);
+            monde.personnages.add(entity);
         });
         if (map != null) monde.carte = map;
         return monde;
@@ -149,7 +154,7 @@ public class Monde {
      */
     public void deplacementHeros(TypeMouvement typeMouvement, double deltaTime) {
         Heros h = getHeros();
-        Heros tmp = new Heros(h.getX(), h.getY(), h.getHauteur(), h.getLargeur());
+        Heros tmp = h.clone();
         tmp.deplacer(typeMouvement, deltaTime);
 
         if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
@@ -227,9 +232,9 @@ public class Monde {
     /**
      * Method that create a graph and then move a Monstre with a pathfinding.
      *
-     * @param m The Monstre that we want to move.
+     * @param monstre The Monstre that we want to move.
      */
-    public void deplacementMonstre(Monstre m, double deltaTime) {
+    public void deplacementMonstre(Monstre monstre, double deltaTime) {
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         int pas = 2500; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
@@ -241,16 +246,18 @@ public class Monde {
                 graph.addVertex(courant);
 
                 // Personnage tmp pour tester si le noeud est atteignable (pas sur un terrain ou un monstre)
-                Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+                Monstre tmpMonstre = (Monstre) monstre.clone();
+                tmpMonstre.setX((double) i / conversionFactor);
+                tmpMonstre.setY((double) j / conversionFactor);
 
                 // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvec(w, false)) {
+                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
                 // Test si noeud à gauche est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (j + pas + ((int) ((m.getHauteur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvec(w, false)) {
+                if (j + pas + ((int) ((monstre.getHauteur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }
@@ -258,41 +265,45 @@ public class Monde {
         }
 
         // Check si le noeud source est pas en dehors en haut ou à gauche
-        int sourceX = intLePlusProche((int) (m.getX() * conversionFactor), pas);
-        int sourceY = intLePlusProche((int) (m.getY() * conversionFactor), pas);
+        int sourceX = intLePlusProche((int) (monstre.getX() * conversionFactor), pas);
+        int sourceY = intLePlusProche((int) (monstre.getY() * conversionFactor), pas);
         Point2D source = new Point2D(sourceX, sourceY);
 
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
 
 
-        Walker tmpWalkerAPorteHeros = new Walker(m.getX() - 0.2, m.getY() - 0.2, m.getHauteur() + 0.4, m.getLargeur() + 0.4);
-        if (collision(getHeros(), tmpWalkerAPorteHeros)) return;
+        Monstre tmpMontreAPorteHeros = (Monstre) monstre.clone();
+        tmpMontreAPorteHeros.setX(monstre.getX() - 0.2);
+        tmpMontreAPorteHeros.setY(monstre.getY() - 0.2);
+        tmpMontreAPorteHeros.setHauteur(monstre.getHauteur() + 0.4);
+        tmpMontreAPorteHeros.setLargeur(monstre.getLargeur() + 0.4);
+        if (collision(getHeros(), tmpMontreAPorteHeros)) return;
 
-        pathfinding(m, pas, graph, source, heros, deltaTime);
+        pathfinding(monstre, pas, graph, source, heros, deltaTime);
 
     }
 
     /**
      * Pathfinding algorithm for a Monstre.
      *
-     * @param m         The Monstre that we want to move.
+     * @param monstre   The Monstre that we want to move.
      * @param pas       The increment for the construction of the alternate graph.
      * @param graph     The graph.
      * @param source    The node source.
      * @param heros     The node target.
      * @param deltaTime The time difference since the last iteration.
      */
-    public void pathfinding(Monstre m, int pas, Graph<Point2D, DefaultEdge> graph, Point2D source, Point2D heros, double deltaTime) {
+    public void pathfinding(Monstre monstre, int pas, Graph<Point2D, DefaultEdge> graph, Point2D source, Point2D heros, double deltaTime) {
         DijkstraShortestPath<Point2D, DefaultEdge> shortestPath = new DijkstraShortestPath<>(graph);
         GraphPath<Point2D, DefaultEdge> shortest = shortestPath.getPath(source, heros);
-        m.reinitialiseListMouvementsEssayes();
+        monstre.reinitialiseListMouvementsEssayes();
 
         boolean random = false;
 
         if (shortest == null) {
             // Pas de chemins vers le héros = trop de monstres directement autour de lui. Génération d'un graphe qui ne prend pas en compte les monstres
             // dans ce cas afin que les monstres se dirigent quand même vers le héros.
-            Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
+            Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(monstre, pas);
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
 
@@ -301,60 +312,60 @@ public class Monde {
 
         // déplacement random car pas de chemin = monstre bloqué
         if (random) {
-            this.mouvementRandom(m, deltaTime);
+            this.mouvementRandom(monstre, deltaTime);
             return;
         }
         List<Point2D> list = shortest.getVertexList();
 
         if (list.size() == 1) return;
         Point2D first = list.get(1);
-        TypeMouvement typeMouvement = getMouvement(source, first, m);
+        TypeMouvement typeMouvement = getMouvement(source, first, monstre);
         if (typeMouvement == null) return;
 
-        Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-        tmpWalker.deplacer(typeMouvement, deltaTime);
+        Monstre tmpMonstre = (Monstre) monstre.clone();
+        tmpMonstre.deplacer(typeMouvement, deltaTime);
 
         // On fait le mouvement prévu si il est réalisable
-        if (!collisionAvec(tmpWalker, true)) {
-            m.deplacer(typeMouvement, deltaTime);
+        if (!collisionAvec(tmpMonstre, true)) {
+            monstre.deplacer(typeMouvement, deltaTime);
             return;
         }
 
         // le mouvement n'a pas pu être effectué donc on essaye le dernier qui avait réussi
-        tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-        tmpWalker.deplacer(m.getOrientation(), deltaTime);
-        if (!collisionAvec(tmpWalker, true)) {
-            m.deplacer(m.getOrientation(), deltaTime);
+        tmpMonstre = (Monstre) monstre.clone();
+        tmpMonstre.deplacer(monstre.getOrientation(), deltaTime);
+        if (!collisionAvec(tmpMonstre, true)) {
+            monstre.deplacer(monstre.getOrientation(), deltaTime);
             return;
         }
 
         // Le dernier mouvement n'était pas possible non plus donc on regarde si c'était à cause du héros ou non.
         // Si non, on regarde dans la liste des noeuds du chemin quel prochain mouvement est faisable
         // On garde en mémoire tous les mouvements que le Monstre a essayé.
-        if (collisionAvec(tmpWalker, false)) {
-            m.addMouvementEssayes(typeMouvement);
+        if (collisionAvec(tmpMonstre, false)) {
+            monstre.addMouvementEssayes(typeMouvement);
             for (int i = 2; i < list.size(); i++) {
-                typeMouvement = getMouvement(source, list.get(i), m);
+                typeMouvement = getMouvement(source, list.get(i), monstre);
                 if (typeMouvement == null) continue;
 
                 // Le mouvement est pas dans la liste donc on peut l'essayer
-                if (!m.mouvementDansList(typeMouvement)) {
+                if (!monstre.mouvementDansList(typeMouvement)) {
 
-                    tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-                    tmpWalker.deplacer(typeMouvement, deltaTime);
+                    tmpMonstre = (Monstre) monstre.clone();
+                    tmpMonstre.deplacer(typeMouvement, deltaTime);
 
-                    if (!collisionAvec(tmpWalker, true)) {
-                        m.deplacer(typeMouvement, deltaTime);
+                    if (!collisionAvec(tmpMonstre, true)) {
+                        monstre.deplacer(typeMouvement, deltaTime);
                         return;
                     }
-                    m.addMouvementEssayes(typeMouvement);
+                    monstre.addMouvementEssayes(typeMouvement);
                 }
 
             }
         }
 
         // Si vraiment aucun mouvement n'a été fait, mouvement random
-        this.mouvementRandom(m, deltaTime);
+        this.mouvementRandom(monstre, deltaTime);
 
     }
 
@@ -379,10 +390,10 @@ public class Monde {
     /**
      * Method that move a Monstre randomly.
      *
-     * @param m         The Monstre that we want to move.
+     * @param monstre   The Monstre that we want to move.
      * @param deltaTime The time difference since the last iteration.
      */
-    public void mouvementRandom(Monstre m, double deltaTime) {
+    public void mouvementRandom(Monstre monstre, double deltaTime) {
         // Liste des mouvements possibles
         ArrayList<TypeMouvement> list = new ArrayList<>();
         list.add(TypeMouvement.UP);
@@ -400,11 +411,11 @@ public class Monde {
 
             // Le mouvement n'a pas encore été essayé
             mvtEssaye.add(typeMouvement);
-            Walker tmpWalker = new Walker(m.getX(), m.getY(), m.getHauteur(), m.getLargeur(), m.getVitesse(), m.getId());
-            tmpWalker.deplacer(typeMouvement, deltaTime);
+            Monstre tmpMonstre = (Monstre) monstre.clone();
+            tmpMonstre.deplacer(typeMouvement, deltaTime);
 
-            if (!collisionAvec(tmpWalker, true)) {
-                m.deplacer(typeMouvement, deltaTime);
+            if (!collisionAvec(tmpMonstre, true)) {
+                monstre.deplacer(typeMouvement, deltaTime);
                 return;
             }
         }
@@ -413,11 +424,11 @@ public class Monde {
     /**
      * Method that create an alternative graph for the Monstre with node that can be in a Monstre.
      *
-     * @param m   The Monstre we want to move.
-     * @param pas The increment for the construction of the graph.
+     * @param monstre The Monstre we want to move.
+     * @param pas     The increment for the construction of the graph.
      * @return A Graph<Point2, DefaultEdge> for m.
      **/
-    public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre m, int pas) {
+    public Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre monstre, int pas) {
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         int conversionFactor = Donnees.CONVERSION_FACTOR;
         for (int i = 0; i < this.width * conversionFactor; i += pas) {
@@ -426,14 +437,17 @@ public class Monde {
                 Point2D droite = new Point2D(i + pas, j);
                 Point2D bas = new Point2D(i, j + pas);
                 graph.addVertex(courant);
-                Walker w = new Walker((double) i / conversionFactor, (double) j / conversionFactor, m.getLargeur(), m.getHauteur(), m.getVitesse(), m.getId());
+
+                Monstre tmpMonstre = (Monstre) monstre.clone();
+                tmpMonstre.setX((double) i / conversionFactor);
+                tmpMonstre.setY((double) j / conversionFactor);
                 // On ne teste pas si le noeud est sur un Personnage
-                if (i + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvecTerrains(w)) {
+                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvecTerrains(tmpMonstre)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
-                if (j + pas + ((int) ((m.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvecTerrains(w)) {
+                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvecTerrains(tmpMonstre)) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }

@@ -15,8 +15,8 @@ class MondeTest {
 
     @BeforeEach
     void setUp() {
-        this.monde = new Monde();
-        this.monde2 = new Monde();
+        this.monde = new Monde(12, 18);
+        this.monde2 = new Monde(12, 18);
     }
 
     @Test

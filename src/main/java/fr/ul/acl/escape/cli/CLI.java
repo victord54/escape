@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameInterface;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
@@ -20,18 +21,25 @@ public class CLI implements GameInterface {
      * The scanner to read user input.
      */
     private final Scanner scan = new Scanner(System.in);
+    /**
+     * The game world.
+     */
+    private final Monde world;
 
     public CLI() {
         System.out.println("Bienvenue dans Escape !");
 
         controller = new CLIController();
         engine = new CLIEngine(this, controller);
+        world = controller.getMonde();
         engine.start();
     }
 
     public void render() {
-        for (int y = 0; y < Donnees.WORLD_HEIGHT; y++) {
-            for (int x = 0; x < Donnees.WORLD_WIDTH; x++) {
+        if (world == null) return;
+
+        for (int y = 0; y < world.getHeight(); y++) {
+            for (int x = 0; x < world.getWidth(); x++) {
                 boolean isThereElement = false;
                 for (Terrain terrain : controller.getTerrains()) {
                     if (terrain.getX() >= x && terrain.getX() < x + terrain.getLargeur() && terrain.getY() >= y && terrain.getY() < y + terrain.getHauteur()) {

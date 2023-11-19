@@ -8,6 +8,7 @@ import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
@@ -70,6 +71,11 @@ public class GameView extends View implements GameInterface, GameViewController.
      */
     private SaveData save;
 
+    /**
+     * The game world.
+     */
+    private Monde world;
+
     public GameView() throws IOException {
         FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
@@ -92,6 +98,7 @@ public class GameView extends View implements GameInterface, GameViewController.
             save = null;
             gameController = new GUIController();
         }
+        world = gameController.getMonde();
 
         // init game board
         controller.setPauseMenuVisible(false, save != null);
@@ -103,9 +110,9 @@ public class GameView extends View implements GameInterface, GameViewController.
         overlay = controller.getOverlay();
 
         // binding game board to center pane
-        elementSize = Bindings.min(centerPane.widthProperty().divide(Donnees.WORLD_WIDTH), centerPane.heightProperty().divide(Donnees.WORLD_HEIGHT));
-        gameBoard.widthProperty().bind(elementSize.multiply(Donnees.WORLD_WIDTH));
-        gameBoard.heightProperty().bind(elementSize.multiply(Donnees.WORLD_HEIGHT));
+        elementSize = Bindings.min(centerPane.widthProperty().divide(world.getWidth()), centerPane.heightProperty().divide(world.getHeight()));
+        gameBoard.widthProperty().bind(elementSize.multiply(world.getWidth()));
+        gameBoard.heightProperty().bind(elementSize.multiply(world.getHeight()));
 
         // binding overlay to center pane
         overlay.widthProperty().bind(centerPane.widthProperty());
@@ -154,6 +161,8 @@ public class GameView extends View implements GameInterface, GameViewController.
      * @param elementSize The size of a square element on the game board.
      */
     private void drawGameBoard(Canvas canvas, double elementSize) {
+        if (world == null) return;
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // clear canvas
@@ -162,8 +171,8 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // draw grid
         if (drawGrid) {
-            for (int i = 0; i < Donnees.WORLD_WIDTH; i++) {
-                for (int j = 0; j < Donnees.WORLD_HEIGHT; j++) {
+            for (int i = 0; i < world.getWidth(); i++) {
+                for (int j = 0; j < world.getHeight(); j++) {
                     gc.setFill(i % 2 + j % 2 == 1 ? Color.LIGHTGRAY : Color.GRAY);
                     gc.fillRect(i * elementSize, j * elementSize, elementSize, elementSize);
                 }
@@ -270,7 +279,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     @Override
     public void save(boolean overwrite) {
         if (gameController == null) return;
-        JSONObject json = gameController.getJSON();
+        JSONObject json = gameController.getJSONWorld();
 
         long date = System.currentTimeMillis();
         json.put("date", date);
@@ -292,9 +301,11 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void quit() {
-        if (engine == null) return;
-        engine.stop();
-        engine = null;
+        // stop engine
+        if (engine != null) {
+            engine.stop();
+            engine = null;
+        }
 
         // go back to main menu
         ViewManager.getInstance().navigateTo(VIEWS.HOME);

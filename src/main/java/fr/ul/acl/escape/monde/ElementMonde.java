@@ -77,6 +77,6 @@ public abstract class ElementMonde {
      * Used for JSON serialization ONLY!
      */
     public enum Type {
-        HERO, WALKER, WALL
+        HERO, WALKER, NOT_SERIALIZABLE, WALL
     }
 }

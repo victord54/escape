@@ -91,14 +91,6 @@ public final class Donnees {
      */
     public static final double WALKER_HEART = 3;
     /**
-     * The height of the game screen in boxes.
-     */
-    public static final int WORLD_HEIGHT = 12;
-    /**
-     * The height of the game screen in boxes.
-     */
-    public static final int WORLD_WIDTH = 18;
-    /**
      * Default width of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_WIDTH = 800;

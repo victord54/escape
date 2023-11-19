@@ -5,6 +5,7 @@ package engine {
         # Monde monde
         --
         + {abstract} update(long): void
+        + getJSONWorld(): JSONObject
     }
 
     abstract class Engine {

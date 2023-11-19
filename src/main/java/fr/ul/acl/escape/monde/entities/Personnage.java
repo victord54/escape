@@ -34,7 +34,8 @@ public abstract class Personnage extends ElementMonde {
     public Personnage(JSONObject json) {
         super(json);
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
-        this.vitesse = json.optDouble("speed");
+        this.vitesse = json.getDouble("speed");
+        this.coeurs = json.getDouble("life");
     }
 
     public static Personnage fromJSON(JSONObject json) {

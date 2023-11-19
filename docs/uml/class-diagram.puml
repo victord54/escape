@@ -25,6 +25,7 @@ package Escape {
             abstract class Terrain {
                 ..Constructeur..
                 + Terrain(Type, double, double, double, double)
+                + Terrain(JSONObject)
                 ..Méthodes..
                 + boolean estTraversable()
             }
@@ -32,6 +33,14 @@ package Escape {
             class Mur extends Terrain {
                 ..Constructeur..
                 + Mur(double, double, double, double)
+                + Mur(JSONObject)
+                ..Méthodes..
+                + boolean estTraversable()
+            }
+
+            class BordureMonde extends Terrain {
+                ..Constructeur..
+                + BordureMonde(double, double)
                 ..Méthodes..
                 + boolean estTraversable()
             }
@@ -40,6 +49,7 @@ package Escape {
                 - double degats
                 ..Constructeur..
                 + Piege(double, double, double, double)
+                + Piege(JSONObject)
             }
         }
 
@@ -83,6 +93,7 @@ package Escape {
                 ..Constructeur..
                 + Walker(double, double, double, double)
                 + Walker(double, double, double, double, double, int)
+                + Walker(JSONObject)
             }
         }
 
@@ -90,9 +101,10 @@ package Escape {
             ..Constructeur..
             + Monde()
             ..Méthodes..
-            + {static} int intLePlusProche(int, int)
             + {static} Monde fromMap(String)
             + {static} Monde fromJSON(JSONObject)
+            + {static} Monde fromJSON(JSONObject, String)
+            + {static} int intLePlusProche(int, int)
             + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre, int)
             + void heroAttaque()
             + void deplacementHeros(TypeMouvement, double)
@@ -114,13 +126,6 @@ package Escape {
             ...
             ..Constructeur..
             - Donnees()
-        }
-
-        class GestionFichier {
-            ..Constructeur..
-            + GestionFichier()
-            ..Méthodes..
-            + {static} char[][] lireFichierCarte(String)
         }
 
         class Resources {

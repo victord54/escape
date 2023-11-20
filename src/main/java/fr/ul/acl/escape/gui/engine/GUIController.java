@@ -5,6 +5,7 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

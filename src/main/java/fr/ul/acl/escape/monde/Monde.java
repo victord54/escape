@@ -5,6 +5,8 @@ import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Coeur;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import javafx.geometry.Point2D;
@@ -323,7 +325,7 @@ public class Monde {
         if (shortest == null) {
             // Pas de chemins vers le héros = trop de monstres directement autour de lui. Génération d'un graphe qui ne prend pas en compte les monstres
             // dans ce cas afin que les monstres se dirigent quand même vers le héros.
-            Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(m, pas);
+            Graph<Point2D, DefaultEdge> graphAlternatif = this.grapheAlternatif(monstre, pas);
             shortestPath = new DijkstraShortestPath<>(graphAlternatif);
             shortest = shortestPath.getPath(source, heros);
 

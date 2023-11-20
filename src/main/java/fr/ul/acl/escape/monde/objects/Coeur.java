@@ -1,10 +1,17 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.objects;
 
-public class Coeur extends Objet{
+import org.json.JSONObject;
+
+public class Coeur extends Objet {
     protected double valeur;
     public Coeur(double x, double y, double hauteur, double largeur, double valeur){
-        super(x,y,hauteur,largeur);
+        super(Type.HEART, x,y,hauteur,largeur);
         this.valeur = valeur;
+    }
+
+    @Override
+    public char getSymbol() {
+        return 'C';
     }
 
     public double getValeur(){
@@ -14,4 +21,5 @@ public class Coeur extends Objet{
     public boolean estCoeur(){
         return true;
     }
+
 }

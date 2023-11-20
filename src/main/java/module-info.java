@@ -20,4 +20,5 @@ module escape {
     exports fr.ul.acl.escape.monde;
     exports fr.ul.acl.escape.monde.entities;
     exports fr.ul.acl.escape.monde.environment;
+    exports fr.ul.acl.escape.monde.objects;
 }

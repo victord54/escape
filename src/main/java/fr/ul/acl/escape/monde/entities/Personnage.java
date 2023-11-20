@@ -174,8 +174,8 @@ public abstract class Personnage extends ElementMonde {
      */
     public void coeursGagne(double c) {
         coeurs += c;
-        if (coeurs > Donnees.HERO_HEART) {
-            coeurs = Donnees.HERO_HEART;
+        if (coeurs > maxCoeurs) {
+            coeurs = maxCoeurs;
         }
     }
 

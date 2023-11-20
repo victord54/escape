@@ -3,6 +3,7 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.objects.Coeur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,32 +1,57 @@
-package fr.ul.acl.escape.monde;
+package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
+import org.json.JSONObject;
 
 import java.util.List;
 
-import static fr.ul.acl.escape.monde.TypeMouvement.UP;
-
 public abstract class Personnage extends ElementMonde {
+    protected final int id;
     protected double vitesse;
-    private final int id;
     protected double coeurs;
+    protected double maxCoeurs;
+    protected TypeMouvement orientation;
 
-    public TypeMouvement orientation;
-
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse) {
-        super(x, y, hauteur, largeur);
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+        super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
-        id = FabriqueId.getInstance().getId();
-        orientation = UP;
+        this.coeurs = coeurs;
+        this.maxCoeurs = maxCoeurs;
+        this.id = id > 0 ? id : FabriqueId.getInstance().getId();
+        this.orientation = TypeMouvement.DOWN;
     }
 
-    public Personnage(double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(x, y, hauteur, largeur);
-        this.vitesse = vitesse;
-        this.id = id;
-        orientation = UP;
+    public Personnage(JSONObject json) {
+        super(json);
+        this.id = json.optInt("id", FabriqueId.getInstance().getId());
+        this.vitesse = json.getDouble("speed");
+        this.coeurs = json.getDouble("life");
+        this.maxCoeurs = json.getDouble("maxLife");
+        this.orientation = TypeMouvement.DOWN;
+    }
+
+    public static Personnage fromJSON(JSONObject json) {
+        Type type = Type.valueOf(json.getString("type"));
+        if (type == Type.HERO) {
+            return new Heros(json);
+        } else if (type == Type.WALKER) {
+            return new Walker(json);
+        } else {
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("id", id);
+        json.put("life", coeurs);
+        json.put("maxLife", maxCoeurs);
+        json.put("speed", vitesse);
+        return json;
     }
 
     /**
@@ -106,6 +131,18 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
+    public double getMaxCoeurs() {
+        return maxCoeurs;
+    }
+
+    public void setHauteur(double h) {
+        this.hauteur = h;
+    }
+
+    public void setLargeur(double l) {
+        this.largeur = l;
+    }
+
     public void setCoeurs(double c) {
         coeurs = c;
     }
@@ -147,4 +184,12 @@ public abstract class Personnage extends ElementMonde {
         return super.toString() + "id :" + this.id;
     }
 
+    public TypeMouvement getOrientation() {
+        return orientation;
+    }
+
+    /**
+     * @return a copy of the Personnage
+     */
+    public abstract Personnage clone();
 }

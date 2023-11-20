@@ -1,10 +1,15 @@
 package fr.ul.acl.escape.gui.engine;
 
+import fr.ul.acl.escape.Property;
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.engine.GameInterface;
 import javafx.animation.AnimationTimer;
 
 public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
+    /**
+     * If true, the game is paused.
+     */
+    public final Property<Boolean> paused = new Property<>(false);
     /**
      * Timer used to create the game loop.
      */
@@ -17,7 +22,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
     /**
      * The elapsed time since the last update in nanoseconds.
      */
-    private long elapsed = 0;
+    private long deltaTime = 0;
 
     /**
      * The time of the previous second in nanoseconds.
@@ -59,11 +64,11 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
         nbFrames++;
 
         // update and render
-        this.controller.update(elapsed);
+        this.controller.update(deltaTime * (paused.get() ? 0 : 1));
         this.ui.render();
 
         // update elapsed time
-        elapsed = now - lastUpdate;
+        deltaTime = now - lastUpdate;
         lastUpdate = now;
     }
 
@@ -85,7 +90,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
      * Returns the number of frames that should be rendered in the last second.
      */
     public int getComputedFPS() {
-        return (int) (1e9f / elapsed);
+        return (int) (1e9f / deltaTime);
     }
 
     /**

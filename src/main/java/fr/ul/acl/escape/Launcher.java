@@ -1,21 +1,33 @@
 package fr.ul.acl.escape;
 
-import fr.ul.acl.escape.outils.Donnees;
 import javafx.application.Application;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Just a no {@link Application Application} class to launch the game.
  */
-public class Launcher {
-    public static void main(String[] args) {
-        List<String> argsList = Arrays.asList(args);
+public final class Launcher {
+    /**
+     * Immutable list of arguments passed to the program.
+     */
+    private static List<String> argsList;
 
-        Donnees.DEBUG = argsList.contains("--debug");
+    public static void main(String[] args) {
+        argsList = Collections.unmodifiableList(Arrays.asList(args));
 
         if (argsList.contains("--nowindow")) Escape.main(args);
         else Application.launch(Escape.class, args);
+    }
+
+    /**
+     * Returns the list of arguments passed to the program.
+     *
+     * @return Immutable list of arguments.
+     */
+    public static List<String> getArgs() {
+        return argsList;
     }
 }

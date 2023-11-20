@@ -152,64 +152,8 @@ package Escape {
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
             + void heroRamassageObjet()
-            + void herosDeclenchePiege()
             # boolean collision(ElementMonde, ElementMonde)
             - void chargerCarte(String)
-        }
-    }
-
-    package Outils {
-        class Donnees {
-            + {static} String APPDATA_FOLDER
-            + {static} boolean DEBUG
-            + {static} Set<Locale> SUPPORTED_LOCALES
-            + {static} double HERO_HEIGHT
-            ...
-            ..Constructeur..
-            - Donnees()
-        }
-
-        class Resources {
-            - {static} Map<String, Image> assets
-            ..Constructeur..
-            - Resources()
-            ..Méthodes..
-            + {static} URL get(String)
-            + {static} InputStream getAsStream(String)
-            + {static} Image getAsset(String)
-            + {static} ResourceBundle getI18NBundle(Locale)
-            + {static} ResourceBundle getI18NBundle()
-            + {static} String getI18NString(String, Locale)
-            + {static} String getI18NString(String)
-        }
-
-        class FabriqueId {
-            - {static} FabriqueId instance
-            - int id
-            ..Constructeur..
-            - FabriqueId()
-            ..Méthodes..
-            + {static} FabriqueId getInstance()
-            + int getId()
-        }
-
-        class ErrorBehavior {
-            ..Méthodes..
-            + {static} void handle(Exception, String)
-            + {static} void crash(Exception, String)
-        }
-
-        class FileManager {
-            + {static} boolean delete(String)
-            + {static} boolean write(JSONObject, String, boolean)
-            + {static} JSONObject readFile(String, boolean)
-            + {static} Map<String, JSONObject> readDirectory(String, boolean)
-            + {static} JSONObject readResourceFile(String)
-            + {static} Map<String, JSONObject> readResourceDirectory(String)
-            - {static} boolean writeString(String, String)
-            - {static} String readString(String)
-            - {static} JSONObject readJSONString(String)
-            - {static} SecretKey getSecretKey()
         }
     }
 
@@ -279,7 +223,6 @@ package Escape {
     }
 }
 
-
 ' notes
 note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
 N_gui .left. engine
@@ -287,11 +230,6 @@ N_gui .. gui
 
 note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
 N_json ... ElementMonde::Type
-
-
-' force layout
-Outils -[hidden]up- gui
-N_json .[hidden].. ElementMonde::Type
 
 
 ' elements monde
@@ -313,5 +251,6 @@ Property --"1" Setter
 
 
 GameController -- "1" Escape.Monde.Monde
+
 
 @enduml

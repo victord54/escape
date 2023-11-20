@@ -4,22 +4,22 @@ import fr.ul.acl.escape.monde.entities.Personnage;
 import org.json.JSONObject;
 
 public class Piege extends Objet {
-    protected double degat;
+    protected double degats;
 
-    public Piege(double x, double y, double hauteur, double largeur, double degat) {
+    public Piege(double x, double y, double hauteur, double largeur, double degats) {
         super(Type.TRAP, x, y, hauteur, largeur, false);
-        this.degat = degat;
+        this.degats = degats;
     }
 
     public Piege(JSONObject json) {
         super(json);
-        this.degat = json.getDouble("degat");
+        this.degats = json.getDouble("degat");
     }
 
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
-        json.put("degat", degat);
+        json.put("degat", degats);
         return json;
     }
 
@@ -31,7 +31,7 @@ public class Piege extends Objet {
     @Override
     public void consommePar(Personnage p) {
         this.visible = true;
-        p.coeursPerdu(degat);
+        p.coeursPerdu(degats);
     }
 
     @Override

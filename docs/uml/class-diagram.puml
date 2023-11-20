@@ -48,16 +48,6 @@ package Escape {
                 + boolean estTraversable()
                 + char getSymbol()
             }
-
-            class Piege extends Terrain {
-
-                // TODO
-
-                - double degats
-                ..Constructeur..
-                + Piege(double, double, double, double)
-                + Piege(JSONObject)
-            }
         }
 
         package Entities {
@@ -112,13 +102,14 @@ package Escape {
         }
         package Objects{
             abstract class Objet{
+                # boolean visible
                 ..Constructeur..
                 + Objet(Type, double, double, double, double)
                 + Objet(JSONObject)
                 ..Méthodes..
-                + boolean estCoeur()
                 + {abstract} void consommePar(Personnage p);
                 + boolean estRamassable()
+                + boolean estDeclenchable()
             }
 
             class Coeur extends Objet{
@@ -127,8 +118,18 @@ package Escape {
                 + Coeur(double, double, double, double)
                 + Coeur(JSONObject)
                 ..Méthodes..
-                + boolean estCoeur()
                 + char getSymbol()
+            }
+
+            class Piege extends Objet{
+                # double degats
+                ..Constructeur..
+                + Piege(double, double, double, double, double)
+                + Piege(JSONObject json)
+                ..Méthodes..
+                + boolean estDeclenchable()
+                + char getSymbol()
+
             }
         }
 
@@ -151,6 +152,7 @@ package Escape {
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
             + void heroRamassageObjet()
+            + void herosDeclenchePiege()
             # boolean collision(ElementMonde, ElementMonde)
             - void chargerCarte(String)
         }

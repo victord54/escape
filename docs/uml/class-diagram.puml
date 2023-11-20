@@ -148,6 +148,7 @@ package Escape {
             + void mouvementRandom(Monstre, double)
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
+            + void heroRamassageObjet()
             # boolean collision(ElementMonde, ElementMonde)
             - void chargerCarte(String)
         }

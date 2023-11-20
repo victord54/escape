@@ -138,27 +138,27 @@ class MondeTest {
     }
 
     @Test
-    void heroCollisionAvecObjet(){
+    void heroRamassageObjet(){
         Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         Coeur c = new Coeur(6,6,0.2,0.2, 1);
         monde.addPersonnage(h);
         monde.addObjet(c);
 
-        monde.heroCollisionAvecObjet();
+        monde.heroRamassageObjet();
 
         assertEquals(monde.getObjets().size(), 0);
 
         monde.addObjet(c);
         monde.addObjet(c);
 
-        monde.heroCollisionAvecObjet();
+        monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
 
         Coeur c2 = new Coeur(8,8,0.2,0.2,1);
         monde.addObjet(c2);
-        monde.heroCollisionAvecObjet();
+        monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
-        monde.heroCollisionAvecObjet();
+        monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
 
     }

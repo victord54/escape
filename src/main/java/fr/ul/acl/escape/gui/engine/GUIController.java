@@ -73,7 +73,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         // Ramasser object
         if (keysPressed.contains(KeyCode.R) && !rKeyPressed) {
-            monde.heroCollisionAvecObjet();
+            monde.heroRamassageObjet();
             rKeyPressed = true;
         } else if (!keysPressed.contains(KeyCode.R)) {
             rKeyPressed = false;

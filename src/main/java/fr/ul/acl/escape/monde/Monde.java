@@ -553,7 +553,7 @@ public class Monde {
     /**
      * Method that check if the Hero is on collision with an Objet. If he is, the object is picked up.
      */
-    public void heroCollisionAvecObjet() {
+    public void heroRamassageObjet() {
         Heros h = this.getHeros();
         Objet objetRamasse = null;
         for (Objet o : objets) {

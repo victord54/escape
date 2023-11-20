@@ -181,6 +181,10 @@ public class GameView extends View implements GameInterface, GameViewController.
                 gc.setFill(Color.RED);
                 gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
             }
+            else if (objet.estPiege() && objet.getVisible()){
+                gc.setFill(Color.GREEN);
+                gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
+            }
         });
 
         // draw game entities

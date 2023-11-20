@@ -18,6 +18,7 @@ import org.jgrapht.graph.SimpleGraph;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -183,6 +184,8 @@ public class Monde {
 
         if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
         else h.setOrientation(typeMouvement); // Pour pouvoir se tourner même quand on ne peut pas se déplacer
+
+        herosDeclenchePiege();
     }
 
     /**
@@ -571,7 +574,20 @@ public class Monde {
             objetRamasse.consommePar(h);
             objets.remove(objetRamasse);
         }
+    }
 
+    /**
+     * Method that check if the Hero is on collision with an Objet that can be triggered. If he is, the object is triggered.
+     */
+    public void herosDeclenchePiege(){
+        Heros h = this.getHeros();
+        for (Objet o : objets) {
+            if (o.estDeclenchable()){
+                if (collision(h, o)) {
+                    o.consommePar(h);
+                }
+            }
+        }
     }
 
     /**

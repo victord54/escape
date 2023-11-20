@@ -158,10 +158,25 @@ public abstract class Personnage extends ElementMonde {
      */
     public void coeursPerdu(double c) {
         coeurs -= c;
+        if (coeurs < 0) {
+            coeurs = 0;
+        }
     }
 
     public boolean estVivant() {
         return this.coeurs > 0;
+    }
+
+    /**
+     * Method that increases the number of hearts.
+     *
+     * @param c Number of hearts won.
+     */
+    public void coeursGagne(double c) {
+        coeurs += c;
+        if (coeurs > maxCoeurs) {
+            coeurs = maxCoeurs;
+        }
     }
 
     @Override

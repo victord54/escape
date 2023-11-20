@@ -110,6 +110,27 @@ package Escape {
                 + Walker clone()
             }
         }
+        package Objects{
+            abstract class Objet{
+                ..Constructeur..
+                + Objet(Type, double, double, double, double)
+                + Objet(JSONObject)
+                ..Méthodes..
+                + boolean estCoeur()
+                + {abstract} void consommePar(Personnage p);
+                + boolean estRamassable()
+            }
+
+            class Coeur extends Objet{
+                # double valeur
+                ..Constructeur..
+                + Coeur(double, double, double, double)
+                + Coeur(JSONObject)
+                ..Méthodes..
+                + boolean estCoeur()
+                + char getSymbol()
+            }
+        }
 
         class Monde {
             ..Constructeur..
@@ -129,6 +150,7 @@ package Escape {
             + void mouvementRandom(Monstre, double)
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
+            + void heroRamassageObjet()
             # boolean collision(ElementMonde, ElementMonde)
             - void chargerCarte(String)
         }
@@ -276,8 +298,10 @@ Personnage --"1" TypeMouvement : + orientation
 
 Personnage -up--|> ElementMonde
 Terrain -up--|> ElementMonde
+Objet -up--|> ElementMonde
 Escape.Monde.Monde --- "*" Personnage
 Escape.Monde.Monde --- "*" Terrain
+Escape.Monde.Monde --- "*" Objet
 
 
 ' settings

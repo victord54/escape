@@ -5,6 +5,7 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +22,11 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * The keys currently pressed.
      */
     private final Set<KeyCode> keysPressed = new HashSet<>();
+
+    /**
+     * If true, the key R is pressed.
+     */
+    boolean rKeyPressed = false;
 
     /**
      * Create a new controller with a new world from a default map.
@@ -65,6 +71,14 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
         }
 
+        // Ramasser object
+        if (keysPressed.contains(KeyCode.R) && !rKeyPressed) {
+            monde.heroRamassageObjet();
+            rKeyPressed = true;
+        } else if (!keysPressed.contains(KeyCode.R)) {
+            rKeyPressed = false;
+        }
+
         //Attaquer
         if (keysPressed.contains(KeyCode.ENTER)) {
             monde.heroAttaque();
@@ -80,6 +94,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public ArrayList<Personnage> getPersonnages() {
         return monde.getPersonnages();
+    }
+
+    public ArrayList<Objet> getObjets() {
+        return monde.getObjets();
     }
 
     public Heros getHeros() {

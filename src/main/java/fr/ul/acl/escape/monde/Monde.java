@@ -5,6 +5,8 @@ import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Coeur;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import javafx.geometry.Point2D;
@@ -27,6 +29,7 @@ public class Monde {
     private final int width;
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
+    private final ArrayList<Objet> objets;
     /**
      * Last map loaded
      */
@@ -42,6 +45,7 @@ public class Monde {
         this.width = width;
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
+        objets = new ArrayList<>();
     }
 
     /**
@@ -82,6 +86,7 @@ public class Monde {
             // it's a save
             monde = fromMap(json.getString("map"));
             monde.personnages.clear();
+            monde.objets.clear();
         } else {
             // it's a map
             JSONObject jsonWorld = json.getJSONObject("world");
@@ -103,12 +108,22 @@ public class Monde {
                 monde.terrains.add(terrain);
             });
         }
+        // add entities
         json.getJSONArray("entities").forEach(jsonEntity -> {
             Personnage entity = Personnage.fromJSON((JSONObject) jsonEntity);
             if (entity.getX() < 1 || entity.getX() > monde.width - 2 || entity.getY() < 1 || entity.getY() > monde.height - 2)
                 throw new IllegalArgumentException("Entity out of bounds: " + jsonEntity);
             monde.personnages.add(entity);
         });
+
+        //add objects
+        json.getJSONArray("objects").forEach(jsonObject -> {
+            Objet objet = Objet.fromJSON((JSONObject) jsonObject);
+            if (objet.getX() < 1 || objet.getX() > monde.width - 2 || objet.getY() < 1 || objet.getY() > monde.height - 2)
+                throw new IllegalArgumentException("Object out of bounds: " + jsonObject);
+            monde.objets.add(objet);
+        });
+
         if (map != null) monde.carte = map;
         return monde;
     }
@@ -145,6 +160,15 @@ public class Monde {
      */
     public void addPersonnage(Personnage p) {
         this.personnages.add(p);
+    }
+
+    /**
+     * Function that add an Objet to the ArrayList of Objet.
+     *
+     * @param o The Objet to be added.
+     */
+    public void addObjet(Objet o) {
+        this.objets.add(o);
     }
 
     /**
@@ -189,6 +213,15 @@ public class Monde {
      */
     public ArrayList<Terrain> getTerrains() {
         return terrains;
+    }
+
+    /**
+     * Function that get all the Objet of the world.
+     *
+     * @return ArrayList of Objet.
+     */
+    public ArrayList<Objet> getObjets() {
+        return objets;
     }
 
     /**
@@ -512,6 +545,33 @@ public class Monde {
      */
     public void detruirePersonnage(Personnage p) {
         this.personnages.remove(p);
+        double random = Math.random();
+        if (random < Donnees.CHANCE_OF_HEART_DROP) {
+            this.objets.add(new Coeur(p.getX(), p.getY(), Donnees.HEART_HEIGHT, Donnees.HEART_WIDTH, Donnees.HEART_VALUE));
+        }
+    }
+
+    /**
+     * Method that check if the Hero is on collision with an Objet. If he is, the object is picked up.
+     */
+    public void heroRamassageObjet() {
+        Heros h = this.getHeros();
+        Objet objetRamasse = null;
+        for (Objet o : objets) {
+            if (o.estRamassable()) {
+                if (collision(h, o)) {
+                    objetRamasse = o;
+                    break;
+                }
+            }
+
+        }
+        if (objetRamasse == null) return;
+        if (objetRamasse.estConsommable()) {
+            objetRamasse.consommePar(h);
+            objets.remove(objetRamasse);
+        }
+
     }
 
     /**
@@ -521,7 +581,7 @@ public class Monde {
         JSONObject json = new JSONObject();
         json.put("map", carte);
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
-        // TODO: add collectibles
+        json.put("objects", objets.stream().map(Objet::toJSON).toArray());
         return json;
     }
 

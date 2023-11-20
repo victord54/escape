@@ -3,8 +3,9 @@ package fr.ul.acl.escape.monde.objects;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import org.json.JSONObject;
 
-public class Piege extends Objet{
+public class Piege extends Objet {
     protected double degat;
+
     public Piege(double x, double y, double hauteur, double largeur, double degat) {
         super(Type.TRAP, x, y, hauteur, largeur, false);
         this.degat = degat;
@@ -21,6 +22,7 @@ public class Piege extends Objet{
         json.put("degat", degat);
         return json;
     }
+
     @Override
     public char getSymbol() {
         return 'P';
@@ -28,17 +30,17 @@ public class Piege extends Objet{
 
     @Override
     public void consommePar(Personnage p) {
-        p.coeursPerdu(degat);
         this.visible = true;
+        p.coeursPerdu(degat);
     }
 
     @Override
-    public boolean estPiege(){
+    public boolean estPiege() {
         return true;
     }
 
     @Override
-    public boolean estDeclenchable(){
+    public boolean estDeclenchable() {
         return !visible;
     }
 }

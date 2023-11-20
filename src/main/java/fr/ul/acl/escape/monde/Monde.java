@@ -18,7 +18,6 @@ import org.jgrapht.graph.SimpleGraph;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -579,10 +578,10 @@ public class Monde {
     /**
      * Method that check if the Hero is on collision with an Objet that can be triggered. If he is, the object is triggered.
      */
-    public void herosDeclenchePiege(){
+    public void herosDeclenchePiege() {
         Heros h = this.getHeros();
         for (Objet o : objets) {
-            if (o.estDeclenchable()){
+            if (o.estDeclenchable()) {
                 if (collision(h, o)) {
                     o.consommePar(h);
                 }

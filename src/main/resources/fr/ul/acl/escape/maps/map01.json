@@ -138,8 +138,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 10,
-      "y" : 10,
+      "x" : 2,
+      "y" : 3.5,
       "width": 0.5,
       "height": 0.5,
       "visible": false,

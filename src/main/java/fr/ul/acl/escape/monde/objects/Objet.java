@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {
     protected boolean visible;
+
     public Objet(Type type, double x, double y, double hauteur, double largeur, boolean visible) {
         super(type, x, y, hauteur, largeur);
         this.visible = visible;
@@ -20,7 +21,8 @@ public abstract class Objet extends ElementMonde {
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("visible", visible);
-        return json;    }
+        return json;
+    }
 
     public static Objet fromJSON(JSONObject json) {
         Type type = Type.valueOf(json.getString("type"));
@@ -52,17 +54,15 @@ public abstract class Objet extends ElementMonde {
         return false;
     }
 
-    public boolean estPiege(){ return false;}
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public boolean estPiege() {
+        return false;
     }
 
     public boolean getVisible() {
         return visible;
     }
 
-    public boolean estDeclenchable(){
+    public boolean estDeclenchable() {
         return false;
     }
 

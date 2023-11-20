@@ -29,7 +29,7 @@ public class Monde {
     private final int width;
     private final ArrayList<Personnage> personnages;
     private final ArrayList<Terrain> terrains;
-    private ArrayList<Objet> objets;
+    private final ArrayList<Objet> objets;
     /**
      * Last map loaded
      */
@@ -86,6 +86,7 @@ public class Monde {
             // it's a save
             monde = fromMap(json.getString("map"));
             monde.personnages.clear();
+            monde.objets.clear();
         } else {
             // it's a map
             JSONObject jsonWorld = json.getJSONObject("world");
@@ -557,17 +558,20 @@ public class Monde {
         Heros h = this.getHeros();
         Objet objetRamasse = null;
         for (Objet o : objets) {
-            if (collision(h, o)) {
-                objetRamasse = o;
-                break;
+            if (o.estRamassable()) {
+                if (collision(h, o)) {
+                    objetRamasse = o;
+                    break;
+                }
             }
+
         }
         if (objetRamasse == null) return;
-        if (objetRamasse.estCoeur()) {
+        if (objetRamasse.estConsommable()) {
+            objetRamasse.consommePar(h);
             objets.remove(objetRamasse);
-            Coeur c = (Coeur) objetRamasse;
-            h.coeursGagne(c.getValeur());
         }
+
     }
 
     /**

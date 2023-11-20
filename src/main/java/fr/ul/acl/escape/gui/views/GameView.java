@@ -177,7 +177,7 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
-            if (objet.estCoeur()){
+            if (objet.estCoeur()) {
                 gc.setFill(Color.RED);
                 gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
             }

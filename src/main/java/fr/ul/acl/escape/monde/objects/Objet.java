@@ -1,12 +1,13 @@
 package fr.ul.acl.escape.monde.objects;
 
 import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.entities.Personnage;
 import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {
 
     public Objet(Type type, double x, double y, double hauteur, double largeur) {
-        super(type, x,y,hauteur,largeur);
+        super(type, x, y, hauteur, largeur);
     }
 
     public Objet(JSONObject json) {
@@ -17,6 +18,7 @@ public abstract class Objet extends ElementMonde {
     public JSONObject toJSON() {
         return super.toJSON();
     }
+
     public static Objet fromJSON(JSONObject json) {
         Type type = Type.valueOf(json.getString("type"));
         if (type == Type.HEART) {
@@ -26,7 +28,18 @@ public abstract class Objet extends ElementMonde {
         }
     }
 
-    public boolean estCoeur(){
+    public boolean estRamassable() {
+        return true;
+    }
+
+    public boolean estConsommable() {
         return false;
     }
+
+    public abstract void consommePar(Personnage p);
+
+    public boolean estCoeur() {
+        return false;
+    }
+
 }

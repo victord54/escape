@@ -117,6 +117,8 @@ package Escape {
                 + Objet(JSONObject)
                 ..Méthodes..
                 + boolean estCoeur()
+                + {abstract} void consommePar(Personnage p);
+                + boolean estRamassable()
             }
 
             class Coeur extends Objet{

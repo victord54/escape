@@ -1,11 +1,13 @@
 package fr.ul.acl.escape.monde.objects;
 
+import fr.ul.acl.escape.monde.entities.Personnage;
 import org.json.JSONObject;
 
 public class Coeur extends Objet {
     protected double valeur;
-    public Coeur(double x, double y, double hauteur, double largeur, double valeur){
-        super(Type.HEART, x,y,hauteur,largeur);
+
+    public Coeur(double x, double y, double hauteur, double largeur, double valeur) {
+        super(Type.HEART, x, y, hauteur, largeur);
         this.valeur = valeur;
     }
 
@@ -24,15 +26,24 @@ public class Coeur extends Objet {
 
     @Override
     public char getSymbol() {
-        return 'C';
+        return '♥';
     }
 
-    public double getValeur(){
+    public double getValeur() {
         return valeur;
     }
 
-    public boolean estCoeur(){
+    public void consommePar(Personnage p) {
+        p.coeursGagne(valeur);
+    }
+
+    @Override
+    public boolean estConsommable() {
         return true;
     }
 
+    @Override
+    public boolean estCoeur() {
+        return true;
+    }
 }

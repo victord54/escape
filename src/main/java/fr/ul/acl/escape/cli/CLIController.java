@@ -10,6 +10,8 @@ import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
 
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+
 public class CLIController extends GameController {
     /**
      * The action number to perform.
@@ -18,7 +20,7 @@ public class CLIController extends GameController {
 
     protected CLIController() {
         try {
-            monde = Monde.fromMap("carte01");
+            monde = Monde.fromMap("map01" + JSON.extension);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }

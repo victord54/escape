@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+
 public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
      * The keys currently pressed.
@@ -25,7 +27,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            monde = Monde.fromMap("carte01");
+            monde = Monde.fromMap("map01" + JSON.extension);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }
@@ -35,7 +37,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * Create a new controller from a JSON object.
      *
      * @param json The JSON object.
-     *             See {@link Monde#toJSON()} for the format.
+     *             See {@link Monde#toJSONSave()} for the format.
      */
     public GUIController(JSONObject json) {
         try {
@@ -90,9 +92,5 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public void onKeyReleased(KeyEvent event) {
         keysPressed.remove(event.getCode());
-    }
-
-    public JSONObject getJSON() {
-        return monde.toJSON();
     }
 }

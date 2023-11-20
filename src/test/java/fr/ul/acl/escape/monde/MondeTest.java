@@ -139,7 +139,7 @@ class MondeTest {
 
     @Test
     void heroCollisionAvecObjet(){
-        Heros h = new Heros(6, 6, 1, 1);
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         Coeur c = new Coeur(6,6,0.2,0.2, 1);
         monde.addPersonnage(h);
         monde.addObjet(c);

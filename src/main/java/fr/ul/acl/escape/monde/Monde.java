@@ -107,12 +107,22 @@ public class Monde {
                 monde.terrains.add(terrain);
             });
         }
+        // add entities
         json.getJSONArray("entities").forEach(jsonEntity -> {
             Personnage entity = Personnage.fromJSON((JSONObject) jsonEntity);
             if (entity.getX() < 1 || entity.getX() > monde.width - 2 || entity.getY() < 1 || entity.getY() > monde.height - 2)
                 throw new IllegalArgumentException("Entity out of bounds: " + jsonEntity);
             monde.personnages.add(entity);
         });
+
+        //add objects
+        json.getJSONArray("objects").forEach(jsonObject -> {
+            Objet objet = Objet.fromJSON((JSONObject) jsonObject);
+            if (objet.getX() < 1 || objet.getX() > monde.width - 2 || objet.getY() < 1 || objet.getY() > monde.height - 2)
+                throw new IllegalArgumentException("Object out of bounds: " + jsonObject);
+            monde.objets.add(objet);
+        });
+
         if (map != null) monde.carte = map;
         return monde;
     }
@@ -567,7 +577,7 @@ public class Monde {
         JSONObject json = new JSONObject();
         json.put("map", carte);
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
-        // TODO: add collectibles
+        json.put("objects", objets.stream().map(Objet::toJSON).toArray());
         return json;
     }
 

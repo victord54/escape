@@ -54,6 +54,7 @@ public abstract class Personnage extends ElementMonde {
         json.put("life", coeurs);
         json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
+        json.put("damages", degats);
         return json;
     }
 

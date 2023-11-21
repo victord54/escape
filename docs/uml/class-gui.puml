@@ -149,9 +149,10 @@ package gui {
     }
 
     class Sprite {
-        - String uri
-        + Sprite(uri)
+        + Sprite(Sprite(String path, double x, double y, double width, double height)
+        + Image getSprite()
     }
+    Sprite -- "1" Image
 
     package engine {
         class GUIController {

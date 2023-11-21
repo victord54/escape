@@ -29,6 +29,7 @@ package Escape {
                 + Terrain(JSONObject)
                 ..Méthodes..
                 + {static} Terrain fromJSON(JSONObject)
+                + Image getSprite()
                 + boolean estTraversable()
             }
 
@@ -75,9 +76,11 @@ package Escape {
             class Heros extends Personnage {
                 ..Constructeur..
                 + Heros(double, double, double, double, double, double, double, int)
+                + Heros(double, double, double, double, double, double, double, int, boolean)
                 + Heros(JSONObject)
                 ..Méthodes..
                 + boolean estUnHeros()
+                - void setSprites()
                 + char getSymbol()
                 + Heros clone()
             }
@@ -97,6 +100,7 @@ package Escape {
                 + Walker(JSONObject)
                 ..Méthodes..
                 + char getSymbol()
+                - void setSprites()
                 + Walker clone()
             }
         }
@@ -233,7 +237,8 @@ N_json ... ElementMonde::Type
 
 
 ' elements monde
-ElementMonde --"*" Escape.gui.Sprite
+Personnage ---"*" Escape.gui.Sprite
+Terrain ---"1" Escape.gui.Sprite
 Personnage --"1" TypeMouvement : + orientation
 
 Personnage -up--|> ElementMonde

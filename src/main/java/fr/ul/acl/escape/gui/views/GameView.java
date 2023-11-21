@@ -178,9 +178,7 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
-            if (objet.estCoeur()) {
-                gc.drawImage(objet.getSprite(), objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
-            } else if (objet.estPiege() && objet.getVisible()) {
+            if (objet.getVisible()) {
                 gc.drawImage(objet.getSprite(), objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
             }
         });

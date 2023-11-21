@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT_COUNTDOWN;
+import static fr.ul.acl.escape.outils.Donnees.MONSTER_HIT_COUNTDOWN;
 import static java.lang.System.currentTimeMillis;
 
 public abstract class Monstre extends Personnage {
@@ -22,7 +22,7 @@ public abstract class Monstre extends Personnage {
 
     public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
-        this.delayAttaque = WALKER_HIT_COUNTDOWN;
+        this.delayAttaque = MONSTER_HIT_COUNTDOWN;
     }
 
     public Monstre(JSONObject json) {

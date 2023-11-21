@@ -1,9 +1,6 @@
 package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.monde.ElementMonde;
 import org.json.JSONObject;
-
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT;
 
 public class Walker extends Monstre {
 

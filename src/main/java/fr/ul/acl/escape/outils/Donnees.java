@@ -60,7 +60,7 @@ public final class Donnees {
     /**
      * Walker hit damage
      */
-    public static final double WALKER_HIT_COUNTDOWN = 1;
+    public static final double MONSTER_HIT_COUNTDOWN = 1;
 
     /**
      * Default width of the window when the game starts.

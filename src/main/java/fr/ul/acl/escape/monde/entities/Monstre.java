@@ -5,15 +5,24 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static fr.ul.acl.escape.outils.Donnees.MONSTER_HIT_COUNTDOWN;
+import static java.lang.System.currentTimeMillis;
 
 public abstract class Monstre extends Personnage {
+
+    long derniereAttaque = currentTimeMillis();
+    double delayAttaque;
+
     /**
      * List of movements tried.
      */
     protected ArrayList<TypeMouvement> derniersMouvementsEssayes = new ArrayList<>();
 
-    public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
-        super(type, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
+        super(type, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        this.delayAttaque = MONSTER_HIT_COUNTDOWN;
     }
 
     public Monstre(JSONObject json) {
@@ -44,5 +53,14 @@ public abstract class Monstre extends Personnage {
      */
     public void reinitialiseListMouvementsEssayes() {
         derniersMouvementsEssayes = new ArrayList<>();
+    }
+
+    @Override
+    public void attaquer(List<Personnage> touches) {
+        if (currentTimeMillis() - derniereAttaque < delayAttaque) return;
+        derniereAttaque = currentTimeMillis();
+        for (Personnage p : touches) {
+            p.coeursPerdu(this.degats);
+        }
     }
 }

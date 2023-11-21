@@ -9,6 +9,7 @@ import java.util.List;
 
 import static fr.ul.acl.escape.monde.TypeMouvement.*;
 import static fr.ul.acl.escape.outils.Donnees.HERO_HIT;
+import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HerosTest {
@@ -21,7 +22,7 @@ class HerosTest {
 
     @BeforeEach
     void setup() {
-        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
     }
 
     @Test
@@ -87,7 +88,7 @@ class HerosTest {
 
     @Test
     void testAttaquer() {
-        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
         p.attaquer(List.of(w));
 
         assertEquals(w.getCoeurs(), WALKER_HEART - HERO_HIT);

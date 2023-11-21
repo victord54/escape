@@ -14,14 +14,16 @@ public abstract class Personnage extends ElementMonde {
     protected double coeurs;
     protected double maxCoeurs;
     protected TypeMouvement orientation;
+    protected double degats;
 
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.coeurs = coeurs;
         this.maxCoeurs = maxCoeurs;
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         this.orientation = TypeMouvement.DOWN;
+        this.degats = degats;
     }
 
     public Personnage(JSONObject json) {
@@ -30,6 +32,7 @@ public abstract class Personnage extends ElementMonde {
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
         this.maxCoeurs = json.getDouble("maxLife");
+        this.degats = json.getDouble("damages");
         this.orientation = TypeMouvement.DOWN;
     }
 
@@ -51,6 +54,7 @@ public abstract class Personnage extends ElementMonde {
         json.put("life", coeurs);
         json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
+        json.put("damages", degats);
         return json;
     }
 

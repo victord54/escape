@@ -21,7 +21,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
      * The keys currently pressed.
      */
-    private final Set<KeyCode> keysPressed = new HashSet<>();
+    private final HashSet<KeyCode> keysPressed = new HashSet<KeyCode>();
 
     /**
      * If true, the key R is pressed.
@@ -58,18 +58,20 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         double timeInDouble = deltaTime * 10e-10;
 
         //Déplacements
+        MovementManager.instance.initMouvement();
         if (keysPressed.contains(KeyCode.Z)) {
-            monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.UP);
         }
         if (keysPressed.contains(KeyCode.S)) {
-            monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.DOWN);
         }
         if (keysPressed.contains(KeyCode.D)) {
-            monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.RIGHT);
         }
         if (keysPressed.contains(KeyCode.Q)) {
-            monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.LEFT);
         }
+        MovementManager.instance.executerMouvement(monde, timeInDouble);
 
         // Ramasser object
         if (keysPressed.contains(KeyCode.R) && !rKeyPressed) {
@@ -110,5 +112,38 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public void onKeyReleased(KeyEvent event) {
         keysPressed.remove(event.getCode());
+    }
+
+
+    static class MovementManager {
+
+        private static final double PIBY4 = 0.70710678118; //PI/4 pour les mouvements diagonaux
+        Set<TypeMouvement> mouvements;
+
+        private static final MovementManager instance = new MovementManager();
+
+        private MovementManager(){
+            mouvements = new HashSet<>();
+        }
+
+        public void initMouvement(){
+            mouvements = new HashSet<>();
+        }
+
+        public void addMouvement(TypeMouvement mov){
+            this.mouvements.add(mov);
+        }
+
+        public void executerMouvement(Monde monde, double deltaTime){
+            double deltaTimeTraite = deltaTime;
+            if(mouvements.size() == 2) deltaTimeTraite *= PIBY4;
+
+            if(mouvements.size() == 2) System.out.println("2");
+
+            for(TypeMouvement mouv : mouvements){
+                monde.deplacementHeros(mouv, deltaTimeTraite);
+            }
+        }
+
     }
 }

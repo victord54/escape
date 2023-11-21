@@ -8,21 +8,21 @@
       stylesheets="@global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="fr.ul.acl.escape.gui.views.SettingsViewController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="settingsTitle" styleClass="title" text="%settings" />
+    <Label fx:id="settingsTitle" styleClass="title" text="%settings"/>
     <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" onAction="#onFullScreenToggle" styleClass="text"
-              text="%settings.fullscreen" />
+              text="%settings.fullscreen"/>
     <HBox alignment="CENTER">
         <Label fx:id="settingsLanguage" styleClass="text" text="%settings.language">
             <padding>
-                <Insets right="16.0" />
+                <Insets right="16.0"/>
             </padding>
         </Label>
-        <ComboBox fx:id="languageComboBox" prefWidth="150.0" />
+        <ComboBox fx:id="languageComboBox" prefWidth="150.0"/>
     </HBox>
-    <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset" />
-    <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder" />
-    <Button fx:id="backButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickBack" text="%back" />
+    <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset"/>
+    <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder"/>
+    <Button fx:id="backButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickBack" text="%back"/>
 </VBox>

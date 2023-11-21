@@ -224,10 +224,6 @@ public abstract class Personnage extends ElementMonde {
         return orientation;
     }
 
-    protected void setSpritesNull() {
-        sprites = null;
-    }
-
     /**
      * @return a copy of the Personnage
      */

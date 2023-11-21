@@ -138,23 +138,23 @@ class HerosTest {
     }
 
     @Test
-    void coeursGagneDejaFull(){
+    void coeursGagneDejaFull() {
         p.coeursGagne(1);
         assertEquals(p.getCoeurs(), WALKER_HEART);
 
     }
 
     @Test
-    void coeursGagneSuiteA1Ramassage(){
+    void coeursGagneSuiteA1Ramassage() {
         p.coeursPerdu(1);
         p.coeursGagne(1);
         assertEquals(p.getCoeurs(), WALKER_HEART);
     }
 
     @Test
-    void coeursGagneLorsquePasUneVieEntierePerdue(){
+    void coeursGagneLorsquePasUneVieEntierePerdue() {
         p.coeursPerdu(0.25);
         p.coeursGagne(1);
-        assertEquals(p.getCoeurs(),HERO_HEART);
+        assertEquals(p.getCoeurs(), HERO_HEART);
     }
 }

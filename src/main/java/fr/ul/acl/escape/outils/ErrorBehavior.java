@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.outils;
 
-import fr.ul.acl.escape.Launcher;
 import javafx.scene.control.Alert;
 
 import static fr.ul.acl.escape.outils.Donnees.DEBUG;

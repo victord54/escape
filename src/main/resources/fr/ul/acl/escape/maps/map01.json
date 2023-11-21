@@ -129,8 +129,8 @@
   "objects": [
     {
       "type": "TRAP",
-      "x" : 10,
-      "y" : 10,
+      "x": 10,
+      "y": 10,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -138,8 +138,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 2,
-      "y" : 3.5,
+      "x": 2,
+      "y": 3.5,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -147,8 +147,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 5,
-      "y" : 5,
+      "x": 5,
+      "y": 5,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -156,8 +156,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 6,
-      "y" : 9,
+      "x": 6,
+      "y": 9,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -165,8 +165,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 15,
-      "y" : 2,
+      "x": 15,
+      "y": 2,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -174,8 +174,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 13.5,
-      "y" : 4.25,
+      "x": 13.5,
+      "y": 4.25,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -183,8 +183,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 14,
-      "y" : 8,
+      "x": 14,
+      "y": 8,
       "width": 0.5,
       "height": 0.5,
       "visible": false,
@@ -192,8 +192,8 @@
     },
     {
       "type": "TRAP",
-      "x" : 16,
-      "y" : 8.5,
+      "x": 16,
+      "y": 8.5,
       "width": 0.5,
       "height": 0.5,
       "visible": false,

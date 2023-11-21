@@ -29,7 +29,6 @@ package Escape {
                 + Terrain(JSONObject)
                 ..Méthodes..
                 + {static} Terrain fromJSON(JSONObject)
-                + Image getSprite()
                 + boolean estTraversable()
             }
 
@@ -57,7 +56,7 @@ package Escape {
                 # double vitesse
                 # double coeurs
                 # double coeursMax
-                - double degats
+                # boolean isMoving
                 ..Constructeur..
                 + Personnage(Type, double, double, double, double, double, double, double, int)
                 + Personnage(JSONObject)
@@ -70,6 +69,8 @@ package Escape {
                 + Rectangle2D getHitboxCollision()
                 + boolean estUnHeros()
                 + boolean estVivant()
+                + void coeursPerdu(double)
+                + void coeursGagne(double)
                 + {abstract} Personnage clone()
             }
 
@@ -97,6 +98,7 @@ package Escape {
             class Walker extends Monstre {
                 ..Constructeur..
                 + Walker(double, double, double, double, double, double, double, int)
+                + Walker(double, double, double, double, double, double, double, int, boolean)
                 + Walker(JSONObject)
                 ..Méthodes..
                 + char getSymbol()
@@ -104,25 +106,30 @@ package Escape {
                 + Walker clone()
             }
         }
-        package Objects{
-            abstract class Objet{
+        package Objects {
+            abstract class Objet {
                 # boolean visible
                 ..Constructeur..
-                + Objet(Type, double, double, double, double)
+                + Objet(Type, double, double, double, double, boolean)
                 + Objet(JSONObject)
                 ..Méthodes..
                 + {abstract} void consommePar(Personnage p);
                 + boolean estRamassable()
+                + boolean estConsommable()
                 + boolean estDeclenchable()
+                + boolean estCoeur()
+                + boolean estPiege()
             }
 
-            class Coeur extends Objet{
+            class Coeur extends Objet {
                 # double valeur
                 ..Constructeur..
-                + Coeur(double, double, double, double)
+                + Coeur(double, double, double, double, double)
                 + Coeur(JSONObject)
                 ..Méthodes..
                 + char getSymbol()
+                + void consommePar(Personnage)
+                + boolean estCoeur()
             }
 
             class Piege extends Objet{
@@ -132,6 +139,8 @@ package Escape {
                 + Piege(JSONObject json)
                 ..Méthodes..
                 + boolean estDeclenchable()
+                + void consommePar(Personnage p)
+                + boolean estPiege()
                 + char getSymbol()
 
             }
@@ -237,9 +246,12 @@ N_json ... ElementMonde::Type
 
 
 ' elements monde
-Personnage ---"*" Escape.gui.Sprite
-Terrain ---"1" Escape.gui.Sprite
-Personnage --"1" TypeMouvement : + orientation
+'Personnage ----"*" Escape.gui.Sprite
+'Terrain --"1" Escape.gui.Sprite
+'Objet --"1" Escape.gui.Sprite
+ElementMonde ---"*" Escape.gui.Sprite
+
+Personnage --"2" TypeMouvement : + orientation
 
 Personnage -up--|> ElementMonde
 Terrain -up--|> ElementMonde

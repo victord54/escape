@@ -33,6 +33,7 @@ public abstract class Personnage extends ElementMonde {
 
     public Personnage(JSONObject json) {
         super(json);
+        sprites = new HashMap<>();
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
@@ -221,6 +222,10 @@ public abstract class Personnage extends ElementMonde {
 
     public TypeMouvement getOrientation() {
         return orientation;
+    }
+
+    protected void setSpritesNull() {
+        sprites = null;
     }
 
     /**

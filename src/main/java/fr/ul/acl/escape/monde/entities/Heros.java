@@ -8,6 +8,19 @@ import org.json.JSONObject;
 public class Heros extends Personnage {
     public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
         super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+        setSprites();
+    }
+
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id, boolean sprite) {
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    }
+
+    public Heros(JSONObject json) {
+        super(json);
+        setSprites();
+    }
+
+    private void setSprites() {
         String path = "assets/heros.png";
         Sprite[] tab_sprite_down = new Sprite[3];
         tab_sprite_down[0] = new Sprite(path, 6, 5, 29, 31);
@@ -34,10 +47,6 @@ public class Heros extends Personnage {
         sprites.put(TypeMouvement.UP, tab_sprite_up);
     }
 
-    public Heros(JSONObject json) {
-        super(json);
-    }
-
     @Override
     public char getSymbol() {
         return 'H';
@@ -50,6 +59,6 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id, true);
     }
 }

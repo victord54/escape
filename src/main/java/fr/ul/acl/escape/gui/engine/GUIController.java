@@ -21,7 +21,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
      * The keys currently pressed.
      */
-    private final HashSet<KeyCode> keysPressed = new HashSet<KeyCode>();
+    private final HashSet<KeyCode> keysPressed = new HashSet<>();
 
     /**
      * If true, the key R is pressed.
@@ -58,7 +58,6 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         double timeInDouble = deltaTime * 10e-10;
 
         //Déplacements
-        MovementManager.instance.initMouvement();
         if (keysPressed.contains(KeyCode.Z)) {
             MovementManager.instance.addMouvement(TypeMouvement.UP);
         }
@@ -126,10 +125,6 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             mouvements = new HashSet<>();
         }
 
-        public void initMouvement(){
-            mouvements = new HashSet<>();
-        }
-
         public void addMouvement(TypeMouvement mov){
             this.mouvements.add(mov);
         }
@@ -138,11 +133,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             double deltaTimeTraite = deltaTime;
             if(mouvements.size() == 2) deltaTimeTraite *= PIBY4;
 
-            if(mouvements.size() == 2) System.out.println("2");
-
             for(TypeMouvement mouv : mouvements){
                 monde.deplacementHeros(mouv, deltaTimeTraite);
             }
+            mouvements = new HashSet<>();
         }
 
     }

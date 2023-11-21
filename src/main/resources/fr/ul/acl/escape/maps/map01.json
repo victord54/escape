@@ -1,0 +1,210 @@
+{
+  "world": {
+    "width": 18,
+    "height": 12
+  },
+  "entities": [
+    {
+      "type": "HERO",
+      "x": 6,
+      "y": 1,
+      "width": 0.8,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 4,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 13,
+      "y": 2,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 14,
+      "y": 5,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 6,
+      "y": 5,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 3,
+      "y": 7,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 14,
+      "y": 7,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    },
+    {
+      "type": "WALKER",
+      "x": 5,
+      "y": 10,
+      "width": 0.5,
+      "height": 0.8,
+      "life": 3,
+      "maxLife": 3,
+      "speed": 2,
+      "damages": 1.0
+    }
+  ],
+  "environment": [
+    {
+      "type": "WALL",
+      "x": 3,
+      "y": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 4,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 4,
+      "y": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 10,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 13,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 10,
+      "y": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "type": "WALL",
+      "x": 15,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "objects": [
+    {
+      "type": "TRAP",
+      "x" : 10,
+      "y" : 10,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 2,
+      "y" : 3.5,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 5,
+      "y" : 5,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 6,
+      "y" : 9,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 15,
+      "y" : 2,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 13.5,
+      "y" : 4.25,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 14,
+      "y" : 8,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    },
+    {
+      "type": "TRAP",
+      "x" : 16,
+      "y" : 8.5,
+      "width": 0.5,
+      "height": 0.5,
+      "visible": false,
+      "degat": 0.25
+    }
+  ]
+}

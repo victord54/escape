@@ -126,6 +126,15 @@ public class Property<T> {
     }
 
     /**
+     * Add a listener to the property if it is not already subscribed.
+     *
+     * @param listener The listener to add.
+     */
+    public void subscribeIfNot(MyPropertyChangeListener<T> listener) {
+        if (!listeners.containsKey(listener)) subscribe(listener);
+    }
+
+    /**
      * Remove a listener from the property.
      *
      * @param listener The listener to remove.
@@ -163,13 +172,20 @@ public class Property<T> {
     }
 
     /**
+     * @return The identifier of the property.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Fire a property change event.
      *
      * @param oldValue The old value of the property.
      */
     private void fire(T oldValue) {
         T newValue = get();
-        log("event fired: " + oldValue + " -> " + newValue);
+        if (newValue != oldValue) log("event fired: " + oldValue + " -> " + newValue);
         pcs.firePropertyChange(name, oldValue, newValue);
     }
 

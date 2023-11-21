@@ -1,5 +1,8 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.Launcher;
+import net.harawata.appdirs.AppDirsFactory;
+
 import java.util.*;
 
 /**
@@ -7,47 +10,22 @@ import java.util.*;
  */
 public final class Donnees {
     /**
-     * symbol of Hero/player
+     * Folder where the game data is stored.
      */
-    public static final char SYMBOL_HERO = 'H';
+    public static final String APPDATA_FOLDER = AppDirsFactory.getInstance().getUserDataDir("Escape", null, "UL");
     /**
-     * symbol of monster : walker
+     * If the game is in debug mode.
      */
-    public static final char SYMBOL_WALKER = 'W';
+    public static final boolean DEBUG = Launcher.getArgs().contains("--debug");
     /**
-     * symbol of wall
+     * The supported locales.
      */
-    public static final char SYMBOL_WALL = 'M';
-    /**
-     * symbol of hole
-     */
-    public static final char SYMBOL_HOLE = 'T';
-    /**
-     * height of wall
-     */
-    public static final int WALL_HEIGHT = 1;
-    /**
-     * width of wall
-     */
-    public static final int WALL_WIDTH = 1;
-    /**
-     * height of hero
-     */
-    public static final double HERO_HEIGHT = 0.9;
-    /**
-     * width of hero
-     */
+    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            Locale.ENGLISH,
+            Locale.FRANCE,
+            Locale.CANADA_FRENCH
+    )));
 
-    public static final double HERO_WIDTH = 0.9;
-    /**
-     * speed of hero
-     */
-
-    public static final int HERO_SPEED = 4;
-    /**
-     * number of hero's hearts
-     */
-    public static final double HERO_HEART = 3;
     /**
      * hero hit damage
      */
@@ -85,14 +63,6 @@ public final class Donnees {
     public static final double WALKER_HIT_COUNTDOWN = 1;
 
     /**
-     * The height of the game screen in boxes.
-     */
-    public static final int WORLD_HEIGHT = 12;
-    /**
-     * The height of the game screen in boxes.
-     */
-    public static final int WORLD_WIDTH = 18;
-    /**
      * Default width of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_WIDTH = 800;
@@ -101,21 +71,27 @@ public final class Donnees {
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
     /**
-     * The supported locales.
-     */
-    public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            Locale.ENGLISH,
-            Locale.FRENCH
-    )));
-    /**
-     * If the game is in debug mode.
-     */
-    public static boolean DEBUG = false;
-
-    /**
      * Conversion factor to transform float to int.
      */
     public static final int CONVERSION_FACTOR = 10000;
+    /**
+     * height of heart
+     */
+    public static final double HEART_HEIGHT = 0.3;
+
+    /**
+     * width of heart
+     */
+    public static final double HEART_WIDTH = 0.3;
+    /**
+     * The value of a heart.
+     */
+    public static final double HEART_VALUE = 1.0;
+
+    /**
+     * The chance of a heart drop by a Monstre.
+     */
+    public static final double CHANCE_OF_HEART_DROP = 0.4;
 
     private Donnees() {
     }

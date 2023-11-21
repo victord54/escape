@@ -8,16 +8,23 @@
       stylesheets="@global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="fr.ul.acl.escape.gui.views.HomeViewController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="title" styleClass="title" text="%game.title"/>
+    <Label fx:id="title" styleClass="title" text="%game.title" />
     <Button
             fx:id="startButton"
             defaultButton="true"
             mnemonicParsing="false"
             onAction="#onClickStart"
             text="%game.start"
+    />
+    <Button
+            fx:id="loadButton"
+            disable="true"
+            mnemonicParsing="false"
+            onAction="#onClickLoad"
+            text="%game.load"
     />
     <Button
             fx:id="settingsButton"

@@ -1,9 +1,16 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameController;
-import fr.ul.acl.escape.monde.*;
+import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
+
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
 public class CLIController extends GameController {
     /**
@@ -12,18 +19,15 @@ public class CLIController extends GameController {
     private int action;
 
     protected CLIController() {
-        super(new Monde());
-
         try {
-            monde.chargerCarte("carte01");
+            monde = Monde.fromMap("map01" + JSON.extension);
         } catch (Exception e) {
-            System.err.println("Erreur lors du chargement de la carte");
-            System.exit(1);
+            ErrorBehavior.crash(e, "Failed to load map");
         }
     }
 
     @Override
-    public void update(long elapsed) {
+    public void update(long deltaTime) {
         switch (action) {
             case 1 -> monde.deplacementHeros(TypeMouvement.LEFT, 1);
             case 2 -> monde.deplacementHeros(TypeMouvement.RIGHT, 1);

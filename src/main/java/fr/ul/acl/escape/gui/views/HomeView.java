@@ -2,12 +2,15 @@ package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
+import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class HomeView extends View {
     public HomeView() throws IOException {
@@ -22,5 +25,12 @@ public class HomeView extends View {
         if (event.getCode() == KeyCode.ESCAPE) {
             Settings.fullScreen.set(false);
         }
+    }
+
+    @Override
+    public void onViewDisplayed(Object... args) {
+        super.onViewDisplayed();
+        Map<String, JSONObject> saves = FileManager.readDirectory("saves", true);
+        ((HomeViewController) controller).isThereSaves(!saves.isEmpty());
     }
 }

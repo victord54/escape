@@ -9,15 +9,19 @@ import java.util.List;
 
 import static fr.ul.acl.escape.monde.TypeMouvement.*;
 import static fr.ul.acl.escape.outils.Donnees.HERO_HIT;
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HEART;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HerosTest {
+    private static final double HERO_SPEED = 4;
+    private static final double HERO_HEART = 3;
+    private static final double WALKER_SPEED = 2;
+    private static final double WALKER_HEART = 3;
+
     Heros p;
 
     @BeforeEach
     void setup() {
-        p = new Heros(0, 0, 1, 1);
+        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
     }
 
     @Test
@@ -83,7 +87,7 @@ class HerosTest {
 
     @Test
     void testAttaquer() {
-        Walker w = new Walker(1, 1, 1, 1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
         p.attaquer(List.of(w));
 
         assertEquals(w.getCoeurs(), WALKER_HEART - HERO_HIT);
@@ -131,5 +135,26 @@ class HerosTest {
     void reinitialiserCoordonnees(Personnage p) {
         p.setX(0);
         p.setY(0);
+    }
+
+    @Test
+    void coeursGagneDejaFull(){
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(), WALKER_HEART);
+
+    }
+
+    @Test
+    void coeursGagneSuiteA1Ramassage(){
+        p.coeursPerdu(1);
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(), WALKER_HEART);
+    }
+
+    @Test
+    void coeursGagneLorsquePasUneVieEntierePerdue(){
+        p.coeursPerdu(0.25);
+        p.coeursGagne(1);
+        assertEquals(p.getCoeurs(),HERO_HEART);
     }
 }

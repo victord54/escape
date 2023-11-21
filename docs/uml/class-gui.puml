@@ -5,6 +5,8 @@ package engine {
         # Monde monde
         --
         + {abstract} update(long): void
+        + getHeight(): int
+        + getWidth(): int
     }
 
     abstract class Engine {

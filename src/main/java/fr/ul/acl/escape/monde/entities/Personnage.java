@@ -12,37 +12,32 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
-    private final int id;
+    protected final int id;
     protected double vitesse;
     protected double coeurs;
-
+    protected double maxCoeurs;
     protected boolean isMoving = false;
-
     protected HashMap<TypeMouvement, Sprite[]> sprites;
-
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
 
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse) {
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
-        id = FabriqueId.getInstance().getId();
-        orientation = TypeMouvement.DOWN;
-        sprites = new HashMap<>();
-    }
-
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(type, x, y, hauteur, largeur);
-        this.vitesse = vitesse;
-        this.id = id;
-        orientation = TypeMouvement.DOWN;
+        this.coeurs = coeurs;
+        this.maxCoeurs = maxCoeurs;
+        this.id = id > 0 ? id : FabriqueId.getInstance().getId();
+        this.orientation = TypeMouvement.DOWN;
         sprites = new HashMap<>();
     }
 
     public Personnage(JSONObject json) {
         super(json);
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
-        this.vitesse = json.optDouble("speed");
+        this.vitesse = json.getDouble("speed");
+        this.coeurs = json.getDouble("life");
+        this.maxCoeurs = json.getDouble("maxLife");
+        this.orientation = TypeMouvement.DOWN;
     }
 
     public static Personnage fromJSON(JSONObject json) {
@@ -61,6 +56,7 @@ public abstract class Personnage extends ElementMonde {
         JSONObject json = super.toJSON();
         json.put("id", id);
         json.put("life", coeurs);
+        json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
         return json;
     }
@@ -154,6 +150,18 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
+    public double getMaxCoeurs() {
+        return maxCoeurs;
+    }
+
+    public void setHauteur(double h) {
+        this.hauteur = h;
+    }
+
+    public void setLargeur(double l) {
+        this.largeur = l;
+    }
+
     public void setCoeurs(double c) {
         coeurs = c;
     }
@@ -185,10 +193,25 @@ public abstract class Personnage extends ElementMonde {
      */
     public void coeursPerdu(double c) {
         coeurs -= c;
+        if (coeurs < 0) {
+            coeurs = 0;
+        }
     }
 
     public boolean estVivant() {
         return this.coeurs > 0;
+    }
+
+    /**
+     * Method that increases the number of hearts.
+     *
+     * @param c Number of hearts won.
+     */
+    public void coeursGagne(double c) {
+        coeurs += c;
+        if (coeurs > maxCoeurs) {
+            coeurs = maxCoeurs;
+        }
     }
 
     @Override
@@ -200,4 +223,8 @@ public abstract class Personnage extends ElementMonde {
         return orientation;
     }
 
+    /**
+     * @return a copy of the Personnage
+     */
+    public abstract Personnage clone();
 }

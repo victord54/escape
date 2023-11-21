@@ -86,23 +86,23 @@ public class FileManager {
      *
      * @param path        path to read from, relative to the app data folder, use {@link File#separator} as a separator
      * @param isEncrypted whether the file is encrypted
-     * @return the JSON object read, or an empty object if the file could not be read
+     * @return the JSON object read, or null if the file could not be read
      */
     public static JSONObject readFile(String path, boolean isEncrypted) {
         String content = readString(path);
 
         if (isEncrypted) {
             SecretKey key = getSecretKey();
-            if (key == null) return new JSONObject();
+            if (key == null) return null;
 
             byte[] decrypted;
             try {
                 Cipher cipher = Cipher.getInstance("AES");
                 cipher.init(Cipher.DECRYPT_MODE, key);
                 decrypted = cipher.doFinal(Base64.getDecoder().decode(content));
-            } catch (GeneralSecurityException e) {
+            } catch (Exception e) {
                 ErrorBehavior.handle(e, "Could not decrypt content");
-                return new JSONObject();
+                return null;
             }
             content = new String(decrypted, StandardCharsets.UTF_8);
         }
@@ -157,12 +157,16 @@ public class FileManager {
 
         Map<String, JSONObject> map = new HashMap<>();
         Arrays.stream(files).forEach(file -> {
-            if (!file.getName().toLowerCase().endsWith((filesAreEncrypted ? ENCRYPTED : JSON).extension) || !file.isFile()) {
+            if (file == null || !file.getName().toLowerCase().endsWith((filesAreEncrypted ? ENCRYPTED : JSON).extension) || !file.isFile()) {
                 return;
             }
 
             String filePath = folder + File.separator + file.getName();
             JSONObject json = readFile(filePath, filesAreEncrypted);
+            if (json == null) {
+                System.err.println("Could not read '" + filePath + "' file");
+                return;
+            }
             map.put(filePath, json);
         });
 
@@ -173,7 +177,7 @@ public class FileManager {
      * Read the JSON object from the given path in the 'resources' folder.
      *
      * @param path path to read from, relative to the 'resources' folder, use / as a separator
-     * @return the JSON object read, or an empty object if the file could not be read
+     * @return the JSON object read, or null if the file could not be read
      */
     public static JSONObject readResourceFile(String path) {
         try {
@@ -182,7 +186,7 @@ public class FileManager {
             return new JSONObject(content);
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not read '" + path + "' file from resources");
-            return new JSONObject();
+            return null;
         }
     }
 
@@ -209,6 +213,10 @@ public class FileManager {
         Arrays.stream(resources).forEach(resource -> {
             String filePath = folder + "/" + resource.getFilename();
             JSONObject json = readResourceFile(filePath);
+            if (json == null) {
+                System.err.println("Could not read '" + filePath + "' file from resources");
+                return;
+            }
             map.put(filePath, json);
         });
 
@@ -248,16 +256,16 @@ public class FileManager {
      * Convert the given string to a JSON object.
      *
      * @param json string to convert
-     * @return the JSON object, or an empty object if the string could not be converted
+     * @return the JSON object, or null if the string could not be converted
      */
     private static JSONObject readJSONString(String json) {
-        if (json == null) return new JSONObject();
+        if (json == null) return null;
 
         try {
             return new JSONObject(json);
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not parse to JSON");
-            return new JSONObject();
+            return null;
         }
     }
 

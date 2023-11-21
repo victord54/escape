@@ -19,39 +19,46 @@ package Escape {
             + ElementMonde(JSONObject)
             ..Méthodes..
             + JSONObject toJSON()
+            + {abstract} char getSymbol()
         }
 
         package Environment {
             abstract class Terrain {
                 ..Constructeur..
                 + Terrain(Type, double, double, double, double)
+                + Terrain(JSONObject)
                 ..Méthodes..
+                + {static} Terrain fromJSON(JSONObject)
                 + boolean estTraversable()
             }
 
             class Mur extends Terrain {
                 ..Constructeur..
                 + Mur(double, double, double, double)
+                + Mur(JSONObject)
                 ..Méthodes..
                 + boolean estTraversable()
+                + char getSymbol()
             }
 
-            class Piege extends Terrain {
-                - double degats
+            class BordureMonde extends Terrain {
                 ..Constructeur..
-                + Piege(double, double, double, double)
+                + BordureMonde(double, double)
+                ..Méthodes..
+                + boolean estTraversable()
+                + char getSymbol()
             }
         }
 
         package Entities {
             abstract class Personnage {
-                - int id
-                - double degats
+                # int id
                 # double vitesse
                 # double coeurs
+                # double coeursMax
+                - double degats
                 ..Constructeur..
-                + Personnage(Type, double, double, double, double, double)
-                + Personnage(Type, double, double, double, double, double, int)
+                + Personnage(Type, double, double, double, double, double, double, double, int)
                 + Personnage(JSONObject)
                 ..Méthodes..
                 + {static} Personnage fromJSON(JSONObject)
@@ -62,21 +69,23 @@ package Escape {
                 + Rectangle2D getHitboxCollision()
                 + boolean estUnHeros()
                 + boolean estVivant()
+                + {abstract} Personnage clone()
             }
 
             class Heros extends Personnage {
                 ..Constructeur..
-                + Heros(double, double, double, double)
+                + Heros(double, double, double, double, double, double, double, int)
                 + Heros(JSONObject)
                 ..Méthodes..
                 + boolean estUnHeros()
+                + char getSymbol()
+                + Heros clone()
             }
 
             abstract class Monstre extends Personnage {
                 # ArrayList<TypeMouvement> derniersMouvementsEssayes
                 ..Constructeur..
-                + Monstre(Type, double, double, double, double, double)
-                + Monstre(Type, double, double, double, double, double, int)
+                + Monstre(Type, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
@@ -84,8 +93,43 @@ package Escape {
 
             class Walker extends Monstre {
                 ..Constructeur..
-                + Walker(double, double, double, double)
-                + Walker(double, double, double, double, double, int)
+                + Walker(double, double, double, double, double, double, double, int)
+                + Walker(JSONObject)
+                ..Méthodes..
+                + char getSymbol()
+                + Walker clone()
+            }
+        }
+        package Objects{
+            abstract class Objet{
+                # boolean visible
+                ..Constructeur..
+                + Objet(Type, double, double, double, double)
+                + Objet(JSONObject)
+                ..Méthodes..
+                + {abstract} void consommePar(Personnage p);
+                + boolean estRamassable()
+                + boolean estDeclenchable()
+            }
+
+            class Coeur extends Objet{
+                # double valeur
+                ..Constructeur..
+                + Coeur(double, double, double, double)
+                + Coeur(JSONObject)
+                ..Méthodes..
+                + char getSymbol()
+            }
+
+            class Piege extends Objet{
+                # double degats
+                ..Constructeur..
+                + Piege(double, double, double, double, double)
+                + Piege(JSONObject json)
+                ..Méthodes..
+                + boolean estDeclenchable()
+                + char getSymbol()
+
             }
         }
 
@@ -95,6 +139,7 @@ package Escape {
             ..Méthodes..
             + {static} Monde fromMap(String)
             + {static} Monde fromJSON(JSONObject)
+            + {static} Monde fromJSON(JSONObject, String)
             + int intLePlusProche(int, int)
             + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre, int)
             + void heroAttaque()
@@ -106,70 +151,9 @@ package Escape {
             + void mouvementRandom(Monstre, double)
             + boolean collisionAvec(Personnage, boolean)
             + boolean collisionAvecTerrains(Personnage)
+            + void heroRamassageObjet()
             # boolean collision(ElementMonde, ElementMonde)
             - void chargerCarte(String)
-        }
-    }
-
-    package Outils {
-        class Donnees {
-            + {static} String APPDATA_FOLDER
-            + {static} boolean DEBUG
-            + {static} Set<Locale> SUPPORTED_LOCALES
-            + {static} double HERO_HEIGHT
-            ...
-            ..Constructeur..
-            - Donnees()
-        }
-
-        class GestionFichier {
-            ..Constructeur..
-            + GestionFichier()
-            ..Méthodes..
-            + {static} char[][] lireFichierCarte(String)
-        }
-
-        class Resources {
-            - {static} Map<String, Image> assets
-            ..Constructeur..
-            - Resources()
-            ..Méthodes..
-            + {static} URL get(String)
-            + {static} InputStream getAsStream(String)
-            + {static} Image getAsset(String)
-            + {static} ResourceBundle getI18NBundle(Locale)
-            + {static} ResourceBundle getI18NBundle()
-            + {static} String getI18NString(String, Locale)
-            + {static} String getI18NString(String)
-        }
-
-        class FabriqueId {
-            - {static} FabriqueId instance
-            - int id
-            ..Constructeur..
-            - FabriqueId()
-            ..Méthodes..
-            + {static} FabriqueId getInstance()
-            + int getId()
-        }
-
-        class ErrorBehavior {
-            ..Méthodes..
-            + {static} void handle(Exception, String)
-            + {static} void crash(Exception, String)
-        }
-
-        class FileManager {
-            + {static} boolean delete(String)
-            + {static} boolean write(JSONObject, String, boolean)
-            + {static} JSONObject readFile(String, boolean)
-            + {static} Map<String, JSONObject> readDirectory(String, boolean)
-            + {static} JSONObject readResourceFile(String)
-            + {static} Map<String, JSONObject> readResourceDirectory(String)
-            - {static} boolean writeString(String, String)
-            - {static} String readString(String)
-            - {static} JSONObject readJSONString(String)
-            - {static} SecretKey getSecretKey()
         }
     }
 
@@ -239,7 +223,6 @@ package Escape {
     }
 }
 
-
 ' notes
 note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
 N_gui .left. engine
@@ -249,19 +232,16 @@ note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
 N_json ... ElementMonde::Type
 
 
-' force layout
-Outils -[hidden]up- gui
-N_json .[hidden].. ElementMonde::Type
-
-
 ' elements monde
 ElementMonde --"*" Escape.gui.Sprite
 Personnage --"1" TypeMouvement : + orientation
 
 Personnage -up--|> ElementMonde
 Terrain -up--|> ElementMonde
+Objet -up--|> ElementMonde
 Escape.Monde.Monde --- "*" Personnage
 Escape.Monde.Monde --- "*" Terrain
+Escape.Monde.Monde --- "*" Objet
 
 
 ' settings
@@ -271,5 +251,6 @@ Property --"1" Setter
 
 
 GameController -- "1" Escape.Monde.Monde
+
 
 @enduml

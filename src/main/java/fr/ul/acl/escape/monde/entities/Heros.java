@@ -5,12 +5,9 @@ import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_HEART;
-import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
-
 public class Heros extends Personnage {
-    public Heros(double x, double y, double hauteur, double largeur) {
-        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, HERO_SPEED);
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
         String path = "assets/heros.png";
         Sprite[] tab_sprite_down = new Sprite[3];
         tab_sprite_down[0] = new Sprite(path, 6, 5, 29, 31);
@@ -35,7 +32,6 @@ public class Heros extends Personnage {
         tab_sprite_up[1] = new Sprite(path, 46, 124, 29, 31);
         tab_sprite_up[2] = new Sprite(path, 86, 124, 29, 31);
         sprites.put(TypeMouvement.UP, tab_sprite_up);
-        coeurs = HERO_HEART;
     }
 
     public Heros(JSONObject json) {
@@ -43,7 +39,17 @@ public class Heros extends Personnage {
     }
 
     @Override
+    public char getSymbol() {
+        return 'H';
+    }
+
+    @Override
     public boolean estUnHeros() {
         return true;
+    }
+
+    @Override
+    public Heros clone() {
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 }

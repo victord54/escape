@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde.environment;
 
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.ElementMonde;
+import org.json.JSONObject;
 import javafx.scene.image.Image;
 
 public class Mur extends Terrain {
@@ -10,9 +11,13 @@ public class Mur extends Terrain {
         sprite = new Sprite("assets/decors.png", 0, 0, 50, 50);
     }
 
+    public Mur(JSONObject json) {
+        super(json);
+    }
+
     @Override
-    public Image getSprite() {
-        return sprite.getSprite();
+    public char getSymbol() {
+        return '█';
     }
 
     public boolean estTraversable() {

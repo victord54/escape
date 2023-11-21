@@ -3,25 +3,30 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.objects.Coeur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_SPEED;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MondeTest {
+    private static final double HERO_SPEED = 4;
+    private static final double HERO_HEART = 3;
+    private static final double WALKER_SPEED = 2;
+    private static final double WALKER_HEART = 3;
+
     private Monde monde;
     private Monde monde2;
 
     @BeforeEach
     void setUp() {
-        this.monde = new Monde();
-        this.monde2 = new Monde();
+        this.monde = new Monde(12, 18);
+        this.monde2 = new Monde(12, 18);
     }
 
     @Test
     void collision() {
-        Heros e1 = new Heros(25, 25, 5, 5);
+        Heros e1 = new Heros(25, 25, 5, 5, HERO_SPEED, HERO_HEART, WALKER_HEART, -1);
         Mur e2 = new Mur(15, 15, 2, 2); // Mur en dehors de e1
         Mur e3 = new Mur(20, 25, 10, 10); // Mur collision à gauche de e1
         Mur e4 = new Mur(28, 25, 10, 10); // Mur collision à droite de e1
@@ -40,7 +45,7 @@ class MondeTest {
 
     @Test
     void deplacementHeros() {
-        Heros h = new Heros(5, 5, 1, 1);
+        Heros h = new Heros(5, 5, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         monde.addPersonnage(h);
         monde.deplacementHeros(TypeMouvement.LEFT, 1);
         assertEquals(5 - HERO_SPEED, monde.getHeros().getX(), "T1");
@@ -69,12 +74,12 @@ class MondeTest {
         Mur m2 = new Mur(5, 2, 2, 2);
         monde2.addTerrains(m2);
 
-        Heros e1 = new Heros(4, 2, 1, 1);
+        Heros e1 = new Heros(4, 2, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         monde2.addPersonnage(e1);
 
-        Walker w1 = new Walker(4, 1, 1, 1);
+        Walker w1 = new Walker(4, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
         monde2.addPersonnage(w1);
-        Walker w2 = new Walker(4, 3, 1, 1);
+        Walker w2 = new Walker(4, 3, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
         monde2.addPersonnage(w2);
 
 
@@ -101,9 +106,9 @@ class MondeTest {
 
     @Test
     void deplacementMonstre() {
-        Walker w = new Walker(1, 1, 1, 1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
         System.out.println(w);
-        Heros h = new Heros(6, 6, 1, 1);
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
         System.out.println(w);
@@ -113,8 +118,8 @@ class MondeTest {
 
     @Test
     void deplacementMonstres() {
-        Walker w = new Walker(1, 1, 1, 1);
-        Heros h = new Heros(6, 6, 1, 1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 
@@ -126,9 +131,35 @@ class MondeTest {
     }
 
     @Test
-    void intLePlusProche(){
-        assertEquals(1500,monde.intLePlusProche(1004,500));
-        assertEquals(1500,monde.intLePlusProche(1350,500));
-        assertEquals(500, monde.intLePlusProche(500,500));
+    void intLePlusProche() {
+        assertEquals(1500, monde.intLePlusProche(1004, 500));
+        assertEquals(1500, monde.intLePlusProche(1350, 500));
+        assertEquals(500, monde.intLePlusProche(500, 500));
+    }
+
+    @Test
+    void heroRamassageObjet(){
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        Coeur c = new Coeur(6,6,0.2,0.2, 1);
+        monde.addPersonnage(h);
+        monde.addObjet(c);
+
+        monde.heroRamassageObjet();
+
+        assertEquals(monde.getObjets().size(), 0);
+
+        monde.addObjet(c);
+        monde.addObjet(c);
+
+        monde.heroRamassageObjet();
+        assertEquals(monde.getObjets().size(), 1);
+
+        Coeur c2 = new Coeur(8,8,0.2,0.2,1);
+        monde.addObjet(c2);
+        monde.heroRamassageObjet();
+        assertEquals(monde.getObjets().size(), 1);
+        monde.heroRamassageObjet();
+        assertEquals(monde.getObjets().size(), 1);
+
     }
 }

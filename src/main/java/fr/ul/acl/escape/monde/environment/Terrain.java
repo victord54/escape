@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde.environment;
 
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.ElementMonde;
+import org.json.JSONObject;
 import javafx.scene.image.Image;
 
 public abstract class Terrain extends ElementMonde {
@@ -11,7 +12,22 @@ public abstract class Terrain extends ElementMonde {
         super(type, x, y, hauteur, largeur);
     }
 
-    abstract public Image getSprite();
+    public Terrain(JSONObject json) {
+        super(json);
+    }
+
+    public static Terrain fromJSON(JSONObject json) {
+        Type type = Type.valueOf(json.getString("type"));
+        if (type == Type.WALL) {
+            return new Mur(json);
+        } else {
+            throw new IllegalArgumentException("Unknown type: " + type);
+        }
+    }
+
+    public Image getSprite() {
+        return sprite.getSprite();
+    }
 
     public boolean estTraversable() {
         return true;

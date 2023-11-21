@@ -52,14 +52,15 @@ public class Settings {
      * Load the settings from the settings file.
      */
     public static void load() {
+        initAutoSave();
+
         JSONObject json = FileManager.readFile(SETTINGS_FILEPATH, false);
+        if (json == null) return;
 
         if (json.has(fullScreen.getName())) fullScreen.set(json.getBoolean(fullScreen.getName()));
         if (json.has(showFps.getName())) showFps.set(json.getBoolean(showFps.getName()));
         if (json.has(locale.getName())) locale.set(LocaleUtils.toLocale(json.getString(locale.getName())));
         else locale.set(Locale.getDefault());
-
-        initAutoSave();
     }
 
     /**

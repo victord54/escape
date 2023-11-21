@@ -4,21 +4,15 @@ import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HEART;
-import static fr.ul.acl.escape.outils.Donnees.WALKER_SPEED;
-
 public class Walker extends Monstre {
-
-    public Walker(double x, double y, double hauteur, double largeur) {
-        super(Type.WALKER, x, y, hauteur, largeur, WALKER_SPEED);
-        coeurs = WALKER_HEART;
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+        super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
         setSprites();
     }
 
-    public Walker(double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(Type.WALKER, x, y, hauteur, largeur, vitesse, id);
-        coeurs = WALKER_HEART;
-        //setSprites();
+    @Override
+    public char getSymbol() {
+        return 'W';
     }
 
     private void setSprites() {
@@ -50,5 +44,10 @@ public class Walker extends Monstre {
 
     public Walker(JSONObject json) {
         super(json);
+    }
+
+    @Override
+    public Walker clone() {
+        return new Walker(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 }

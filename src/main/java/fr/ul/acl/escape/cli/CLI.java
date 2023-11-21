@@ -1,10 +1,13 @@
 package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameInterface;
+import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.outils.Donnees;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLI implements GameInterface {
@@ -30,28 +33,19 @@ public class CLI implements GameInterface {
     }
 
     public void render() {
-        for (int y = 0; y < Donnees.WORLD_HEIGHT; y++) {
-            for (int x = 0; x < Donnees.WORLD_WIDTH; x++) {
-                boolean isThereElement = false;
-                for (Terrain terrain : controller.getTerrains()) {
-                    if (terrain.getX() >= x && terrain.getX() < x + terrain.getLargeur() && terrain.getY() >= y && terrain.getY() < y + terrain.getHauteur()) {
-                        System.out.print("[" + Donnees.SYMBOL_WALL + "]");
-                        isThereElement = true;
-                        break;
-                    }
+        for (int y = 0; y < controller.getHeight(); y++) {
+            for (int x = 0; x < controller.getWidth(); x++) {
+                Character c = getCharForPosition(x, y, controller.getTerrains());
+                if (c != null) {
+                    System.out.print("[" + c + "]");
+                    continue;
                 }
-                if (isThereElement) continue;
-                for (Personnage personnage : controller.getPersonnages()) {
-                    if (personnage.getX() >= x && personnage.getX() < x + personnage.getLargeur() && personnage.getY() >= y && personnage.getY() < y + personnage.getHauteur()) {
-                        System.out.print("[" + (personnage.estUnHeros() ? Donnees.SYMBOL_HERO : Donnees.SYMBOL_WALKER) + "]");
-                        isThereElement = true;
-                        break;
-                    }
+                c = getCharForPosition(x, y, controller.getPersonnages());
+                if (c != null) {
+                    System.out.print("[" + c + "]");
+                    continue;
                 }
-
-                if (!isThereElement) {
-                    System.out.print("[ ]");
-                }
+                System.out.print("[ ]");
             }
             System.out.println();
         }
@@ -71,5 +65,14 @@ public class CLI implements GameInterface {
             engine.stop();
         }
         controller.setAction(action);
+    }
+
+    private Character getCharForPosition(int x, int y, ArrayList<? extends ElementMonde> elements) {
+        for (ElementMonde element : elements) {
+            if (element.getX() >= x && element.getX() < x + element.getLargeur() && element.getY() >= y && element.getY() < y + element.getHauteur()) {
+                return element.getSymbol();
+            }
+        }
+        return null;
     }
 }

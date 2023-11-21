@@ -10,16 +10,10 @@ public abstract class Monstre extends Personnage {
     /**
      * List of movements tried.
      */
-    protected ArrayList<TypeMouvement> derniersMouvementsEssayes;
+    protected ArrayList<TypeMouvement> derniersMouvementsEssayes = new ArrayList<>();
 
-    public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse) {
-        super(type, x, y, hauteur, largeur, vitesse);
-        derniersMouvementsEssayes = new ArrayList<>();
-    }
-
-    public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, int id) {
-        super(type, x, y, hauteur, largeur, vitesse, id);
-        derniersMouvementsEssayes = new ArrayList<>();
+    public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+        super(type, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 
     public Monstre(JSONObject json) {

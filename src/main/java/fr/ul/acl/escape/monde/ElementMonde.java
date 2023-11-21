@@ -3,8 +3,8 @@ package fr.ul.acl.escape.monde;
 import org.json.JSONObject;
 
 public abstract class ElementMonde {
-    protected final double hauteur;
-    protected final double largeur;
+    protected double hauteur;
+    protected double largeur;
     /**
      * ElementMonde type, private use only, for JSON serialization
      */
@@ -73,10 +73,15 @@ public abstract class ElementMonde {
     }
 
     /**
+     * @return a char representing the ElementMonde (for the console)
+     */
+    public abstract char getSymbol();
+
+    /**
      * Concrete types of ElementMonde
      * Used for JSON serialization ONLY!
      */
     public enum Type {
-        HERO, WALKER, WALL
+        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP
     }
 }

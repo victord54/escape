@@ -65,18 +65,20 @@ public class SaveData {
         return json.has("level") ? json.getInt("level") : -1;
     }
 
-    public double getLife() {
-        if (!json.has("entities")) return -1;
+    public String getLife() {
+        if (!json.has("entities")) return "-";
 
         JSONArray entities = json.getJSONArray("entities");
         for (int i = 0; i < entities.length(); i++) {
             JSONObject entity = entities.getJSONObject(i);
             if (entity.getString("type").equals("HERO")) {
-                return entity.has("life") ? entity.getDouble("life") : -1;
+                String life = entity.has("life") ? entity.getDouble("life") + "" : "-";
+                String maxLife = entity.has("maxLife") ? entity.getDouble("maxLife") + "" : "-";
+                return life + "/" + maxLife;
             }
         }
 
-        return -1;
+        return "-";
     }
 
     public void setListener(SaveComponent.SaveButtonsListener listener) {

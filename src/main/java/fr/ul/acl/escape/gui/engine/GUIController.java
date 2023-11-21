@@ -114,21 +114,40 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     }
 
 
-    static class MovementManager {
+    /**
+     * The MovementManager class handles movements of an object within a world.
+     * It allows adding movement types and executing these movements in the world
+     * with a specified delta time.
+     *
+     * It allows to manage diagonal movements
+     */
+    protected static class MovementManager {
 
-        private static final double PIBY4 = 0.70710678118; //PI/4 pour les mouvements diagonaux
+        protected static final double PIBY4 = 0.70710678118; //PI/4 pour les mouvements diagonaux
         Set<TypeMouvement> mouvements;
 
-        private static final MovementManager instance = new MovementManager();
+        protected static final MovementManager instance = new MovementManager();
 
         private MovementManager(){
             mouvements = new HashSet<>();
         }
 
+        /**
+         * Adds a movement type to the list of movements to be performed.
+         *
+         * @param mov Type of movement to add.
+         */
         public void addMouvement(TypeMouvement mov){
             this.mouvements.add(mov);
         }
 
+        /**
+         * Executes the movements in the world with the specified delta time.
+         * If two movements are present, the delta time is adjusted for diagonal movements.
+         *
+         * @param monde     Instance of the world in which to perform the movements.
+         * @param deltaTime Delta time for executing the movements.
+         */
         public void executerMouvement(Monde monde, double deltaTime){
             double deltaTimeTraite = deltaTime;
             if(mouvements.size() == 2) deltaTimeTraite *= PIBY4;

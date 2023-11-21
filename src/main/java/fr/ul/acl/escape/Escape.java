@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Escape extends Application {
+    public static boolean javaFXApplication = false;
     public static HostServices Host;
 
     /**
@@ -32,6 +33,7 @@ public class Escape extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
+        javaFXApplication = true;
         Host = getHostServices();
 
         ViewManager.getInstance().setStage(stage);

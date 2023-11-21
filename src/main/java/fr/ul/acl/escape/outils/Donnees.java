@@ -5,6 +5,8 @@ import net.harawata.appdirs.AppDirsFactory;
 
 import java.util.*;
 
+import static fr.ul.acl.escape.Escape.javaFXApplication;
+
 /**
  * Static game information common to all classes.
  */
@@ -18,6 +20,10 @@ public final class Donnees {
      */
     public static final boolean DEBUG = Launcher.getArgs() != null && Launcher.getArgs().contains("--debug");
     /**
+     * If the game is in CLI mode.
+     */
+    public static final boolean CLI_MODE = !javaFXApplication;
+    /**
      * The supported locales.
      */
     public static final Set<Locale> SUPPORTED_LOCALES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
@@ -25,8 +31,6 @@ public final class Donnees {
             Locale.FRANCE,
             Locale.CANADA_FRENCH
     )));
-
-    public static final boolean CLI_MODE = (Launcher.getArgs() != null && Launcher.getArgs().contains("--nowindow")) || isJUnitTest();
 
     /**
      * symbol of Hero/player
@@ -138,14 +142,5 @@ public final class Donnees {
     public static final double CHANCE_OF_HEART_DROP = 0.4;
 
     private Donnees() {
-    }
-
-    private static boolean isJUnitTest() {
-        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-            if (element.getClassName().startsWith("org.junit.")) {
-                return true;
-            }
-        }
-        return false;
     }
 }

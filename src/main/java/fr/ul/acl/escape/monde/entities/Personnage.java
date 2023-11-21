@@ -151,6 +151,10 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
+    public void setCoeurs(double c) {
+        coeurs = c;
+    }
+
     public double getMaxCoeurs() {
         return maxCoeurs;
     }
@@ -161,14 +165,6 @@ public abstract class Personnage extends ElementMonde {
 
     public void setLargeur(double l) {
         this.largeur = l;
-    }
-
-    public void setCoeurs(double c) {
-        coeurs = c;
-    }
-
-    public void setOrientation(TypeMouvement o) {
-        this.orientation = o;
     }
 
     public TypeMouvement getDernierMouvement() {
@@ -222,6 +218,10 @@ public abstract class Personnage extends ElementMonde {
 
     public TypeMouvement getOrientation() {
         return orientation;
+    }
+
+    public void setOrientation(TypeMouvement o) {
+        this.orientation = o;
     }
 
     /**

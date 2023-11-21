@@ -131,8 +131,8 @@
       "type": "TRAP",
       "x": 10,
       "y": 10,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -140,8 +140,8 @@
       "type": "TRAP",
       "x": 2,
       "y": 3.5,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -149,8 +149,8 @@
       "type": "TRAP",
       "x": 5,
       "y": 5,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -158,8 +158,8 @@
       "type": "TRAP",
       "x": 6,
       "y": 9,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -167,8 +167,8 @@
       "type": "TRAP",
       "x": 15,
       "y": 2,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -176,8 +176,8 @@
       "type": "TRAP",
       "x": 13.5,
       "y": 4.25,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -185,8 +185,8 @@
       "type": "TRAP",
       "x": 14,
       "y": 8,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     },
@@ -194,8 +194,8 @@
       "type": "TRAP",
       "x": 16,
       "y": 8.5,
-      "width": 0.5,
-      "height": 0.5,
+      "width": 0.8,
+      "height": 0.4,
       "visible": false,
       "degat": 0.25
     }

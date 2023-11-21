@@ -137,6 +137,9 @@ public final class Donnees {
      */
     public static final double CHANCE_OF_HEART_DROP = 0.4;
 
+    private Donnees() {
+    }
+
     private static boolean isJUnitTest() {
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
             if (element.getClassName().startsWith("org.junit.")) {
@@ -144,8 +147,5 @@ public final class Donnees {
             }
         }
         return false;
-    }
-
-    private Donnees() {
     }
 }

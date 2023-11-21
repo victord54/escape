@@ -1,11 +1,15 @@
 package fr.ul.acl.escape.monde.objects;
 
+import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.entities.Personnage;
+import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {
     protected boolean visible;
+
+    protected Sprite sprite;
 
     public Objet(Type type, double x, double y, double hauteur, double largeur, boolean visible) {
         super(type, x, y, hauteur, largeur);
@@ -15,13 +19,6 @@ public abstract class Objet extends ElementMonde {
     public Objet(JSONObject json) {
         super(json);
         this.visible = json.getBoolean("visible");
-    }
-
-    @Override
-    public JSONObject toJSON() {
-        JSONObject json = super.toJSON();
-        json.put("visible", visible);
-        return json;
     }
 
     public static Objet fromJSON(JSONObject json) {
@@ -35,12 +32,23 @@ public abstract class Objet extends ElementMonde {
         }
     }
 
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("visible", visible);
+        return json;
+    }
+
     public boolean estRamassable() {
         return true;
     }
 
     public boolean estConsommable() {
         return false;
+    }
+
+    public Image getSprite() {
+        return sprite.getSprite();
     }
 
     /**

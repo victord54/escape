@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde.objects;
 
+import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import org.json.JSONObject;
 
@@ -9,11 +10,13 @@ public class Coeur extends Objet {
     public Coeur(double x, double y, double hauteur, double largeur, double valeur) {
         super(Type.HEART, x, y, hauteur, largeur, true);
         this.valeur = valeur;
+        sprite = new Sprite("assets/coeurs.png", 1, 1, 23, 22);
     }
 
     public Coeur(JSONObject json) {
         super(json);
         this.valeur = json.getDouble("value");
+        sprite = new Sprite("assets/coeurs.png", 1, 1, 23, 22);
     }
 
     @Override

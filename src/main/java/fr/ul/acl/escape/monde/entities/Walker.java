@@ -14,6 +14,11 @@ public class Walker extends Monstre {
         super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
     }
 
+    public Walker(JSONObject json) {
+        super(json);
+        setSprites();
+    }
+
     @Override
     public char getSymbol() {
         return 'W';
@@ -44,11 +49,6 @@ public class Walker extends Monstre {
         tab_sprite_up[1] = new Sprite(path, 39, 145, 21, 46);
         tab_sprite_up[2] = new Sprite(path, 71, 145, 21, 46);
         sprites.put(TypeMouvement.UP, tab_sprite_up);
-    }
-
-    public Walker(JSONObject json) {
-        super(json);
-        setSprites();
     }
 
     @Override

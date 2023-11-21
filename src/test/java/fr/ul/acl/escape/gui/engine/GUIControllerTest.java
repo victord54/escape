@@ -76,7 +76,7 @@ class GUIControllerTest {
     }
 
     @Test
-    void testMovementManagerSetViderApresMouvementExecute(){
+    void testMovementManagerSetVideApresMouvementExecute(){
         mm.addMouvement(TypeMouvement.RIGHT);
         mm.executerMouvement(monde, 1);
 

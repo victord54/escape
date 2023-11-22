@@ -5,13 +5,18 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
 public class Walker extends Monstre {
-    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
-        super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs,double degats, int id) {
+        super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
         setSprites();
     }
 
-    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id, boolean sprite) {
-        super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs,double degats, int id, boolean sprite) {
+        super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+    }
+
+    @Override
+    public char getSymbol() {
+        return 'W';
     }
 
     public Walker(JSONObject json) {
@@ -20,8 +25,8 @@ public class Walker extends Monstre {
     }
 
     @Override
-    public char getSymbol() {
-        return 'W';
+    public Walker clone() {
+        return new Walker(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id, true);
     }
 
     private void setSprites() {
@@ -49,10 +54,5 @@ public class Walker extends Monstre {
         tab_sprite_up[1] = new Sprite(path, 39, 145, 21, 46);
         tab_sprite_up[2] = new Sprite(path, 71, 145, 21, 46);
         sprites.put(TypeMouvement.UP, tab_sprite_up);
-    }
-
-    @Override
-    public Walker clone() {
-        return new Walker(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id, true);
     }
 }

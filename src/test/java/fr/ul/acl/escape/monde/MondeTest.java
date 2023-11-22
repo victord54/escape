@@ -7,6 +7,8 @@ import fr.ul.acl.escape.monde.objects.Coeur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static fr.ul.acl.escape.outils.Donnees.HERO_HIT;
+import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MondeTest {
@@ -26,7 +28,7 @@ class MondeTest {
 
     @Test
     void collision() {
-        Heros e1 = new Heros(25, 25, 5, 5, HERO_SPEED, HERO_HEART, WALKER_HEART, -1);
+        Heros e1 = new Heros(25, 25, 5, 5, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
         Mur e2 = new Mur(15, 15, 2, 2); // Mur en dehors de e1
         Mur e3 = new Mur(20, 25, 10, 10); // Mur collision à gauche de e1
         Mur e4 = new Mur(28, 25, 10, 10); // Mur collision à droite de e1
@@ -45,7 +47,7 @@ class MondeTest {
 
     @Test
     void deplacementHeros() {
-        Heros h = new Heros(5, 5, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        Heros h = new Heros(5, 5, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
         monde.addPersonnage(h);
         monde.deplacementHeros(TypeMouvement.LEFT, 1);
         assertEquals(5 - HERO_SPEED, monde.getHeros().getX(), "T1");
@@ -74,12 +76,12 @@ class MondeTest {
         Mur m2 = new Mur(5, 2, 2, 2);
         monde2.addTerrains(m2);
 
-        Heros e1 = new Heros(4, 2, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        Heros e1 = new Heros(4, 2, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
         monde2.addPersonnage(e1);
 
-        Walker w1 = new Walker(4, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
+        Walker w1 = new Walker(4, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
         monde2.addPersonnage(w1);
-        Walker w2 = new Walker(4, 3, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
+        Walker w2 = new Walker(4, 3, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
         monde2.addPersonnage(w2);
 
 
@@ -106,9 +108,9 @@ class MondeTest {
 
     @Test
     void deplacementMonstre() {
-        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
         System.out.println(w);
-        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
         System.out.println(w);
@@ -118,8 +120,8 @@ class MondeTest {
 
     @Test
     void deplacementMonstres() {
-        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, -1);
-        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
         monde.addPersonnage(w);
         monde.addPersonnage(h);
 
@@ -138,9 +140,9 @@ class MondeTest {
     }
 
     @Test
-    void heroRamassageObjet() {
-        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, -1);
-        Coeur c = new Coeur(6, 6, 0.2, 0.2, 1);
+    void heroRamassageObjet(){
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
+        Coeur c = new Coeur(6,6,0.2,0.2, 1);
         monde.addPersonnage(h);
         monde.addObjet(c);
 
@@ -154,7 +156,7 @@ class MondeTest {
         monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
 
-        Coeur c2 = new Coeur(8, 8, 0.2, 0.2, 1);
+        Coeur c2 = new Coeur(8,8,0.2,0.2,1);
         monde.addObjet(c2);
         monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);

@@ -6,13 +6,13 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import org.json.JSONObject;
 
 public class Heros extends Personnage {
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
-        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
         setSprites();
     }
 
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id, boolean sprite) {
-        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id);
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id, boolean sprite) {
+        super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
     }
 
     public Heros(JSONObject json) {
@@ -59,6 +59,6 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, id, true);
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id, true);
     }
 }

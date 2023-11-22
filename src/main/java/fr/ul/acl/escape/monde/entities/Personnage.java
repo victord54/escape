@@ -20,8 +20,9 @@ public abstract class Personnage extends ElementMonde {
     protected HashMap<TypeMouvement, Sprite[]> sprites;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
+    protected double degats;
 
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, int id) {
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.coeurs = coeurs;
@@ -29,6 +30,7 @@ public abstract class Personnage extends ElementMonde {
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         this.orientation = TypeMouvement.DOWN;
         sprites = new HashMap<>();
+        this.degats = degats;
     }
 
     public Personnage(JSONObject json) {
@@ -38,6 +40,7 @@ public abstract class Personnage extends ElementMonde {
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
         this.maxCoeurs = json.getDouble("maxLife");
+        this.degats = json.getDouble("damages");
         this.orientation = TypeMouvement.DOWN;
     }
 
@@ -59,6 +62,7 @@ public abstract class Personnage extends ElementMonde {
         json.put("life", coeurs);
         json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
+        json.put("damages", degats);
         return json;
     }
 
@@ -183,6 +187,10 @@ public abstract class Personnage extends ElementMonde {
         isMoving = moving;
     }
 
+    public void setOrientation(TypeMouvement o) {
+        this.orientation = o;
+    }
+
     /**
      * Method that reduce the number of hearts.
      *
@@ -218,10 +226,6 @@ public abstract class Personnage extends ElementMonde {
 
     public TypeMouvement getOrientation() {
         return orientation;
-    }
-
-    public void setOrientation(TypeMouvement o) {
-        this.orientation = o;
     }
 
     /**

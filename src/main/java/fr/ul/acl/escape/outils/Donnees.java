@@ -85,6 +85,17 @@ public final class Donnees {
      * countdown between two hero hit in ms
      */
     public static final double HERO_HIT_COUNTDOWN = 500;
+
+    /**
+     * Walker hit damage
+     */
+    public static final double WALKER_HIT = 1;
+
+    /**
+     * Walker hit damage
+     */
+    public static final double MONSTER_HIT_COUNTDOWN = 1;
+
     /**
      * height of monster
      */

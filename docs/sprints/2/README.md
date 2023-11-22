@@ -41,7 +41,7 @@
   * Attribué à Victor
 * [ ] [GUI lignes entre cases](https://github.com/victord54/escape/issues/9)
   * Partiellement corrigé par Antoine, en attente de la fonctionnalité de *gestion des sprites* pour être complètement
-    corrigé.
+    corrigé. À première vue, pas de soucis avec les sprites.
 * [x] [Déplacement en diagonale](https://github.com/victord54/escape/issues/10)
   * Attribué à Théo
 * [x] [Pathfinding - monstres qui se bloquent](https://github.com/victord54/escape/issues/17)
@@ -49,4 +49,5 @@
   * 🆕 Ajouté en cours de sprint
 
 ## Autres bugs identifiés en cours de sprint
-(aucun)
+* Optimiser la gestion des sprites
+* Comportement des monstres sur le menu pause

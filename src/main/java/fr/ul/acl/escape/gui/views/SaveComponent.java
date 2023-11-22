@@ -51,7 +51,7 @@ public class SaveComponent extends ListCell<SaveData> {
             levelValue.setText(item.getLevel() + "");
 
             life.setText(Resources.getI18NString("save.life") + " ");
-            lifeValue.setText(item.getLife() + "");
+            lifeValue.setText(item.getLife());
 
             loadButton.setOnAction(this::load);
             loadButton.setText(Resources.getI18NString("load"));

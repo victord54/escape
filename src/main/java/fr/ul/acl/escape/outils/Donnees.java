@@ -5,6 +5,8 @@ import net.harawata.appdirs.AppDirsFactory;
 
 import java.util.*;
 
+import static fr.ul.acl.escape.Escape.javaFXApplication;
+
 /**
  * Static game information common to all classes.
  */
@@ -16,7 +18,11 @@ public final class Donnees {
     /**
      * If the game is in debug mode.
      */
-    public static final boolean DEBUG = Launcher.getArgs().contains("--debug");
+    public static final boolean DEBUG = Launcher.getArgs() != null && Launcher.getArgs().contains("--debug");
+    /**
+     * If the game is in CLI mode.
+     */
+    public static final boolean CLI_MODE = !javaFXApplication;
     /**
      * The supported locales.
      */
@@ -25,6 +31,51 @@ public final class Donnees {
             Locale.FRANCE,
             Locale.CANADA_FRENCH
     )));
+
+    /**
+     * symbol of Hero/player
+     */
+    public static final char SYMBOL_HERO = 'H';
+    /**
+     * symbol of monster : walker
+     */
+    public static final char SYMBOL_WALKER = 'W';
+    /**
+     * symbol of wall
+     */
+    public static final char SYMBOL_WALL = 'M';
+    /**
+     * symbol of hole
+     */
+    public static final char SYMBOL_HOLE = 'T';
+    /**
+     * height of wall
+     */
+    public static final int WALL_HEIGHT = 1;
+
+    /**
+     * width of wall
+     */
+    public static final int WALL_WIDTH = 1;
+
+    /**
+     * height of hero
+     */
+    public static final double HERO_HEIGHT = 0.8;
+
+    /**
+     * width of hero
+     */
+    public static final double HERO_WIDTH = 0.8;
+    /**
+     * speed of hero
+     */
+    public static final int HERO_SPEED = 4;
+
+    /**
+     * number of hero's hearts
+     */
+    public static final double HERO_HEART = 3;
 
     /**
      * hero hit damage
@@ -46,6 +97,30 @@ public final class Donnees {
     public static final double MONSTER_HIT_COUNTDOWN = 1;
 
     /**
+     * height of monster
+     */
+    public static final double WALKER_HEIGHT = 0.9;
+    /**
+     * width of monster
+     */
+    public static final double WALKER_WIDTH = 0.6;
+    /**
+     * speed of monster
+     */
+    public static final int WALKER_SPEED = 2;
+    /**
+     * Number of walker's hearts
+     */
+    public static final double WALKER_HEART = 3;
+    /**
+     * The height of the game screen in boxes.
+     */
+    public static final int WORLD_HEIGHT = 12;
+    /**
+     * The height of the game screen in boxes.
+     */
+    public static final int WORLD_WIDTH = 18;
+    /**
      * Default width of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_WIDTH = 800;
@@ -53,6 +128,7 @@ public final class Donnees {
      * Default height of the window when the game starts.
      */
     public static final int WINDOW_DEFAULT_HEIGHT = 600;
+
     /**
      * Conversion factor to transform float to int.
      */

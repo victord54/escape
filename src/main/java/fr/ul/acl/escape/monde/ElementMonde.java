@@ -3,12 +3,12 @@ package fr.ul.acl.escape.monde;
 import org.json.JSONObject;
 
 public abstract class ElementMonde {
-    protected double hauteur;
-    protected double largeur;
     /**
      * ElementMonde type, private use only, for JSON serialization
      */
     private final Type type;
+    protected double hauteur;
+    protected double largeur;
     protected double x, y;
 
     public ElementMonde(Type type, double x, double y, double hauteur, double largeur) {

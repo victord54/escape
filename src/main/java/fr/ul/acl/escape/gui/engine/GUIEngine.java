@@ -99,4 +99,8 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
     public int getFPS() {
         return fps;
     }
+
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
 }

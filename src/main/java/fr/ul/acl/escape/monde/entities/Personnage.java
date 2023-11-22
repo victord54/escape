@@ -1,11 +1,14 @@
 package fr.ul.acl.escape.monde.entities;
 
+import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
@@ -13,6 +16,9 @@ public abstract class Personnage extends ElementMonde {
     protected double vitesse;
     protected double coeurs;
     protected double maxCoeurs;
+    protected boolean isMoving = false;
+    protected HashMap<TypeMouvement, Sprite[]> sprites;
+    protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
     protected double degats;
 
@@ -23,11 +29,13 @@ public abstract class Personnage extends ElementMonde {
         this.maxCoeurs = maxCoeurs;
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         this.orientation = TypeMouvement.DOWN;
+        sprites = new HashMap<>();
         this.degats = degats;
     }
 
     public Personnage(JSONObject json) {
         super(json);
+        sprites = new HashMap<>();
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
@@ -67,10 +75,22 @@ public abstract class Personnage extends ElementMonde {
     public void deplacer(TypeMouvement typeMouvement, double deltaTime) {
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
         switch (typeMouvement) {
-            case RIGHT -> this.x += vitesseTransformee;
-            case LEFT -> this.x -= vitesseTransformee;
-            case UP -> this.y -= vitesseTransformee;
-            case DOWN -> this.y += vitesseTransformee;
+            case RIGHT -> {
+                this.x += vitesseTransformee;
+                dernierMouvement = TypeMouvement.RIGHT;
+            }
+            case LEFT -> {
+                this.x -= vitesseTransformee;
+                dernierMouvement = TypeMouvement.LEFT;
+            }
+            case UP -> {
+                this.y -= vitesseTransformee;
+                dernierMouvement = TypeMouvement.UP;
+            }
+            case DOWN -> {
+                this.y += vitesseTransformee;
+                dernierMouvement = TypeMouvement.DOWN;
+            }
         }
         this.orientation = typeMouvement;
     }
@@ -135,6 +155,10 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
+    public void setCoeurs(double c) {
+        coeurs = c;
+    }
+
     public double getMaxCoeurs() {
         return maxCoeurs;
     }
@@ -147,8 +171,20 @@ public abstract class Personnage extends ElementMonde {
         this.largeur = l;
     }
 
-    public void setCoeurs(double c) {
-        coeurs = c;
+    public TypeMouvement getDernierMouvement() {
+        return dernierMouvement;
+    }
+
+    public Image getSprite(int i) {
+        return sprites.get(dernierMouvement)[i].getSprite();
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 
     public void setOrientation(TypeMouvement o) {

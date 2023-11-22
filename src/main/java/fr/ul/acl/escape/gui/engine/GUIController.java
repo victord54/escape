@@ -59,15 +59,19 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         //Déplacements
         if (keysPressed.contains(KeyCode.Z)) {
+            monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.UP);
         }
         if (keysPressed.contains(KeyCode.S)) {
+            monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.DOWN);
         }
         if (keysPressed.contains(KeyCode.D)) {
+            monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.RIGHT);
         }
         if (keysPressed.contains(KeyCode.Q)) {
+            monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.LEFT);
         }
         MovementManager.instance.executerMouvement(monde, timeInDouble);
@@ -111,6 +115,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     }
 
     public void onKeyReleased(KeyEvent event) {
+        monde.getHeros().setMoving(false);
         keysPressed.remove(event.getCode());
     }
 

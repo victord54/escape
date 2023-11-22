@@ -270,6 +270,7 @@ public class Monde {
      * @param monstre The Monstre that we want to move.
      */
     public void deplacementMonstre(Monstre monstre, double deltaTime) {
+        monstre.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         int pas = 2500; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
@@ -363,6 +364,7 @@ public class Monde {
         // On fait le mouvement prévu si il est réalisable
         if (!collisionAvec(tmpMonstre, true)) {
             monstre.deplacer(typeMouvement, deltaTime);
+            monstre.setMoving(true);
             return;
         }
 
@@ -371,6 +373,7 @@ public class Monde {
         tmpMonstre.deplacer(monstre.getOrientation(), deltaTime);
         if (!collisionAvec(tmpMonstre, true)) {
             monstre.deplacer(monstre.getOrientation(), deltaTime);
+            monstre.setMoving(true);
             return;
         }
 
@@ -391,6 +394,7 @@ public class Monde {
 
                     if (!collisionAvec(tmpMonstre, true)) {
                         monstre.deplacer(typeMouvement, deltaTime);
+                        monstre.setMoving(true);
                         return;
                     }
                     monstre.addMouvementEssayes(typeMouvement);
@@ -451,6 +455,7 @@ public class Monde {
 
             if (!collisionAvec(tmpMonstre, true)) {
                 monstre.deplacer(typeMouvement, deltaTime);
+                monstre.setMoving(true);
                 return;
             }
         }

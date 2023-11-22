@@ -149,8 +149,8 @@ package gui {
     }
 
     class Sprite {
-        - String uri
-        + Sprite(uri)
+        + Sprite(Sprite(String path, double x, double y, double width, double height)
+        + Image getSprite()
     }
 
     package engine {
@@ -203,5 +203,7 @@ SettingsViewController -up-|> ViewController
 SettingsView -up-|> View
 SavesViewController -up-|> ViewController
 SavesView -up-|> View
+
+Sprite -- "1" javafx.scene.image.Image
 
 @enduml

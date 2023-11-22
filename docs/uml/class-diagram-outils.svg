@@ -1,2 +1,251 @@
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="629px" preserveAspectRatio="none" style="width:953px;height:629px;background:#FFFFFF;" version="1.1" viewBox="0 0 953 629" width="953px" zoomAndPan="magnify"><defs/><g><!--cluster Escape--><g id="cluster_Escape"><path d="M8.5,6 L65.5,6 A3.75,3.75 0 0 1 68,8.5 L75,28.2969 L943.5,28.2969 A2.5,2.5 0 0 1 946,30.7969 L946,619.5 A2.5,2.5 0 0 1 943.5,622 L8.5,622 A2.5,2.5 0 0 1 6,619.5 L6,8.5 A2.5,2.5 0 0 1 8.5,6 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="6" x2="75" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="56" x="10" y="20.9951">Escape</text></g><!--cluster Outils--><g id="cluster_Outils"><path d="M32.5,49 L82.5,49 A3.75,3.75 0 0 1 85,51.5 L92,71.2969 L919.5,71.2969 A2.5,2.5 0 0 1 922,73.7969 L922,595.5 A2.5,2.5 0 0 1 919.5,598 L32.5,598 A2.5,2.5 0 0 1 30,595.5 L30,51.5 A2.5,2.5 0 0 1 32.5,49 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="30" x2="92" y1="71.2969" y2="71.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="49" x="34" y="63.9951">Outils</text></g><!--class Donnees--><g id="elem_Donnees"><rect codeLine="3" fill="#F1F1F1" height="141.7813" id="Donnees" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="281" x="46.5" y="126.5"/><ellipse cx="151.25" cy="142.5" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M153.5938,138.1719 C152.6563,137.7344 152.0625,137.5938 151.1875,137.5938 C148.5625,137.5938 146.5625,139.6719 146.5625,142.3906 L146.5625,143.5156 C146.5625,146.0938 148.6719,147.9844 151.5625,147.9844 C152.7813,147.9844 153.9375,147.6875 154.6875,147.1406 C155.2656,146.7344 155.5938,146.2813 155.5938,145.8906 C155.5938,145.4375 155.2031,145.0469 154.7344,145.0469 C154.5156,145.0469 154.3125,145.125 154.125,145.3125 C153.6719,145.7969 153.6719,145.7969 153.4844,145.8906 C153.0625,146.1563 152.375,146.2813 151.6094,146.2813 C149.5625,146.2813 148.2656,145.1875 148.2656,143.4844 L148.2656,142.3906 C148.2656,140.6094 149.5156,139.2969 151.25,139.2969 C151.8281,139.2969 152.4375,139.4531 152.9063,139.7031 C153.3906,139.9844 153.5625,140.2031 153.6563,140.6094 C153.7188,141.0156 153.75,141.1406 153.8906,141.2656 C154.0313,141.4063 154.2656,141.5156 154.4844,141.5156 C154.75,141.5156 155.0156,141.375 155.1875,141.1563 C155.2969,141 155.3281,140.8125 155.3281,140.3906 L155.3281,138.9688 C155.3281,138.5313 155.3125,138.4063 155.2188,138.25 C155.0625,137.9844 154.7813,137.8438 154.4844,137.8438 C154.1875,137.8438 153.9844,137.9375 153.7656,138.25 L153.5938,138.1719 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="171.75" y="147.3467">Donnees</text><line style="stroke:#181818;stroke-width:0.5;" x1="47.5" x2="326.5" y1="158.5" y2="158.5"/><ellipse cx="57.5" cy="172.1484" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="180" x="66.5" y="175.4951">String APPDATA_FOLDER</text><ellipse cx="57.5" cy="188.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="112" x="66.5" y="191.792">boolean DEBUG</text><ellipse cx="57.5" cy="204.7422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="255" x="66.5" y="208.0889">Set&lt;Locale&gt; SUPPORTED_LOCALES</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="15" x="66.5" y="224.3857">...</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54.5" y="254.6328"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="66.5" y="260.9795">Donnees()</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="47.5" x2="140" y1="239.8359" y2="239.8359"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="140" y="244.1826">Constructeur</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="234" x2="326.5" y1="239.8359" y2="239.8359"/></g><!--class Resources--><g id="elem_Resources"><rect codeLine="12" fill="#F1F1F1" height="227.2656" id="Resources" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="306" x="363" y="84"/><ellipse cx="475.25" cy="100" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M477.5938,95.6719 C476.6563,95.2344 476.0625,95.0938 475.1875,95.0938 C472.5625,95.0938 470.5625,97.1719 470.5625,99.8906 L470.5625,101.0156 C470.5625,103.5938 472.6719,105.4844 475.5625,105.4844 C476.7813,105.4844 477.9375,105.1875 478.6875,104.6406 C479.2656,104.2344 479.5938,103.7813 479.5938,103.3906 C479.5938,102.9375 479.2031,102.5469 478.7344,102.5469 C478.5156,102.5469 478.3125,102.625 478.125,102.8125 C477.6719,103.2969 477.6719,103.2969 477.4844,103.3906 C477.0625,103.6563 476.375,103.7813 475.6094,103.7813 C473.5625,103.7813 472.2656,102.6875 472.2656,100.9844 L472.2656,99.8906 C472.2656,98.1094 473.5156,96.7969 475.25,96.7969 C475.8281,96.7969 476.4375,96.9531 476.9063,97.2031 C477.3906,97.4844 477.5625,97.7031 477.6563,98.1094 C477.7188,98.5156 477.75,98.6406 477.8906,98.7656 C478.0313,98.9063 478.2656,99.0156 478.4844,99.0156 C478.75,99.0156 479.0156,98.875 479.1875,98.6563 C479.2969,98.5 479.3281,98.3125 479.3281,97.8906 L479.3281,96.4688 C479.3281,96.0313 479.3125,95.9063 479.2188,95.75 C479.0625,95.4844 478.7813,95.3438 478.4844,95.3438 C478.1875,95.3438 477.9844,95.4375 477.7656,95.75 L477.5938,95.6719 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="495.75" y="104.8467">Resources</text><line style="stroke:#181818;stroke-width:0.5;" x1="364" x2="668" y1="116" y2="116"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="371" y="126.6484"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="197" x="383" y="132.9951">Map&lt;String, Image&gt; assets</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="371" y="163.2422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="83" x="383" y="169.5889">Resources()</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="364" x2="469" y1="148.4453" y2="148.4453"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="469" y="152.792">Constructeur</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="563" x2="668" y1="148.4453" y2="148.4453"/><ellipse cx="374" cy="202.8359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="110" x="383" y="206.1826">URL get(String)</text><ellipse cx="374" cy="219.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="244" x="383" y="222.4795">InputStream getAsStream(String)</text><ellipse cx="374" cy="235.4297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="167" x="383" y="238.7764">Image getAsset(String)</text><ellipse cx="374" cy="251.7266" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="280" x="383" y="255.0732">ResourceBundle getI18NBundle(Locale)</text><ellipse cx="374" cy="268.0234" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="234" x="383" y="271.3701">ResourceBundle getI18NBundle()</text><ellipse cx="374" cy="284.3203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="256" x="383" y="287.667">String getI18NString(String, Locale)</text><ellipse cx="374" cy="300.6172" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="202" x="383" y="303.9639">String getI18NString(String)</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="364" x2="480.5" y1="185.0391" y2="185.0391"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="480.5" y="189.3857">Méthodes</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="551.5" x2="668" y1="185.0391" y2="185.0391"/></g><!--class FabriqueId--><g id="elem_FabriqueId"><rect codeLine="26" fill="#F1F1F1" height="162.0781" id="FabriqueId" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="201" x="704.5" y="116.5"/><ellipse cx="763.25" cy="132.5" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M765.5938,128.1719 C764.6563,127.7344 764.0625,127.5938 763.1875,127.5938 C760.5625,127.5938 758.5625,129.6719 758.5625,132.3906 L758.5625,133.5156 C758.5625,136.0938 760.6719,137.9844 763.5625,137.9844 C764.7813,137.9844 765.9375,137.6875 766.6875,137.1406 C767.2656,136.7344 767.5938,136.2813 767.5938,135.8906 C767.5938,135.4375 767.2031,135.0469 766.7344,135.0469 C766.5156,135.0469 766.3125,135.125 766.125,135.3125 C765.6719,135.7969 765.6719,135.7969 765.4844,135.8906 C765.0625,136.1563 764.375,136.2813 763.6094,136.2813 C761.5625,136.2813 760.2656,135.1875 760.2656,133.4844 L760.2656,132.3906 C760.2656,130.6094 761.5156,129.2969 763.25,129.2969 C763.8281,129.2969 764.4375,129.4531 764.9063,129.7031 C765.3906,129.9844 765.5625,130.2031 765.6563,130.6094 C765.7188,131.0156 765.75,131.1406 765.8906,131.2656 C766.0313,131.4063 766.2656,131.5156 766.4844,131.5156 C766.75,131.5156 767.0156,131.375 767.1875,131.1563 C767.2969,131 767.3281,130.8125 767.3281,130.3906 L767.3281,128.9688 C767.3281,128.5313 767.3125,128.4063 767.2188,128.25 C767.0625,127.9844 766.7813,127.8438 766.4844,127.8438 C766.1875,127.8438 765.9844,127.9375 765.7656,128.25 L765.5938,128.1719 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="75" x="783.75" y="137.3467">FabriqueId</text><line style="stroke:#181818;stroke-width:0.5;" x1="705.5" x2="904.5" y1="148.5" y2="148.5"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="159.1484"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="140" x="724.5" y="165.4951">FabriqueId instance</text><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="175.4453"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="724.5" y="181.792">int id</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="212.0391"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="724.5" y="218.3857">FabriqueId()</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="705.5" x2="758" y1="197.2422" y2="197.2422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="758" y="201.5889">Constructeur</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="852" x2="904.5" y1="197.2422" y2="197.2422"/><ellipse cx="715.5" cy="251.6328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="175" x="724.5" y="254.9795">FabriqueId getInstance()</text><ellipse cx="715.5" cy="267.9297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="724.5" y="271.2764">int getId()</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="705.5" x2="769.5" y1="233.8359" y2="233.8359"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="769.5" y="238.1826">Méthodes</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="840.5" x2="904.5" y1="233.8359" y2="233.8359"/></g><!--class ErrorBehavior--><g id="elem_ErrorBehavior"><rect codeLine="37" fill="#F1F1F1" height="92.8906" id="ErrorBehavior" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="243" x="65.5" y="430"/><ellipse cx="133.25" cy="446" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M135.5938,441.6719 C134.6563,441.2344 134.0625,441.0938 133.1875,441.0938 C130.5625,441.0938 128.5625,443.1719 128.5625,445.8906 L128.5625,447.0156 C128.5625,449.5938 130.6719,451.4844 133.5625,451.4844 C134.7813,451.4844 135.9375,451.1875 136.6875,450.6406 C137.2656,450.2344 137.5938,449.7813 137.5938,449.3906 C137.5938,448.9375 137.2031,448.5469 136.7344,448.5469 C136.5156,448.5469 136.3125,448.625 136.125,448.8125 C135.6719,449.2969 135.6719,449.2969 135.4844,449.3906 C135.0625,449.6563 134.375,449.7813 133.6094,449.7813 C131.5625,449.7813 130.2656,448.6875 130.2656,446.9844 L130.2656,445.8906 C130.2656,444.1094 131.5156,442.7969 133.25,442.7969 C133.8281,442.7969 134.4375,442.9531 134.9063,443.2031 C135.3906,443.4844 135.5625,443.7031 135.6563,444.1094 C135.7188,444.5156 135.75,444.6406 135.8906,444.7656 C136.0313,444.9063 136.2656,445.0156 136.4844,445.0156 C136.75,445.0156 137.0156,444.875 137.1875,444.6563 C137.2969,444.5 137.3281,444.3125 137.3281,443.8906 L137.3281,442.4688 C137.3281,442.0313 137.3125,441.9063 137.2188,441.75 C137.0625,441.4844 136.7813,441.3438 136.4844,441.3438 C136.1875,441.3438 135.9844,441.4375 135.7656,441.75 L135.5938,441.6719 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="153.75" y="450.8467">ErrorBehavior</text><line style="stroke:#181818;stroke-width:0.5;" x1="66.5" x2="307.5" y1="462" y2="462"/><ellipse cx="76.5" cy="495.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="217" x="85.5" y="499.292">void handle(Exception, String)</text><ellipse cx="76.5" cy="512.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="207" x="85.5" y="515.5889">void crash(Exception, String)</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="66.5" x2="151.5" y1="478.1484" y2="478.1484"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="151.5" y="482.4951">Méthodes</text><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="222.5" x2="307.5" y1="478.1484" y2="478.1484"/></g><!--class FileManager--><g id="elem_FileManager"><rect codeLine="43" fill="#F1F1F1" height="210.9688" id="FileManager" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="437" x="343.5" y="371"/><ellipse cx="514.75" cy="387" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M517.0938,382.6719 C516.1563,382.2344 515.5625,382.0938 514.6875,382.0938 C512.0625,382.0938 510.0625,384.1719 510.0625,386.8906 L510.0625,388.0156 C510.0625,390.5938 512.1719,392.4844 515.0625,392.4844 C516.2813,392.4844 517.4375,392.1875 518.1875,391.6406 C518.7656,391.2344 519.0938,390.7813 519.0938,390.3906 C519.0938,389.9375 518.7031,389.5469 518.2344,389.5469 C518.0156,389.5469 517.8125,389.625 517.625,389.8125 C517.1719,390.2969 517.1719,390.2969 516.9844,390.3906 C516.5625,390.6563 515.875,390.7813 515.1094,390.7813 C513.0625,390.7813 511.7656,389.6875 511.7656,387.9844 L511.7656,386.8906 C511.7656,385.1094 513.0156,383.7969 514.75,383.7969 C515.3281,383.7969 515.9375,383.9531 516.4063,384.2031 C516.8906,384.4844 517.0625,384.7031 517.1563,385.1094 C517.2188,385.5156 517.25,385.6406 517.3906,385.7656 C517.5313,385.9063 517.7656,386.0156 517.9844,386.0156 C518.25,386.0156 518.5156,385.875 518.6875,385.6563 C518.7969,385.5 518.8281,385.3125 518.8281,384.8906 L518.8281,383.4688 C518.8281,383.0313 518.8125,382.9063 518.7188,382.75 C518.5625,382.4844 518.2813,382.3438 517.9844,382.3438 C517.6875,382.3438 517.4844,382.4375 517.2656,382.75 L517.0938,382.6719 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="86" x="535.25" y="391.8467">FileManager</text><line style="stroke:#181818;stroke-width:0.5;" x1="344.5" x2="779.5" y1="403" y2="403"/><line style="stroke:#181818;stroke-width:0.5;" x1="344.5" x2="779.5" y1="411" y2="411"/><ellipse cx="354.5" cy="424.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="163" x="363.5" y="427.9951">boolean delete(String)</text><ellipse cx="354.5" cy="440.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="310" x="363.5" y="444.292">boolean write(JSONObject, String, boolean)</text><ellipse cx="354.5" cy="457.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="264" x="363.5" y="460.5889">JSONObject readFile(String, boolean)</text><ellipse cx="354.5" cy="473.5391" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="411" x="363.5" y="476.8857">Map&lt;String, JSONObject&gt; readDirectory(String, boolean)</text><ellipse cx="354.5" cy="489.8359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="264" x="363.5" y="493.1826">JSONObject readResourceFile(String)</text><ellipse cx="354.5" cy="506.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="411" x="363.5" y="509.4795">Map&lt;String, JSONObject&gt; readResourceDirectory(String)</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="519.4297"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="249" x="363.5" y="525.7764">boolean writeString(String, String)</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="535.7266"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="178" x="363.5" y="542.0732">String readString(String)</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="552.0234"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="251" x="363.5" y="558.3701">JSONObject readJSONString(String)</text><rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="568.3203"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="189" x="363.5" y="574.667">SecretKey getSecretKey()</text></g><!--SRC=[dLJBRk8m5DttAxmCAaNgRXOLKcZIYcbe42bhP9mhS9lQ6TlfJ5NnGVCTysDZunY2KGZ5YoZNFkVwt9TBJDxm2b0i2Iu1VLqXlSfwCwqKBMIzQHOfi9Geuem1DFVDkaPVKc55oGPbIb2sGk5q6eKluU8XJQ9urWPUSbu0PYYAH_F7Le-WxX9ES053bCsdqtJs4aUB9BqFapWx80q60y- -vqmgKH45bV0ERrmiGM-tlxdomfs1v9KWHm7VxELDS7bdW-wZyRjEtH1f9YZv7IcxUnfYB6toxwzQynoansaaQ3vBq0fKO5Nqsc1ZLbPAOm2_6tWexNydpSHa2RBx4XV8g69viQMDRtyyMokmLRoCs-jek1fjhS0LfEF64zmJJV60buB-gc2SjtT50qDrtJ4Zu44fKuZctscIlSzBkgIXoCHRYphAgv5bplF3iV1I40l1nGZM-8DouMNXB3KVdEPeZRUbZVyGA1Nbh8ywkclB8WBBzIdISS5e0HFCT1-BzeVBlKKv5A2WgyyT-hUW6lmpIv_JvIiGvTJq7QBLmvw3z1ZcHcDmBhVvvkpz3BUE8YhqFnUVmOLAt1Ws55qanFdn1VNQPkOWfzuWTr3hGJRNjaonH_1YDkPvn0o80FK4dsPATiR1iDZlvZy0]--></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" contentStyleType="text/css"
+     height="629px" preserveAspectRatio="none" style="width:953px;height:629px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 953 629" width="953px" zoomAndPan="magnify">
+    <defs/>
+    <g><!--cluster Escape-->
+        <g id="cluster_Escape">
+            <path d="M8.5,6 L65.5,6 A3.75,3.75 0 0 1 68,8.5 L75,28.2969 L943.5,28.2969 A2.5,2.5 0 0 1 946,30.7969 L946,619.5 A2.5,2.5 0 0 1 943.5,622 L8.5,622 A2.5,2.5 0 0 1 6,619.5 L6,8.5 A2.5,2.5 0 0 1 8.5,6 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="6" x2="75" y1="28.2969" y2="28.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="56" x="10" y="20.9951">Escape
+            </text>
+        </g><!--cluster Outils-->
+        <g id="cluster_Outils">
+            <path d="M32.5,49 L82.5,49 A3.75,3.75 0 0 1 85,51.5 L92,71.2969 L919.5,71.2969 A2.5,2.5 0 0 1 922,73.7969 L922,595.5 A2.5,2.5 0 0 1 919.5,598 L32.5,598 A2.5,2.5 0 0 1 30,595.5 L30,51.5 A2.5,2.5 0 0 1 32.5,49 "
+                  fill="none" style="stroke:#000000;stroke-width:1.5;"/>
+            <line style="stroke:#000000;stroke-width:1.5;" x1="30" x2="92" y1="71.2969" y2="71.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="49" x="34" y="63.9951">Outils
+            </text>
+        </g><!--class Donnees-->
+        <g id="elem_Donnees">
+            <rect codeLine="3" fill="#F1F1F1" height="141.7813" id="Donnees" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="281" x="46.5" y="126.5"/>
+            <ellipse cx="151.25" cy="142.5" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M153.5938,138.1719 C152.6563,137.7344 152.0625,137.5938 151.1875,137.5938 C148.5625,137.5938 146.5625,139.6719 146.5625,142.3906 L146.5625,143.5156 C146.5625,146.0938 148.6719,147.9844 151.5625,147.9844 C152.7813,147.9844 153.9375,147.6875 154.6875,147.1406 C155.2656,146.7344 155.5938,146.2813 155.5938,145.8906 C155.5938,145.4375 155.2031,145.0469 154.7344,145.0469 C154.5156,145.0469 154.3125,145.125 154.125,145.3125 C153.6719,145.7969 153.6719,145.7969 153.4844,145.8906 C153.0625,146.1563 152.375,146.2813 151.6094,146.2813 C149.5625,146.2813 148.2656,145.1875 148.2656,143.4844 L148.2656,142.3906 C148.2656,140.6094 149.5156,139.2969 151.25,139.2969 C151.8281,139.2969 152.4375,139.4531 152.9063,139.7031 C153.3906,139.9844 153.5625,140.2031 153.6563,140.6094 C153.7188,141.0156 153.75,141.1406 153.8906,141.2656 C154.0313,141.4063 154.2656,141.5156 154.4844,141.5156 C154.75,141.5156 155.0156,141.375 155.1875,141.1563 C155.2969,141 155.3281,140.8125 155.3281,140.3906 L155.3281,138.9688 C155.3281,138.5313 155.3125,138.4063 155.2188,138.25 C155.0625,137.9844 154.7813,137.8438 154.4844,137.8438 C154.1875,137.8438 153.9844,137.9375 153.7656,138.25 L153.5938,138.1719 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63"
+                  x="171.75" y="147.3467">Donnees
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="47.5" x2="326.5" y1="158.5" y2="158.5"/>
+            <ellipse cx="57.5" cy="172.1484" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="180" x="66.5" y="175.4951">String APPDATA_FOLDER
+            </text>
+            <ellipse cx="57.5" cy="188.4453" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="112" x="66.5" y="191.792">boolean DEBUG
+            </text>
+            <ellipse cx="57.5" cy="204.7422" fill="none" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="255" x="66.5" y="208.0889">Set&lt;Locale&gt; SUPPORTED_LOCALES
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="15" x="66.5"
+                  y="224.3857">...
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="54.5" y="254.6328"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="66.5"
+                  y="260.9795">Donnees()
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="47.5" x2="140" y1="239.8359"
+                  y2="239.8359"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="140"
+                  y="244.1826">Constructeur
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="234" x2="326.5" y1="239.8359"
+                  y2="239.8359"/>
+        </g><!--class Resources-->
+        <g id="elem_Resources">
+            <rect codeLine="12" fill="#F1F1F1" height="227.2656" id="Resources" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="306" x="363" y="84"/>
+            <ellipse cx="475.25" cy="100" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M477.5938,95.6719 C476.6563,95.2344 476.0625,95.0938 475.1875,95.0938 C472.5625,95.0938 470.5625,97.1719 470.5625,99.8906 L470.5625,101.0156 C470.5625,103.5938 472.6719,105.4844 475.5625,105.4844 C476.7813,105.4844 477.9375,105.1875 478.6875,104.6406 C479.2656,104.2344 479.5938,103.7813 479.5938,103.3906 C479.5938,102.9375 479.2031,102.5469 478.7344,102.5469 C478.5156,102.5469 478.3125,102.625 478.125,102.8125 C477.6719,103.2969 477.6719,103.2969 477.4844,103.3906 C477.0625,103.6563 476.375,103.7813 475.6094,103.7813 C473.5625,103.7813 472.2656,102.6875 472.2656,100.9844 L472.2656,99.8906 C472.2656,98.1094 473.5156,96.7969 475.25,96.7969 C475.8281,96.7969 476.4375,96.9531 476.9063,97.2031 C477.3906,97.4844 477.5625,97.7031 477.6563,98.1094 C477.7188,98.5156 477.75,98.6406 477.8906,98.7656 C478.0313,98.9063 478.2656,99.0156 478.4844,99.0156 C478.75,99.0156 479.0156,98.875 479.1875,98.6563 C479.2969,98.5 479.3281,98.3125 479.3281,97.8906 L479.3281,96.4688 C479.3281,96.0313 479.3125,95.9063 479.2188,95.75 C479.0625,95.4844 478.7813,95.3438 478.4844,95.3438 C478.1875,95.3438 477.9844,95.4375 477.7656,95.75 L477.5938,95.6719 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73"
+                  x="495.75" y="104.8467">Resources
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="364" x2="668" y1="116" y2="116"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="371" y="126.6484"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="197" x="383" y="132.9951">Map&lt;String, Image&gt; assets
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="371" y="163.2422"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="83" x="383"
+                  y="169.5889">Resources()
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="364" x2="469" y1="148.4453"
+                  y2="148.4453"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="469"
+                  y="152.792">Constructeur
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="563" x2="668" y1="148.4453"
+                  y2="148.4453"/>
+            <ellipse cx="374" cy="202.8359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="110" x="383" y="206.1826">URL get(String)
+            </text>
+            <ellipse cx="374" cy="219.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="244" x="383" y="222.4795">InputStream getAsStream(String)
+            </text>
+            <ellipse cx="374" cy="235.4297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="167" x="383" y="238.7764">Image getAsset(String)
+            </text>
+            <ellipse cx="374" cy="251.7266" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="280" x="383" y="255.0732">ResourceBundle getI18NBundle(Locale)
+            </text>
+            <ellipse cx="374" cy="268.0234" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="234" x="383" y="271.3701">ResourceBundle getI18NBundle()
+            </text>
+            <ellipse cx="374" cy="284.3203" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="256" x="383" y="287.667">String getI18NString(String, Locale)
+            </text>
+            <ellipse cx="374" cy="300.6172" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="202" x="383" y="303.9639">String getI18NString(String)
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="364" x2="480.5" y1="185.0391"
+                  y2="185.0391"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71"
+                  x="480.5" y="189.3857">Méthodes
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="551.5" x2="668" y1="185.0391"
+                  y2="185.0391"/>
+        </g><!--class FabriqueId-->
+        <g id="elem_FabriqueId">
+            <rect codeLine="26" fill="#F1F1F1" height="162.0781" id="FabriqueId" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="201" x="704.5" y="116.5"/>
+            <ellipse cx="763.25" cy="132.5" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M765.5938,128.1719 C764.6563,127.7344 764.0625,127.5938 763.1875,127.5938 C760.5625,127.5938 758.5625,129.6719 758.5625,132.3906 L758.5625,133.5156 C758.5625,136.0938 760.6719,137.9844 763.5625,137.9844 C764.7813,137.9844 765.9375,137.6875 766.6875,137.1406 C767.2656,136.7344 767.5938,136.2813 767.5938,135.8906 C767.5938,135.4375 767.2031,135.0469 766.7344,135.0469 C766.5156,135.0469 766.3125,135.125 766.125,135.3125 C765.6719,135.7969 765.6719,135.7969 765.4844,135.8906 C765.0625,136.1563 764.375,136.2813 763.6094,136.2813 C761.5625,136.2813 760.2656,135.1875 760.2656,133.4844 L760.2656,132.3906 C760.2656,130.6094 761.5156,129.2969 763.25,129.2969 C763.8281,129.2969 764.4375,129.4531 764.9063,129.7031 C765.3906,129.9844 765.5625,130.2031 765.6563,130.6094 C765.7188,131.0156 765.75,131.1406 765.8906,131.2656 C766.0313,131.4063 766.2656,131.5156 766.4844,131.5156 C766.75,131.5156 767.0156,131.375 767.1875,131.1563 C767.2969,131 767.3281,130.8125 767.3281,130.3906 L767.3281,128.9688 C767.3281,128.5313 767.3125,128.4063 767.2188,128.25 C767.0625,127.9844 766.7813,127.8438 766.4844,127.8438 C766.1875,127.8438 765.9844,127.9375 765.7656,128.25 L765.5938,128.1719 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="75"
+                  x="783.75" y="137.3467">FabriqueId
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="705.5" x2="904.5" y1="148.5" y2="148.5"/>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="159.1484"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="140" x="724.5" y="165.4951">FabriqueId instance
+            </text>
+            <rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="175.4453"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37"
+                  x="724.5" y="181.792">int id
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="712.5" y="212.0391"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85"
+                  x="724.5" y="218.3857">FabriqueId()
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="705.5" x2="758" y1="197.2422"
+                  y2="197.2422"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="758"
+                  y="201.5889">Constructeur
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="852" x2="904.5" y1="197.2422"
+                  y2="197.2422"/>
+            <ellipse cx="715.5" cy="251.6328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="175" x="724.5" y="254.9795">FabriqueId getInstance()
+            </text>
+            <ellipse cx="715.5" cy="267.9297" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72"
+                  x="724.5" y="271.2764">int getId()
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="705.5" x2="769.5" y1="233.8359"
+                  y2="233.8359"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71"
+                  x="769.5" y="238.1826">Méthodes
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="840.5" x2="904.5" y1="233.8359"
+                  y2="233.8359"/>
+        </g><!--class ErrorBehavior-->
+        <g id="elem_ErrorBehavior">
+            <rect codeLine="37" fill="#F1F1F1" height="92.8906" id="ErrorBehavior" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="243" x="65.5" y="430"/>
+            <ellipse cx="133.25" cy="446" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M135.5938,441.6719 C134.6563,441.2344 134.0625,441.0938 133.1875,441.0938 C130.5625,441.0938 128.5625,443.1719 128.5625,445.8906 L128.5625,447.0156 C128.5625,449.5938 130.6719,451.4844 133.5625,451.4844 C134.7813,451.4844 135.9375,451.1875 136.6875,450.6406 C137.2656,450.2344 137.5938,449.7813 137.5938,449.3906 C137.5938,448.9375 137.2031,448.5469 136.7344,448.5469 C136.5156,448.5469 136.3125,448.625 136.125,448.8125 C135.6719,449.2969 135.6719,449.2969 135.4844,449.3906 C135.0625,449.6563 134.375,449.7813 133.6094,449.7813 C131.5625,449.7813 130.2656,448.6875 130.2656,446.9844 L130.2656,445.8906 C130.2656,444.1094 131.5156,442.7969 133.25,442.7969 C133.8281,442.7969 134.4375,442.9531 134.9063,443.2031 C135.3906,443.4844 135.5625,443.7031 135.6563,444.1094 C135.7188,444.5156 135.75,444.6406 135.8906,444.7656 C136.0313,444.9063 136.2656,445.0156 136.4844,445.0156 C136.75,445.0156 137.0156,444.875 137.1875,444.6563 C137.2969,444.5 137.3281,444.3125 137.3281,443.8906 L137.3281,442.4688 C137.3281,442.0313 137.3125,441.9063 137.2188,441.75 C137.0625,441.4844 136.7813,441.3438 136.4844,441.3438 C136.1875,441.3438 135.9844,441.4375 135.7656,441.75 L135.5938,441.6719 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99"
+                  x="153.75" y="450.8467">ErrorBehavior
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="66.5" x2="307.5" y1="462" y2="462"/>
+            <ellipse cx="76.5" cy="495.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="217" x="85.5" y="499.292">void handle(Exception, String)
+            </text>
+            <ellipse cx="76.5" cy="512.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="207" x="85.5" y="515.5889">void crash(Exception, String)
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="66.5" x2="151.5" y1="478.1484"
+                  y2="478.1484"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71"
+                  x="151.5" y="482.4951">Méthodes
+            </text>
+            <line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="222.5" x2="307.5" y1="478.1484"
+                  y2="478.1484"/>
+        </g><!--class FileManager-->
+        <g id="elem_FileManager">
+            <rect codeLine="43" fill="#F1F1F1" height="210.9688" id="FileManager" rx="2.5" ry="2.5"
+                  style="stroke:#181818;stroke-width:0.5;" width="437" x="343.5" y="371"/>
+            <ellipse cx="514.75" cy="387" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/>
+            <path d="M517.0938,382.6719 C516.1563,382.2344 515.5625,382.0938 514.6875,382.0938 C512.0625,382.0938 510.0625,384.1719 510.0625,386.8906 L510.0625,388.0156 C510.0625,390.5938 512.1719,392.4844 515.0625,392.4844 C516.2813,392.4844 517.4375,392.1875 518.1875,391.6406 C518.7656,391.2344 519.0938,390.7813 519.0938,390.3906 C519.0938,389.9375 518.7031,389.5469 518.2344,389.5469 C518.0156,389.5469 517.8125,389.625 517.625,389.8125 C517.1719,390.2969 517.1719,390.2969 516.9844,390.3906 C516.5625,390.6563 515.875,390.7813 515.1094,390.7813 C513.0625,390.7813 511.7656,389.6875 511.7656,387.9844 L511.7656,386.8906 C511.7656,385.1094 513.0156,383.7969 514.75,383.7969 C515.3281,383.7969 515.9375,383.9531 516.4063,384.2031 C516.8906,384.4844 517.0625,384.7031 517.1563,385.1094 C517.2188,385.5156 517.25,385.6406 517.3906,385.7656 C517.5313,385.9063 517.7656,386.0156 517.9844,386.0156 C518.25,386.0156 518.5156,385.875 518.6875,385.6563 C518.7969,385.5 518.8281,385.3125 518.8281,384.8906 L518.8281,383.4688 C518.8281,383.0313 518.8125,382.9063 518.7188,382.75 C518.5625,382.4844 518.2813,382.3438 517.9844,382.3438 C517.6875,382.3438 517.4844,382.4375 517.2656,382.75 L517.0938,382.6719 Z "
+                  fill="#000000"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="86"
+                  x="535.25" y="391.8467">FileManager
+            </text>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="344.5" x2="779.5" y1="403" y2="403"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="344.5" x2="779.5" y1="411" y2="411"/>
+            <ellipse cx="354.5" cy="424.6484" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="163" x="363.5" y="427.9951">boolean delete(String)
+            </text>
+            <ellipse cx="354.5" cy="440.9453" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="310" x="363.5" y="444.292">boolean write(JSONObject, String,
+                boolean)
+            </text>
+            <ellipse cx="354.5" cy="457.2422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="264" x="363.5" y="460.5889">JSONObject readFile(String,
+                boolean)
+            </text>
+            <ellipse cx="354.5" cy="473.5391" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="411" x="363.5" y="476.8857">Map&lt;String, JSONObject&gt;
+                readDirectory(String, boolean)
+            </text>
+            <ellipse cx="354.5" cy="489.8359" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="264" x="363.5" y="493.1826">JSONObject
+                readResourceFile(String)
+            </text>
+            <ellipse cx="354.5" cy="506.1328" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="411" x="363.5" y="509.4795">Map&lt;String, JSONObject&gt;
+                readResourceDirectory(String)
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="519.4297"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="249" x="363.5" y="525.7764">boolean writeString(String,
+                String)
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="535.7266"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="178" x="363.5" y="542.0732">String readString(String)
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="552.0234"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="251" x="363.5" y="558.3701">JSONObject readJSONString(String)
+            </text>
+            <rect fill="#F24D5C" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="351.5" y="568.3203"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                  text-decoration="underline" textLength="189" x="363.5" y="574.667">SecretKey getSecretKey()
+            </text>
+        </g><!--SRC=[dLJBRk8m5DttAxmCAaNgRXOLKcZIYcbe42bhP9mhS9lQ6TlfJ5NnGVCTysDZunY2KGZ5YoZNFkVwt9TBJDxm2b0i2Iu1VLqXlSfwCwqKBMIzQHOfi9Geuem1DFVDkaPVKc55oGPbIb2sGk5q6eKluU8XJQ9urWPUSbu0PYYAH_F7Le-WxX9ES053bCsdqtJs4aUB9BqFapWx80q60y- -vqmgKH45bV0ERrmiGM-tlxdomfs1v9KWHm7VxELDS7bdW-wZyRjEtH1f9YZv7IcxUnfYB6toxwzQynoansaaQ3vBq0fKO5Nqsc1ZLbPAOm2_6tWexNydpSHa2RBx4XV8g69viQMDRtyyMokmLRoCs-jek1fjhS0LfEF64zmJJV60buB-gc2SjtT50qDrtJ4Zu44fKuZctscIlSzBkgIXoCHRYphAgv5bplF3iV1I40l1nGZM-8DouMNXB3KVdEPeZRUbZVyGA1Nbh8ywkclB8WBBzIdISS5e0HFCT1-BzeVBlKKv5A2WgyyT-hUW6lmpIv_JvIiGvTJq7QBLmvw3z1ZcHcDmBhVvvkpz3BUE8YhqFnUVmOLAt1Ws55qanFdn1VNQPkOWfzuWTr3hGJRNjaonH_1YDkPvn0o80FK4dsPATiR1iDZlvZy0]-->
+    </g>
+</svg>

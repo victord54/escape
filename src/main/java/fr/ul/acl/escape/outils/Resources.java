@@ -43,14 +43,19 @@ public class Resources {
     /**
      * Get an asset from the 'resources/fr/ul/acl/escape' directory.
      * The asset is loaded only once.
+     * Image will be null if the program is launched in CLI mode.
      *
      * @param path The path of the asset.
      * @return The asset.
      */
     public static Image getAsset(String path) {
         if (!assets.containsKey(path)) {
-            assets.put(path, new Image(get(path).toString()));
-            if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+            if (Donnees.CLI_MODE) {
+                assets.put(path, null);
+            } else {
+                assets.put(path, new Image(get(path).toString()));
+                if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+            }
         }
         return assets.get(path);
     }

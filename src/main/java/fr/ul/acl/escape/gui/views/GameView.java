@@ -60,9 +60,11 @@ public class GameView extends View implements GameInterface, GameViewController.
      */
     private boolean drawGrid = false;
     /**
-     * If true, the FPS is drawn on the overlay canvas.
+     * If true, the value of the FPS is drawn on the overlay canvas.
      */
     private boolean drawFPS = false;
+
+    private int iteration_heros = 0;
 
     /**
      * Previous save data if the game is loaded from a save.
@@ -171,29 +173,28 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> {
-            gc.setFill(Color.FIREBRICK);
-            gc.fillRect(terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
+            gc.drawImage(terrain.getSprite(), terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
         });
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
-            if (objet.estCoeur()) {
-                gc.setFill(Color.RED);
-                gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
-            } else if (objet.estPiege() && objet.getVisible()) {
-                gc.setFill(Color.GREEN);
-                gc.fillRect(objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
+            if (objet.getVisible()) {
+                gc.drawImage(objet.getSprite(), objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
             }
         });
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                gc.drawImage(Resources.getAsset("assets/UL.png"), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
-            } else {
-                gc.setFill(Color.BLUEVIOLET);
-                gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+                if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
+                gc.drawImage(personnage.getSprite(iteration_heros), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
             }
+            int iteration = 0;
+            if (personnage.isMoving()) {
+                iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
+            }
+            gc.drawImage(personnage.getSprite(iteration), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+
         });
 
 
@@ -240,30 +241,26 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // draw full heart
         for (int i = 0; i < nbCoeursRestantPleins; i++) {
-            gc.setFill(Color.RED);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
 
         // draw if there is a heart not full
         if (coeursRestantsNonPleins == 0.75) {
-            gc.setFill(Color.BLUEVIOLET);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         } else if (coeursRestantsNonPleins == 0.5) {
-            gc.setFill(Color.BLUE);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+
             decalage++;
         } else if (coeursRestantsNonPleins == 0.25) {
-            gc.setFill(Color.ORANGE);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
 
         // draw the lost hearts
         for (int i = 0; i < coeursPerduPleins; i++) {
-            gc.setFill(Color.PINK);
-            gc.fillRect(10 + (decalage * 30), 5, 25, 25);
+            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             decalage++;
         }
     }

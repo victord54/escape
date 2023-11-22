@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GUIControllerTest {
 
@@ -28,7 +29,7 @@ class GUIControllerTest {
         //commencement de chaque tests
         mm.mouvements = new HashSet<>();
         monde = new Monde(5,5);
-        hero = new Heros(0,0,1,1,1,1,1,-1);
+        hero = new Heros(0, 0, 1, 1, 1, 1, 1, -1, 0, true);
         monde.addPersonnage(hero);
     }
 

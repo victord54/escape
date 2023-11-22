@@ -21,7 +21,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
      * The keys currently pressed.
      */
-    private final Set<KeyCode> keysPressed = new HashSet<>();
+    private final HashSet<KeyCode> keysPressed = new HashSet<>();
 
     /**
      * If true, the key R is pressed.
@@ -59,17 +59,18 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         //Déplacements
         if (keysPressed.contains(KeyCode.Z)) {
-            monde.deplacementHeros(TypeMouvement.UP, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.UP);
         }
         if (keysPressed.contains(KeyCode.S)) {
-            monde.deplacementHeros(TypeMouvement.DOWN, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.DOWN);
         }
         if (keysPressed.contains(KeyCode.D)) {
-            monde.deplacementHeros(TypeMouvement.RIGHT, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.RIGHT);
         }
         if (keysPressed.contains(KeyCode.Q)) {
-            monde.deplacementHeros(TypeMouvement.LEFT, timeInDouble);
+            MovementManager.instance.addMouvement(TypeMouvement.LEFT);
         }
+        MovementManager.instance.executerMouvement(monde, timeInDouble);
 
         // Ramasser object
         if (keysPressed.contains(KeyCode.R) && !rKeyPressed) {
@@ -111,5 +112,52 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public void onKeyReleased(KeyEvent event) {
         keysPressed.remove(event.getCode());
+    }
+
+
+    /**
+     * The MovementManager class handles movements of an object within a world.
+     * It allows adding movement types and executing these movements in the world
+     * with a specified delta time.
+     *
+     * It allows to manage diagonal movements
+     */
+    protected static class MovementManager {
+
+        protected static final double PIBY4 = 0.70710678118; //PI/4 pour les mouvements diagonaux
+        Set<TypeMouvement> mouvements;
+
+        protected static final MovementManager instance = new MovementManager();
+
+        private MovementManager(){
+            mouvements = new HashSet<>();
+        }
+
+        /**
+         * Adds a movement type to the list of movements to be performed.
+         *
+         * @param mov Type of movement to add.
+         */
+        public void addMouvement(TypeMouvement mov){
+            this.mouvements.add(mov);
+        }
+
+        /**
+         * Executes the movements in the world with the specified delta time.
+         * If two movements are present, the delta time is adjusted for diagonal movements.
+         *
+         * @param monde     Instance of the world in which to perform the movements.
+         * @param deltaTime Delta time for executing the movements.
+         */
+        public void executerMouvement(Monde monde, double deltaTime){
+            double deltaTimeTraite = deltaTime;
+            if(mouvements.size() == 2) deltaTimeTraite *= PIBY4;
+
+            for(TypeMouvement mouv : mouvements){
+                monde.deplacementHeros(mouv, deltaTimeTraite);
+            }
+            mouvements = new HashSet<>();
+        }
+
     }
 }

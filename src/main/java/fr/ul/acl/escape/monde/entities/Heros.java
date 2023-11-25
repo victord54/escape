@@ -3,6 +3,7 @@ package fr.ul.acl.escape.monde.entities;
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public class Heros extends Personnage {
@@ -50,6 +51,11 @@ public class Heros extends Personnage {
     @Override
     public char getSymbol() {
         return 'H';
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.CYAN;
     }
 
     @Override

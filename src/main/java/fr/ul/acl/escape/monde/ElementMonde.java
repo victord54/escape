@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public abstract class ElementMonde {
@@ -76,6 +77,11 @@ public abstract class ElementMonde {
      * @return a char representing the ElementMonde (for the console)
      */
     public abstract char getSymbol();
+
+    /**
+     * @return the color of the ElementMonde if the sprite is not available
+     */
+    public abstract Color getColor();
 
     /**
      * Concrete types of ElementMonde

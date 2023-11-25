@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde.objects;
 
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.entities.Personnage;
+import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public class Piege extends Objet {
@@ -29,6 +30,11 @@ public class Piege extends Objet {
     @Override
     public char getSymbol() {
         return 'P';
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.RED;
     }
 
     @Override

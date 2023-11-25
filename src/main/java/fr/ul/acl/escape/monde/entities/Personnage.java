@@ -187,10 +187,6 @@ public abstract class Personnage extends ElementMonde {
         isMoving = moving;
     }
 
-    public void setOrientation(TypeMouvement o) {
-        this.orientation = o;
-    }
-
     /**
      * Method that reduce the number of hearts.
      *
@@ -226,6 +222,10 @@ public abstract class Personnage extends ElementMonde {
 
     public TypeMouvement getOrientation() {
         return orientation;
+    }
+
+    public void setOrientation(TypeMouvement o) {
+        this.orientation = o;
     }
 
     /**

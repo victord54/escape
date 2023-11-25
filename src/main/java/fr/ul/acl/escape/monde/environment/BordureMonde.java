@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.monde.environment;
 
 import fr.ul.acl.escape.gui.Sprite;
+import javafx.scene.paint.Color;
 
 public class BordureMonde extends Terrain {
     public BordureMonde(double x, double y) {
@@ -11,6 +12,11 @@ public class BordureMonde extends Terrain {
     @Override
     public char getSymbol() {
         return '█';
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.BROWN;
     }
 
     public boolean estTraversable() {

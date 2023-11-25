@@ -551,13 +551,13 @@ public class Monde {
      * Detects and targets the hero within the monsters' attack hitboxes, inflicts damage,
      * and updates the hero's health.
      */
-    public void monstreAttaque(){
+    public void monstreAttaque() {
         if (System.currentTimeMillis() - dernierCoupsEffectueParHero < 500 || !getHeros().estVivant()) return;
         dernierCoupsEffectueParHero = System.currentTimeMillis();
 
         Heros hero = getHeros();
-        for(Personnage p : personnages){
-            if(p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros())
+        for (Personnage p : personnages) {
+            if (p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros())
                 p.attaquer(List.of(hero));
         }
     }

@@ -7,6 +7,7 @@ import fr.ul.acl.escape.gui.views.GameView;
 import fr.ul.acl.escape.gui.views.HomeView;
 import fr.ul.acl.escape.gui.views.SavesView;
 import fr.ul.acl.escape.gui.views.SettingsView;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
@@ -25,7 +26,11 @@ public class Escape extends Application {
      * CLI entry point.
      */
     public static void main(String[] args) {
-        new CLI();
+        try {
+            new CLI();
+        } catch (Exception e) {
+            ErrorBehavior.crash(e, "Unexpected error");
+        }
     }
 
     /**
@@ -33,35 +38,45 @@ public class Escape extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        javaFXApplication = true;
-        Host = getHostServices();
+        try {
+            javaFXApplication = true;
+            Host = getHostServices();
 
-        ViewManager.getInstance().setStage(stage);
+            ViewManager.getInstance().setStage(stage);
 
-        // Register the views of the game
-        ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView());
-        ViewManager.getInstance().registerView(VIEWS.GAME, new GameView());
-        ViewManager.getInstance().registerView(VIEWS.SETTINGS, new SettingsView());
-        ViewManager.getInstance().registerView(VIEWS.SAVES, new SavesView());
+            // Register the views of the game
+            ViewManager.getInstance().registerView(VIEWS.HOME, new HomeView());
+            ViewManager.getInstance().registerView(VIEWS.GAME, new GameView());
+            ViewManager.getInstance().registerView(VIEWS.SETTINGS, new SettingsView());
+            ViewManager.getInstance().registerView(VIEWS.SAVES, new SavesView());
 
-        // Set the default view
-        ViewManager.getInstance().navigateTo(VIEWS.HOME);
+            // Set the default view
+            ViewManager.getInstance().navigateTo(VIEWS.HOME);
 
-        // Apply settings
-        Settings.load();
+            // Apply settings
+            Settings.load();
 
-        // Validate environment
-        Dotenv dotenv = Dotenv.load();
-        if (dotenv.get("ENCRYPTION_KEY") == null || dotenv.get("ENCRYPTION_KEY").isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));
-            alert.setHeaderText(Resources.getI18NString("warning.noEncryptionKey.message"));
-            alert.setContentText(Resources.getI18NString("warning.noEncryptionKey.details"));
-            alert.showAndWait();
+            // Validate environment
+            Dotenv dotenv;
+            try {
+                dotenv = Dotenv.load();
+            } catch (Exception e) {
+                ErrorBehavior.crash(e, "Failed to load .env file");
+                return;
+            }
+            if (dotenv.get("ENCRYPTION_KEY") == null || dotenv.get("ENCRYPTION_KEY").isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));
+                alert.setHeaderText(Resources.getI18NString("warning.noEncryptionKey.message"));
+                alert.setContentText(Resources.getI18NString("warning.noEncryptionKey.details"));
+                alert.showAndWait();
+            }
+
+            // Show window
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            stage.show();
+        } catch (Exception e) {
+            ErrorBehavior.crash(e, "Unexpected error");
         }
-
-        // Show window
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.show();
     }
 }

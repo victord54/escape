@@ -2,16 +2,22 @@ package fr.ul.acl.escape.monde.entities;
 
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public class Walker extends Monstre {
-    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs,double degats, int id) {
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
         setSprites();
     }
 
-    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs,double degats, int id, boolean sprite) {
+    public Walker(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id, boolean sprite) {
         super(Type.WALKER, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+    }
+
+    public Walker(JSONObject json) {
+        super(json);
+        setSprites();
     }
 
     @Override
@@ -19,9 +25,9 @@ public class Walker extends Monstre {
         return 'W';
     }
 
-    public Walker(JSONObject json) {
-        super(json);
-        setSprites();
+    @Override
+    public Color getColor() {
+        return Color.MEDIUMPURPLE;
     }
 
     @Override

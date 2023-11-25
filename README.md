@@ -93,6 +93,7 @@ java -jar target/escape-X.Y.Z.jar --debug [other options]
 * [Sprint 0](docs/sprints/0)
 * [Sprint 1](docs/sprints/1)
 * [Sprint 2](docs/sprints/2)
+* [Sprint 3](docs/sprints/3)
 
 ### Latest UML diagrams
 

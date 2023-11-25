@@ -9,7 +9,6 @@ import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.monde.ElementMonde;
-import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -18,8 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -175,30 +174,26 @@ public class GameView extends View implements GameInterface, GameViewController.
         }
 
         // draw game environment
-        this.gameController.getTerrains().forEach(terrain -> {
-            gc.drawImage(terrain.getSprite(), terrain.getX() * elementSize, terrain.getY() * elementSize, terrain.getLargeur() * elementSize, terrain.getHauteur() * elementSize);
-        });
+        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, terrain.getSprite()));
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
             if (objet.getVisible()) {
-                gc.drawImage(objet.getSprite(), objet.getX() * elementSize, objet.getY() * elementSize, objet.getLargeur() * elementSize, objet.getHauteur() * elementSize);
+                renderElement(gc, objet, elementSize, objet.getSprite());
             }
         });
-        //this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, Resources.getAsset("assets/wall.png"), Color.FIREBRICK));
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
                 if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
-                gc.drawImage(personnage.getSprite(iteration_heros), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
+                renderElement(gc, personnage, elementSize, personnage.getSprite(iteration_heros));
             }
             int iteration = 0;
             if (personnage.isMoving()) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
-            gc.drawImage(personnage.getSprite(iteration), personnage.getX() * elementSize, personnage.getY() * elementSize, personnage.getLargeur() * elementSize, personnage.getHauteur() * elementSize);
-
+            renderElement(gc, personnage, elementSize, personnage.getSprite(iteration));
         });
     }
 
@@ -326,12 +321,10 @@ public class GameView extends View implements GameInterface, GameViewController.
      * @param elementMonde The element to draw.
      * @param elementSize  The size of a square element on the game board.
      * @param asset        The asset to draw.
-     * @param color        The color to draw if the asset can't be loaded.
      */
-    // TODO: get color and asset from elementMonde
-    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, Image asset, Color color) {
+    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, Image asset) {
         if (asset == null) {
-            gc.setFill(color);
+            gc.setFill(elementMonde.getColor());
             gc.fillRect(elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, Math.ceil(elementMonde.getLargeur() * elementSize), Math.ceil(elementMonde.getHauteur() * elementSize));
             return;
         }

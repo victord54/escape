@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde.objects;
 
 import fr.ul.acl.escape.gui.Sprite;
 import fr.ul.acl.escape.monde.entities.Personnage;
+import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public class Coeur extends Objet {
@@ -30,6 +31,11 @@ public class Coeur extends Objet {
     @Override
     public char getSymbol() {
         return '♥';
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.LIGHTGREEN;
     }
 
     public double getValeur() {

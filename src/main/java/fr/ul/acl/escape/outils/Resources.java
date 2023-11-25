@@ -50,17 +50,13 @@ public class Resources {
      */
     public static Image getAsset(String path) {
         if (!assets.containsKey(path)) {
-            if (Donnees.CLI_MODE) {
+            InputStream is = getAsStream(path);
+            if (Donnees.CLI_MODE || is == null) {
                 assets.put(path, null);
+                if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
             } else {
-                InputStream is = getAsStream(path);
-                if (is == null) {
-                    assets.put(path, null);
-                    if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
-                } else {
-                    assets.put(path, new Image(is));
-                    if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
-                }
+                assets.put(path, new Image(is));
+                if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
             }
         }
         return assets.get(path);

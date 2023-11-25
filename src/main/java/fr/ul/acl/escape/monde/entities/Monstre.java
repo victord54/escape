@@ -12,13 +12,12 @@ import static java.lang.System.currentTimeMillis;
 
 public abstract class Monstre extends Personnage {
 
-    long derniereAttaque = currentTimeMillis();
-    double delayAttaque;
-
     /**
      * List of movements tried.
      */
     protected ArrayList<TypeMouvement> derniersMouvementsEssayes = new ArrayList<>();
+    long derniereAttaque = currentTimeMillis();
+    double delayAttaque;
 
     public Monstre(ElementMonde.Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);

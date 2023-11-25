@@ -7,6 +7,7 @@ import fr.ul.acl.escape.gui.views.GameView;
 import fr.ul.acl.escape.gui.views.HomeView;
 import fr.ul.acl.escape.gui.views.SavesView;
 import fr.ul.acl.escape.gui.views.SettingsView;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
@@ -51,7 +52,13 @@ public class Escape extends Application {
         Settings.load();
 
         // Validate environment
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv;
+        try {
+            dotenv = Dotenv.load();
+        } catch (Exception e) {
+            ErrorBehavior.crash(e, "Failed to load .env file");
+            return;
+        }
         if (dotenv.get("ENCRYPTION_KEY") == null || dotenv.get("ENCRYPTION_KEY").isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));

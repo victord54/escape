@@ -26,6 +26,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -236,28 +237,59 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         int decalage = 0;
 
+        Image img = Resources.getAsset("assets/coeurs.png");
+        gc.setFill(Color.LIGHTGREEN);
         // draw full heart
         for (int i = 0; i < nbCoeursRestantPleins; i++) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+            }
             decalage++;
         }
 
         // draw if there is a heart not full
         if (coeursRestantsNonPleins == 0.75) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 360, ArcType.ROUND);
+            }
             decalage++;
         } else if (coeursRestantsNonPleins == 0.5) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
-
+            if (img != null) {
+                gc.drawImage(img, 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 270, ArcType.ROUND);
+            }
             decalage++;
         } else if (coeursRestantsNonPleins == 0.25) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 180, ArcType.ROUND);
+            }
             decalage++;
         }
 
         // draw the lost hearts
         for (int i = 0; i < coeursPerduPleins; i++) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+            }
             decalage++;
         }
     }

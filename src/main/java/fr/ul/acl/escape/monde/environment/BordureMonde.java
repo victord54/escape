@@ -18,7 +18,7 @@ public class BordureMonde extends Terrain {
 
     @Override
     public Color getColor() {
-        return Color.BROWN;
+        return Color.DARKGOLDENROD;
     }
 
     @Override

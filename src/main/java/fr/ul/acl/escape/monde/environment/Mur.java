@@ -24,7 +24,7 @@ public class Mur extends Terrain {
 
     @Override
     public Color getColor() {
-        return Color.BROWN;
+        return Color.DARKGOLDENROD;
     }
 
     @Override

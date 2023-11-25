@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.ul.acl.escape</groupId>
     <artifactId>escape</artifactId>
-    <version>0.1.0</version>
+    <version>2.0.0</version>
     <name>escape</name>
     <packaging>jar</packaging>
     <url>https://github.com/victord54/escape</url>
@@ -38,6 +38,11 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
@@ -48,6 +53,42 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-core</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.harawata/appdirs -->
+        <dependency>
+            <groupId>net.harawata</groupId>
+            <artifactId>appdirs</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>6.0.13</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.13.0</version>
         </dependency>
     </dependencies>
 
@@ -91,7 +132,8 @@
                         </goals>
                         <configuration>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>${mainClass}</mainClass>
                                 </transformer>
                             </transformers>
@@ -127,7 +169,7 @@
                 <version>3.3.1</version>
             </plugin>
             <plugin>
-                <!-- force surefire version 3.1.2 instead of github actions' 2.12.4 -->
+                <!-- force surefire version 3.1.2 instead of GitHub actions' 2.12.4 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>

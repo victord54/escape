@@ -43,19 +43,24 @@ public class Resources {
     /**
      * Get an asset from the 'resources/fr/ul/acl/escape' directory.
      * The asset is loaded only once.
+     * Image will be null if the program is launched in CLI mode.
      *
      * @param path The path of the asset.
      * @return The asset (or null if it failed to load).
      */
     public static Image getAsset(String path) {
         if (!assets.containsKey(path)) {
-            InputStream is = getAsStream(path);
-            if (is == null) {
+            if (Donnees.CLI_MODE) {
                 assets.put(path, null);
-                if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
             } else {
-                assets.put(path, new Image(is));
-                if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+                InputStream is = getAsStream(path);
+                if (is == null) {
+                    assets.put(path, null);
+                    if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
+                } else {
+                    assets.put(path, new Image(is));
+                    if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);
+                }
             }
         }
         return assets.get(path);
@@ -69,7 +74,8 @@ public class Resources {
      * @see Resources#getI18NBundle()
      */
     public static ResourceBundle getI18NBundle(Locale locale) {
-        return ResourceBundle.getBundle(Escape.class.getPackage().getName().replace('.', '/') + "/i18n/strings", locale);
+        if (locale == null) return ResourceBundle.getBundle(getPackagePath() + "/i18n/strings");
+        return ResourceBundle.getBundle(getPackagePath() + "/i18n/strings", locale);
     }
 
     /**
@@ -103,5 +109,12 @@ public class Resources {
      */
     public static String getI18NString(String key) {
         return getI18NBundle().getString(key);
+    }
+
+    /**
+     * @return The relative path of resources folder.
+     */
+    public static String getPackagePath() {
+        return Escape.class.getPackage().getName().replace('.', '/');
     }
 }

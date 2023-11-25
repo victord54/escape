@@ -141,7 +141,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -150,7 +150,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -159,7 +159,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -168,7 +168,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -177,7 +177,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -186,7 +186,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -195,7 +195,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     },
     {
       "type": "TRAP",
@@ -204,7 +204,7 @@
       "width": 0.8,
       "height": 0.4,
       "visible": false,
-      "degat": 0.25
+      "damage": 0.25
     }
   ]
 }

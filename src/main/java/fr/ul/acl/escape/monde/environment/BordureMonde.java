@@ -1,12 +1,14 @@
 package fr.ul.acl.escape.monde.environment;
 
-import fr.ul.acl.escape.gui.Sprite;
+import fr.ul.acl.escape.gui.SpriteSheet;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class BordureMonde extends Terrain {
+    private static Image sprite;
+
     public BordureMonde(double x, double y) {
         super(Type.NOT_SERIALIZABLE, x, y, 1, 1);
-        sprite = new Sprite("assets/decors.png", 0, 0, 50, 50);
     }
 
     @Override
@@ -19,7 +21,25 @@ public class BordureMonde extends Terrain {
         return Color.BROWN;
     }
 
+    @Override
+    public Image getSprite(int i) {
+        return sprite;
+    }
+
     public boolean estTraversable() {
         return false;
+    }
+
+    @Override
+    protected void initSprites() {
+        if (sprite != null) {
+            return;
+        }
+
+        String path = "assets/decors.png";
+        SpriteSheet spriteSheet = new SpriteSheet(path);
+        if (spriteSheet.get() == null) return;
+
+        sprite = spriteSheet.get(0, 0, 50, 50);
     }
 }

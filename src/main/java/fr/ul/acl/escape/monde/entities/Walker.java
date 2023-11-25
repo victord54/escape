@@ -22,8 +22,8 @@ public class Walker extends Monstre {
     }
 
     @Override
-    public char getSymbol() {
-        return 'W';
+    public String getSymbol() {
+        return "\u001B[45m[ ]\u001B[0m"; // Magenta background
     }
 
     @Override
@@ -79,5 +79,19 @@ public class Walker extends Monstre {
         tmpSprites.put(TypeMouvement.UP, tab_sprite_up);
 
         sprites = Collections.unmodifiableMap(tmpSprites);
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[45mWalker{" +
+                "x=" + x +
+                ", y=" + y +
+                ", hauteur=" + hauteur +
+                ", largeur=" + largeur +
+                ", vitesse=" + vitesse +
+                ", coeurs=" + coeurs + "/" + maxCoeurs +
+                ", degats=" + degats +
+                ", id=" + id +
+                "}\u001B[0m";
     }
 }

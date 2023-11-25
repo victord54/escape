@@ -18,8 +18,8 @@ public class Mur extends Terrain {
     }
 
     @Override
-    public char getSymbol() {
-        return '█';
+    public String getSymbol() {
+        return "\u001B[43m[█]\u001B[0m"; // Yellow background
     }
 
     @Override

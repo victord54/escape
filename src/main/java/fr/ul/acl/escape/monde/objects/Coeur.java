@@ -30,8 +30,11 @@ public class Coeur extends Objet {
 
 
     @Override
-    public char getSymbol() {
-        return '♥';
+    public String getSymbol() {
+        if (!visible) {
+            return " "; // Invisible
+        }
+        return "♥";
     }
 
     @Override

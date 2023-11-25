@@ -79,7 +79,7 @@ public abstract class ElementMonde {
     /**
      * @return a char representing the ElementMonde (for the console)
      */
-    public abstract char getSymbol();
+    public abstract String getSymbol();
 
     /**
      * @return the color of the ElementMonde if the sprite is not available

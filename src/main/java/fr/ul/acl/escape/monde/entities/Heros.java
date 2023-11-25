@@ -23,8 +23,8 @@ public class Heros extends Personnage {
     }
 
     @Override
-    public char getSymbol() {
-        return 'H';
+    public String getSymbol() {
+        return "\u001B[46m[ ]\u001B[0m"; // Cyan background
     }
 
     @Override
@@ -86,5 +86,19 @@ public class Heros extends Personnage {
         tmpSprites.put(TypeMouvement.UP, tab_sprite_up);
 
         sprites = Collections.unmodifiableMap(tmpSprites);
+    }
+
+    @Override
+    public String toString() {
+        return "\u001B[46mHeros{" +
+                "x=" + x +
+                ", y=" + y +
+                ", hauteur=" + hauteur +
+                ", largeur=" + largeur +
+                ", vitesse=" + vitesse +
+                ", coeurs=" + coeurs + "/" + maxCoeurs +
+                ", degats=" + degats +
+                ", id=" + id +
+                "}\u001B[0m";
     }
 }

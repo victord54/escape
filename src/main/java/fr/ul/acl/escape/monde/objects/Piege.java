@@ -28,9 +28,13 @@ public class Piege extends Objet {
         return json;
     }
 
+
     @Override
-    public char getSymbol() {
-        return 'P';
+    public String getSymbol() {
+        if (!visible) {
+            return " "; // Invisible
+        }
+        return "✘"; // Red foreground
     }
 
     @Override

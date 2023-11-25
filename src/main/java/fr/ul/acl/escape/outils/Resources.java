@@ -53,7 +53,7 @@ public class Resources {
             InputStream is = getAsStream(path);
             if (Donnees.CLI_MODE || is == null) {
                 assets.put(path, null);
-                if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
+                if (Donnees.DEBUG && is == null) System.out.println("Failed to load asset: " + path);
             } else {
                 assets.put(path, new Image(is));
                 if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);

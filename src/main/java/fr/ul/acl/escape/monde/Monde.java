@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
+import static java.io.File.separator;
 
 
 public class Monde {
@@ -34,6 +35,10 @@ public class Monde {
      * Last map loaded
      */
     private String carte;
+    /**
+     * True if the map is a custom map (added by the user), false otherwise
+     */
+    private boolean isCustom;
 
     private long dernierCoupsEffectueParHero = System.currentTimeMillis();
 
@@ -51,40 +56,37 @@ public class Monde {
     /**
      * Create a Monde from a map
      *
-     * @param map the map to load
+     * @param map      the map to load
+     * @param isCustom true if the map is a custom map (added by the user), false otherwise
      * @return the Monde
      * @throws Exception if the map cannot be loaded
      */
-    public static Monde fromMap(String map) throws Exception {
-        JSONObject json = FileManager.readResourceFile("maps/" + map);
+    public static Monde fromMap(String map, boolean isCustom) throws Exception {
+        JSONObject json = isCustom
+                ? FileManager.readFile("maps" + separator + map, false)
+                : FileManager.readResourceFile("maps/" + map);
         if (json == null) throw new Exception("Map not found");
-        return fromJSON(json, map);
+
+        Monde monde = fromJSON(json, isCustom);
+        monde.carte = map;
+        monde.isCustom = isCustom;
+
+        return monde;
     }
 
     /**
      * Create a Monde from a JSON representation
      *
-     * @param json the JSON representation
+     * @param json     the JSON representation
+     * @param isCustom true if the map is a custom map (added by the user), false otherwise
      * @return the Monde
      * @throws Exception if the JSON is invalid
      */
-    public static Monde fromJSON(JSONObject json) throws Exception {
-        return fromJSON(json, null);
-    }
-
-    /**
-     * Create a Monde from a JSON representation
-     *
-     * @param json the JSON representation
-     * @param map  the map name
-     * @return the Monde
-     * @throws Exception if the JSON is invalid
-     */
-    public static Monde fromJSON(JSONObject json, String map) throws Exception {
+    public static Monde fromJSON(JSONObject json, boolean isCustom) throws Exception {
         Monde monde;
         if (json.has("map")) {
             // it's a save, it doesn't contain environment
-            monde = fromMap(json.getString("map"));
+            monde = fromMap(json.getString("map"), isCustom);
             monde.personnages.clear();
             monde.objets.clear();
         } else {
@@ -107,7 +109,6 @@ public class Monde {
                 monde.terrains.add(terrain);
             });
         }
-        if (map != null) monde.carte = map;
 
         // add entities
         json.getJSONArray("entities").forEach(jsonEntity -> {
@@ -326,7 +327,7 @@ public class Monde {
             }
         }
 
-        // Check si le noeud source est pas en dehors en haut ou à gauche
+        // Check si le noeud source n'est pas en dehors en haut ou à gauche
         int sourceX = intLePlusProche((int) (monstre.getX() * conversionFactor), pas);
         int sourceY = intLePlusProche((int) (monstre.getY() * conversionFactor), pas);
         Point2D source = new Point2D(sourceX, sourceY);
@@ -387,7 +388,7 @@ public class Monde {
         Monstre tmpMonstre = (Monstre) monstre.clone();
         tmpMonstre.deplacer(typeMouvement, deltaTime);
 
-        // On fait le mouvement prévu si il est réalisable
+        // On fait le mouvement prévu s'il est réalisable
         if (!collisionAvec(tmpMonstre, true)) {
             monstre.deplacer(typeMouvement, deltaTime);
             monstre.setMoving(true);
@@ -405,14 +406,14 @@ public class Monde {
 
         // Le dernier mouvement n'était pas possible non plus donc on regarde si c'était à cause du héros ou non.
         // Si non, on regarde dans la liste des noeuds du chemin quel prochain mouvement est faisable
-        // On garde en mémoire tous les mouvements que le Monstre a essayé.
+        // On garde en mémoire tous les mouvements que le Monstre a essayés.
         if (collisionAvec(tmpMonstre, false)) {
             monstre.addMouvementEssayes(typeMouvement);
             for (int i = 2; i < list.size(); i++) {
                 typeMouvement = getMouvement(source, list.get(i), monstre);
                 if (typeMouvement == null) continue;
 
-                // Le mouvement est pas dans la liste donc on peut l'essayer
+                // Le mouvement n'est pas dans la liste donc on peut l'essayer
                 if (!monstre.mouvementDansList(typeMouvement)) {
 
                     tmpMonstre = (Monstre) monstre.clone();
@@ -654,5 +655,12 @@ public class Monde {
 
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * @return whether the map is a custom map (added by the user), false otherwise
+     */
+    public boolean isCustom() {
+        return isCustom;
     }
 }

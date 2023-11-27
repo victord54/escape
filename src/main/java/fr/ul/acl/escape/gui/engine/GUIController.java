@@ -33,7 +33,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension);
+            monde = Monde.fromMap("map01" + JSON.extension, false);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }
@@ -47,7 +47,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController(JSONObject json) {
         try {
-            monde = Monde.fromJSON(json);
+            monde = Monde.fromJSON(json, false);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map from JSON");
         }

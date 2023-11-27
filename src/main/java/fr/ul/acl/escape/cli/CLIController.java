@@ -20,7 +20,7 @@ public class CLIController extends GameController {
 
     protected CLIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension);
+            monde = Monde.fromMap("map01" + JSON.extension, false);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }

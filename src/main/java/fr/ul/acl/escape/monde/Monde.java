@@ -83,12 +83,12 @@ public class Monde {
     public static Monde fromJSON(JSONObject json, String map) throws Exception {
         Monde monde;
         if (json.has("map")) {
-            // it's a save
+            // it's a save, it doesn't contain environment
             monde = fromMap(json.getString("map"));
             monde.personnages.clear();
             monde.objets.clear();
         } else {
-            // it's a map
+            // it's a map file
             JSONObject jsonWorld = json.getJSONObject("world");
             monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"));
             // add border
@@ -103,29 +103,60 @@ public class Monde {
             // add terrains
             json.getJSONArray("environment").forEach(jsonTerrain -> {
                 Terrain terrain = Terrain.fromJSON((JSONObject) jsonTerrain);
-                if (terrain.getX() < 1 || terrain.getX() > monde.width - 2 || terrain.getY() < 1 || terrain.getY() > monde.height - 2)
-                    throw new IllegalArgumentException("Terrain out of bounds: " + jsonTerrain);
+                validateElement(terrain, monde, false);
                 monde.terrains.add(terrain);
             });
         }
+        if (map != null) monde.carte = map;
+
         // add entities
         json.getJSONArray("entities").forEach(jsonEntity -> {
             Personnage entity = Personnage.fromJSON((JSONObject) jsonEntity);
-            if (entity.getX() < 1 || entity.getX() > monde.width - 2 || entity.getY() < 1 || entity.getY() > monde.height - 2)
-                throw new IllegalArgumentException("Entity out of bounds: " + jsonEntity);
+            validateElement(entity, monde, true);
             monde.personnages.add(entity);
         });
 
         //add objects
         json.getJSONArray("objects").forEach(jsonObject -> {
             Objet objet = Objet.fromJSON((JSONObject) jsonObject);
-            if (objet.getX() < 1 || objet.getX() > monde.width - 2 || objet.getY() < 1 || objet.getY() > monde.height - 2)
-                throw new IllegalArgumentException("Object out of bounds: " + jsonObject);
+            validateElement(objet, monde, false);
             monde.objets.add(objet);
         });
 
-        if (map != null) monde.carte = map;
+        // validate world
+        if (monde.personnages.isEmpty()) throw new IllegalArgumentException("No entities in the world");
+        if (monde.personnages.stream().filter(Personnage::estUnHeros).count() != 1)
+            throw new IllegalArgumentException("There must be exactly one hero in the world");
+
         return monde;
+    }
+
+    /**
+     * Function that check if an ElementMonde is valid.
+     *
+     * @param element      The ElementMonde to be checked.
+     * @param monde        The Monde.
+     * @param isPersonnage true if the ElementMonde is a Personnage, false otherwise.
+     * @throws IllegalArgumentException if the ElementMonde is not valid.
+     */
+    private static void validateElement(ElementMonde element, Monde monde, boolean isPersonnage) throws IllegalArgumentException {
+        if (element == null) throw new IllegalArgumentException("Element is null");
+        // check if the position is valid
+        if (element.getX() < 1 || element.getX() > monde.width - 2 || element.getY() < 1 || element.getY() > monde.height - 2)
+            throw new IllegalArgumentException("Element out of bounds: " + element);
+        // check if the size is valid
+        if (element.getLargeur() <= 0 || element.getHauteur() <= 0)
+            throw new IllegalArgumentException("Element too small: " + element);
+        if (element.getX() + element.getLargeur() > monde.width - 1 || element.getY() + element.getHauteur() > monde.height - 1)
+            throw new IllegalArgumentException("Element too big: " + element);
+        // check if the element is in collision with another element
+        if (isPersonnage) {
+            if (monde.collisionAvec((Personnage) element, true))
+                throw new IllegalArgumentException("Element in collision with another element: " + element);
+        } else {
+            if (monde.collisionAvecTerrains(element))
+                throw new IllegalArgumentException("Element in collision with a terrain: " + element);
+        }
     }
 
     /**
@@ -234,20 +265,15 @@ public class Monde {
      * @return true if collision, false otherwise.
      */
     public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
-        for (Terrain t : terrains) {
-            if (!t.estTraversable()) {
-                if (collision(pers, t)) return true;
-            }
-        }
+        if (collisionAvecTerrains(pers)) return true;
         for (Personnage p : personnages) {
             if (checkAvecHeros) {
-                if (pers.getId() != p.getId()) {
-                    if (collision(pers, p)) {
-                        return true;
-                    }
+                if (pers.getId() != p.getId() && collision(pers, p)) {
+                    return true;
                 }
-            } else if (pers.getId() != p.getId() && !p.estUnHeros()) if (collision(pers, p)) return true;
-
+            } else if (pers.getId() != p.getId() && !p.estUnHeros() && collision(pers, p)) {
+                return true;
+            }
         }
         return false;
     }
@@ -498,15 +524,15 @@ public class Monde {
     }
 
     /**
-     * Method that check if there is collision between a Personnage and one of the Terrain.
+     * Method that check if there is collision between an ElementMonde and a Terrain.
      *
-     * @param p The Personnage we need to check.
+     * @param element The ElementMonde.
      * @return true if there is a collision, false otherwise.
      */
-    public boolean collisionAvecTerrains(Personnage p) {
+    public boolean collisionAvecTerrains(ElementMonde element) {
         for (Terrain t : terrains) {
             if (!t.estTraversable()) {
-                if (collision(p, t)) return true;
+                if (collision(element, t)) return true;
             }
         }
         return false;

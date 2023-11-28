@@ -26,6 +26,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -174,12 +175,12 @@ public class GameView extends View implements GameInterface, GameViewController.
         }
 
         // draw game environment
-        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, terrain.getSprite()));
+        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, 0));
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
             if (objet.getVisible()) {
-                renderElement(gc, objet, elementSize, objet.getSprite());
+                renderElement(gc, objet, elementSize, 0);
             }
         });
 
@@ -187,13 +188,13 @@ public class GameView extends View implements GameInterface, GameViewController.
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
                 if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
-                renderElement(gc, personnage, elementSize, personnage.getSprite(iteration_heros));
+                renderElement(gc, personnage, elementSize, iteration_heros);
             }
             int iteration = 0;
             if (personnage.isMoving()) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
-            renderElement(gc, personnage, elementSize, personnage.getSprite(iteration));
+            renderElement(gc, personnage, elementSize, iteration);
         });
     }
 
@@ -236,28 +237,59 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         int decalage = 0;
 
+        Image img = Resources.getAsset("assets/coeurs.png");
+        gc.setFill(Color.LIGHTGREEN);
         // draw full heart
         for (int i = 0; i < nbCoeursRestantPleins; i++) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 1, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+            }
             decalage++;
         }
 
         // draw if there is a heart not full
         if (coeursRestantsNonPleins == 0.75) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 360, ArcType.ROUND);
+            }
             decalage++;
         } else if (coeursRestantsNonPleins == 0.5) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
-
+            if (img != null) {
+                gc.drawImage(img, 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 270, ArcType.ROUND);
+            }
             decalage++;
         } else if (coeursRestantsNonPleins == 0.25) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+                gc.setFill(Color.LIGHTGREEN);
+                gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 180, ArcType.ROUND);
+            }
             decalage++;
         }
 
         // draw the lost hearts
         for (int i = 0; i < coeursPerduPleins; i++) {
-            gc.drawImage(Resources.getAsset("assets/coeurs.png"), 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            if (img != null) {
+                gc.drawImage(img, 101, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
+            } else {
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(10 + (decalage * 30), 5, 25, 25);
+            }
             decalage++;
         }
     }
@@ -320,14 +352,15 @@ public class GameView extends View implements GameInterface, GameViewController.
      * @param gc           The graphics context of the canvas.
      * @param elementMonde The element to draw.
      * @param elementSize  The size of a square element on the game board.
-     * @param asset        The asset to draw.
+     * @param spriteIndex  The index of the sprite to draw.
      */
-    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, Image asset) {
-        if (asset == null) {
+    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, int spriteIndex) {
+        Image sprite = elementMonde.getSprite(spriteIndex);
+        if (sprite == null) {
             gc.setFill(elementMonde.getColor());
             gc.fillRect(elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, Math.ceil(elementMonde.getLargeur() * elementSize), Math.ceil(elementMonde.getHauteur() * elementSize));
             return;
         }
-        gc.drawImage(asset, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
+        gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
     }
 }

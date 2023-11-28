@@ -6,6 +6,7 @@ import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
@@ -48,6 +49,10 @@ public class CLIController extends GameController {
 
     public ArrayList<Terrain> getTerrains() {
         return monde.getTerrains();
+    }
+
+    public ArrayList<Objet> getObjets() {
+        return monde.getObjets();
     }
 
     public void setAction(int action) {

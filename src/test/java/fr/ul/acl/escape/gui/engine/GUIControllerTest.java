@@ -19,23 +19,23 @@ class GUIControllerTest {
     private static Heros hero;
 
     @BeforeAll
-    static void setUpAll(){
+    static void setUpAll() {
         mm = GUIController.MovementManager.instance;
     }
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         //On s'assure que l'ensemble des touches est vide au
         //commencement de chaque tests
         mm.mouvements = new HashSet<>();
-        monde = new Monde(5,5);
-        hero = new Heros(0, 0, 1, 1, 1, 1, 1, -1, 0, true);
+        monde = new Monde(5, 5);
+        hero = new Heros(0, 0, 1, 1, 1, 1, 1, -1, 0);
         monde.addPersonnage(hero);
     }
 
     //Right
     @Test
-    void testMovementManagerExecuteMouvementOrthogonal(){
+    void testMovementManagerExecuteMouvementOrthogonal() {
         mm.addMouvement(TypeMouvement.RIGHT);
         mm.executerMouvement(monde, 1);
 
@@ -50,7 +50,7 @@ class GUIControllerTest {
     }
 
     @Test
-    void testMovementManagerExecuteMouvementOrthogonal3Directions(){
+    void testMovementManagerExecuteMouvementOrthogonal3Directions() {
         mm.addMouvement(TypeMouvement.RIGHT);
         mm.addMouvement(TypeMouvement.LEFT);
         mm.addMouvement(TypeMouvement.UP);
@@ -61,7 +61,7 @@ class GUIControllerTest {
     }
 
     @Test
-    void testMovementManagerExecuteMouvementDiagonal(){
+    void testMovementManagerExecuteMouvementDiagonal() {
         mm.addMouvement(TypeMouvement.RIGHT);
         mm.addMouvement(TypeMouvement.UP);
         mm.executerMouvement(monde, 1);
@@ -72,12 +72,12 @@ class GUIControllerTest {
 
     //Outbounding
     @Test
-    void testMovementManagerInstanceNotNull(){
+    void testMovementManagerInstanceNotNull() {
         assertNotNull(GUIController.MovementManager.instance);
     }
 
     @Test
-    void testMovementManagerSetVideApresMouvementExecute(){
+    void testMovementManagerSetVideApresMouvementExecute() {
         mm.addMouvement(TypeMouvement.RIGHT);
         mm.executerMouvement(monde, 1);
 

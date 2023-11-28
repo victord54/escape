@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.gui.Sprite;
+import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
@@ -17,7 +17,6 @@ public abstract class Personnage extends ElementMonde {
     protected double coeurs;
     protected double maxCoeurs;
     protected boolean isMoving = false;
-    protected HashMap<TypeMouvement, Sprite[]> sprites;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
     protected double degats;
@@ -29,13 +28,11 @@ public abstract class Personnage extends ElementMonde {
         this.maxCoeurs = maxCoeurs;
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         this.orientation = TypeMouvement.DOWN;
-        sprites = new HashMap<>();
         this.degats = degats;
     }
 
     public Personnage(JSONObject json) {
         super(json);
-        sprites = new HashMap<>();
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
         this.vitesse = json.getDouble("speed");
         this.coeurs = json.getDouble("life");
@@ -77,21 +74,18 @@ public abstract class Personnage extends ElementMonde {
         switch (typeMouvement) {
             case RIGHT -> {
                 this.x += vitesseTransformee;
-                dernierMouvement = TypeMouvement.RIGHT;
             }
             case LEFT -> {
                 this.x -= vitesseTransformee;
-                dernierMouvement = TypeMouvement.LEFT;
             }
             case UP -> {
                 this.y -= vitesseTransformee;
-                dernierMouvement = TypeMouvement.UP;
             }
             case DOWN -> {
                 this.y += vitesseTransformee;
-                dernierMouvement = TypeMouvement.DOWN;
             }
         }
+        this.dernierMouvement = typeMouvement;
         this.orientation = typeMouvement;
     }
 
@@ -173,10 +167,6 @@ public abstract class Personnage extends ElementMonde {
 
     public TypeMouvement getDernierMouvement() {
         return dernierMouvement;
-    }
-
-    public Image getSprite(int i) {
-        return sprites.get(dernierMouvement)[i].getSprite();
     }
 
     public boolean isMoving() {

@@ -131,6 +131,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             engine.paused.set(!engine.paused.get());
+            gameController.setOnPause(engine.paused.get());
         } else if (event.getCode() == KeyCode.SPACE) {
             Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {
@@ -191,7 +192,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 renderElement(gc, personnage, elementSize, iteration_heros);
             }
             int iteration = 0;
-            if (personnage.isMoving()) {
+            if (personnage.isMoving() && !engine.paused.get()) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
             renderElement(gc, personnage, elementSize, iteration);
@@ -344,6 +345,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void resume() {
         if (engine == null) return;
         engine.paused.set(false);
+        gameController.setOnPause(false);
     }
 
     /**

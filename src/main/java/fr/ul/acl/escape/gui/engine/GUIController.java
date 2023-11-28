@@ -26,7 +26,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
      * If true, the key R is pressed.
      */
-    boolean rKeyPressed = false;
+    private boolean rKeyPressed = false;
+
+    protected boolean onPause = false;
 
     /**
      * Create a new controller with a new world from a default map.
@@ -55,6 +57,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     @Override
     public void update(long deltaTime) {
+        if (onPause) return;
         double timeInDouble = deltaTime * 10e-10;
 
         //Déplacements
@@ -164,5 +167,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             mouvements = new HashSet<>();
         }
 
+    }
+
+    public void setOnPause(boolean b){
+        onPause = b;
     }
 }

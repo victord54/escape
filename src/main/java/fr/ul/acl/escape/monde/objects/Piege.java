@@ -72,7 +72,7 @@ public class Piege extends Objet {
     }
 
     @Override
-    public boolean estRamassable(){
+    public boolean estRamassable() {
         return false;
     }
 }

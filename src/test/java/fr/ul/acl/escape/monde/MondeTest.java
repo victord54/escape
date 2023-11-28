@@ -141,9 +141,9 @@ class MondeTest {
     }
 
     @Test
-    void heroRamassageObjet(){
+    void heroRamassageObjet() {
         Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
-        Coeur c = new Coeur(6,6,0.2,0.2, 1);
+        Coeur c = new Coeur(6, 6, 0.2, 0.2, 1);
         monde.addPersonnage(h);
         monde.addObjet(c);
 
@@ -157,7 +157,7 @@ class MondeTest {
         monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
 
-        Coeur c2 = new Coeur(8,8,0.2,0.2,1);
+        Coeur c2 = new Coeur(8, 8, 0.2, 0.2, 1);
         monde.addObjet(c2);
         monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
@@ -166,10 +166,10 @@ class MondeTest {
     }
 
     @Test
-    void coeurSurPiegeRamassageObjet(){
+    void coeurSurPiegeRamassageObjet() {
         Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
-        Piege p = new Piege(6,6,0.2,0.2, 1);
-        Coeur c = new Coeur(6,6,0.2,0.2, 1);
+        Piege p = new Piege(6, 6, 0.2, 0.2, 1);
+        Coeur c = new Coeur(6, 6, 0.2, 0.2, 1);
         monde.addObjet(p);
         monde.addObjet(c);
 

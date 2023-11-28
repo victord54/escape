@@ -93,6 +93,9 @@ public class Monde {
             // it's a map file
             JSONObject jsonWorld = json.getJSONObject("world");
             monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"));
+            if (monde.width < 3 || monde.height < 3)
+                throw new IllegalArgumentException("World too small: " + jsonWorld);
+
             // add border
             for (int i = 0; i < monde.width; i++) {
                 monde.terrains.add(new BordureMonde(i, 0));

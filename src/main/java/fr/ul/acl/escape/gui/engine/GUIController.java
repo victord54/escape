@@ -28,6 +28,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private boolean rKeyPressed = false;
 
+    /**
+     * If true, it means the game is paused.
+     */
     protected boolean onPause = false;
 
     /**
@@ -169,7 +172,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     }
 
-    public void setOnPause(boolean b){
+    public void setOnPause(boolean b) {
         onPause = b;
     }
 }

@@ -76,7 +76,7 @@ public class SaveComponent extends ListCell<SaveData> {
      */
     private void init() {
         if (loader == null) {
-            loader = new FXMLLoader(Resources.get("gui/components/save-component.fxml"));
+            loader = new FXMLLoader(getClass().getResource("save-component.fxml"));
             loader.setResources(Resources.getI18NBundle());
             loader.setController(this);
 

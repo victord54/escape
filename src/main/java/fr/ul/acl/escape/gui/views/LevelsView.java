@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class LevelsView extends View {
     public LevelsView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/levels-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("levels-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

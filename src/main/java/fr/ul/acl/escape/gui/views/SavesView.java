@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class SavesView extends View {
     public SavesView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/saves-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("saves-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

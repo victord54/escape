@@ -47,7 +47,7 @@ public class LevelComponent extends ListCell<LevelData> {
      */
     private void init() {
         if (loader == null) {
-            loader = new FXMLLoader(Resources.get("gui/components/level-component.fxml"));
+            loader = new FXMLLoader(getClass().getResource("level-component.fxml"));
             loader.setResources(Resources.getI18NBundle());
             loader.setController(this);
 

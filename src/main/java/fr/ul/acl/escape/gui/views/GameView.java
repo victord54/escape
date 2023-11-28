@@ -76,7 +76,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     private SaveData save;
 
     public GameView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

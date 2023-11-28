@@ -1,4 +1,4 @@
-package fr.ul.acl.escape.gui.views;
+package fr.ul.acl.escape.gui.components;
 
 import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.outils.ErrorBehavior;
@@ -76,7 +76,7 @@ public class SaveComponent extends ListCell<SaveData> {
      */
     private void init() {
         if (loader == null) {
-            loader = new FXMLLoader(Resources.get("gui/save-component.fxml"));
+            loader = new FXMLLoader(Resources.get("gui/components/save-component.fxml"));
             loader.setResources(Resources.getI18NBundle());
             loader.setController(this);
 

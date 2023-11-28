@@ -47,6 +47,7 @@ public class Escape extends Application {
             ViewManager.getInstance().registerView(VIEWS.SETTINGS, new SettingsView());
             ViewManager.getInstance().registerView(VIEWS.SAVES, new SavesView());
             ViewManager.getInstance().registerView(VIEWS.GAME_MODE, new GameModeView());
+            ViewManager.getInstance().registerView(VIEWS.LEVELS, new LevelsView());
 
             // Set the default view
             ViewManager.getInstance().navigateTo(VIEWS.HOME);

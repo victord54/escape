@@ -35,7 +35,7 @@ public class GameModeViewController extends ViewController {
 
     @FXML
     private void onClickCustom() {
-        ViewManager.getInstance().navigateTo(VIEWS.GAME);
+        ViewManager.getInstance().navigateTo(VIEWS.LEVELS);
     }
 
     @FXML

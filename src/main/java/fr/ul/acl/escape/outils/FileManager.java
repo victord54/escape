@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.outils;
 
 import fr.ul.acl.escape.Escape;
+import fr.ul.acl.escape.Property;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.springframework.core.io.Resource;
@@ -25,6 +26,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.ul.acl.escape.Escape.Host;
 import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
@@ -304,6 +306,47 @@ public class FileManager {
         }
 
         return new SecretKeySpec(keyHash, "AES");
+    }
+
+    /**
+     * Open the given path in the app data folder.
+     *
+     * @param path path to open, relative to the app data folder, use {@link File#separator} as a separator
+     *             if null, open the app data folder
+     */
+    public static void openFolder(String path) {
+        String fullpath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
+        if (fullpath == null) return;
+
+        File file = new File(fullpath);
+        File parent = file.getParentFile();
+        if (!parent.exists() || !parent.isDirectory()) {
+            if (!parent.mkdirs()) {
+                System.err.println("Could not create '" + parent.getAbsolutePath() + "'");
+                return;
+            }
+        }
+
+        if (!file.exists() || !file.isDirectory()) {
+            if (!file.mkdirs()) {
+                System.err.println("Could not create '" + file.getAbsolutePath() + "'");
+                return;
+            }
+        }
+
+        Host.showDocument(fullpath);
+    }
+
+    /**
+     * Get the file for the given path in the app data folder.
+     *
+     * @param path path to get, relative to the app data folder, use {@link File#separator} as a separator
+     * @return the file, or null if the path is null or empty
+     */
+    public static File getFile(String path) {
+        String fullpath = getPathFor(path);
+        if (fullpath == null) return null;
+        return new File(fullpath);
     }
 
     /**

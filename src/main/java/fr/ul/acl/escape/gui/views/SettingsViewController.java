@@ -5,6 +5,7 @@ import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,7 +43,7 @@ public class SettingsViewController extends ViewController {
 
     @FXML
     private void openFolder() {
-        Host.showDocument(Donnees.APPDATA_FOLDER);
+        FileManager.openFolder(null);
     }
 
     @FXML

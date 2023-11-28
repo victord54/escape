@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class GameModeView extends View {
     public GameModeView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-mode-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/game-mode-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

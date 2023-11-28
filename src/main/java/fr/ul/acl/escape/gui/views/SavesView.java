@@ -4,6 +4,7 @@ import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.gui.components.SaveComponent;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class SavesView extends View {
     public SavesView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/saves-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/saves-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

@@ -9,6 +9,7 @@ import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -75,7 +76,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     private SaveData save;
 
     public GameView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/game-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();
@@ -89,11 +90,13 @@ public class GameView extends View implements GameInterface, GameViewController.
         GameViewController controller = (GameViewController) this.controller;
 
         // init game controller
+        save = null;
         if (args.length > 0 && args[0] instanceof SaveData) {
             save = (SaveData) args[0];
             gameController = new GUIController(save.getJSON());
+        } else if (args.length > 0 && args[0] instanceof Monde) {
+            gameController = new GUIController((Monde) args[0]);
         } else {
-            save = null;
             gameController = new GUIController();
         }
 

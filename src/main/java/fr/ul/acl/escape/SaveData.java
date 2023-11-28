@@ -1,6 +1,6 @@
 package fr.ul.acl.escape;
 
-import fr.ul.acl.escape.gui.views.SaveComponent;
+import fr.ul.acl.escape.gui.components.SaveComponent;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import org.json.JSONArray;

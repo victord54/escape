@@ -25,7 +25,7 @@ public class SettingsView extends View {
     };
 
     public SettingsView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/settings-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Resources.get("gui/views/settings-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

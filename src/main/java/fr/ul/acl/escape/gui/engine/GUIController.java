@@ -54,6 +54,15 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         }
     }
 
+    /**
+     * Create a new controller from a world.
+     *
+     * @param monde The world.
+     */
+    public GUIController(Monde monde) {
+        this.monde = monde;
+    }
+
     @Override
     public void update(long deltaTime) {
         double timeInDouble = deltaTime * 10e-10;

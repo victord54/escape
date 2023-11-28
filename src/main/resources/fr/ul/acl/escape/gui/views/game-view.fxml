@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" styleClass="background" stylesheets="@global.css"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" styleClass="background" stylesheets="@../styles/global.css"
            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
     <Canvas fx:id="gameBoard" focusTraversable="true"/>
     <Canvas fx:id="overlay" focusTraversable="true"/>

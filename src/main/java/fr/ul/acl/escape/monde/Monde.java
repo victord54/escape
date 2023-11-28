@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.GameMode;
+import fr.ul.acl.escape.LevelData;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
@@ -65,7 +66,7 @@ public class Monde {
     public static Monde fromMap(String map, GameMode mode) throws Exception {
         JSONObject json = mode == GameMode.CAMPAIGN
                 ? FileManager.readResourceFile("maps/" + map) // campaign: load from resources
-                : FileManager.readFile("maps" + separator + map, false); // custom: load from custom maps folder
+                : FileManager.readFile(LevelData.FOLDER + separator + map, false); // custom: load from custom maps folder
         if (json == null) throw new Exception("Map not found");
 
         Monde monde = fromJSON(json);

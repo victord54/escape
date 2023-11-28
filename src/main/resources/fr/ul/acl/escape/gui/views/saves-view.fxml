@@ -6,7 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="200.0" prefWidth="200.0"
-            styleClass="background" stylesheets="@global.css, @custom-list-view.css"
+            styleClass="background" stylesheets="@../styles/global.css, @../styles/custom-list-view.css"
             xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="fr.ul.acl.escape.gui.views.SavesViewController">
     <top>
         <Label fx:id="savesTitle" styleClass="title" text="%saves" BorderPane.alignment="CENTER">

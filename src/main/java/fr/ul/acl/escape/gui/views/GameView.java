@@ -123,6 +123,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         this.engine = new GUIEngine(this, gameController);
         engine.paused.subscribe((evt, oldValue, newValue) -> {
             controller.setPauseMenuVisible(newValue, save != null);
+            gameController.setOnPause(newValue);
         });
         engine.start();
     }
@@ -131,7 +132,6 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
             engine.paused.set(!engine.paused.get());
-            gameController.setOnPause(engine.paused.get());
         } else if (event.getCode() == KeyCode.SPACE) {
             Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == KeyCode.G) {

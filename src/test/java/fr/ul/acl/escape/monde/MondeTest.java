@@ -4,6 +4,7 @@ import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.Mur;
 import fr.ul.acl.escape.monde.objects.Coeur;
+import fr.ul.acl.escape.monde.objects.Piege;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -162,6 +163,19 @@ class MondeTest {
         assertEquals(monde.getObjets().size(), 1);
         monde.heroRamassageObjet();
         assertEquals(monde.getObjets().size(), 1);
+    }
 
+    @Test
+    void coeurSurPiegeRamassageObjet(){
+        Heros h = new Heros(6, 6, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
+        Piege p = new Piege(6,6,0.2,0.2, 1);
+        Coeur c = new Coeur(6,6,0.2,0.2, 1);
+        monde.addObjet(p);
+        monde.addObjet(c);
+
+        monde.addPersonnage(h);
+
+        monde.heroRamassageObjet();
+        assertEquals(1, monde.getObjets().size());
     }
 }

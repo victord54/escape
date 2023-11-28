@@ -52,4 +52,9 @@ public class Piege extends Objet {
     public boolean estDeclenchable() {
         return !visible;
     }
+
+    @Override
+    public boolean estRamassable(){
+        return false;
+    }
 }

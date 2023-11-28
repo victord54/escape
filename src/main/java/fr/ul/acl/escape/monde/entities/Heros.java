@@ -90,15 +90,6 @@ public class Heros extends Personnage {
 
     @Override
     public String toString() {
-        return "\u001B[46mHeros{" +
-                "x=" + x +
-                ", y=" + y +
-                ", hauteur=" + hauteur +
-                ", largeur=" + largeur +
-                ", vitesse=" + vitesse +
-                ", coeurs=" + coeurs + "/" + maxCoeurs +
-                ", degats=" + degats +
-                ", id=" + id +
-                "}\u001B[0m";
+        return "\u001B[46m" + super.toString() + "\u001B[0m";
     }
 }

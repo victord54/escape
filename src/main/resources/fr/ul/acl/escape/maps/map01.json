@@ -16,7 +16,7 @@
       "damages": 1
     },
     {
-      "type": "WALKER",
+      "type": "GHOST",
       "x": 13,
       "y": 2,
       "width": 0.5,
@@ -27,7 +27,7 @@
       "damages": 1
     },
     {
-      "type": "WALKER",
+      "type": "GHOST",
       "x": 14,
       "y": 5,
       "width": 0.5,
@@ -38,7 +38,7 @@
       "damages": 1
     },
     {
-      "type": "WALKER",
+      "type": "GHOST",
       "x": 6,
       "y": 5,
       "width": 0.5,

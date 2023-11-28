@@ -47,6 +47,8 @@ public abstract class Personnage extends ElementMonde {
             return new Heros(json);
         } else if (type == Type.WALKER) {
             return new Walker(json);
+        } else if (type == Type.GHOST) {
+            return new Fantome(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -222,4 +224,8 @@ public abstract class Personnage extends ElementMonde {
      * @return a copy of the Personnage
      */
     public abstract Personnage clone();
+
+    public boolean peutTraverserObstacle() {
+        return false;
+    }
 }

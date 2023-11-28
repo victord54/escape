@@ -235,18 +235,37 @@ public class Monde {
      */
     public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
         for (Terrain t : terrains) {
-            if (!t.estTraversable()) {
+            if (!t.estTraversable() && !pers.peutTraverserObstacle()){
                 if (collision(pers, t)) return true;
             }
         }
         for (Personnage p : personnages) {
             if (checkAvecHeros) {
                 if (pers.getId() != p.getId()) {
+                    if (pers.peutTraverserObstacle() && p.peutTraverserObstacle()){
+                        if (collision(pers, p)) {
+                            return true;
+                        }
+                    }
+                    if (!pers.peutTraverserObstacle() && !p.peutTraverserObstacle()){
+                        if (collision(pers, p)) {
+                            return true;
+                        }
+                    }
+
+                }
+            } else if (pers.getId() != p.getId() && !p.estUnHeros()){
+                if (pers.peutTraverserObstacle() && p.peutTraverserObstacle()){
                     if (collision(pers, p)) {
                         return true;
                     }
                 }
-            } else if (pers.getId() != p.getId() && !p.estUnHeros()) if (collision(pers, p)) return true;
+                if (!pers.peutTraverserObstacle() && !p.peutTraverserObstacle()){
+                    if (collision(pers, p)) {
+                        return true;
+                    }
+                }
+            }
 
         }
         return false;
@@ -306,7 +325,6 @@ public class Monde {
         Point2D source = new Point2D(sourceX, sourceY);
 
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
-
 
         Monstre tmpMontreAPorteHeros = (Monstre) monstre.clone();
         tmpMontreAPorteHeros.setX(monstre.getX() - 0.2);

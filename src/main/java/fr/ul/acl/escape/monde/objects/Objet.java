@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.monde.objects;
 
-import fr.ul.acl.escape.gui.Sprite;
+import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import javafx.scene.image.Image;
@@ -8,8 +8,6 @@ import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {
     protected boolean visible;
-
-    protected Sprite sprite;
 
     public Objet(Type type, double x, double y, double hauteur, double largeur, boolean visible) {
         super(type, x, y, hauteur, largeur);
@@ -47,24 +45,12 @@ public abstract class Objet extends ElementMonde {
         return false;
     }
 
-    public Image getSprite() {
-        return sprite.getSprite();
-    }
-
     /**
-     * Consumn the object by the given personnage.
+     * Consume the object by the given personnage.
      *
      * @param p the personnage
      */
     public abstract void consommePar(Personnage p);
-
-    public boolean estCoeur() {
-        return false;
-    }
-
-    public boolean estPiege() {
-        return false;
-    }
 
     public boolean getVisible() {
         return visible;
@@ -73,5 +59,4 @@ public abstract class Objet extends ElementMonde {
     public boolean estDeclenchable() {
         return false;
     }
-
 }

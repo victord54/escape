@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.cli;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
@@ -21,7 +22,7 @@ public class CLIController extends GameController {
 
     protected CLIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension, false);
+            monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }

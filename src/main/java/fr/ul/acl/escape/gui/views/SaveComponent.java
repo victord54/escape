@@ -17,6 +17,10 @@ public class SaveComponent extends ListCell<SaveData> {
     @FXML
     private Pane pane;
     @FXML
+    private Label mode;
+    @FXML
+    private Label modeValue;
+    @FXML
     private Label date;
     @FXML
     private Label dateValue;
@@ -43,6 +47,9 @@ public class SaveComponent extends ListCell<SaveData> {
             setGraphic(null);
         } else {
             init();
+
+            mode.setText(Resources.getI18NString("save.mode") + " ");
+            modeValue.setText(item.getModeStr());
 
             date.setText(Resources.getI18NString("save.date") + " ");
             dateValue.setText(item.getDate());

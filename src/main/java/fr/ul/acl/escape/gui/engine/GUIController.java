@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.engine;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
@@ -33,7 +34,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension, false);
+            monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }
@@ -47,7 +48,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController(JSONObject json) {
         try {
-            monde = Monde.fromJSON(json, false);
+            monde = Monde.fromJSON(json);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map from JSON");
         }

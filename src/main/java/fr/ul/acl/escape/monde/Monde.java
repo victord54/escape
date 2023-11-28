@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
@@ -36,9 +37,9 @@ public class Monde {
      */
     private String carte;
     /**
-     * True if the map is a custom map (added by the user), false otherwise
+     * Game mode of the last map loaded
      */
-    private boolean isCustom;
+    private GameMode gameMode;
 
     private long dernierCoupsEffectueParHero = System.currentTimeMillis();
 
@@ -56,20 +57,20 @@ public class Monde {
     /**
      * Create a Monde from a map
      *
-     * @param map      the map to load
-     * @param isCustom true if the map is a custom map (added by the user), false otherwise
+     * @param map  the map to load
+     * @param mode the game mode
      * @return the Monde
      * @throws Exception if the map cannot be loaded
      */
-    public static Monde fromMap(String map, boolean isCustom) throws Exception {
-        JSONObject json = isCustom
-                ? FileManager.readFile("maps" + separator + map, false)
-                : FileManager.readResourceFile("maps/" + map);
+    public static Monde fromMap(String map, GameMode mode) throws Exception {
+        JSONObject json = mode == GameMode.CAMPAIGN
+                ? FileManager.readResourceFile("maps/" + map) // campaign: load from resources
+                : FileManager.readFile("maps" + separator + map, false); // custom: load from custom maps folder
         if (json == null) throw new Exception("Map not found");
 
-        Monde monde = fromJSON(json, isCustom);
+        Monde monde = fromJSON(json);
         monde.carte = map;
-        monde.isCustom = isCustom;
+        monde.gameMode = mode;
 
         return monde;
     }
@@ -77,16 +78,16 @@ public class Monde {
     /**
      * Create a Monde from a JSON representation
      *
-     * @param json     the JSON representation
-     * @param isCustom true if the map is a custom map (added by the user), false otherwise
+     * @param json the JSON representation
      * @return the Monde
      * @throws Exception if the JSON is invalid
      */
-    public static Monde fromJSON(JSONObject json, boolean isCustom) throws Exception {
+    public static Monde fromJSON(JSONObject json) throws Exception {
         Monde monde;
         if (json.has("map")) {
             // it's a save, it doesn't contain environment
-            monde = fromMap(json.getString("map"), isCustom);
+            GameMode mode = GameMode.valueOf(json.getString("mode"));
+            monde = fromMap(json.getString("map"), mode);
             monde.personnages.clear();
             monde.objets.clear();
         } else {
@@ -146,7 +147,7 @@ public class Monde {
     private static void validateElement(ElementMonde element, Monde monde, boolean isPersonnage) throws IllegalArgumentException {
         if (element == null) throw new IllegalArgumentException("Element is null");
         // check if the position is valid
-        if (element.getX() < 1 || element.getX() > monde.width - 2 || element.getY() < 1 || element.getY() > monde.height - 2)
+        if (element.getX() < 1 || element.getX() > monde.width - 1 || element.getY() < 1 || element.getY() > monde.height - 1)
             throw new IllegalArgumentException("Element out of bounds: " + element);
         // check if the size is valid
         if (element.getLargeur() <= 0 || element.getHauteur() <= 0)
@@ -647,6 +648,7 @@ public class Monde {
     public JSONObject toJSONSave() {
         JSONObject json = new JSONObject();
         json.put("map", carte);
+        json.put("mode", gameMode.toString());
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
         json.put("objects", objets.stream().map(Objet::toJSON).toArray());
         return json;
@@ -660,10 +662,7 @@ public class Monde {
         return height;
     }
 
-    /**
-     * @return whether the map is a custom map (added by the user), false otherwise
-     */
-    public boolean isCustom() {
-        return isCustom;
+    public GameMode getGameMode() {
+        return gameMode;
     }
 }

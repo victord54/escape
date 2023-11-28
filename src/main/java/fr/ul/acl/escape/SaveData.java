@@ -2,6 +2,7 @@ package fr.ul.acl.escape;
 
 import fr.ul.acl.escape.gui.views.SaveComponent;
 import fr.ul.acl.escape.outils.FileManager;
+import fr.ul.acl.escape.outils.Resources;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -79,6 +80,11 @@ public class SaveData {
         }
 
         return "-";
+    }
+
+    public String getModeStr() {
+        GameMode mode = json.has("mode") ? GameMode.valueOf(json.getString("mode")) : null;
+        return mode != null ? Resources.getI18NString("mode." + mode.name().toLowerCase()) : "-";
     }
 
     public void setListener(SaveComponent.SaveButtonsListener listener) {

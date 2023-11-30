@@ -31,11 +31,9 @@ public class LevelsView extends View {
      * Create a {@link LevelData} from a {@link Map.Entry}
      *
      * @param levelEntry the entry
-     * @param levelsList the list of saves
-     * @param controller the view controller
      * @return the save data
      */
-    private static LevelData getLevelData(Map.Entry<String, JSONObject> levelEntry, List<LevelData> levelsList, LevelsViewController controller) {
+    private static LevelData getLevelData(Map.Entry<String, JSONObject> levelEntry) {
         LevelData levelData = new LevelData(levelEntry);
         levelData.setListener(() -> {
             try {
@@ -61,8 +59,7 @@ public class LevelsView extends View {
 
         List<LevelData> levelsList = new ArrayList<>();
         for (Map.Entry<String, JSONObject> level : levels.entrySet()) {
-            LevelData levelData = getLevelData(level, levelsList, controller);
-            levelsList.add(levelData);
+            levelsList.add(getLevelData(level));
         }
         levelsList.sort(Comparator.comparing(LevelData::getFilename));
 

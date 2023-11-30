@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class SaveComponent extends ListCell<SaveData> {
     @FXML
     private Pane pane;
@@ -55,7 +56,7 @@ public class SaveComponent extends ListCell<SaveData> {
             dateValue.setText(item.getDate());
 
             level.setText(Resources.getI18NString("save.level") + " ");
-            levelValue.setText(item.getLevel() + "");
+            levelValue.setText(item.getLevel());
 
             life.setText(Resources.getI18NString("save.life") + " ");
             lifeValue.setText(item.getLife());

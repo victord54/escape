@@ -5,7 +5,6 @@ import fr.ul.acl.escape.Settings;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

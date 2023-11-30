@@ -13,8 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Escape extends Application {
     public static boolean javaFXApplication = false;
     public static HostServices Host;
@@ -34,7 +32,7 @@ public class Escape extends Application {
      * GUI entry point.
      */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         try {
             javaFXApplication = true;
             Host = getHostServices();

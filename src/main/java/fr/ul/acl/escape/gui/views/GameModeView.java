@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.fxml.FXMLLoader;

@@ -10,13 +10,13 @@ import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
     protected final int id;
-    protected double vitesse;
+    protected final double vitesse;
     protected double coeurs;
-    protected double maxCoeurs;
+    protected final double maxCoeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
-    protected double degats;
+    protected final double degats;
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
@@ -71,18 +71,10 @@ public abstract class Personnage extends ElementMonde {
     public void deplacer(TypeMouvement typeMouvement, double deltaTime) {
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
         switch (typeMouvement) {
-            case RIGHT -> {
-                this.x += vitesseTransformee;
-            }
-            case LEFT -> {
-                this.x -= vitesseTransformee;
-            }
-            case UP -> {
-                this.y -= vitesseTransformee;
-            }
-            case DOWN -> {
-                this.y += vitesseTransformee;
-            }
+            case RIGHT -> this.x += vitesseTransformee;
+            case LEFT -> this.x -= vitesseTransformee;
+            case UP -> this.y -= vitesseTransformee;
+            case DOWN -> this.y += vitesseTransformee;
         }
         this.dernierMouvement = typeMouvement;
         this.orientation = typeMouvement;
@@ -146,10 +138,6 @@ public abstract class Personnage extends ElementMonde {
 
     public double getCoeurs() {
         return coeurs;
-    }
-
-    public void setCoeurs(double c) {
-        coeurs = c;
     }
 
     public double getMaxCoeurs() {

@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.Escape;
 import fr.ul.acl.escape.LevelData;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;

@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class LevelComponent extends ListCell<LevelData> {
     @FXML
     private Pane pane;

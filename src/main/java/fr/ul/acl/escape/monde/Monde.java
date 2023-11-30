@@ -209,7 +209,7 @@ public class Monde {
     }
 
     /**
-     * Function that check if the Heros can be deplaced and deplaced it in the right direction if there is no collision.
+     * Function that check if the Heros can be moved and that moved it in the right direction if there is no collision.
      *
      * @param typeMouvement The Type of mouvement the Heros wants to make.
      */

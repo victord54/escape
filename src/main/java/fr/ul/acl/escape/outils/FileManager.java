@@ -1,7 +1,6 @@
 package fr.ul.acl.escape.outils;
 
 import fr.ul.acl.escape.Escape;
-import fr.ul.acl.escape.Property;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
 import org.springframework.core.io.Resource;
@@ -41,10 +40,10 @@ public class FileManager {
      * @return whether the file was successfully deleted
      */
     public static boolean delete(String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return false;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return false;
 
-        File file = new File(fullpath);
+        File file = new File(fullPath);
         if (!file.exists()) {
             return false;
         }
@@ -119,15 +118,15 @@ public class FileManager {
      * @return the string red, or null if the file could not be read
      */
     private static String readString(String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return null;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return null;
 
-        if (!new File(fullpath).exists()) {
+        if (!new File(fullPath).exists()) {
             return null;
         }
 
         try {
-            return new String(Files.readAllBytes(Paths.get(fullpath)));
+            return new String(Files.readAllBytes(Paths.get(fullPath)));
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not read '" + path + "' file");
             return null;
@@ -144,10 +143,10 @@ public class FileManager {
      * @return a map of the files read, with the path as key and the JSON object as value
      */
     public static Map<String, JSONObject> readDirectory(String folder, boolean filesAreEncrypted) {
-        String fullpath = getPathFor(folder);
-        if (fullpath == null) return new HashMap<>();
+        String fullPath = getPathFor(folder);
+        if (fullPath == null) return new HashMap<>();
 
-        File dir = new File(fullpath);
+        File dir = new File(fullPath);
         if (!dir.exists() || !dir.isDirectory()) {
             return new HashMap<>();
         }
@@ -233,10 +232,10 @@ public class FileManager {
      * @return whether the file was successfully written
      */
     private static boolean writeString(String content, String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return false;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return false;
 
-        File parent = new File(fullpath).getParentFile();
+        File parent = new File(fullPath).getParentFile();
         if (!parent.exists() || !parent.isDirectory()) {
             if (!parent.mkdirs()) {
                 System.err.println("Could not create '" + parent.getAbsolutePath() + "'");
@@ -244,7 +243,7 @@ public class FileManager {
             }
         }
 
-        try (FileWriter writer = new FileWriter(fullpath)) {
+        try (FileWriter writer = new FileWriter(fullPath)) {
             writer.write(content);
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not write '" + path + "' file");
@@ -320,10 +319,10 @@ public class FileManager {
         if (Host == null) return;
         if (path == null && !isFolder) return;
 
-        String fullpath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
-        if (fullpath == null) return;
+        String fullPath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
+        if (fullPath == null) return;
 
-        File file = new File(fullpath);
+        File file = new File(fullPath);
         File parent = file.getParentFile();
         if (!parent.exists() || !parent.isDirectory()) {
             if (!parent.mkdirs()) {
@@ -353,7 +352,7 @@ public class FileManager {
             }
         }
 
-        Host.showDocument(fullpath);
+        Host.showDocument(fullPath);
     }
 
     /**
@@ -363,9 +362,9 @@ public class FileManager {
      * @return the file, or null if the path is null or empty
      */
     public static File getFile(String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return null;
-        return new File(fullpath);
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return null;
+        return new File(fullPath);
     }
 
     /**

@@ -2,7 +2,6 @@ package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.monde.ElementMonde;
-import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.outils.Donnees;
 
 import java.util.ArrayList;

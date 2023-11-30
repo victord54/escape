@@ -23,16 +23,14 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      * The keys currently pressed.
      */
     private final HashSet<KeyCode> keysPressed = new HashSet<>();
-
-    /**
-     * If true, the key R is pressed.
-     */
-    private boolean rKeyPressed = false;
-
     /**
      * If true, it means the game is paused.
      */
     protected boolean onPause = false;
+    /**
+     * If true, the key R is pressed.
+     */
+    private boolean rKeyPressed = false;
 
     /**
      * Create a new controller with a new world from a default map.
@@ -138,6 +136,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         keysPressed.remove(event.getCode());
     }
 
+    public void setOnPause(boolean b) {
+        onPause = b;
+    }
 
     /**
      * The MovementManager class handles movements of an object within a world.
@@ -149,9 +150,8 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     protected static class MovementManager {
 
         protected static final double PIBY4 = Math.PI / 4;
-        Set<TypeMouvement> mouvements;
-
         protected static final MovementManager instance = new MovementManager();
+        Set<TypeMouvement> mouvements;
 
         private MovementManager() {
             mouvements = new HashSet<>();
@@ -183,9 +183,5 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             mouvements = new HashSet<>();
         }
 
-    }
-
-    public void setOnPause(boolean b) {
-        onPause = b;
     }
 }

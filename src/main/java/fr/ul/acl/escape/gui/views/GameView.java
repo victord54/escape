@@ -68,7 +68,7 @@ public class GameView extends View implements GameInterface, GameViewController.
      */
     private boolean drawFPS = false;
 
-    private int iteration_heros = 0;
+    private int iterationHeros = 0;
 
     /**
      * Previous save data if the game is loaded from a save.
@@ -191,8 +191,8 @@ public class GameView extends View implements GameInterface, GameViewController.
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
-                renderElement(gc, personnage, elementSize, iteration_heros);
+                if (personnage.isMoving()) iterationHeros = (int) (engine.getLastUpdate() / 100000000) % 3;
+                renderElement(gc, personnage, elementSize, iterationHeros);
             }
             int iteration = 0;
             if (personnage.isMoving() && !engine.paused.get()) {

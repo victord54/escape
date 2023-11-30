@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class Piege extends Objet {
     private static Image sprite;
 
-    protected double degats;
+    protected final double degats;
 
     public Piege(double x, double y, double hauteur, double largeur, double degats) {
         super(Type.TRAP, x, y, hauteur, largeur, false);

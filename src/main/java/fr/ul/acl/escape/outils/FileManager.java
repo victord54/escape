@@ -310,11 +310,16 @@ public class FileManager {
 
     /**
      * Open the given path in the app data folder.
+     * If the file/folder does not exist, it will be created.
      *
-     * @param path path to open, relative to the app data folder, use {@link File#separator} as a separator
-     *             if null, open the app data folder
+     * @param path     path to open, relative to the app data folder, use {@link File#separator} as a separator
+     *                 if null and isFolder is true, open the app data folder
+     * @param isFolder whether the path is a folder
      */
-    public static void openFolder(String path) {
+    public static void open(String path, boolean isFolder) {
+        if (Host == null) return;
+        if (path == null && !isFolder) return;
+
         String fullpath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
         if (fullpath == null) return;
 
@@ -327,10 +332,24 @@ public class FileManager {
             }
         }
 
-        if (!file.exists() || !file.isDirectory()) {
-            if (!file.mkdirs()) {
-                System.err.println("Could not create '" + file.getAbsolutePath() + "'");
-                return;
+        if (isFolder) {
+            if (!file.exists() || !file.isDirectory()) {
+                if (!file.mkdirs()) {
+                    System.err.println("Could not create '" + file.getAbsolutePath() + "'");
+                    return;
+                }
+            }
+        } else {
+            if (!file.exists() || !file.isFile()) {
+                try {
+                    if (!file.createNewFile()) {
+                        System.err.println("Could not create '" + file.getAbsolutePath() + "'");
+                        return;
+                    }
+                } catch (IOException e) {
+                    ErrorBehavior.handle(e, "Could not create '" + file.getAbsolutePath() + "'");
+                    return;
+                }
             }
         }
 

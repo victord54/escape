@@ -13,8 +13,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
-import static fr.ul.acl.escape.Escape.Host;
-
 public class SettingsViewController extends ViewController {
     @FXML
     private Label settingsTitle;
@@ -43,7 +41,7 @@ public class SettingsViewController extends ViewController {
 
     @FXML
     private void openFolder() {
-        FileManager.openFolder(null);
+        FileManager.open(null, true);
     }
 
     @FXML

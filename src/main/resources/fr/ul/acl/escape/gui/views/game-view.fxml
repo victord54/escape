@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" styleClass="background" stylesheets="@../styles/global.css"
            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
-    <Canvas fx:id="gameBoard" focusTraversable="true"/>
-    <Canvas fx:id="overlay" focusTraversable="true"/>
-    <VBox fx:id="pauseMenu" alignment="CENTER" spacing="20.0">
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-        </padding>
-
-        <Label fx:id="pauseTitle" styleClass="title" text="%game.pause"/>
+    <Canvas fx:id="gameBoard" focusTraversable="true" />
+    <Canvas fx:id="overlay" focusTraversable="true" />
+    <VBox fx:id="pauseMenu" styleClass="vbox">
+        <Label fx:id="pauseTitle" styleClass="title" text="%game.pause" />
         <Button fx:id="resumeButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickResume"
-                text="%game.resume"/>
+                text="%game.resume" />
         <Button fx:id="saveNewButton" mnemonicParsing="false" onAction="#onClickSaveNew"
-                text="%save.saveAndQuit"/>
+                text="%save.saveAndQuit" />
         <Button fx:id="saveOverwriteButton" mnemonicParsing="false" onAction="#onClickSaveOverwrite"
-                text="%save.overwrite"/>
-        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%save.quit"/>
+                text="%save.overwrite" />
+        <Button fx:id="quitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%save.quit" />
     </VBox>
 </StackPane>

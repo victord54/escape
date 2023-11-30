@@ -13,6 +13,7 @@ import java.time.format.FormatStyle;
 import java.util.Map;
 
 import static fr.ul.acl.escape.Settings.locale;
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
 /**
  * Represents a save file.
@@ -62,8 +63,13 @@ public class SaveData {
         return formatter.format(Instant.ofEpochMilli(getTimestamp()));
     }
 
-    public int getLevel() {
-        return json.has("level") ? json.getInt("level") : -1;
+    public String getLevel() {
+        GameMode mode = getMode();
+        if (mode == GameMode.CUSTOM) {
+            return json.has("map") ? json.getString("map").replace(JSON.extension, "") : "-";
+        } else {
+            return json.has("level") ? (json.getInt("level") + "") : "-";
+        }
     }
 
     public String getLife() {
@@ -83,8 +89,12 @@ public class SaveData {
     }
 
     public String getModeStr() {
-        GameMode mode = json.has("mode") ? GameMode.valueOf(json.getString("mode")) : null;
+        GameMode mode = getMode();
         return mode != null ? Resources.getI18NString("mode." + mode.name().toLowerCase()) : "-";
+    }
+
+    private GameMode getMode() {
+        return json.has("mode") ? GameMode.valueOf(json.getString("mode")) : null;
     }
 
     public void setListener(SaveComponent.SaveButtonsListener listener) {

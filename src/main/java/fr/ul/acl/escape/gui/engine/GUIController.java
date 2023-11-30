@@ -93,6 +93,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         monde.monstreAttaque();
     }
 
+    public boolean collisionAvecTerrains(Personnage p) {
+        return monde.collisionAvecTerrains(p);
+    }
 
     public ArrayList<Terrain> getTerrains() {
         return monde.getTerrains();

@@ -1,14 +1,11 @@
 package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
@@ -225,6 +222,9 @@ public abstract class Personnage extends ElementMonde {
      */
     public abstract Personnage clone();
 
+    /**
+     * @return True if the Personnage can cross an obstacle, false otherwise.
+     */
     public boolean peutTraverserObstacle() {
         return false;
     }

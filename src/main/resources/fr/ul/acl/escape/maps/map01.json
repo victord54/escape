@@ -24,7 +24,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     },
     {
       "type": "GHOST",
@@ -35,7 +35,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     },
     {
       "type": "GHOST",
@@ -46,7 +46,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     },
     {
       "type": "WALKER",
@@ -57,7 +57,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     },
     {
       "type": "WALKER",
@@ -68,7 +68,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     },
     {
       "type": "WALKER",
@@ -79,7 +79,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
-      "damages": 1
+      "damages": 0.25
     }
   ],
   "environment": [

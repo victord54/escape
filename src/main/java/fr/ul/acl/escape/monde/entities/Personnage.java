@@ -1,14 +1,11 @@
 package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
@@ -47,6 +44,8 @@ public abstract class Personnage extends ElementMonde {
             return new Heros(json);
         } else if (type == Type.WALKER) {
             return new Walker(json);
+        } else if (type == Type.GHOST) {
+            return new Fantome(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -217,4 +216,11 @@ public abstract class Personnage extends ElementMonde {
      * @return a copy of the Personnage
      */
     public abstract Personnage clone();
+
+    /**
+     * @return True if the Personnage can cross an obstacle, false otherwise.
+     */
+    public boolean peutTraverserObstacles() {
+        return false;
+    }
 }

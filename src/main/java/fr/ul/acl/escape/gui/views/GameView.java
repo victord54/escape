@@ -126,6 +126,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         this.engine = new GUIEngine(this, gameController);
         engine.paused.subscribe((evt, oldValue, newValue) -> {
             controller.setPauseMenuVisible(newValue, save != null);
+            gameController.setOnPause(newValue);
         });
         engine.start();
     }
@@ -194,10 +195,14 @@ public class GameView extends View implements GameInterface, GameViewController.
                 renderElement(gc, personnage, elementSize, iteration_heros);
             }
             int iteration = 0;
-            if (personnage.isMoving()) {
+            if (personnage.isMoving() && !engine.paused.get()) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
+            if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
+                gc.setGlobalAlpha(0.5);
+            }
             renderElement(gc, personnage, elementSize, iteration);
+            gc.setGlobalAlpha(1.0);
         });
     }
 
@@ -347,6 +352,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void resume() {
         if (engine == null) return;
         engine.paused.set(false);
+        gameController.setOnPause(false);
     }
 
     /**

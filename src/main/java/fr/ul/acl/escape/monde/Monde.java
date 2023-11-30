@@ -235,7 +235,7 @@ public class Monde {
      */
     public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
         for (Terrain t : terrains) {
-            if (!t.estTraversable()) {
+            if (!t.estTraversable() && !pers.peutTraverserObstacles()) {
                 if (collision(pers, t)) return true;
             }
         }
@@ -272,7 +272,7 @@ public class Monde {
     public void deplacementMonstre(Monstre monstre, double deltaTime) {
         monstre.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 2500; // Incrémentation pour construire les noeuds
+        int pas = 5000; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < this.width * conversionFactor; i += pas) {
             for (int j = 0; j < this.height * conversionFactor; j += pas) {
@@ -306,7 +306,6 @@ public class Monde {
         Point2D source = new Point2D(sourceX, sourceY);
 
         Point2D heros = new Point2D(intLePlusProche((int) (getHeros().getX() * conversionFactor), pas), intLePlusProche((int) (getHeros().getY() * conversionFactor), pas));
-
 
         Monstre tmpMontreAPorteHeros = (Monstre) monstre.clone();
         tmpMontreAPorteHeros.setX(monstre.getX() - 0.2);
@@ -482,12 +481,12 @@ public class Monde {
                 tmpMonstre.setX((double) i / conversionFactor);
                 tmpMonstre.setY((double) j / conversionFactor);
                 // On ne teste pas si le noeud est sur un Personnage
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvecTerrains(tmpMonstre)) {
+                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
-                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvecTerrains(tmpMonstre)) {
+                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }

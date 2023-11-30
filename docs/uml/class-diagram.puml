@@ -72,6 +72,7 @@ package Escape {
                 + void coeursPerdu(double)
                 + void coeursGagne(double)
                 + {abstract} Personnage clone()
+                + boolean boolean peutTraverserObstacles()
             }
 
             class Heros extends Personnage {
@@ -83,7 +84,6 @@ package Escape {
                 + boolean estUnHeros()
                 - void setSprites()
                 + char getSymbol()
-                + Heros clone()
             }
 
             abstract class Monstre extends Personnage {
@@ -103,7 +103,16 @@ package Escape {
                 ..Méthodes..
                 + char getSymbol()
                 - void setSprites()
-                + Walker clone()
+            }
+
+            class Fantome extends Monstre {
+              ..Constructeur..
+              + Fantome(double, double, double, double, double, double, double, double, int)
+              + Fantome(JSONObject)
+              ..Méthodes..
+               + char getSymbol()
+               - void setSprites()
+               + boolean peutTraverserObstacles()
             }
         }
         package Objects {

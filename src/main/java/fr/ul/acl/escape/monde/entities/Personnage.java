@@ -225,7 +225,7 @@ public abstract class Personnage extends ElementMonde {
     /**
      * @return True if the Personnage can cross an obstacle, false otherwise.
      */
-    public boolean peutTraverserObstacle() {
+    public boolean peutTraverserObstacles() {
         return false;
     }
 }

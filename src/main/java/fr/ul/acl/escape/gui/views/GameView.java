@@ -194,7 +194,7 @@ public class GameView extends View implements GameInterface, GameViewController.
             if (personnage.isMoving()) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
-            if (personnage.peutTraverserObstacle() && this.gameController.collisionAvecTerrains(personnage)) {
+            if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
                 gc.setGlobalAlpha(0.5);
             }
             renderElement(gc, personnage, elementSize, iteration);

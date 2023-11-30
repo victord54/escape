@@ -235,7 +235,7 @@ public class Monde {
      */
     public boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
         for (Terrain t : terrains) {
-            if (!t.estTraversable() && !pers.peutTraverserObstacle()) {
+            if (!t.estTraversable() && !pers.peutTraverserObstacles()) {
                 if (collision(pers, t)) return true;
             }
         }
@@ -481,12 +481,12 @@ public class Monde {
                 tmpMonstre.setX((double) i / conversionFactor);
                 tmpMonstre.setY((double) j / conversionFactor);
                 // On ne teste pas si le noeud est sur un Personnage
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && (monstre.peutTraverserObstacle() || !collisionAvecTerrains(tmpMonstre))) {
+                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
-                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && (monstre.peutTraverserObstacle() || !collisionAvecTerrains(tmpMonstre))) {
+                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }

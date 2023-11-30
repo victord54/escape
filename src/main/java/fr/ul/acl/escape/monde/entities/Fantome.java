@@ -82,7 +82,7 @@ public class Fantome extends Monstre {
     }
 
     @Override
-    public boolean peutTraverserObstacle() {
+    public boolean peutTraverserObstacles() {
         return true;
     }
 }

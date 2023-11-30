@@ -70,4 +70,9 @@ public class Piege extends Objet {
 
         sprite = spriteSheet.get(0, 0, 191, 107);
     }
+
+    @Override
+    public boolean estRamassable() {
+        return false;
+    }
 }

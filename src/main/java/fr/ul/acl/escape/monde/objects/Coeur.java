@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.monde.objects;
 
 import fr.ul.acl.escape.gui.SpriteSheet;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -48,7 +49,7 @@ public class Coeur extends Objet {
     }
 
     @Override
-    public void consommePar(Personnage p) {
+    public void consommePar(Personnage p, Monde monde) {
         p.coeursGagne(valeur);
     }
 

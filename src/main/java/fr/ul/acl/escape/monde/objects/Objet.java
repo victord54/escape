@@ -1,9 +1,8 @@
 package fr.ul.acl.escape.monde.objects;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Personnage;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {
@@ -25,6 +24,8 @@ public abstract class Objet extends ElementMonde {
             return new Coeur(json);
         } else if (type == Type.TRAP) {
             return new Piege(json);
+        }else if(type == Type.TRAPDOOR){
+            return new Trappe(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -50,13 +51,17 @@ public abstract class Objet extends ElementMonde {
      *
      * @param p the personnage
      */
-    public abstract void consommePar(Personnage p);
+    public abstract void consommePar(Personnage p, Monde m);
 
     public boolean getVisible() {
         return visible;
     }
 
     public boolean estDeclenchable() {
+        return false;
+    }
+
+    public boolean estTrappe(){
         return false;
     }
 }

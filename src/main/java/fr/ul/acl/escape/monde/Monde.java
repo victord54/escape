@@ -592,7 +592,7 @@ public class Monde {
         }
         if (objetRamasse == null) return;
         if (objetRamasse.estConsommable()) {
-            objetRamasse.consommePar(h);
+            objetRamasse.consommePar(h, this);
             objets.remove(objetRamasse);
         }
     }
@@ -605,7 +605,7 @@ public class Monde {
         for (Objet o : objets) {
             if (o.estDeclenchable()) {
                 if (collision(h, o)) {
-                    o.consommePar(h);
+                    o.consommePar(h,this);
                 }
             }
         }

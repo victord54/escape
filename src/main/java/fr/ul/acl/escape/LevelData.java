@@ -36,12 +36,22 @@ public class LevelData {
         return filename;
     }
 
+    /**
+     * Get the title of the level (the maps' filename).
+     *
+     * @return the title of the level
+     */
     public String getTitle() {
         File file = FileManager.getFile(this.getFilename());
         if (file == null) return "-";
         return file.getName().replace(JSON.extension, "");
     }
 
+    /**
+     * Register the listener for the button(s).
+     *
+     * @param listener the listener to register
+     */
     public void setListener(LevelComponent.LevelButtonsListener listener) {
         this.listener = listener;
     }

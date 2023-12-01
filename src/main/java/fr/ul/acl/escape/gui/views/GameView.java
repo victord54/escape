@@ -258,7 +258,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         }
 
         // draw if there is a heart not full
-        if (coeursRestantsNonPleins == 0.75) {
+        if (coeursRestantsNonPleins >= 0.75) {
             if (img != null) {
                 gc.drawImage(img, 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {
@@ -268,7 +268,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 360, ArcType.ROUND);
             }
             decalage++;
-        } else if (coeursRestantsNonPleins == 0.5) {
+        } else if (coeursRestantsNonPleins >= 0.5) {
             if (img != null) {
                 gc.drawImage(img, 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {
@@ -278,7 +278,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 270, ArcType.ROUND);
             }
             decalage++;
-        } else if (coeursRestantsNonPleins == 0.25) {
+        } else if (coeursRestantsNonPleins >= 0.25) {
             if (img != null) {
                 gc.drawImage(img, 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {

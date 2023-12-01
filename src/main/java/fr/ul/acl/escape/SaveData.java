@@ -55,14 +55,20 @@ public class SaveData {
     }
 
     public long getTimestamp() {
-        return json.has("date") ? json.getLong("date") : 0;
+        return json.optLong("date");
     }
 
+    /**
+     * @return the date of the save, formatted according to the locale
+     */
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(locale.get()).withZone(ZoneId.systemDefault());
         return formatter.format(Instant.ofEpochMilli(getTimestamp()));
     }
 
+    /**
+     * @return the level of the save (or the map name if the game mode is custom)
+     */
     public String getLevel() {
         GameMode mode = getMode();
         if (mode == GameMode.CUSTOM) {
@@ -72,6 +78,9 @@ public class SaveData {
         }
     }
 
+    /**
+     * @return the life of the hero
+     */
     public String getLife() {
         if (!json.has("entities")) return "-";
 
@@ -88,6 +97,9 @@ public class SaveData {
         return "-";
     }
 
+    /**
+     * @return a string representing the game mode
+     */
     public String getModeStr() {
         GameMode mode = getMode();
         return mode != null ? Resources.getI18NString("mode." + mode.name().toLowerCase()) : "-";
@@ -97,6 +109,11 @@ public class SaveData {
         return json.has("mode") ? GameMode.valueOf(json.getString("mode")) : null;
     }
 
+    /**
+     * Register the listener for the button(s).
+     *
+     * @param listener the listener to register
+     */
     public void setListener(SaveComponent.SaveButtonsListener listener) {
         this.listener = listener;
     }

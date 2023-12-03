@@ -196,7 +196,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 renderElement(gc, personnage, elementSize, iteration_heros);
             }
             int iteration = 0;
-            if (personnage.isMoving() && !engine.paused.get()) {
+            if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
             if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
@@ -360,6 +360,14 @@ public class GameView extends View implements GameInterface, GameViewController.
         if (engine == null) return;
         engine.paused.set(false);
         gameController.setOnPause(false);
+    }
+
+    @Override
+    public void replay() {
+        if (engine == null) return;
+        engine.stop();
+        engine = null;
+        ViewManager.getInstance().navigateTo(VIEWS.GAME);
     }
 
     /**

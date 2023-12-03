@@ -27,9 +27,9 @@
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <Label fx:id="endTitle" styleClass="title" text="%game.pause"/>
+        <Label fx:id="endTitle" styleClass="title" text="%game.gameover"/>
         <Button fx:id="endReplayButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickReplay"
-                text="%game.resume"/>
-        <Button fx:id="endQuitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%save.quit"/>
+                text="%game.replay"/>
+        <Button fx:id="endQuitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%game.quit"/>
     </VBox>
 </StackPane>

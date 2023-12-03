@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class WalkerTest {
 
     @Test
-    void testAttaquer(){
-        Walker w     = new Walker(0,0,1,1,1,3,3,1,-1);
-        Personnage p = new Heros(0,0,1,1,1,3,3,1,-1);
+    void testAttaquer() {
+        Walker w = new Walker(0, 0, 1, 1, 1, 3, 3, 1, -1);
+        Personnage p = new Heros(0, 0, 1, 1, 1, 3, 3, 1, -1);
 
-        w.derniereAttaque = (long) (MONSTER_HIT_COUNTDOWN+1);
+        w.derniereAttaque = (long) (MONSTER_HIT_COUNTDOWN + 1);
         w.attaquer(List.of(p));
 
-        assertEquals(3 -WALKER_HIT, p.coeurs);
+        assertEquals(3 - WALKER_HIT, p.coeurs);
     }
 
 }

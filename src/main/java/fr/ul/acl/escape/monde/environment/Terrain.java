@@ -1,8 +1,6 @@
 package fr.ul.acl.escape.monde.environment;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 public abstract class Terrain extends ElementMonde {

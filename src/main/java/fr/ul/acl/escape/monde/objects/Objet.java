@@ -1,9 +1,7 @@
 package fr.ul.acl.escape.monde.objects;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.entities.Personnage;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 public abstract class Objet extends ElementMonde {

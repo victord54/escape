@@ -2,7 +2,6 @@ package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.outils.Resources;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -11,6 +10,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class GameViewController extends ViewController {
+    @FXML
+    public VBox endMenu;
+    @FXML
+    public Label endTitle;
+    @FXML
+    public Button endReplayButton;
+    @FXML
+    public Button endQuitButton;
     @FXML
     private StackPane pane;
     @FXML
@@ -29,17 +36,6 @@ public class GameViewController extends ViewController {
     private Button saveOverwriteButton;
     @FXML
     private Button quitButton;
-    @FXML
-    public VBox endMenu;
-    @FXML
-    public Label endTitle;
-    @FXML
-    public Button endReplayButton;
-    @FXML
-    public Button endQuitButton;
-
-
-
     private ButtonsListener buttonsListener;
 
     public StackPane getPane() {
@@ -121,7 +117,9 @@ public class GameViewController extends ViewController {
         this.buttonsListener.quit();
     }
 
-    public void onClickReplay(ActionEvent actionEvent) {
+    public void onClickReplay() {
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.replay();
     }
 
     /**
@@ -144,5 +142,10 @@ public class GameViewController extends ViewController {
          * Action to perform when the user clicks on the resume button.
          */
         void resume();
+
+        /**
+         * Action to perform when the user clicks on the replay button.
+         */
+        void replay();
     }
 }

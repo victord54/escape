@@ -10,6 +10,11 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
      * If true, the game is paused.
      */
     public final Property<Boolean> paused = new Property<>(false);
+
+    /**
+     * If true, the game is over.
+     */
+    public final Property<Boolean> gameOver = new Property<>(false);
     /**
      * Timer used to create the game loop.
      */
@@ -64,7 +69,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
         nbFrames++;
 
         // update and render
-        this.controller.update(deltaTime * (paused.get() ? 0 : 1));
+        this.controller.update(deltaTime * (paused.get() || gameOver.get() ? 0 : 1));
         this.ui.render();
 
         // update elapsed time

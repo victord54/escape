@@ -2,6 +2,7 @@ package fr.ul.acl.escape.gui.views;
 
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.outils.Resources;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -28,6 +29,16 @@ public class GameViewController extends ViewController {
     private Button saveOverwriteButton;
     @FXML
     private Button quitButton;
+    @FXML
+    public VBox endMenu;
+    @FXML
+    public Label endTitle;
+    @FXML
+    public Button endReplayButton;
+    @FXML
+    public Button endQuitButton;
+
+
 
     private ButtonsListener buttonsListener;
 
@@ -75,6 +86,17 @@ public class GameViewController extends ViewController {
         if (visible) resumeButton.requestFocus();
     }
 
+    /**
+     * Set the visibility of the end menu.
+     *
+     * @param visible true to show the end menu, false to hide it
+     */
+    public void setEndMenuVisible(boolean visible) {
+        endMenu.setVisible(visible);
+        endMenu.setDisable(!visible);
+        if (visible) endReplayButton.requestFocus();
+    }
+
     @FXML
     private void onClickResume() {
         if (this.buttonsListener == null) return;
@@ -97,6 +119,9 @@ public class GameViewController extends ViewController {
     private void onClickQuit() {
         if (this.buttonsListener == null) return;
         this.buttonsListener.quit();
+    }
+
+    public void onClickReplay(ActionEvent actionEvent) {
     }
 
     /**

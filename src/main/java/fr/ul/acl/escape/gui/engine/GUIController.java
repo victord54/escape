@@ -34,6 +34,11 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     protected boolean onPause = false;
 
     /**
+     * If true, it means the game is over.
+     */
+    protected boolean onOver = false;
+
+    /**
      * Create a new controller with a new world from a default map.
      */
     public GUIController() {
@@ -60,7 +65,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     @Override
     public void update(long deltaTime) {
-        if (onPause) return;
+        if (onPause || onOver) return;
         double timeInDouble = deltaTime * 10e-10;
 
         //Déplacements
@@ -94,6 +99,13 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         if (keysPressed.contains(KeyCode.ENTER)) {
             monde.heroAttaque();
         }
+
+        //State of the game
+        if (!monde.heroStillAlive()) {
+            onOver = true;
+
+        }
+
 
         monde.deplacementMonstres(timeInDouble);
         monde.monstreAttaque();
@@ -177,5 +189,9 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public void setOnPause(boolean b) {
         onPause = b;
+    }
+
+    public boolean getOnOver() {
+        return onOver;
     }
 }

@@ -99,6 +99,7 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // init game board
         controller.setPauseMenuVisible(false, save != null);
+        controller.setEndMenuVisible(false);
         controller.setButtonsListener(this);
 
         StackPane centerPane = controller.getPane();
@@ -125,6 +126,7 @@ public class GameView extends View implements GameInterface, GameViewController.
             controller.setPauseMenuVisible(newValue, save != null);
             gameController.setOnPause(newValue);
         });
+        engine.gameOver.subscribe((evt, oldValue, newValue) -> controller.setEndMenuVisible(newValue));
         engine.start();
     }
 
@@ -148,6 +150,8 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void render() {
+        if (gameController.getOnOver())
+            engine.gameOver.set(true);
         this.drawGameBoard(gameBoard, elementSize.doubleValue());
         this.drawOverlay(overlay);
     }
@@ -217,6 +221,12 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // pause menu
         if (engine.paused.get()) {
+            gc.setFill(new Color(0, 0, 0, 0.75));
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        }
+
+        // end menu
+        if (engine.gameOver.get()) {
             gc.setFill(new Color(0, 0, 0, 0.75));
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         }

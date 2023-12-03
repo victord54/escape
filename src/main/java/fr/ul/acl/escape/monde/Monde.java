@@ -610,6 +610,10 @@ public class Monde {
         }
     }
 
+    public boolean heroStillAlive() {
+        return getHeros().estVivant();
+    }
+
     /**
      * @return a JSON representation of the world
      */

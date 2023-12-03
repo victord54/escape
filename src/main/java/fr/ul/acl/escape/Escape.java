@@ -72,6 +72,9 @@ public class Escape extends Application {
                 alert.showAndWait();
             }
 
+            // Attach icon
+            stage.getIcons().add(Resources.getAsset("assets/icon.png"));
+
             // Show window
             stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             stage.show();

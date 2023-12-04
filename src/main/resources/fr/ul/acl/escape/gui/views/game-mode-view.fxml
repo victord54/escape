@@ -8,13 +8,13 @@
       stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="fr.ul.acl.escape.gui.views.GameModeViewController">
 
-    <Label fx:id="gameModeTitle" styleClass="title" text="%mode.title" />
+    <Label fx:id="gameModeTitle" styleClass="title" text="%mode.title"/>
     <Button fx:id="campaignButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickCampaign"
-            text="%mode.campaign" />
-    <Button fx:id="customButton" mnemonicParsing="false" onAction="#onClickCustom" text="%mode.custom" />
+            text="%mode.campaign"/>
+    <Button fx:id="customButton" mnemonicParsing="false" onAction="#onClickCustom" text="%mode.custom"/>
     <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back">
         <VBox.margin>
-            <Insets top="16" />
+            <Insets top="16"/>
         </VBox.margin>
     </Button>
 </VBox>

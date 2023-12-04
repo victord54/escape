@@ -28,6 +28,7 @@ import java.util.Map;
 import static fr.ul.acl.escape.Escape.Host;
 import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+
 /**
  * Utility class to read and write JSON files from the app data folder or the resources.
  */

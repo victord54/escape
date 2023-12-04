@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" styleClass="background" stylesheets="@../styles/global.css"
            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="fr.ul.acl.escape.gui.views.GameViewController">
     <Canvas fx:id="gameBoard" focusTraversable="true" />
@@ -22,7 +23,7 @@
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <Label fx:id="endTitle" styleClass="title" text="%game.gameover"/>
+        <Label fx:id="endTitle" styleClass="title" text="%game.end"/>
         <Button fx:id="endReplayButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickReplay"
                 text="%game.replay"/>
         <Button fx:id="endQuitButton" mnemonicParsing="false" onAction="#onClickQuit" text="%game.quit"/>

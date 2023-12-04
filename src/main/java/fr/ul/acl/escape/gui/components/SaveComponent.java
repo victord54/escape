@@ -1,4 +1,4 @@
-package fr.ul.acl.escape.gui.views;
+package fr.ul.acl.escape.gui.components;
 
 import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.outils.ErrorBehavior;
@@ -13,9 +13,14 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class SaveComponent extends ListCell<SaveData> {
     @FXML
     private Pane pane;
+    @FXML
+    private Label mode;
+    @FXML
+    private Label modeValue;
     @FXML
     private Label date;
     @FXML
@@ -44,11 +49,14 @@ public class SaveComponent extends ListCell<SaveData> {
         } else {
             init();
 
+            mode.setText(Resources.getI18NString("save.mode") + " ");
+            modeValue.setText(item.getModeStr());
+
             date.setText(Resources.getI18NString("save.date") + " ");
             dateValue.setText(item.getDate());
 
             level.setText(Resources.getI18NString("save.level") + " ");
-            levelValue.setText(item.getLevel() + "");
+            levelValue.setText(item.getLevel());
 
             life.setText(Resources.getI18NString("save.life") + " ");
             lifeValue.setText(item.getLife());
@@ -69,7 +77,7 @@ public class SaveComponent extends ListCell<SaveData> {
      */
     private void init() {
         if (loader == null) {
-            loader = new FXMLLoader(Resources.get("gui/save-component.fxml"));
+            loader = new FXMLLoader(getClass().getResource("save-component.fxml"));
             loader.setResources(Resources.getI18NBundle());
             loader.setController(this);
 

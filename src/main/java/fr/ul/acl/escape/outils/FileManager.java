@@ -25,6 +25,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.ul.acl.escape.Escape.Host;
 import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
@@ -39,10 +40,10 @@ public class FileManager {
      * @return whether the file was successfully deleted
      */
     public static boolean delete(String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return false;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return false;
 
-        File file = new File(fullpath);
+        File file = new File(fullPath);
         if (!file.exists()) {
             return false;
         }
@@ -117,15 +118,15 @@ public class FileManager {
      * @return the string red, or null if the file could not be read
      */
     private static String readString(String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return null;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return null;
 
-        if (!new File(fullpath).exists()) {
+        if (!new File(fullPath).exists()) {
             return null;
         }
 
         try {
-            return new String(Files.readAllBytes(Paths.get(fullpath)));
+            return new String(Files.readAllBytes(Paths.get(fullPath)));
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not read '" + path + "' file");
             return null;
@@ -142,10 +143,10 @@ public class FileManager {
      * @return a map of the files read, with the path as key and the JSON object as value
      */
     public static Map<String, JSONObject> readDirectory(String folder, boolean filesAreEncrypted) {
-        String fullpath = getPathFor(folder);
-        if (fullpath == null) return new HashMap<>();
+        String fullPath = getPathFor(folder);
+        if (fullPath == null) return new HashMap<>();
 
-        File dir = new File(fullpath);
+        File dir = new File(fullPath);
         if (!dir.exists() || !dir.isDirectory()) {
             return new HashMap<>();
         }
@@ -231,10 +232,10 @@ public class FileManager {
      * @return whether the file was successfully written
      */
     private static boolean writeString(String content, String path) {
-        String fullpath = getPathFor(path);
-        if (fullpath == null) return false;
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return false;
 
-        File parent = new File(fullpath).getParentFile();
+        File parent = new File(fullPath).getParentFile();
         if (!parent.exists() || !parent.isDirectory()) {
             if (!parent.mkdirs()) {
                 System.err.println("Could not create '" + parent.getAbsolutePath() + "'");
@@ -242,7 +243,7 @@ public class FileManager {
             }
         }
 
-        try (FileWriter writer = new FileWriter(fullpath)) {
+        try (FileWriter writer = new FileWriter(fullPath)) {
             writer.write(content);
         } catch (Exception e) {
             ErrorBehavior.handle(e, "Could not write '" + path + "' file");
@@ -304,6 +305,66 @@ public class FileManager {
         }
 
         return new SecretKeySpec(keyHash, "AES");
+    }
+
+    /**
+     * Open the given path in the app data folder.
+     * If the file/folder does not exist, it will be created.
+     *
+     * @param path     path to open, relative to the app data folder, use {@link File#separator} as a separator
+     *                 if null and isFolder is true, open the app data folder
+     * @param isFolder whether the path is a folder
+     */
+    public static void open(String path, boolean isFolder) {
+        if (Host == null) return;
+        if (path == null && !isFolder) return;
+
+        String fullPath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
+        if (fullPath == null) return;
+
+        File file = new File(fullPath);
+        File parent = file.getParentFile();
+        if (!parent.exists() || !parent.isDirectory()) {
+            if (!parent.mkdirs()) {
+                System.err.println("Could not create '" + parent.getAbsolutePath() + "'");
+                return;
+            }
+        }
+
+        if (isFolder) {
+            if (!file.exists() || !file.isDirectory()) {
+                if (!file.mkdirs()) {
+                    System.err.println("Could not create '" + file.getAbsolutePath() + "'");
+                    return;
+                }
+            }
+        } else {
+            if (!file.exists() || !file.isFile()) {
+                try {
+                    if (!file.createNewFile()) {
+                        System.err.println("Could not create '" + file.getAbsolutePath() + "'");
+                        return;
+                    }
+                } catch (IOException e) {
+                    ErrorBehavior.handle(e, "Could not create '" + file.getAbsolutePath() + "'");
+                    return;
+                }
+            }
+        }
+
+        Host.showDocument(fullPath);
+    }
+
+    /**
+     * Get the file for the given path in the app data folder.
+     *
+     * @param path path to get, relative to the app data folder, use {@link File#separator} as a separator
+     * @return the file, or null if the path is null or empty
+     */
+    public static File getFile(String path) {
+        String fullPath = getPathFor(path);
+        if (fullPath == null) return null;
+        return new File(fullPath);
     }
 
     /**

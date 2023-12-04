@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.engine;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
@@ -40,7 +41,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension);
+            monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }
@@ -58,6 +59,15 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map from JSON");
         }
+    }
+
+    /**
+     * Create a new controller from a world.
+     *
+     * @param monde The world.
+     */
+    public GUIController(Monde monde) {
+        this.monde = monde;
     }
 
     @Override
@@ -100,7 +110,6 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         //State of the game
         if (!monde.heroStillAlive()) {
             onOver = true;
-
         }
 
 

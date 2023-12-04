@@ -9,6 +9,7 @@ import fr.ul.acl.escape.gui.ViewManager;
 import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.monde.ElementMonde;
+import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -67,7 +68,7 @@ public class GameView extends View implements GameInterface, GameViewController.
      */
     private boolean drawFPS = false;
 
-    private int iteration_heros = 0;
+    private int iterationHeros = 0;
 
     /**
      * Previous save data if the game is loaded from a save.
@@ -75,7 +76,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     private SaveData save;
 
     public GameView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();
@@ -89,11 +90,13 @@ public class GameView extends View implements GameInterface, GameViewController.
         GameViewController controller = (GameViewController) this.controller;
 
         // init game controller
+        save = null;
         if (args.length > 0 && args[0] instanceof SaveData) {
             save = (SaveData) args[0];
             gameController = new GUIController(save.getJSON());
+        } else if (args.length > 0 && args[0] instanceof Monde) {
+            gameController = new GUIController((Monde) args[0]);
         } else {
-            save = null;
             gameController = new GUIController();
         }
 
@@ -192,8 +195,8 @@ public class GameView extends View implements GameInterface, GameViewController.
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                if (personnage.isMoving()) iteration_heros = (int) (engine.getLastUpdate() / 100000000) % 3;
-                renderElement(gc, personnage, elementSize, iteration_heros);
+                if (personnage.isMoving()) iterationHeros = (int) (engine.getLastUpdate() / 100000000) % 3;
+                renderElement(gc, personnage, elementSize, iterationHeros);
             }
             int iteration = 0;
             if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
@@ -259,7 +262,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         }
 
         // draw if there is a heart not full
-        if (coeursRestantsNonPleins == 0.75) {
+        if (coeursRestantsNonPleins >= 0.75) {
             if (img != null) {
                 gc.drawImage(img, 26, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {
@@ -269,7 +272,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 360, ArcType.ROUND);
             }
             decalage++;
-        } else if (coeursRestantsNonPleins == 0.5) {
+        } else if (coeursRestantsNonPleins >= 0.5) {
             if (img != null) {
                 gc.drawImage(img, 51, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {
@@ -279,7 +282,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 gc.fillArc(10 + (decalage * 30), 5, 25, 25, 90, 270, ArcType.ROUND);
             }
             decalage++;
-        } else if (coeursRestantsNonPleins == 0.25) {
+        } else if (coeursRestantsNonPleins >= 0.25) {
             if (img != null) {
                 gc.drawImage(img, 76, 1, 23, 22, 10 + (decalage * 30), 5, 25, 25);
             } else {

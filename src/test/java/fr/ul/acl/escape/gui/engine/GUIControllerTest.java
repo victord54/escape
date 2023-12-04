@@ -26,7 +26,7 @@ class GUIControllerTest {
     @BeforeEach
     void setUp() {
         //On s'assure que l'ensemble des touches est vide au
-        //commencement de chaque tests
+        //commencement de chaque test
         mm.mouvements = new HashSet<>();
         monde = new Monde(5, 5);
         hero = new Heros(0, 0, 1, 1, 1, 1, 1, -1, 0);

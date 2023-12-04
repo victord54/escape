@@ -15,7 +15,6 @@ package Escape {
             ..Constructeur..
             - Resources()
             ..Méthodes..
-            + {static} URL get(String)
             + {static} InputStream getAsStream(String)
             + {static} Image getAsset(String)
             + {static} ResourceBundle getI18NBundle(Locale)
@@ -48,6 +47,8 @@ package Escape {
             + {static} Map<String, JSONObject> readDirectory(String, boolean)
             + {static} JSONObject readResourceFile(String)
             + {static} Map<String, JSONObject> readResourceDirectory(String)
+            + {static} void open(String, boolean)
+            + {static} File getFile(String)
             - {static} boolean writeString(String, String)
             - {static} String readString(String)
             - {static} JSONObject readJSONString(String)

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class Coeur extends Objet {
     private static Image sprite;
 
-    protected double valeur;
+    protected final double valeur;
 
     public Coeur(double x, double y, double hauteur, double largeur, double valeur) {
         super(Type.HEART, x, y, hauteur, largeur, true);

@@ -4,6 +4,7 @@ import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.ViewController;
 import fr.ul.acl.escape.gui.ViewManager;
+import fr.ul.acl.escape.gui.components.SaveComponent;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

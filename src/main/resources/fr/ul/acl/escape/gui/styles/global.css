@@ -16,3 +16,9 @@
 .text {
     -fx-text-fill: -text-color;
 }
+
+.vbox {
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-padding: 20px;
+}

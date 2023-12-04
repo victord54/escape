@@ -85,4 +85,9 @@ public class Fantome extends Monstre {
     public boolean peutTraverserObstacles() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "\u001B[47m" + super.toString() + "\u001B[0m";
+    }
 }

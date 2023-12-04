@@ -5,16 +5,18 @@ import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.engine.GameInterface;
 import javafx.animation.AnimationTimer;
 
+import static fr.ul.acl.escape.outils.Donnees.DEBUG;
+
 public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
     /**
      * If true, the game is paused.
      */
-    public final Property<Boolean> paused = new Property<>(false);
+    public final Property<Boolean> paused = new Property<>(false).setLog(DEBUG);
 
     /**
      * If true, the game is over.
      */
-    public final Property<Boolean> gameOver = new Property<>(false);
+    public final Property<Boolean> gameOver = new Property<>(false).setLog(DEBUG);
     /**
      * Timer used to create the game loop.
      */

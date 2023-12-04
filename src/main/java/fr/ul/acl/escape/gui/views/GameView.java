@@ -219,14 +219,8 @@ public class GameView extends View implements GameInterface, GameViewController.
         clearCanvas(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // pause menu
-        if (engine.paused.get()) {
-            gc.setFill(new Color(0, 0, 0, 0.75));
-            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        }
-
-        // end menu
-        if (engine.gameOver.get()) {
+        // pause menu or end menu
+        if (engine.paused.get() || engine.gameOver.get()) {
             gc.setFill(new Color(0, 0, 0, 0.75));
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         }

@@ -11,13 +11,13 @@ import javafx.scene.layout.VBox;
 
 public class GameViewController extends ViewController {
     @FXML
-    public VBox endMenu;
+    private VBox endMenu;
     @FXML
-    public Label endTitle;
+    private Label endTitle;
     @FXML
-    public Button endReplayButton;
+    private Button endReplayButton;
     @FXML
-    public Button endQuitButton;
+    private Button endQuitButton;
     @FXML
     private StackPane pane;
     @FXML
@@ -57,6 +57,9 @@ public class GameViewController extends ViewController {
         saveNewButton.setText(Resources.getI18NString("save.saveAndQuit"));
         saveOverwriteButton.setText(Resources.getI18NString("save.overwrite"));
         quitButton.setText(Resources.getI18NString("save.quit"));
+        endTitle.setText(Resources.getI18NString("game.end"));
+        endReplayButton.setText(Resources.getI18NString("game.replay"));
+        endQuitButton.setText(Resources.getI18NString("game.quit"));
     }
 
     /**

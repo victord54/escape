@@ -5,7 +5,6 @@ import fr.ul.acl.escape.Settings;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -18,16 +17,6 @@ public class Resources {
     private static final Map<String, Image> assets = new HashMap<>();
 
     private Resources() {
-    }
-
-    /**
-     * Get a resource from the 'resources/fr/ul/acl/escape' directory.
-     *
-     * @param path The path of the resource.
-     * @return The URL of the resource.
-     */
-    public static URL get(String path) {
-        return Escape.class.getResource(path);
     }
 
     /**
@@ -53,7 +42,7 @@ public class Resources {
             InputStream is = getAsStream(path);
             if (Donnees.CLI_MODE || is == null) {
                 assets.put(path, null);
-                if (Donnees.DEBUG) System.out.println("Failed to load asset: " + path);
+                if (Donnees.DEBUG && is == null) System.out.println("Failed to load asset: " + path);
             } else {
                 assets.put(path, new Image(is));
                 if (Donnees.DEBUG) System.out.println("Loaded asset: " + path);

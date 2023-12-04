@@ -1,173 +1,226 @@
 @startuml
-
-package engine {
-    abstract class GameController {
-        # Monde monde
-        --
-        + {abstract} update(long): void
-        + getHeight(): int
-        + getWidth(): int
-    }
-
-    abstract class Engine {
-        + Engine(ui, controller)
-        + {abstract} start(): void
-        + {abstract} stop(): void
-        + {abstract} tick(long): void
-    }
-
-    interface GameInterface {
-        + render(): void
-    }
-}
-
-package cli {
-    class CLIController {
-        + start(): void
-        + stop(): void
-        + update(long): void
-    }
-
-    class CLIEngine {
-        + start(): void
-        + stop(): void
-        + tick(long): void
-    }
-
-    class CLI {
-        + render(): void
-    }
-}
-
-package gui {
-    abstract class View {
-        # Parent root
-        --
-        + getRoot(): Parent
-        + enableRootEvents(): void
-        + onViewInit(): void
-        + onViewDisplayed(Object...): void
-        + onKeyPressed(KeyEvent): void
-        + onKeyReleased(KeyEvent): void
-    }
-
-    abstract class ViewController {
-        + {abstract} applyLanguage(): void
-    }
-
-    enum VIEWS {
-        HOME
-        GAME
-        SETTINGS
-        SAVES
-    }
-
-    class ViewManager {
-        - {static} instance: ViewManager
-        - stage: Stage
-        --
-        - ViewManager()
-        + {static} getInstance(): ViewManager
-        + setStage(Stage): void
-        + registerView(VIEWS, View): void
-        + navigateTo(VIEWS, Object...): void
-        + quit(): void
-    }
-
-    package views {
-        class HomeViewController {
-            + applyLanguage(): void
-            - onClickStart(): void
-            - onClickSettings(): void
-            - onClickQuit(): void
-        }
-
-        class GameViewController {
-            - pane: StackPane
-            - canvas: Canvas
-            - overlay: Canvas
-            --
-            + applyLanguage(): void
-            + getPane(): StackPane
-            + getGameBoard(): Canvas
-            + getOverlay(): Canvas
-        }
-
-        class SettingsViewController {
-            - fullScreenCheckBox: CheckBox
-            - languageComboBox: ComboBox
-            --
-            + applyLanguage(): void
-            + getLanguageComboBox(): ComboBox
-            + setFullScreenCheckBox(boolean): void
-            - onFullScreenToggle(): void
-            - onClickBack(): void
-        }
-
-        class SavesViewController {
-            - savesListView: ListView<SaveData>
-            - savesList: ObservableList<SaveData>
-            --
-            + applyLanguage(): void
-            + setSaves(ObservableList<SaveData>): void
-        }
-
-        class HomeView {
-            + HomeView()
-            + onViewDisplayed(Object...): void
-            + onKeyPressed(KeyEvent): void
-        }
-
-        class GameView {
-            + GameView()
-            + onViewDisplayed(Object...): void
-            + render(): void
-            + save(boolean): void
-            + quit(): void
-            + resume(): void
-            - drawGameBoard(Canvas, double): void
-            - drawOverlay(Canvas): void
-            - clearCanvas(Canvas): void
-        }
-
-        class SettingsView {
-            + SettingsView()
-            + onViewInit(): void
-            + onViewDisplayed(Object...): void
-        }
-
-        class SavesView {
-            + SavesView()
-            + onViewDisplayed(Object...): void
-        }
-
-        class SaveComponent {
-            + updateItem(SaveData, boolean): void
-            - load(ActionEvent): void
-            - delete(ActionEvent): void
-        }
-    }
-
-    class Sprite {
-        + Sprite(Sprite(String path, double x, double y, double width, double height)
-        + Image getSprite()
-    }
-
+package escape {
     package engine {
-        class GUIController {
-            + onKeyPressed(KeyEvent): void
-            + onKeyReleased(KeyEvent): void
-            + update(long): void
+        abstract class GameController {
+            # Monde monde
+            --
+            + {abstract} update(deltaTime)): void
+            + getHeight(): int
+            + getWidth(): int
         }
 
-        class GUIEngine {
-            - AnimationTimer timer
-            --
-            + tick(long): void
+        abstract class Engine {
+            + Engine(ui, controller)
+            + {abstract} start(): void
+            + {abstract} stop(): void
+            + {abstract} tick(now): void
+        }
+
+        interface GameInterface {
+            + render(): void
+        }
+    }
+
+    package cli {
+        class CLIController {
             + start(): void
             + stop(): void
-            + getComputedFPS(): int
-            + getFPS(): int
+            + update(deltaTime): void
+        }
+
+        class CLIEngine {
+            + start(): void
+            + stop(): void
+            + tick(now): void
+        }
+
+        class CLI {
+            + render(): void
+            - getStringRepresentationForPosition(x, y, elements): String
+        }
+    }
+
+    package gui {
+        enum VIEWS {
+            HOME
+            GAME
+            SETTINGS
+            SAVES,
+            GAME_MODE,
+            LEVELS
+        }
+
+        abstract class View {
+            # Parent root
+            --
+            + getRoot(): Parent
+            + enableRootEvents(): void
+            + onViewInit(): void
+            + onViewDisplayed(Object...): void
+            + onKeyPressed(KeyEvent): void
+            + onKeyReleased(KeyEvent): void
+        }
+
+        abstract class ViewController {
+            + {abstract} applyLanguage(): void
+        }
+
+        class ViewManager {
+            - {static} instance: ViewManager
+            - stage: Stage
+            --
+            - ViewManager()
+            + {static} getInstance(): ViewManager
+            + setStage(Stage): void
+            + registerView(VIEWS, View): void
+            + navigateTo(VIEWS, Object...): void
+            + quit(): void
+        }
+
+        package components {
+            class LevelComponent {
+                # updateItem(LevelData, boolean): void
+                - init(): void
+                - load(ActionEvent): void
+            }
+
+            class SaveComponent {
+                # updateItem(SaveData, boolean): void
+                - load(ActionEvent): void
+                - delete(ActionEvent): void
+            }
+        }
+
+        package views {
+            class HomeViewController {
+                + applyLanguage(): void
+                + isThereSaves(boolean): void
+                - onClickStart(): void
+                - onClickLoad(): void
+                - onClickSettings(): void
+                - onClickQuit(): void
+            }
+
+            class GameViewController {
+                - pane: StackPane
+                - canvas: Canvas
+                - overlay: Canvas
+                --
+                + applyLanguage(): void
+                + setPauseMenuVisible(boolean): void
+                - onClickResume(): void
+                - onClickSaveNew(): void
+                - onClickSaveOverwrite(): void
+                - onClickQuit(): void
+            }
+
+            class SettingsViewController {
+                - fullScreenCheckBox: CheckBox
+                - languageComboBox: ComboBox
+                --
+                + applyLanguage(): void
+                + setFullScreenCheckBox(boolean): void
+                - onFullScreenToggle(): void
+                - onClickBack(): void
+                - onClickReset(): void
+                - openFolder(): void
+            }
+
+            class SavesViewController {
+                - savesListView: ListView<SaveData>
+                - savesList: ObservableList<SaveData>
+                --
+                + applyLanguage(): void
+                + init(): void
+                + setSaves(ObservableList<SaveData>): void
+                - onClickBack(): void
+            }
+
+            class GameModeViewController {
+                + applyLanguage(): void
+                - onClickCampaign(): void
+                - onClickCustom(): void
+                - onClickBack(): void
+            }
+
+            class LevelsViewController {
+                - levelsListView: ListView<LevelData>
+                - levelsList: ObservableList<LevelData>
+                --
+                + applyLanguage(): void
+                + init(): void
+                + setLevels(Collection<LevelData>): void
+                - openFolder(): void
+                - createExampleLevel(): void
+                - onClickBack(): void
+            }
+
+            class HomeView {
+                + HomeView()
+                + onViewDisplayed(Object...): void
+                + onKeyPressed(KeyEvent): void
+            }
+
+            class GameView {
+                + GameView()
+                + onViewDisplayed(Object...): void
+                + render(): void
+                + save(boolean): void
+                + quit(): void
+                + resume(): void
+                - drawGameBoard(Canvas, double): void
+                - drawOverlay(Canvas): void
+                - clearCanvas(Canvas): void
+                - renderElement(context, element, size, index)
+            }
+
+            class SettingsView {
+                + SettingsView()
+                + onViewInit(): void
+                + onViewDisplayed(Object...): void
+            }
+
+            class SavesView {
+                + SavesView()
+                + onViewDisplayed(Object...): void
+            }
+
+            class GameModeView {
+            }
+
+            class LevelsView {
+                + LevelsView()
+                + onViewDisplayed(Object...): void
+            }
+        }
+
+        package engine {
+            class GUIController {
+                + GUIController(JSONObject)
+                + GUIController(Monde)
+                + onKeyPressed(KeyEvent): void
+                + onKeyReleased(KeyEvent): void
+                + update(deltaTime): void
+            }
+
+            class GUIEngine {
+                - AnimationTimer timer
+                - Property<Boolean> paused
+                --
+                + tick(now): void
+                + start(): void
+                + stop(): void
+                + getComputedFPS(): int
+                + getFPS(): int
+            }
+        }
+
+        class SpriteSheet {
+            - Image spriteSheet
+            --
+            + SpriteSheet(path)
+            + get(): Image
+            + get(x, y, width, height): Image
         }
     }
 }
@@ -192,7 +245,7 @@ GameView --"1" GUIEngine : - engine
 GUIEngine -down[hidden]- GUIController
 
 View -left-"1" ViewController : # controller
-ViewManager -left-"*" View : - views
+ViewManager --"*" View : - views
 
 ' gui views
 HomeViewController -up-|> ViewController
@@ -203,7 +256,12 @@ SettingsViewController -up-|> ViewController
 SettingsView -up-|> View
 SavesViewController -up-|> ViewController
 SavesView -up-|> View
+GameModeViewController -up-|> ViewController
+GameModeView -up-|> View
+LevelsViewController -up-|> ViewController
+LevelsView -up-|> View
 
-Sprite -- "1" javafx.scene.image.Image
+' force layout
+components -up[hidden]- views
 
 @enduml

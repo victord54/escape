@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="background, vbox"
+      stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="fr.ul.acl.escape.gui.views.GameModeViewController">
+
+    <Label fx:id="gameModeTitle" styleClass="title" text="%mode.title" />
+    <Button fx:id="campaignButton" defaultButton="true" mnemonicParsing="false" onAction="#onClickCampaign"
+            text="%mode.campaign" />
+    <Button fx:id="customButton" mnemonicParsing="false" onAction="#onClickCustom" text="%mode.custom" />
+    <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back">
+        <VBox.margin>
+            <Insets top="16" />
+        </VBox.margin>
+    </Button>
+</VBox>

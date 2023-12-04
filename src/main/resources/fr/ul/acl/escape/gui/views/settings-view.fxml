@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="background, vbox"
+      stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="fr.ul.acl.escape.gui.views.SettingsViewController">
+
+    <Label fx:id="settingsTitle" styleClass="title" text="%settings" />
+    <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" onAction="#onFullScreenToggle" styleClass="text"
+              text="%settings.fullscreen" />
+    <HBox alignment="CENTER">
+        <Label fx:id="settingsLanguage" styleClass="text" text="%settings.language">
+            <padding>
+                <Insets right="16.0" />
+            </padding>
+        </Label>
+        <ComboBox fx:id="languageComboBox" />
+    </HBox>
+    <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset">
+        <VBox.margin>
+            <Insets top="16.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder" />
+    <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back">
+        <VBox.margin>
+            <Insets top="16" />
+        </VBox.margin>
+    </Button>
+</VBox>

@@ -2,7 +2,6 @@ package fr.ul.acl.escape.cli;
 
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.monde.ElementMonde;
-import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.outils.Donnees;
 
 import java.util.ArrayList;
@@ -33,25 +32,27 @@ public class CLI implements GameInterface {
     public void render() {
         for (int y = 0; y < controller.getHeight(); y++) {
             for (int x = 0; x < controller.getWidth(); x++) {
-                Character c = getCharForPosition(x, y, controller.getTerrains());
-                if (c != null) {
-                    System.out.print("[" + c + "]");
+                String str = getStringRepresentationForPosition(x, y, controller.getTerrains());
+                if (str != null) {
+                    // Nothing should exist on a terrain
+                    System.out.print(str);
                     continue;
                 }
-                c = getCharForPosition(x, y, controller.getPersonnages());
-                if (c != null) {
-                    System.out.print("[" + c + "]");
-                    continue;
-                }
-                System.out.print("[ ]");
+
+                str = getStringRepresentationForPosition(x, y, controller.getPersonnages());
+                String[] strSplit = (str == null ? "[ ]" : str).split(" ");
+                System.out.print(strSplit[0]);
+
+                String strObjet = getStringRepresentationForPosition(x, y, controller.getObjets());
+                System.out.print(strObjet == null ? " " : strObjet);
+
+                System.out.print(strSplit[1]);
             }
             System.out.println();
         }
 
         if (Donnees.DEBUG) {
-            for (Personnage p : controller.getPersonnages()) {
-                System.out.println((p.estUnHeros() ? "Hero: " : "Monstre: ") + p);
-            }
+            controller.getPersonnages().forEach(System.out::println);
         } else {
             System.out.println(controller.getHeros().toString());
         }
@@ -65,7 +66,7 @@ public class CLI implements GameInterface {
         controller.setAction(action);
     }
 
-    private Character getCharForPosition(int x, int y, ArrayList<? extends ElementMonde> elements) {
+    private String getStringRepresentationForPosition(int x, int y, ArrayList<? extends ElementMonde> elements) {
         for (ElementMonde element : elements) {
             if (element.getX() >= x && element.getX() < x + element.getLargeur() && element.getY() >= y && element.getY() < y + element.getHauteur()) {
                 return element.getSymbol();

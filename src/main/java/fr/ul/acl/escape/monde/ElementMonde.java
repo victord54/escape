@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.monde;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
@@ -18,6 +19,7 @@ public abstract class ElementMonde {
         this.y = y;
         this.hauteur = hauteur;
         this.largeur = largeur;
+        this.initSprites();
     }
 
     /**
@@ -32,6 +34,7 @@ public abstract class ElementMonde {
         this.y = json.getDouble("y");
         this.hauteur = json.getDouble("height");
         this.largeur = json.getDouble("width");
+        this.initSprites();
     }
 
     public JSONObject toJSON() {
@@ -70,13 +73,19 @@ public abstract class ElementMonde {
 
     @Override
     public String toString() {
-        return "ElementMonde{" + "x=" + x + ", y=" + y + ", hauteur=" + hauteur + ", largeur=" + largeur + '}';
+        JSONObject json = toJSON();
+        return "{" + type.name() + ": " + json.keySet().stream()
+                .filter(key -> !key.equals("type"))
+                .sorted()
+                .map(key -> key + "=" + json.get(key))
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("-") + "}";
     }
 
     /**
      * @return a char representing the ElementMonde (for the console)
      */
-    public abstract char getSymbol();
+    public abstract String getSymbol();
 
     /**
      * @return the color of the ElementMonde if the sprite is not available
@@ -84,10 +93,23 @@ public abstract class ElementMonde {
     public abstract Color getColor();
 
     /**
+     * @param index the index of the sprite
+     * @return the sprite at the given index
+     */
+    public abstract Image getSprite(int index);
+
+    /**
+     * Initialize the sprites of the ElementMonde.
+     * This method is automatically called by the constructor.
+     * It should be used to initialize the sprites of a concrete type of ElementMonde, but one for all instances of this type.
+     */
+    protected abstract void initSprites();
+
+    /**
      * Concrete types of ElementMonde
      * Used for JSON serialization ONLY!
      */
     public enum Type {
-        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP
+        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP, GHOST
     }
 }

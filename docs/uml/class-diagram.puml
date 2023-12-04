@@ -8,6 +8,11 @@ package Escape {
             DOWN
         }
 
+        enum GameMode {
+            CAMPAIGN
+            CUSTOM
+        }
+
         abstract class ElementMonde {
             # double x
             # double y
@@ -19,7 +24,10 @@ package Escape {
             + ElementMonde(JSONObject)
             ..Méthodes..
             + JSONObject toJSON()
-            + {abstract} char getSymbol()
+            + {abstract} String getSymbol()
+            + {abstract} Color getColor()
+            + {abstract} Image getSprite(int)
+            # {abstract} void initSprites()
         }
 
         package Environment {
@@ -33,20 +41,28 @@ package Escape {
             }
 
             class Mur extends Terrain {
+                - {static} Image sprite
                 ..Constructeur..
                 + Mur(double, double, double, double)
                 + Mur(JSONObject)
                 ..Méthodes..
                 + boolean estTraversable()
-                + char getSymbol()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                # void initSprites()
             }
 
             class BordureMonde extends Terrain {
+                - {static} Image sprite
                 ..Constructeur..
                 + BordureMonde(double, double)
                 ..Méthodes..
                 + boolean estTraversable()
-                + char getSymbol()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                # void initSprites()
             }
         }
 
@@ -55,10 +71,11 @@ package Escape {
                 # int id
                 # double vitesse
                 # double coeurs
-                # double coeursMax
+                # double maxCoeurs
                 # boolean isMoving
+                # double degats
                 ..Constructeur..
-                + Personnage(Type, double, double, double, double, double, double, double, int)
+                + Personnage(Type, double, double, double, double, double, double, double, double, int)
                 + Personnage(JSONObject)
                 ..Méthodes..
                 + {static} Personnage fromJSON(JSONObject)
@@ -71,19 +88,22 @@ package Escape {
                 + boolean estVivant()
                 + void coeursPerdu(double)
                 + void coeursGagne(double)
+                + boolean boolean peutTraverserObstacles()
                 + {abstract} Personnage clone()
             }
 
             class Heros extends Personnage {
+                - {static} Map<TypeMouvement, Image[]> sprites
                 ..Constructeur..
                 + Heros(double, double, double, double, double, double, double, int)
-                + Heros(double, double, double, double, double, double, double, int, boolean)
                 + Heros(JSONObject)
                 ..Méthodes..
                 + boolean estUnHeros()
-                - void setSprites()
-                + char getSymbol()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
                 + Heros clone()
+                # void initSprites()
             }
 
             abstract class Monstre extends Personnage {
@@ -91,19 +111,36 @@ package Escape {
                 ..Constructeur..
                 + Monstre(Type, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
+                + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
             }
 
             class Walker extends Monstre {
+                - {static} Map<TypeMouvement, Image[]> sprites
                 ..Constructeur..
                 + Walker(double, double, double, double, double, double, double, int)
-                + Walker(double, double, double, double, double, double, double, int, boolean)
                 + Walker(JSONObject)
                 ..Méthodes..
-                + char getSymbol()
-                - void setSprites()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
                 + Walker clone()
+                # void initSprites()
+            }
+
+            class Fantome extends Monstre {
+                - {static} Map<TypeMouvement, Image[]> sprites
+                ..Constructeur..
+                + Fantome(double, double, double, double, double, double, double, double, int)
+                + Fantome(JSONObject)
+                ..Méthodes..
+                + boolean peutTraverserObstacles()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                + Fantome clone()
+                # void initSprites()
             }
         }
         package Objects {
@@ -113,69 +150,87 @@ package Escape {
                 + Objet(Type, double, double, double, double, boolean)
                 + Objet(JSONObject)
                 ..Méthodes..
+                + {static} Objet fromJSON(JSONObject)
                 + {abstract} void consommePar(Personnage p);
+                + JSONObject toJSON()
                 + boolean estRamassable()
                 + boolean estConsommable()
                 + boolean estDeclenchable()
-                + boolean estCoeur()
-                + boolean estPiege()
             }
 
             class Coeur extends Objet {
+                - {static} Image sprite
                 # double valeur
                 ..Constructeur..
                 + Coeur(double, double, double, double, double)
                 + Coeur(JSONObject)
                 ..Méthodes..
-                + char getSymbol()
+                + JSONObject toJSON()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
                 + void consommePar(Personnage)
-                + boolean estCoeur()
+                + boolean estConsommable()
+                # void initSprites()
             }
 
             class Piege extends Objet{
+                - {static} Image sprite
                 # double degats
                 ..Constructeur..
                 + Piege(double, double, double, double, double)
                 + Piege(JSONObject json)
                 ..Méthodes..
+                + JSONObject toJSON()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
                 + boolean estDeclenchable()
+                + boolean estRamassable()
                 + void consommePar(Personnage p)
-                + boolean estPiege()
-                + char getSymbol()
-
+                + boolean estDeclenchable()
+                # void initSprites()
             }
         }
 
         class Monde {
             ..Constructeur..
-            + Monde()
+            + Monde(int, int)
             ..Méthodes..
-            + {static} Monde fromMap(String)
+            + {static} Monde fromMap(String, GameMode)
             + {static} Monde fromJSON(JSONObject)
-            + {static} Monde fromJSON(JSONObject, String)
-            + int intLePlusProche(int, int)
-            + Graph<Point2D, DefaultEdge> grapheAlternatif(Monstre, int)
-            + void heroAttaque()
+            - {static} void validateElement(ElementMonde, Monde, boolean)
             + void deplacementHeros(TypeMouvement, double)
             + void deplacementMonstres()
-            + void deplacementMonstre(Monstre, double)
-            + void pathfinding(Monstre, int, Graph<Point2D, DefaultEdge>, Point2D, Point2D, double)
-            + TypeMouvement getMouvement(Point2D, Point2D, Monstre)
-            + void mouvementRandom(Monstre, double)
-            + boolean collisionAvec(Personnage, boolean)
+            # void deplacementMonstre(Monstre, double)
             + boolean collisionAvecTerrains(Personnage)
-            + void heroRamassageObjet()
             # boolean collision(ElementMonde, ElementMonde)
-            - void chargerCarte(String)
+            # boolean collisionAvec(Personnage, boolean)
+            - void pathfinding(Monstre, int, Graph, Point2D, Point2D, double)
+            - Graph grapheAlternatif(Monstre, int)
+            - void mouvementRandom(Monstre, double)
+            - TypeMouvement getMouvement(Point2D, Point2D, Monstre)
+            + void heroRamassageObjet()
+            - void heroDeclenchePiege()
+            + void heroAttaque()
+            + void monstreAttaque()
+            # int intLePlusProche(int, int)
+            - JSONObject toJSONSave()
         }
-    }
-
-    package gui {
-        class Sprite
     }
 
     package engine {
         abstract class GameController
+    }
+
+    class LevelData {
+        - String filename
+        ..Constructeur..
+        + LevelData(Map.Entry<String, JSONObject>)
+        ..Méthodes..
+        + String getTitle()
+        + void setListener(LevelButtonsListener)
+        + void onLoad()
     }
 
     class SaveData {
@@ -186,8 +241,12 @@ package Escape {
         ..Méthodes..
         + String getDate()
         + double getLife()
-        + int getLevel()
+        + String getLevel()
+        + String getModeStr()
         + void deleteFromFS()
+        + void setListener(SaveButtonsListener)
+        + void onLoad()
+        + void onDelete()
     }
 
     class Settings {
@@ -197,9 +256,8 @@ package Escape {
         + {static} Property<Locale> locale
         ..Méthodes..
         + {static} void reset()
-        + {static} void load()
         + {static} void save()
-        - {static} boolean ensureSettingsFileExists()
+        + {static} void load()
         - {static} void initAutoSave()
     }
 
@@ -236,22 +294,11 @@ package Escape {
     }
 }
 
-' notes
-note "Voir diagramme <i>class-gui</i> pour en savoir plus\nsur ces packages et les classes qu'ils contiennent." as N_gui
-N_gui .left. engine
-N_gui .. gui
-
 note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
-N_json ... ElementMonde::Type
+N_json .. ElementMonde::Type
 
-
-' elements monde
-'Personnage ----"*" Escape.gui.Sprite
-'Terrain --"1" Escape.gui.Sprite
-'Objet --"1" Escape.gui.Sprite
-ElementMonde ---"*" Escape.gui.Sprite
-
-Personnage --"2" TypeMouvement : + orientation
+Escape.Monde.Monde -- "1" GameMode : - gameMode
+Personnage --"2" TypeMouvement : + orientation, dernierMouvement
 
 Personnage -up--|> ElementMonde
 Terrain -up--|> ElementMonde
@@ -268,6 +315,12 @@ Property --"1" Setter
 
 
 GameController -- "1" Escape.Monde.Monde
+
+
+' force layout
+SaveData -up[hidden]- Getter
+SaveData -up[hidden]- Setter
+LevelData -up[hidden]- SaveData
 
 
 @enduml

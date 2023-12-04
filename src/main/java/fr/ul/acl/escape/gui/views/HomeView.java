@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class HomeView extends View {
     public HomeView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Resources.get("gui/home-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("home-view.fxml"));
         loader.setResources(Resources.getI18NBundle());
         this.root = loader.load();
         this.controller = loader.getController();

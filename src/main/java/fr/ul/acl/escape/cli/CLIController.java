@@ -1,11 +1,13 @@
 package fr.ul.acl.escape.cli;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class CLIController extends GameController {
 
     protected CLIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension);
+            monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }
@@ -50,6 +52,10 @@ public class CLIController extends GameController {
 
     public ArrayList<Terrain> getTerrains() {
         return monde.getTerrains();
+    }
+
+    public ArrayList<Objet> getObjets() {
+        return monde.getObjets();
     }
 
     public void setAction(int action) {

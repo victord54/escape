@@ -1,23 +1,24 @@
 package fr.ul.acl.escape.monde.objects;
 
-import fr.ul.acl.escape.gui.Sprite;
+import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.entities.Personnage;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
 public class Coeur extends Objet {
-    protected double valeur;
+    private static Image sprite;
+
+    protected final double valeur;
 
     public Coeur(double x, double y, double hauteur, double largeur, double valeur) {
         super(Type.HEART, x, y, hauteur, largeur, true);
         this.valeur = valeur;
-        sprite = new Sprite("assets/coeurs.png", 1, 1, 23, 22);
     }
 
     public Coeur(JSONObject json) {
         super(json);
         this.valeur = json.getDouble("value");
-        sprite = new Sprite("assets/coeurs.png", 1, 1, 23, 22);
     }
 
     @Override
@@ -29,8 +30,16 @@ public class Coeur extends Objet {
 
 
     @Override
-    public char getSymbol() {
-        return '♥';
+    public String getSymbol() {
+        if (!visible) {
+            return " "; // Invisible
+        }
+        return "♥";
+    }
+
+    @Override
+    public Image getSprite(int i) {
+        return sprite;
     }
 
     @Override
@@ -38,10 +47,7 @@ public class Coeur extends Objet {
         return Color.LIGHTGREEN;
     }
 
-    public double getValeur() {
-        return valeur;
-    }
-
+    @Override
     public void consommePar(Personnage p) {
         p.coeursGagne(valeur);
     }
@@ -52,7 +58,15 @@ public class Coeur extends Objet {
     }
 
     @Override
-    public boolean estCoeur() {
-        return true;
+    protected void initSprites() {
+        if (sprite != null) {
+            return;
+        }
+
+        String path = "assets/coeurs.png";
+        SpriteSheet spriteSheet = new SpriteSheet(path);
+        if (spriteSheet.get() == null) return;
+
+        sprite = spriteSheet.get(1, 1, 23, 22);
     }
 }

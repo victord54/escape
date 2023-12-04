@@ -22,6 +22,10 @@ public class Escape extends Application {
      */
     public static void main(String[] args) {
         try {
+            // Apply settings
+            Settings.load();
+
+            // Start the CLI
             new CLI();
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Unexpected error");

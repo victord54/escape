@@ -111,22 +111,6 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         return monde.collisionAvecTerrains(p);
     }
 
-    public ArrayList<Terrain> getTerrains() {
-        return monde.getTerrains();
-    }
-
-    public ArrayList<Personnage> getPersonnages() {
-        return monde.getPersonnages();
-    }
-
-    public ArrayList<Objet> getObjets() {
-        return monde.getObjets();
-    }
-
-    public Heros getHeros() {
-        return monde.getHeros();
-    }
-
     public void onKeyPressed(KeyEvent event) {
         keysPressed.add(event.getCode());
     }

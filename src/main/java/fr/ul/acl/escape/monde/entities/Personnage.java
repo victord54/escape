@@ -9,14 +9,14 @@ import org.json.JSONObject;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
-    protected final int id;
-    protected final double vitesse;
+    protected int id;
+    protected double vitesse;
     protected double coeurs;
-    protected final double maxCoeurs;
+    protected double maxCoeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
-    protected final double degats;
+    protected double degats;
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
@@ -210,5 +210,22 @@ public abstract class Personnage extends ElementMonde {
      */
     public boolean peutTraverserObstacles() {
         return false;
+    }
+
+    /**
+     * Copies the statistics from another character to this character.
+     * <p>
+     * This method copies the damage, maximum hearts, current hearts, and speed
+     * from the specified character to the current character.
+     * </p>
+     *
+     * @param personnage The character whose statistics are to be copied.
+     * @see Personnage
+     */
+    public void copierStatistique(Personnage personnage){
+        degats = personnage.degats;
+        maxCoeurs = personnage.maxCoeurs;
+        coeurs = personnage.coeurs;
+        vitesse = personnage.vitesse;
     }
 }

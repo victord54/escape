@@ -13,7 +13,7 @@ public class Trappe extends Objet{
 
     private boolean ouverte;
 
-    String carteOuTeleporter;
+    private final String carteOuTeleporter;
 
     public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
         super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
@@ -67,9 +67,15 @@ public class Trappe extends Objet{
 
     @Override
     public void consommePar(Personnage p, Monde monde) {
-        //TODO : indiquer au monde de changer de niveau
+        monde.changerMap(this.carteOuTeleporter);
     }
 
+    /**
+     * Sets the status of an object to "open".
+     * <p>
+     * This method changes the status of an object to "open" by setting the "ouverte" attribute to true.
+     * </p>
+     */
     public void ouvrir(){
         ouverte = true;
     }

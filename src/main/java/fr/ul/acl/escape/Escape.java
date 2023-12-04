@@ -8,14 +8,12 @@ import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class Escape extends Application {
     public static boolean javaFXApplication = false;
-    public static HostServices Host;
 
     /**
      * CLI entry point.
@@ -39,7 +37,6 @@ public class Escape extends Application {
     public void start(Stage stage) {
         try {
             javaFXApplication = true;
-            Host = getHostServices();
 
             ViewManager.getInstance().setStage(stage);
 

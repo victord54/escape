@@ -83,15 +83,6 @@ public class Walker extends Monstre {
 
     @Override
     public String toString() {
-        return "\u001B[45mWalker{" +
-                "x=" + x +
-                ", y=" + y +
-                ", hauteur=" + hauteur +
-                ", largeur=" + largeur +
-                ", vitesse=" + vitesse +
-                ", coeurs=" + coeurs + "/" + maxCoeurs +
-                ", degats=" + degats +
-                ", id=" + id +
-                "}\u001B[0m";
+        return "\u001B[45m" + super.toString() + "\u001B[0m";
     }
 }

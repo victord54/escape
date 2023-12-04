@@ -73,7 +73,13 @@ public abstract class ElementMonde {
 
     @Override
     public String toString() {
-        return "ElementMonde{" + "x=" + x + ", y=" + y + ", hauteur=" + hauteur + ", largeur=" + largeur + '}';
+        JSONObject json = toJSON();
+        return "{" + type.name() + ": " + json.keySet().stream()
+                .filter(key -> !key.equals("type"))
+                .sorted()
+                .map(key -> key + "=" + json.get(key))
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("-") + "}";
     }
 
     /**

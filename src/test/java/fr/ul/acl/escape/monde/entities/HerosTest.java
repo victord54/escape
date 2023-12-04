@@ -98,9 +98,9 @@ class HerosTest {
     void getHitBoxCollision() {
         Rectangle2D rectVoulu = new Rectangle2D(0, 0, 1, 1);
 
-        Rectangle2D hitbox = p.getHitBoxCollision();
+        Rectangle2D hitBox = p.getHitBoxCollision();
 
-        assertEquals(hitbox, rectVoulu);
+        assertEquals(hitBox, rectVoulu);
     }
 
     @Test
@@ -108,29 +108,29 @@ class HerosTest {
         Rectangle2D rectVoulu = new Rectangle2D(0 + p.getLargeur(), 0, 1, 1);
         p.setOrientation(RIGHT);
 
-        Rectangle2D hitbox = p.getHitBoxAttaque();
-        assertEquals(hitbox, rectVoulu);
+        Rectangle2D hitBox = p.getHitBoxAttaque();
+        assertEquals(hitBox, rectVoulu);
 
 
         rectVoulu = new Rectangle2D(0 - p.getLargeur(), 0, 1, 1);
         p.setOrientation(LEFT);
 
-        hitbox = p.getHitBoxAttaque();
-        assertEquals(hitbox, rectVoulu);
+        hitBox = p.getHitBoxAttaque();
+        assertEquals(hitBox, rectVoulu);
 
 
         rectVoulu = new Rectangle2D(0, 0 - p.getHauteur(), 1, 1);
         p.setOrientation(UP);
 
-        hitbox = p.getHitBoxAttaque();
-        assertEquals(hitbox, rectVoulu);
+        hitBox = p.getHitBoxAttaque();
+        assertEquals(hitBox, rectVoulu);
 
 
         rectVoulu = new Rectangle2D(0, 0 + p.getHauteur(), 1, 1);
         p.setOrientation(DOWN);
 
-        hitbox = p.getHitBoxAttaque();
-        assertEquals(hitbox, rectVoulu);
+        hitBox = p.getHitBoxAttaque();
+        assertEquals(hitBox, rectVoulu);
     }
 
     void reinitialiserCoordonnees(Personnage p) {

@@ -48,7 +48,7 @@ public abstract class Monstre extends Personnage {
     }
 
     /**
-     * Method that reinitialises the list of movements tried.
+     * Method that reset the list of movements tried.
      */
     public void reinitialiseListMouvementsEssayes() {
         derniersMouvementsEssayes = new ArrayList<>();

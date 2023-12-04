@@ -214,15 +214,6 @@
       "height": 0.4,
       "visible": false,
       "damage": 0.25
-    },
-    {
-      "type": "TRAPDOOR",
-      "x": 5,
-      "y": 5,
-      "width": 0.8,
-      "height": 0.8,
-      "visible": true,
-      "map": "map02"
     }
   ]
 }

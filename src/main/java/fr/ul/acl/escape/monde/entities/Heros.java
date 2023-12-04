@@ -36,7 +36,7 @@ public class Heros extends Personnage {
     @Override
     public Image getSprite(int i) {
         if (sprites == null) return null;
-        return sprites.get(dernierMouvement)[i];
+        return sprites.get(orientation)[i];
     }
 
     @Override
@@ -90,15 +90,6 @@ public class Heros extends Personnage {
 
     @Override
     public String toString() {
-        return "\u001B[46mHeros{" +
-                "x=" + x +
-                ", y=" + y +
-                ", hauteur=" + hauteur +
-                ", largeur=" + largeur +
-                ", vitesse=" + vitesse +
-                ", coeurs=" + coeurs + "/" + maxCoeurs +
-                ", degats=" + degats +
-                ", id=" + id +
-                "}\u001B[0m";
+        return "\u001B[46m" + super.toString() + "\u001B[0m";
     }
 }

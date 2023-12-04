@@ -22,7 +22,7 @@ public class HomeViewController extends ViewController {
 
     @FXML
     private void onClickStart() {
-        ViewManager.getInstance().navigateTo(VIEWS.GAME);
+        ViewManager.getInstance().navigateTo(VIEWS.GAME_MODE);
     }
 
     @FXML

@@ -1,7 +1,8 @@
 package fr.ul.acl.escape;
 
-import fr.ul.acl.escape.gui.views.SaveComponent;
+import fr.ul.acl.escape.gui.components.SaveComponent;
 import fr.ul.acl.escape.outils.FileManager;
+import fr.ul.acl.escape.outils.Resources;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import java.time.format.FormatStyle;
 import java.util.Map;
 
 import static fr.ul.acl.escape.Settings.locale;
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
 /**
  * Represents a save file.
@@ -53,18 +55,32 @@ public class SaveData {
     }
 
     public long getTimestamp() {
-        return json.has("date") ? json.getLong("date") : 0;
+        return json.optLong("date");
     }
 
+    /**
+     * @return the date of the save, formatted according to the locale
+     */
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(locale.get()).withZone(ZoneId.systemDefault());
         return formatter.format(Instant.ofEpochMilli(getTimestamp()));
     }
 
-    public int getLevel() {
-        return json.has("level") ? json.getInt("level") : -1;
+    /**
+     * @return the level of the save (or the map name if the game mode is custom)
+     */
+    public String getLevel() {
+        GameMode mode = getMode();
+        if (mode == GameMode.CUSTOM) {
+            return json.has("map") ? json.getString("map").replace(JSON.extension, "") : "-";
+        } else {
+            return json.has("level") ? (json.getInt("level") + "") : "-";
+        }
     }
 
+    /**
+     * @return the life of the hero
+     */
     public String getLife() {
         if (!json.has("entities")) return "-";
 
@@ -81,6 +97,23 @@ public class SaveData {
         return "-";
     }
 
+    /**
+     * @return a string representing the game mode
+     */
+    public String getModeStr() {
+        GameMode mode = getMode();
+        return mode != null ? Resources.getI18NString("mode." + mode.name().toLowerCase()) : "-";
+    }
+
+    private GameMode getMode() {
+        return json.has("mode") ? GameMode.valueOf(json.getString("mode")) : null;
+    }
+
+    /**
+     * Register the listener for the button(s).
+     *
+     * @param listener the listener to register
+     */
     public void setListener(SaveComponent.SaveButtonsListener listener) {
         this.listener = listener;
     }

@@ -1,25 +1,22 @@
 package fr.ul.acl.escape.monde.entities;
 
-import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
 import fr.ul.acl.escape.outils.FabriqueId;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
     protected final int id;
-    protected double vitesse;
+    protected final double vitesse;
     protected double coeurs;
-    protected double maxCoeurs;
+    protected final double maxCoeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
-    protected double degats;
+    protected final double degats;
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
@@ -47,6 +44,8 @@ public abstract class Personnage extends ElementMonde {
             return new Heros(json);
         } else if (type == Type.WALKER) {
             return new Walker(json);
+        } else if (type == Type.GHOST) {
+            return new Fantome(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -72,18 +71,10 @@ public abstract class Personnage extends ElementMonde {
     public void deplacer(TypeMouvement typeMouvement, double deltaTime) {
         double vitesseTransformee = vitesse * (deltaTime >= 0 ? deltaTime : 0);
         switch (typeMouvement) {
-            case RIGHT -> {
-                this.x += vitesseTransformee;
-            }
-            case LEFT -> {
-                this.x -= vitesseTransformee;
-            }
-            case UP -> {
-                this.y -= vitesseTransformee;
-            }
-            case DOWN -> {
-                this.y += vitesseTransformee;
-            }
+            case RIGHT -> this.x += vitesseTransformee;
+            case LEFT -> this.x -= vitesseTransformee;
+            case UP -> this.y -= vitesseTransformee;
+            case DOWN -> this.y += vitesseTransformee;
         }
         this.dernierMouvement = typeMouvement;
         this.orientation = typeMouvement;
@@ -149,10 +140,6 @@ public abstract class Personnage extends ElementMonde {
         return coeurs;
     }
 
-    public void setCoeurs(double c) {
-        coeurs = c;
-    }
-
     public double getMaxCoeurs() {
         return maxCoeurs;
     }
@@ -205,11 +192,6 @@ public abstract class Personnage extends ElementMonde {
         }
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "id :" + this.id;
-    }
-
     public TypeMouvement getOrientation() {
         return orientation;
     }
@@ -222,4 +204,11 @@ public abstract class Personnage extends ElementMonde {
      * @return a copy of the Personnage
      */
     public abstract Personnage clone();
+
+    /**
+     * @return True if the Personnage can cross an obstacle, false otherwise.
+     */
+    public boolean peutTraverserObstacles() {
+        return false;
+    }
 }

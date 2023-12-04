@@ -352,7 +352,7 @@ public class FileManager {
             }
         }
 
-        Host.showDocument(fullPath);
+        Host.showDocument(fullPath.replaceAll(" ", "%20"));
     }
 
     /**

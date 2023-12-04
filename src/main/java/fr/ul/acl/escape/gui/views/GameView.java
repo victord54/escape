@@ -102,6 +102,7 @@ public class GameView extends View implements GameInterface, GameViewController.
 
         // init game board
         controller.setPauseMenuVisible(false, save != null);
+        controller.setEndMenuVisible(false);
         controller.setButtonsListener(this);
 
         StackPane centerPane = controller.getPane();
@@ -128,6 +129,7 @@ public class GameView extends View implements GameInterface, GameViewController.
             controller.setPauseMenuVisible(newValue, save != null);
             gameController.setOnPause(newValue);
         });
+        engine.gameOver.subscribe((evt, oldValue, newValue) -> controller.setEndMenuVisible(newValue));
         engine.start();
     }
 
@@ -151,6 +153,8 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void render() {
+        if (gameController.getOnOver())
+            engine.gameOver.set(true);
         this.drawGameBoard(gameBoard, elementSize.doubleValue());
         this.drawOverlay(overlay);
     }
@@ -195,7 +199,7 @@ public class GameView extends View implements GameInterface, GameViewController.
                 renderElement(gc, personnage, elementSize, iterationHeros);
             }
             int iteration = 0;
-            if (personnage.isMoving() && !engine.paused.get()) {
+            if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
                 iteration = (int) (engine.getLastUpdate() / 100000000) % 3;
             }
             if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
@@ -218,8 +222,8 @@ public class GameView extends View implements GameInterface, GameViewController.
         clearCanvas(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // pause menu
-        if (engine.paused.get()) {
+        // pause menu or end menu
+        if (engine.paused.get() || engine.gameOver.get()) {
             gc.setFill(new Color(0, 0, 0, 0.75));
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         }
@@ -353,6 +357,14 @@ public class GameView extends View implements GameInterface, GameViewController.
         if (engine == null) return;
         engine.paused.set(false);
         gameController.setOnPause(false);
+    }
+
+    @Override
+    public void replay() {
+        if (engine == null) return;
+        engine.stop();
+        engine = null;
+        ViewManager.getInstance().navigateTo(VIEWS.GAME);
     }
 
     /**

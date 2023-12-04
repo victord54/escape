@@ -553,6 +553,10 @@ public class Monde {
         }
     }
 
+    public boolean heroStillAlive() {
+        return getHeros().estVivant();
+    }
+
     /**
      * Erases the specified character from the world
      *

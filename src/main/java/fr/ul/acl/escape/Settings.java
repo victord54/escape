@@ -5,6 +5,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.json.JSONObject;
 
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -71,5 +72,15 @@ public class Settings {
         if (autoSaveInitialized) return;
         Runtime.getRuntime().addShutdownHook(new Thread(Settings::save));
         autoSaveInitialized = true;
+    }
+
+    /**
+     * Get the full path to the settings file.
+     *
+     * @return The full path to the settings file.
+     */
+    public static String getFileFullPath() {
+        File file = FileManager.getFile(SETTINGS_FILEPATH);
+        return file == null ? null : file.getAbsolutePath();
     }
 }

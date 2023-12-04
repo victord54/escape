@@ -37,25 +37,12 @@ public class CLIController extends GameController {
             case 2 -> monde.deplacementHeros(TypeMouvement.RIGHT, dt);
             case 3 -> monde.deplacementHeros(TypeMouvement.UP, dt);
             case 4 -> monde.deplacementHeros(TypeMouvement.DOWN, dt);
+            case 5 -> monde.heroAttaque();
+            case 6 -> monde.heroRamassageObjet();
         }
 
         monde.deplacementMonstres(dt);
-    }
-
-    public Heros getHeros() {
-        return monde.getHeros();
-    }
-
-    public ArrayList<Personnage> getPersonnages() {
-        return monde.getPersonnages();
-    }
-
-    public ArrayList<Terrain> getTerrains() {
-        return monde.getTerrains();
-    }
-
-    public ArrayList<Objet> getObjets() {
-        return monde.getObjets();
+        monde.monstreAttaque();
     }
 
     public void setAction(int action) {

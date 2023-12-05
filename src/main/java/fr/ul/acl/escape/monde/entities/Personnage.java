@@ -10,9 +10,9 @@ import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
     protected final int id;
-    protected final double vitesse;
-    protected final double maxCoeurs;
-    protected final double degats;
+    protected double vitesse;
+    protected double maxCoeurs;
+    protected double degats;
     protected double coeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;

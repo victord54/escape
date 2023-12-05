@@ -9,14 +9,14 @@ import org.json.JSONObject;
 import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
-    protected int id;
-    protected double vitesse;
+    protected final int id;
+    protected final double vitesse;
+    protected final double maxCoeurs;
+    protected final double degats;
     protected double coeurs;
-    protected double maxCoeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
-    protected double degats;
 
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);

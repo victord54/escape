@@ -8,20 +8,22 @@ import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 public class Escape extends Application {
     public static boolean javaFXApplication = false;
-    public static HostServices Host;
 
     /**
      * CLI entry point.
      */
     public static void main(String[] args) {
         try {
+            // Apply settings
+            Settings.load();
+
+            // Start the CLI
             new CLI();
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Unexpected error");
@@ -35,7 +37,6 @@ public class Escape extends Application {
     public void start(Stage stage) {
         try {
             javaFXApplication = true;
-            Host = getHostServices();
 
             ViewManager.getInstance().setStage(stage);
 
@@ -68,6 +69,9 @@ public class Escape extends Application {
                 alert.setContentText(Resources.getI18NString("warning.noEncryptionKey.details"));
                 alert.showAndWait();
             }
+
+            // Attach icon
+            stage.getIcons().add(Resources.getAsset("assets/icon.png"));
 
             // Show window
             stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

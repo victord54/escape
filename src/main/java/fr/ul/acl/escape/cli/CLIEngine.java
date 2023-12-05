@@ -9,6 +9,8 @@ public class CLIEngine extends fr.ul.acl.escape.engine.Engine {
      */
     private boolean again = true;
 
+    private int turn = 0;
+
     protected CLIEngine(GameInterface ui, GameController controller) {
         super(ui, controller);
     }
@@ -22,12 +24,19 @@ public class CLIEngine extends fr.ul.acl.escape.engine.Engine {
     @Override
     public void start() {
         do {
-            tick(0);
+            tick(++turn);
         } while (again);
     }
 
     @Override
     public void stop() {
         again = false;
+    }
+
+    /**
+     * @return the current turn
+     */
+    public int getTurn() {
+        return turn;
     }
 }

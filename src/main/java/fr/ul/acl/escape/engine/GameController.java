@@ -1,7 +1,13 @@
 package fr.ul.acl.escape.engine;
 
 import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Personnage;
+import fr.ul.acl.escape.monde.environment.Terrain;
+import fr.ul.acl.escape.monde.objects.Objet;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public abstract class GameController {
     /**
@@ -35,5 +41,21 @@ public abstract class GameController {
      */
     public int getWidth() {
         return monde.getWidth();
+    }
+
+    public Heros getHeros() {
+        return monde.getHeros();
+    }
+
+    public ArrayList<Personnage> getPersonnages() {
+        return monde.getPersonnages();
+    }
+
+    public ArrayList<Terrain> getTerrains() {
+        return monde.getTerrains();
+    }
+
+    public ArrayList<Objet> getObjets() {
+        return monde.getObjets();
     }
 }

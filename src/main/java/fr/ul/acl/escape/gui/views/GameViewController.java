@@ -11,6 +11,14 @@ import javafx.scene.layout.VBox;
 
 public class GameViewController extends ViewController {
     @FXML
+    private VBox endMenu;
+    @FXML
+    private Label endTitle;
+    @FXML
+    private Button endReplayButton;
+    @FXML
+    private Button endQuitButton;
+    @FXML
     private StackPane pane;
     @FXML
     private Canvas gameBoard;
@@ -28,7 +36,6 @@ public class GameViewController extends ViewController {
     private Button saveOverwriteButton;
     @FXML
     private Button quitButton;
-
     private ButtonsListener buttonsListener;
 
     public StackPane getPane() {
@@ -50,6 +57,9 @@ public class GameViewController extends ViewController {
         saveNewButton.setText(Resources.getI18NString("save.saveAndQuit"));
         saveOverwriteButton.setText(Resources.getI18NString("save.overwrite"));
         quitButton.setText(Resources.getI18NString("save.quit"));
+        endTitle.setText(Resources.getI18NString("game.end"));
+        endReplayButton.setText(Resources.getI18NString("game.replay"));
+        endQuitButton.setText(Resources.getI18NString("game.quit"));
     }
 
     /**
@@ -73,6 +83,17 @@ public class GameViewController extends ViewController {
         pauseMenu.setVisible(visible);
         pauseMenu.setDisable(!visible);
         if (visible) resumeButton.requestFocus();
+    }
+
+    /**
+     * Set the visibility of the end menu.
+     *
+     * @param visible true to show the end menu, false to hide it
+     */
+    public void setEndMenuVisible(boolean visible) {
+        endMenu.setVisible(visible);
+        endMenu.setDisable(!visible);
+        if (visible) endReplayButton.requestFocus();
     }
 
     @FXML
@@ -99,6 +120,11 @@ public class GameViewController extends ViewController {
         this.buttonsListener.quit();
     }
 
+    public void onClickReplay() {
+        if (this.buttonsListener == null) return;
+        this.buttonsListener.replay();
+    }
+
     /**
      * The listener for the buttons of the game view.
      */
@@ -119,5 +145,10 @@ public class GameViewController extends ViewController {
          * Action to perform when the user clicks on the resume button.
          */
         void resume();
+
+        /**
+         * Action to perform when the user clicks on the replay button.
+         */
+        void replay();
     }
 }

@@ -8,19 +8,19 @@
     <top>
         <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="32.0" vgap="4.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
             </BorderPane.margin>
             <HBox>
-                <Label fx:id="levelName" text="-" styleClass="text" />
+                <Label fx:id="levelName" text="-" styleClass="text"/>
             </HBox>
         </FlowPane>
     </top>
     <center>
         <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="32.0" vgap="4.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
             </BorderPane.margin>
-            <Button fx:id="loadButton" defaultButton="true" mnemonicParsing="false" text="%load" />
+            <Button fx:id="loadButton" defaultButton="true" mnemonicParsing="false" text="%load"/>
         </FlowPane>
     </center>
 </BorderPane>

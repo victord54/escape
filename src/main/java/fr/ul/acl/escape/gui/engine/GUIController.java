@@ -28,6 +28,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     protected boolean onPause = false;
     /**
+     * If true, it means the game is over.
+     */
+    protected boolean onOver = false;
+    /**
      * If true, the key R is pressed.
      */
     private boolean rKeyPressed = false;
@@ -68,7 +72,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     @Override
     public void update(long deltaTime) {
-        if (onPause) return;
+        if (onPause || onOver) return;
         double timeInDouble = deltaTime * 10e-10;
 
         //Déplacements
@@ -103,28 +107,18 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             monde.heroAttaque();
         }
 
+        //State of the game
+        if (!monde.heroStillAlive()) {
+            onOver = true;
+        }
+
+
         monde.deplacementMonstres(timeInDouble);
         monde.monstreAttaque();
     }
 
     public boolean collisionAvecTerrains(Personnage p) {
         return monde.collisionAvecTerrains(p);
-    }
-
-    public ArrayList<Terrain> getTerrains() {
-        return monde.getTerrains();
-    }
-
-    public ArrayList<Personnage> getPersonnages() {
-        return monde.getPersonnages();
-    }
-
-    public ArrayList<Objet> getObjets() {
-        return monde.getObjets();
-    }
-
-    public Heros getHeros() {
-        return monde.getHeros();
     }
 
     public void onKeyPressed(KeyEvent event) {
@@ -138,6 +132,10 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
     public void setOnPause(boolean b) {
         onPause = b;
+    }
+
+    public boolean getOnOver() {
+        return onOver;
     }
 
     /**

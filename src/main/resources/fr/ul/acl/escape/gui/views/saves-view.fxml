@@ -11,17 +11,17 @@
     <top>
         <Label fx:id="savesTitle" styleClass="title" text="%saves" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </BorderPane.margin>
         </Label>
     </top>
     <center>
         <ListView fx:id="savesListView" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
             </BorderPane.margin>
             <placeholder>
-                <Label fx:id="savesListViewEmptyMsg" styleClass="text" text="%saves.empty" />
+                <Label fx:id="savesListViewEmptyMsg" styleClass="text" text="%saves.empty"/>
             </placeholder>
         </ListView>
     </center>
@@ -29,7 +29,7 @@
         <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back"
                 BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
             </BorderPane.margin>
         </Button>
     </bottom>

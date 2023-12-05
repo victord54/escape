@@ -10,6 +10,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +26,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.ul.acl.escape.Escape.Host;
 import static fr.ul.acl.escape.outils.FileManager.FileType.ENCRYPTED;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
@@ -316,12 +316,17 @@ public class FileManager {
      * @param isFolder whether the path is a folder
      */
     public static void open(String path, boolean isFolder) {
-        if (Host == null) return;
+        if (!Desktop.isDesktopSupported()) {
+            System.err.println("Desktop is not supported");
+            return;
+        }
         if (path == null && !isFolder) return;
 
+        // get the full path
         String fullPath = path == null ? Donnees.APPDATA_FOLDER : getPathFor(path);
         if (fullPath == null) return;
 
+        // ensure the file/folder exists (create it if it does not)
         File file = new File(fullPath);
         File parent = file.getParentFile();
         if (!parent.exists() || !parent.isDirectory()) {
@@ -352,7 +357,12 @@ public class FileManager {
             }
         }
 
-        Host.showDocument(fullPath);
+        // open the file/folder
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            ErrorBehavior.handle(e, "Could not open '" + file.getAbsolutePath() + "'");
+        }
     }
 
     /**

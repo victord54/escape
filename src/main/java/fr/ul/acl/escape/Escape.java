@@ -8,7 +8,6 @@ import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.Resources;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -63,11 +62,12 @@ public class Escape extends Application {
                 return;
             }
             if (dotenv.get("ENCRYPTION_KEY") == null || dotenv.get("ENCRYPTION_KEY").isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle(Resources.getI18NString("warning.noEncryptionKey"));
-                alert.setHeaderText(Resources.getI18NString("warning.noEncryptionKey.message"));
-                alert.setContentText(Resources.getI18NString("warning.noEncryptionKey.details"));
-                alert.showAndWait();
+                ErrorBehavior.showWarning(
+                        Resources.getI18NString("warning.noEncryptionKey"),
+                        Resources.getI18NString("warning.noEncryptionKey.message"),
+                        Resources.getI18NString("warning.noEncryptionKey.details"),
+                        false
+                );
             }
 
             // Attach icon

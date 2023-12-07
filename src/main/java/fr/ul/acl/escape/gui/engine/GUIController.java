@@ -1,22 +1,16 @@
 package fr.ul.acl.escape.gui.engine;
 
-import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
-import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
-import fr.ul.acl.escape.monde.environment.Terrain;
-import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
+import fr.ul.acl.escape.outils.ProceduralGenerator;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 
 public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
@@ -41,7 +35,15 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
+            //monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
+            long seed;
+            do {
+                seed = System.currentTimeMillis();
+            } while (seed == 0);
+
+
+            ProceduralGenerator generator = new ProceduralGenerator(seed, 2);
+            monde = generator.getMonde();
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");
         }

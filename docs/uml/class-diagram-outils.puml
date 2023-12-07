@@ -54,6 +54,27 @@ package Escape {
             - {static} JSONObject readJSONString(String)
             - {static} SecretKey getSecretKey()
         }
+
+        class ProceduralGenerator {
+            - {static} Map<String, Image> assets
+            - {static} boolean WALL
+            - {static} boolean EMPTY
+            - char[][] level
+            - List<int[]> visited
+            - int width
+            - int height
+            - List<Personnage> personnages
+            - List<Object> objets
+            ..Constructeur..
+            + ProceduralGenerator(long, int)
+            ..Méthodes..
+            + Monde getMonde()
+            - void generateMaze(Random, int, int, int, int)
+            - void splash(Random)
+            - List<int[]> getVoisinsEligibles(int,int)
+            - boolean containsCoordinate(List<int[]>, int, int)
+            - int[] caseVisiteAleatoire(Random)
+        }
     }
 }
 @enduml

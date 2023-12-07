@@ -53,6 +53,7 @@ public class Monde {
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
         objets = new ArrayList<>();
+        gameMode = GameMode.CAMPAIGN;
     }
 
     /**

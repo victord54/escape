@@ -87,7 +87,7 @@ public abstract class Personnage extends ElementMonde {
      */
     public void attaquer(List<Personnage> touches) {
         for (Personnage p : touches) {
-            p.coeursPerdu(1);
+            p.coeursPerdu(this.degats);
         }
     }
 

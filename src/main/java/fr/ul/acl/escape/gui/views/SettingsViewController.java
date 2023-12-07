@@ -1,6 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.KeyActions;
+import fr.ul.acl.escape.KeyAction;
 import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.VIEWS;
@@ -111,7 +111,7 @@ public class SettingsViewController extends ViewController {
 
     public void setKeyBindings(KeyBindings keyBindings) {
         getKeys().forEach((input, label) -> {
-            KeyActions keyAction = KeyActions.fromInputId(input.getId());
+            KeyAction keyAction = KeyAction.fromInputId(input.getId());
             if (keyAction != null) {
                 input.setText(keyBindings.getKey(keyAction).getName());
                 if (keyAction.isDebugOnly()) {
@@ -126,7 +126,7 @@ public class SettingsViewController extends ViewController {
     }
 
     private void colorConflictingKeys() {
-        List<String> conflictingKeysIds = Settings.keyBindings.get().getConflictingKeys().stream().map(KeyActions::getInputId).toList();
+        List<String> conflictingKeysIds = Settings.keyBindings.get().getConflictingKeys().stream().map(KeyAction::getInputId).toList();
         for (TextField input : getKeys().keySet()) {
             if (conflictingKeysIds.contains(input.getId())) {
                 if (!input.getStyleClass().contains("conflicting-key")) {

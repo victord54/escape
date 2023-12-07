@@ -3,7 +3,7 @@ package fr.ul.acl.escape;
 
 import javafx.scene.input.KeyCode;
 
-public enum KeyActions {
+public enum KeyAction {
     UP(KeyCode.Z, "keyUp"),
     LEFT(KeyCode.Q, "keyLeft"),
     DOWN(KeyCode.S, "keyDown"),
@@ -18,13 +18,13 @@ public enum KeyActions {
     private final String inputId;
     private final boolean debugOnly;
 
-    KeyActions(KeyCode code, String inputId) {
+    KeyAction(KeyCode code, String inputId) {
         this.defaultKeyCode = code;
         this.inputId = inputId;
         this.debugOnly = false;
     }
 
-    KeyActions(KeyCode code, String inputId, boolean debugOnly) {
+    KeyAction(KeyCode code, String inputId, boolean debugOnly) {
         this.defaultKeyCode = code;
         this.inputId = inputId;
         this.debugOnly = debugOnly;
@@ -34,16 +34,28 @@ public enum KeyActions {
         return defaultKeyCode;
     }
 
+    /**
+     * @return the id of the corresponding input in the settings view
+     */
     public String getInputId() {
         return inputId;
     }
 
+    /**
+     * @return true if the key should only be used in debug mode
+     */
     public boolean isDebugOnly() {
         return debugOnly;
     }
 
-    public static KeyActions fromInputId(String inputId) {
-        for (KeyActions key : values()) {
+    /**
+     * Get the KeyActions corresponding to the given input id
+     *
+     * @param inputId the id of the input in the settings view
+     * @return the corresponding KeyActions
+     */
+    public static KeyAction fromInputId(String inputId) {
+        for (KeyAction key : values()) {
             if (key.getInputId().equals(inputId)) {
                 return key;
             }

@@ -1,7 +1,7 @@
 package fr.ul.acl.escape.gui.engine;
 
 import fr.ul.acl.escape.GameMode;
-import fr.ul.acl.escape.KeyActions;
+import fr.ul.acl.escape.KeyAction;
 import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.monde.Monde;
@@ -77,34 +77,34 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         KeyBindings keyBindings = Settings.keyBindings.get();
 
         //Déplacements
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.UP))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.UP))) {
             monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.UP);
         }
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.DOWN))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.DOWN))) {
             monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.DOWN);
         }
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.RIGHT))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.RIGHT))) {
             monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.RIGHT);
         }
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.LEFT))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.LEFT))) {
             monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.LEFT);
         }
         MovementManager.instance.executerMouvement(monde, timeInDouble);
 
         // Ramasser object
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.TAKE)) && !takeKeyPressed) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.TAKE)) && !takeKeyPressed) {
             monde.heroRamassageObjet();
             takeKeyPressed = true;
-        } else if (!keysPressed.contains(keyBindings.getKey(KeyActions.TAKE))) {
+        } else if (!keysPressed.contains(keyBindings.getKey(KeyAction.TAKE))) {
             takeKeyPressed = false;
         }
 
         //Attaquer
-        if (keysPressed.contains(keyBindings.getKey(KeyActions.ATTACK))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))) {
             monde.heroAttaque();
         }
 

@@ -33,11 +33,11 @@ package Escape {
             + int getId()
         }
 
-
         class ErrorBehavior {
             ..Méthodes..
             + {static} void handle(Exception, String)
             + {static} void crash(Exception, String)
+            + {static} void showWarning(String, String, String, boolean)
         }
 
         class FileManager {

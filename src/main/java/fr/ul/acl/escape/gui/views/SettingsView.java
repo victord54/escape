@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Property;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
@@ -16,13 +17,13 @@ public class SettingsView extends View {
     private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
         ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
     };
-    private boolean comboBoxPreventEvent = false;
     private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
         ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
         comboBoxPreventEvent = true;
         languageComboBox.getSelectionModel().select(newValue.getDisplayName(newValue));
         comboBoxPreventEvent = false;
     };
+    private boolean comboBoxPreventEvent = false;
 
     public SettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("settings-view.fxml"));
@@ -53,6 +54,9 @@ public class SettingsView extends View {
         Locale currentLocale = Settings.locale.get();
         languageComboBox.getSelectionModel().select(currentLocale.getDisplayName(currentLocale));
 
+        // set the key bindings
+        controller.setKeyBindings(Settings.keyBindings.get());
+
         // update the locale when the user selects a new one
         languageComboBox.onActionProperty().set((evt) -> {
             if (comboBoxPreventEvent) return;
@@ -66,6 +70,7 @@ public class SettingsView extends View {
         // update properties when they change from outside the view
         Settings.fullScreen.subscribeIfNot(fullScreenListener);
         Settings.locale.subscribeIfNot(localeListener);
+        Settings.keyBindings.subscribeIfNot((evt, oldValue, newValue) -> controller.setKeyBindings(newValue));
     }
 
     @Override

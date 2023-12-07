@@ -119,11 +119,15 @@ package escape {
                 - languageComboBox: ComboBox
                 --
                 + applyLanguage(): void
+                + resetFocus(): void
                 + setFullScreenCheckBox(boolean): void
-                - onFullScreenToggle(): void
+                + setKeyBindings(KeyBindings): void
+                - colorConflictingKeys(): void
                 - onClickBack(): void
                 - onClickReset(): void
+                - onFullScreenToggle(): void
                 - openFolder(): void
+                - setKey(KeyEvent): void
             }
 
             class SavesViewController {

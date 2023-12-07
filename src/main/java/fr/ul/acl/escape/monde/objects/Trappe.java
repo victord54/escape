@@ -27,6 +27,14 @@ public class Trappe extends Objet{
     }
 
     @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("map", this.carteOuTeleporter);
+
+        return json;
+    }
+
+    @Override
     public String getSymbol() {
         return "T";
     }

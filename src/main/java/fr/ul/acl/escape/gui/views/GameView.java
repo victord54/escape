@@ -1,5 +1,7 @@
 package fr.ul.acl.escape.gui.views;
 
+import fr.ul.acl.escape.KeyAction;
+import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.SaveData;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.engine.GameInterface;
@@ -10,6 +12,7 @@ import fr.ul.acl.escape.gui.engine.GUIController;
 import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -20,7 +23,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -135,11 +137,12 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ESCAPE) {
+        KeyBindings keyBindings = Settings.keyBindings.get();
+        if (event.getCode() == keyBindings.getKey(KeyAction.PAUSE)) {
             engine.paused.set(!engine.paused.get());
-        } else if (event.getCode() == KeyCode.SPACE) {
+        } else if (event.getCode() == keyBindings.getKey(KeyAction.SHOW_FPS)) {
             Settings.showFps.set(!Settings.showFps.get());
-        } else if (event.getCode() == KeyCode.G) {
+        } else if (event.getCode() == keyBindings.getKey(KeyAction.GRID) && Donnees.DEBUG) {
             drawGrid = !drawGrid;
         } else {
             gameController.onKeyPressed(event);

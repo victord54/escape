@@ -1,6 +1,8 @@
 package fr.ul.acl.escape;
 
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.FileManager;
+import fr.ul.acl.escape.outils.Resources;
 import org.apache.commons.lang3.LocaleUtils;
 import org.json.JSONObject;
 
@@ -25,6 +27,7 @@ public class Settings {
     public static final Property<Boolean> fullScreen = new Property<>(pcs, "fullScreen", false).setLog(DEBUG);
     public static final Property<Boolean> showFps = new Property<>(pcs, "showFps", false).setLog(DEBUG);
     public static final Property<Locale> locale = new Property<>(pcs, "locale", (Locale) null).setLog(DEBUG);
+    public static final Property<KeyBindings> keyBindings = new Property<>(pcs, "keyBindings", (KeyBindings) null).setLog(DEBUG);
 
     /**
      * Whether the auto save has been initialized.
@@ -38,6 +41,7 @@ public class Settings {
         fullScreen.set(false);
         showFps.set(false);
         locale.set(Locale.getDefault());
+        keyBindings.set(new KeyBindings());
     }
 
     /**
@@ -46,6 +50,7 @@ public class Settings {
     public static void save() {
         JSONObject json = new JSONObject();
         Arrays.asList(fullScreen, showFps, locale).forEach(property -> json.put(property.getName(), property.get()));
+        json.put(keyBindings.getName(), keyBindings.get().toJSON());
         FileManager.write(json, SETTINGS_FILEPATH, false);
     }
 
@@ -60,8 +65,21 @@ public class Settings {
 
         if (json.has(fullScreen.getName())) fullScreen.set(json.getBoolean(fullScreen.getName()));
         if (json.has(showFps.getName())) showFps.set(json.getBoolean(showFps.getName()));
-        if (json.has(locale.getName())) locale.set(LocaleUtils.toLocale(json.getString(locale.getName())));
-        else locale.set(Locale.getDefault());
+        locale.set(json.has(locale.getName()) ? LocaleUtils.toLocale(json.getString(locale.getName())) : Locale.getDefault());
+        if (json.has(keyBindings.getName())) {
+            keyBindings.set(new KeyBindings(json.getJSONObject(keyBindings.getName())));
+            if (!keyBindings.get().getConflictingKeys().isEmpty()) {
+                keyBindings.set(new KeyBindings());
+                ErrorBehavior.showWarning(
+                        Resources.getI18NString("warning.conflictingKeys"),
+                        Resources.getI18NString("warning.conflictingKeys.message"),
+                        Resources.getI18NString("warning.conflictingKeys.details"),
+                        false
+                );
+            }
+        } else {
+            keyBindings.set(new KeyBindings());
+        }
     }
 
     /**

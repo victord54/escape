@@ -13,6 +13,37 @@ package Escape {
             CUSTOM
         }
 
+        enum KeyAction {
+            UP
+            LEFT
+            DOWN
+            RIGHT
+            TAKE
+            ATTACK
+            PAUSE
+            SHOW_FPS
+            GRID
+            ..
+            - KeyCode defaultKeyCode
+            - String inputId
+            - boolean debugOnly
+            ..Méthodes..
+            + {static} KeyAction fromInputId(String)
+        }
+
+        class KeyBindings {
+            ..Constructeur..
+            + KeyBindings()
+            + KeyBindings(JSONObject)
+            ..Méthodes..
+            + KeyCode get(KeyAction)
+            + KeyCode get(String)
+            + void set(KeyAction, KeyCode)
+            + void set(String, KeyCode)
+            + JSONObject toJSON()
+            + List<KeyAction> getConflictingKeys()
+        }
+
         abstract class ElementMonde {
             # double x
             # double y
@@ -297,7 +328,8 @@ package Escape {
 note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
 N_json .. ElementMonde::Type
 
-Escape.Monde.Monde -- "1" GameMode : - gameMode
+Escape.Monde.Monde -left- "1" GameMode : - gameMode
+KeyBindings -left- "*" KeyAction : - keys
 Personnage --"2" TypeMouvement : + orientation, dernierMouvement
 
 Personnage -up--|> ElementMonde
@@ -321,6 +353,8 @@ GameController -- "1" Escape.Monde.Monde
 SaveData -up[hidden]- Getter
 SaveData -up[hidden]- Setter
 LevelData -up[hidden]- SaveData
+GameMode -left[hidden]- KeyBindings
+KeyAction -left[hidden]- Property
 
 
 @enduml

@@ -4,13 +4,7 @@ import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.TypeMouvement;
-import fr.ul.acl.escape.monde.entities.Heros;
-import fr.ul.acl.escape.monde.entities.Personnage;
-import fr.ul.acl.escape.monde.environment.Terrain;
-import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.outils.ErrorBehavior;
-
-import java.util.ArrayList;
 
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 

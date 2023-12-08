@@ -24,7 +24,7 @@ public abstract class Objet extends ElementMonde {
             return new Coeur(json);
         } else if (type == Type.TRAP) {
             return new Piege(json);
-        }else if(type == Type.TRAPDOOR){
+        } else if (type == Type.TRAPDOOR) {
             return new Trappe(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
@@ -61,7 +61,7 @@ public abstract class Objet extends ElementMonde {
         return false;
     }
 
-    public boolean estTrappe(){
+    public boolean estTrappe() {
         return false;
     }
 }

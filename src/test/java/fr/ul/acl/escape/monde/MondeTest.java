@@ -180,19 +180,19 @@ class MondeTest {
     }
 
     @Test
-    void testCopierMonde(){
-        Monde m = new Monde(6,5);
+    void testCopierMonde() {
+        Monde m = new Monde(6, 5);
 
-        m.addPersonnage(new Heros(1,1,1,1,1,1,1,1,1));
-        m.addPersonnage(new Walker(2,2,1,1,1,1,1,1,1));
+        m.addPersonnage(new Heros(1, 1, 1, 1, 1, 1, 1, 1, 1));
+        m.addPersonnage(new Walker(2, 2, 1, 1, 1, 1, 1, 1, 1));
 
-        m.addTerrains(new Mur(0,0,1,1));
-        m.addTerrains(new Mur(0,1,1,1));
-        m.addTerrains(new Mur(1,0,1,1));
+        m.addTerrains(new Mur(0, 0, 1, 1));
+        m.addTerrains(new Mur(0, 1, 1, 1));
+        m.addTerrains(new Mur(1, 0, 1, 1));
 
-        m.addObjet(new Piege(1,1,1,1,1));
+        m.addObjet(new Piege(1, 1, 1, 1, 1));
 
-        monde.addPersonnage(new Heros(2,2,2,2,2,2,2,2,2));
+        monde.addPersonnage(new Heros(2, 2, 2, 2, 2, 2, 2, 2, 2));
 
         monde.copierMonde(m);
 
@@ -210,10 +210,10 @@ class MondeTest {
     }
 
     @Test
-    void testMonstresTousMorts(){
-        Walker w = new Walker(1,1,1,1,1,1,1,1,1);
+    void testMonstresTousMorts() {
+        Walker w = new Walker(1, 1, 1, 1, 1, 1, 1, 1, 1);
         monde.addPersonnage(w);
-        monde.addPersonnage(new Heros(1,1,1,1,1,1,1,1,1));
+        monde.addPersonnage(new Heros(1, 1, 1, 1, 1, 1, 1, 1, 1));
 
         assertFalse(monde.monstresTousMorts());
 

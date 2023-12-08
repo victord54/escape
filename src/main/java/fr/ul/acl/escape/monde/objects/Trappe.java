@@ -7,13 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
-public class Trappe extends Objet{
+public class Trappe extends Objet {
 
     private static Image[] sprites;
-
-    private boolean ouverte;
-
     private final String carteOuTeleporter;
+    private boolean ouverte;
 
     public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
         super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
@@ -46,7 +44,7 @@ public class Trappe extends Objet{
 
     @Override
     public Image getSprite(int i) {
-        if(ouverte) return sprites[1];
+        if (ouverte) return sprites[1];
         return sprites[0];
     }
 
@@ -64,8 +62,8 @@ public class Trappe extends Objet{
 
         if (spriteSheet.get() == null) return;
 
-        sprites[0] = spriteSheet.get(23,0,24,24);
-        sprites[1] = spriteSheet.get(0,0,24,24);
+        sprites[0] = spriteSheet.get(23, 0, 24, 24);
+        sprites[1] = spriteSheet.get(0, 0, 24, 24);
     }
 
     @Override
@@ -84,7 +82,7 @@ public class Trappe extends Objet{
      * This method changes the status of an object to "open" by setting the "ouverte" attribute to true.
      * </p>
      */
-    public void ouvrir(){
+    public void ouvrir() {
         ouverte = true;
     }
 

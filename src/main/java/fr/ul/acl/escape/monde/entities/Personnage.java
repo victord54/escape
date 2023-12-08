@@ -222,7 +222,7 @@ public abstract class Personnage extends ElementMonde {
      * @param personnage The character whose statistics are to be copied.
      * @see Personnage
      */
-    public void copierStatistique(Personnage personnage){
+    public void copierStatistique(Personnage personnage) {
         degats = personnage.degats;
         maxCoeurs = personnage.maxCoeurs;
         coeurs = personnage.coeurs;

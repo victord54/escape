@@ -501,10 +501,10 @@ public class Monde {
             if (!p.estVivant()) detruirePersonnage(p);
         }
 
-        if(monstresTousMorts()){
-            for(Objet o : objets){
-                if(o.estTrappe()){
-                    ((Trappe)o).ouvrir();
+        if (monstresTousMorts()) {
+            for (Objet o : objets) {
+                if (o.estTrappe()) {
+                    ((Trappe) o).ouvrir();
                 }
             }
         }
@@ -557,7 +557,7 @@ public class Monde {
         for (Objet o : objets) {
             if (o.estDeclenchable()) {
                 if (collision(h, o)) {
-                    o.consommePar(h,this);
+                    o.consommePar(h, this);
                 }
             }
         }
@@ -694,7 +694,7 @@ public class Monde {
      * @see Monde
      * @see Heros
      */
-    public void copierMonde(Monde m){
+    public void copierMonde(Monde m) {
         Heros ancienHero = getHeros();
 
         carte = m.carte;
@@ -718,9 +718,9 @@ public class Monde {
      * @see Monde
      * @see Heros
      */
-    public void changerMap(String nomMap){
+    public void changerMap(String nomMap) {
         try {
-            Monde nouveauMonde = fromMap(nomMap+JSON.extension, this.gameMode);
+            Monde nouveauMonde = fromMap(nomMap + JSON.extension, this.gameMode);
             copierMonde(nouveauMonde);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -737,8 +737,8 @@ public class Monde {
      * @return {@code true} if all monsters in the world are defeated, {@code false} otherwise.
      * @see Personnage
      */
-    public boolean monstresTousMorts(){
-        for(Personnage p : personnages) if(!p.estUnHeros()) return false;
+    public boolean monstresTousMorts() {
+        for (Personnage p : personnages) if (!p.estUnHeros()) return false;
         return true;
     }
 }

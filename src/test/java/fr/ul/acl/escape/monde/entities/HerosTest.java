@@ -160,8 +160,8 @@ class HerosTest {
     }
 
     @Test
-    void testCopierStatistique(){
-        Heros newHero = new Heros(1,1,1,1,12,12,12,12,1);
+    void testCopierStatistique() {
+        Heros newHero = new Heros(1, 1, 1, 1, 12, 12, 12, 12, 1);
 
         p.copierStatistique(newHero);
 

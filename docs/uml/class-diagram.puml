@@ -121,6 +121,7 @@ package Escape {
                 + void coeursGagne(double)
                 + boolean boolean peutTraverserObstacles()
                 + {abstract} Personnage clone()
+                + void copierStatistique(Personnage)
             }
 
             class Heros extends Personnage {
@@ -135,6 +136,7 @@ package Escape {
                 + Image getSprite(int)
                 + Heros clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
 
             abstract class Monstre extends Personnage {
@@ -145,6 +147,7 @@ package Escape {
                 + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
+                + void copierStatistique(Personnage)
             }
 
             class Walker extends Monstre {
@@ -158,6 +161,7 @@ package Escape {
                 + Image getSprite(int)
                 + Walker clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
 
             class Fantome extends Monstre {
@@ -172,6 +176,7 @@ package Escape {
                 + Image getSprite(int)
                 + Fantome clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
         }
         package Objects {
@@ -187,6 +192,7 @@ package Escape {
                 + boolean estRamassable()
                 + boolean estConsommable()
                 + boolean estDeclenchable()
+                + boolean estTrappe()
             }
 
             class Coeur extends Objet {
@@ -203,6 +209,7 @@ package Escape {
                 + void consommePar(Personnage)
                 + boolean estConsommable()
                 # void initSprites()
+                + boolean estTrappe()
             }
 
             class Piege extends Objet{
@@ -221,6 +228,29 @@ package Escape {
                 + void consommePar(Personnage p)
                 + boolean estDeclenchable()
                 # void initSprites()
+                + boolean estTrappe()
+            }
+
+            class Trappe extends Objet{
+                - {static} Image sprite
+                # double degats
+                - boolean ouverte
+                - String carteOuTeleporter
+                ..Constructeur..
+                + Piege(double, double, double, double, double)
+                + Piege(JSONObject json)
+                ..Méthodes..
+                + JSONObject toJSON()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                + boolean estDeclenchable()
+                + boolean estRamassable()
+                + void consommePar(Personnage p)
+                + boolean estDeclenchable()
+                # void initSprites()
+                + boolean estTrappe()
+                + void ouvrir()
             }
         }
 
@@ -247,6 +277,9 @@ package Escape {
             + void monstreAttaque()
             # int intLePlusProche(int, int)
             - JSONObject toJSONSave()
+            + void copierMonde(Monde)
+            + void changerMap(String)
+            + boolean monstresTousMorts()
         }
     }
 

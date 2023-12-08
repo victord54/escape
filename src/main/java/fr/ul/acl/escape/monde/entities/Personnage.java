@@ -10,9 +10,9 @@ import java.util.List;
 
 public abstract class Personnage extends ElementMonde {
     protected final int id;
-    protected final double vitesse;
-    protected final double maxCoeurs;
-    protected final double degats;
+    protected double vitesse;
+    protected double maxCoeurs;
+    protected double degats;
     protected double coeurs;
     protected boolean isMoving = false;
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
@@ -87,7 +87,7 @@ public abstract class Personnage extends ElementMonde {
      */
     public void attaquer(List<Personnage> touches) {
         for (Personnage p : touches) {
-            p.coeursPerdu(1);
+            p.coeursPerdu(this.degats);
         }
     }
 
@@ -210,5 +210,22 @@ public abstract class Personnage extends ElementMonde {
      */
     public boolean peutTraverserObstacles() {
         return false;
+    }
+
+    /**
+     * Copies the statistics from another character to this character.
+     * <p>
+     * This method copies the damage, maximum hearts, current hearts, and speed
+     * from the specified character to the current character.
+     * </p>
+     *
+     * @param personnage The character whose statistics are to be copied.
+     * @see Personnage
+     */
+    public void copierStatistique(Personnage personnage){
+        degats = personnage.degats;
+        maxCoeurs = personnage.maxCoeurs;
+        coeurs = personnage.coeurs;
+        vitesse = personnage.vitesse;
     }
 }

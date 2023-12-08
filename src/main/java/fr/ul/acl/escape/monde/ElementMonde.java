@@ -110,6 +110,6 @@ public abstract class ElementMonde {
      * Used for JSON serialization ONLY!
      */
     public enum Type {
-        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP, GHOST
+        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP, GHOST, TRAPDOOR
     }
 }

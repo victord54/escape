@@ -1,33 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="background, vbox"
-      stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="fr.ul.acl.escape.gui.views.SettingsViewController">
+<?import javafx.scene.layout.*?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true"
+            styleClass="background" stylesheets="@../styles/global.css, @../styles/settings.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="fr.ul.acl.escape.gui.views.SettingsViewController">
+    <VBox styleClass="background, vbox">
 
-    <Label fx:id="settingsTitle" styleClass="title" text="%settings"/>
-    <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" onAction="#onFullScreenToggle" styleClass="text"
-              text="%settings.fullscreen"/>
-    <HBox alignment="CENTER">
-        <Label fx:id="settingsLanguage" styleClass="text" text="%settings.language">
-            <padding>
-                <Insets right="16.0"/>
-            </padding>
+        <Label fx:id="settingsTitle" styleClass="title" text="%settings" />
+
+        <!-- Display -->
+        <Label fx:id="settingsDisplayTitle" styleClass="subtitle" text="%settings.display" />
+        <CheckBox fx:id="fullScreenCheckBox" mnemonicParsing="false" onAction="#onFullScreenToggle" styleClass="text"
+                  text="%settings.display.fullscreen" />
+        <HBox alignment="CENTER">
+            <Label fx:id="labelLanguage" styleClass="text" text="%settings.display.language">
+                <padding>
+                    <Insets right="16.0" />
+                </padding>
+            </Label>
+            <ComboBox fx:id="languageComboBox" />
+        </HBox>
+
+        <!-- Key bindings -->
+        <Label fx:id="settingsKeysTitle" styleClass="subtitle" text="%settings.keys">
+            <VBox.margin>
+                <Insets top="16.0" />
+            </VBox.margin>
         </Label>
-        <ComboBox fx:id="languageComboBox"/>
-    </HBox>
-    <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset">
-        <VBox.margin>
-            <Insets top="16.0"/>
-        </VBox.margin>
-    </Button>
-    <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder"/>
-    <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back">
-        <VBox.margin>
-            <Insets top="16"/>
-        </VBox.margin>
-    </Button>
-</VBox>
+        <GridPane alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints minWidth="10.0" />
+                <ColumnConstraints minWidth="10.0" prefWidth="120.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+            <Label fx:id="labelKeyUp" styleClass="text" text="%settings.keys.up" />
+            <TextField fx:id="keyUp" onKeyReleased="#setKey" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyLeft" styleClass="text" text="%settings.keys.left" GridPane.rowIndex="1" />
+            <TextField fx:id="keyLeft" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyDown" styleClass="text" text="%settings.keys.down" GridPane.rowIndex="2" />
+            <TextField fx:id="keyDown" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyRight" styleClass="text" text="%settings.keys.right" GridPane.rowIndex="3" />
+            <TextField fx:id="keyRight" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyTake" styleClass="text" text="%settings.keys.take" GridPane.rowIndex="4" />
+            <TextField fx:id="keyTake" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyAttack" styleClass="text" text="%settings.keys.attack" GridPane.rowIndex="5" />
+            <TextField fx:id="keyAttack" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyPause" styleClass="text" text="%settings.keys.pause" GridPane.rowIndex="6" />
+            <TextField fx:id="keyPause" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyShowFps" styleClass="text" text="%settings.keys.showFps" GridPane.rowIndex="7" />
+            <TextField fx:id="keyShowFps" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+            <Label fx:id="labelKeyShowGrid" styleClass="text" text="%settings.keys.showGrid" GridPane.rowIndex="8" />
+            <TextField fx:id="keyShowGrid" onKeyReleased="#setKey" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                <GridPane.margin>
+                    <Insets bottom="2.0" left="16.0" top="2.0" />
+                </GridPane.margin>
+            </TextField>
+        </GridPane>
+
+        <!-- Settings -->
+        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="%settings.reset">
+            <VBox.margin>
+                <Insets top="16.0" />
+            </VBox.margin>
+        </Button>
+        <Button fx:id="openFolderButton" mnemonicParsing="false" onAction="#openFolder" text="%settings.openFolder" />
+        <Button fx:id="backButton" mnemonicParsing="false" onAction="#onClickBack" text="%back">
+            <VBox.margin>
+                <Insets top="16" />
+            </VBox.margin>
+        </Button>
+    </VBox>
+</ScrollPane>

@@ -9,6 +9,7 @@ import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.monde.objects.Coeur;
 import fr.ul.acl.escape.monde.objects.Objet;
+import fr.ul.acl.escape.monde.objects.Trappe;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import javafx.geometry.Point2D;
@@ -24,15 +25,16 @@ import java.util.List;
 import java.util.Random;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 import static java.io.File.separator;
 
 
 public class Monde {
-    private final int height;
-    private final int width;
-    private final ArrayList<Personnage> personnages;
-    private final ArrayList<Terrain> terrains;
-    private final ArrayList<Objet> objets;
+    private int height;
+    private int width;
+    private ArrayList<Personnage> personnages;
+    private ArrayList<Terrain> terrains;
+    private ArrayList<Objet> objets;
     /**
      * Last map loaded
      */
@@ -499,6 +501,14 @@ public class Monde {
         for (Personnage p : monstresDansHitBoxAttaque) {
             if (!p.estVivant()) detruirePersonnage(p);
         }
+
+        if(monstresTousMorts()){
+            for(Objet o : objets){
+                if(o.estTrappe()){
+                    ((Trappe)o).ouvrir();
+                }
+            }
+        }
     }
 
     /**
@@ -535,7 +545,7 @@ public class Monde {
         }
         if (objetRamasse == null) return;
         if (objetRamasse.estConsommable()) {
-            objetRamasse.consommePar(h);
+            objetRamasse.consommePar(h, this);
             objets.remove(objetRamasse);
         }
     }
@@ -548,7 +558,7 @@ public class Monde {
         for (Objet o : objets) {
             if (o.estDeclenchable()) {
                 if (collision(h, o)) {
-                    o.consommePar(h);
+                    o.consommePar(h,this);
                 }
             }
         }
@@ -671,5 +681,65 @@ public class Monde {
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
         json.put("objects", objets.stream().map(Objet::toJSON).toArray());
         return json;
+    }
+
+    /**
+     * Copies the contents of another world (Monde) to this world, preserving hero statistics.
+     * <p>
+     * This method copies the map, dimensions, objects, characters, and terrains
+     * from the specified world to the current world. It also preserves the statistics
+     * of the hero before the copy operation.
+     * </p>
+     *
+     * @param m The world (Monde) to be copied.
+     * @see Monde
+     * @see Heros
+     */
+    public void copierMonde(Monde m){
+        Heros ancienHero = getHeros();
+
+        carte = m.carte;
+        height = m.height;
+        width = m.width;
+        objets = m.objets;
+        personnages = m.personnages;
+        terrains = m.terrains;
+
+        getHeros().copierStatistique(ancienHero);
+    }
+
+    /**
+     * Changes the current map of the world based on the specified map name.
+     * <p>
+     * This method loads a new map from the provided map name and replaces the current map in the world.
+     * </p>
+     *
+     * @param nomMap The name of the new map to be loaded.
+     * @throws RuntimeException If an exception occurs during the map loading process.
+     * @see Monde
+     * @see Heros
+     */
+    public void changerMap(String nomMap){
+        try {
+            Monde nouveauMonde = fromMap(nomMap+JSON.extension, this.gameMode);
+            copierMonde(nouveauMonde);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Checks if all monsters in the world are defeated.
+     * <p>
+     * This method iterates through all characters in the world and returns true if
+     * all characters are heroes, indicating that there are no remaining monsters.
+     * </p>
+     *
+     * @return {@code true} if all monsters in the world are defeated, {@code false} otherwise.
+     * @see Personnage
+     */
+    public boolean monstresTousMorts(){
+        for(Personnage p : personnages) if(!p.estUnHeros()) return false;
+        return true;
     }
 }

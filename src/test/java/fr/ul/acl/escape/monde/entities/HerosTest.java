@@ -158,4 +158,18 @@ class HerosTest {
         p.coeursGagne(1);
         assertEquals(p.getCoeurs(), HERO_HEART);
     }
+
+    @Test
+    void testCopierStatistique(){
+        Heros newHero = new Heros(1,1,1,1,12,12,12,12,1);
+
+        p.copierStatistique(newHero);
+
+        assertEquals(p.getX(), 0);
+        assertEquals(p.getY(), 0);
+        assertEquals(p.getVitesse(), 12);
+        assertEquals(p.getCoeurs(), 12);
+        assertEquals(p.getMaxCoeurs(), 12);
+        assertEquals(p.degats, 12);
+    }
 }

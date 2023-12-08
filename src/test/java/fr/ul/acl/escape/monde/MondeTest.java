@@ -178,4 +178,47 @@ class MondeTest {
         monde.heroRamassageObjet();
         assertEquals(1, monde.getObjets().size());
     }
+
+    @Test
+    void testCopierMonde(){
+        Monde m = new Monde(6,5);
+
+        m.addPersonnage(new Heros(1,1,1,1,1,1,1,1,1));
+        m.addPersonnage(new Walker(2,2,1,1,1,1,1,1,1));
+
+        m.addTerrains(new Mur(0,0,1,1));
+        m.addTerrains(new Mur(0,1,1,1));
+        m.addTerrains(new Mur(1,0,1,1));
+
+        m.addObjet(new Piege(1,1,1,1,1));
+
+        monde.addPersonnage(new Heros(2,2,2,2,2,2,2,2,2));
+
+        monde.copierMonde(m);
+
+        assertEquals(monde.getHeight(), m.getHeight());
+        assertEquals(monde.getWidth(), m.getWidth());
+        assertEquals(monde.getPersonnages(), m.getPersonnages());
+        assertEquals(monde.getObjets(), m.getObjets());
+        assertEquals(monde.getTerrains(), m.getTerrains());
+
+        Heros hero = monde.getHeros();
+        assertEquals(hero.getX(), 1);
+        assertEquals(hero.getY(), 1);
+        assertEquals(hero.getCoeurs(), 2);
+        assertEquals(hero.getMaxCoeurs(), 2);
+    }
+
+    @Test
+    void testMonstresTousMorts(){
+        Walker w = new Walker(1,1,1,1,1,1,1,1,1);
+        monde.addPersonnage(w);
+        monde.addPersonnage(new Heros(1,1,1,1,1,1,1,1,1));
+
+        assertFalse(monde.monstresTousMorts());
+
+        monde.getPersonnages().remove(w);
+
+        assertTrue(monde.monstresTousMorts());
+    }
 }

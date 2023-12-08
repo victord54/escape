@@ -13,6 +13,37 @@ package Escape {
             CUSTOM
         }
 
+        enum KeyAction {
+            UP
+            LEFT
+            DOWN
+            RIGHT
+            TAKE
+            ATTACK
+            PAUSE
+            SHOW_FPS
+            GRID
+            ..
+            - KeyCode defaultKeyCode
+            - String inputId
+            - boolean debugOnly
+            ..Méthodes..
+            + {static} KeyAction fromInputId(String)
+        }
+
+        class KeyBindings {
+            ..Constructeur..
+            + KeyBindings()
+            + KeyBindings(JSONObject)
+            ..Méthodes..
+            + KeyCode get(KeyAction)
+            + KeyCode get(String)
+            + void set(KeyAction, KeyCode)
+            + void set(String, KeyCode)
+            + JSONObject toJSON()
+            + List<KeyAction> getConflictingKeys()
+        }
+
         abstract class ElementMonde {
             # double x
             # double y
@@ -90,6 +121,7 @@ package Escape {
                 + void coeursGagne(double)
                 + boolean boolean peutTraverserObstacles()
                 + {abstract} Personnage clone()
+                + void copierStatistique(Personnage)
             }
 
             class Heros extends Personnage {
@@ -104,6 +136,7 @@ package Escape {
                 + Image getSprite(int)
                 + Heros clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
 
             abstract class Monstre extends Personnage {
@@ -114,6 +147,7 @@ package Escape {
                 + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
+                + void copierStatistique(Personnage)
             }
 
             class Walker extends Monstre {
@@ -127,6 +161,7 @@ package Escape {
                 + Image getSprite(int)
                 + Walker clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
 
             class Fantome extends Monstre {
@@ -141,6 +176,7 @@ package Escape {
                 + Image getSprite(int)
                 + Fantome clone()
                 # void initSprites()
+                + void copierStatistique(Personnage)
             }
         }
         package Objects {
@@ -156,6 +192,7 @@ package Escape {
                 + boolean estRamassable()
                 + boolean estConsommable()
                 + boolean estDeclenchable()
+                + boolean estTrappe()
             }
 
             class Coeur extends Objet {
@@ -172,6 +209,7 @@ package Escape {
                 + void consommePar(Personnage)
                 + boolean estConsommable()
                 # void initSprites()
+                + boolean estTrappe()
             }
 
             class Piege extends Objet{
@@ -190,6 +228,29 @@ package Escape {
                 + void consommePar(Personnage p)
                 + boolean estDeclenchable()
                 # void initSprites()
+                + boolean estTrappe()
+            }
+
+            class Trappe extends Objet{
+                - {static} Image sprite
+                # double degats
+                - boolean ouverte
+                - String carteOuTeleporter
+                ..Constructeur..
+                + Piege(double, double, double, double, double)
+                + Piege(JSONObject json)
+                ..Méthodes..
+                + JSONObject toJSON()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                + boolean estDeclenchable()
+                + boolean estRamassable()
+                + void consommePar(Personnage p)
+                + boolean estDeclenchable()
+                # void initSprites()
+                + boolean estTrappe()
+                + void ouvrir()
             }
         }
 
@@ -216,6 +277,9 @@ package Escape {
             + void monstreAttaque()
             # int intLePlusProche(int, int)
             - JSONObject toJSONSave()
+            + void copierMonde(Monde)
+            + void changerMap(String)
+            + boolean monstresTousMorts()
         }
     }
 
@@ -297,7 +361,8 @@ package Escape {
 note "'Type type' : Uniquement pour\nla sérialisation en JSON." as N_json
 N_json .. ElementMonde::Type
 
-Escape.Monde.Monde -- "1" GameMode : - gameMode
+Escape.Monde.Monde -left- "1" GameMode : - gameMode
+KeyBindings -left- "*" KeyAction : - keys
 Personnage --"2" TypeMouvement : + orientation, dernierMouvement
 
 Personnage -up--|> ElementMonde
@@ -321,6 +386,8 @@ GameController -- "1" Escape.Monde.Monde
 SaveData -up[hidden]- Getter
 SaveData -up[hidden]- Setter
 LevelData -up[hidden]- SaveData
+GameMode -left[hidden]- KeyBindings
+KeyAction -left[hidden]- Property
 
 
 @enduml

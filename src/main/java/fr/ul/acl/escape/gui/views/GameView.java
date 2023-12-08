@@ -139,7 +139,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     public void onKeyPressed(KeyEvent event) {
         KeyBindings keyBindings = Settings.keyBindings.get();
         if (event.getCode() == keyBindings.getKey(KeyAction.PAUSE)) {
-            engine.paused.set(!engine.paused.get());
+            if (engine != null) engine.paused.set(!engine.paused.get());
         } else if (event.getCode() == keyBindings.getKey(KeyAction.SHOW_FPS)) {
             Settings.showFps.set(!Settings.showFps.get());
         } else if (event.getCode() == keyBindings.getKey(KeyAction.GRID) && Donnees.DEBUG) {
@@ -194,6 +194,8 @@ public class GameView extends View implements GameInterface, GameViewController.
                 renderElement(gc, objet, elementSize, 0);
             }
         });
+
+        if (engine == null) return;
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {

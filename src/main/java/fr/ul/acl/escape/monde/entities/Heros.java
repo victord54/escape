@@ -3,6 +3,7 @@ package fr.ul.acl.escape.monde.entities;
 import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.outils.Donnees;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
@@ -14,12 +15,16 @@ import java.util.Map;
 public class Heros extends Personnage {
     private static Map<TypeMouvement, Image[]> sprites;
 
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
+    private int trainingDuration = 0;
+
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int trainingDuration, int id) {
         super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        this.trainingDuration = trainingDuration;
     }
 
     public Heros(JSONObject json) {
         super(json);
+        this.trainingDuration = json.optInt("trainingDuration", 0);
     }
 
     @Override
@@ -36,7 +41,7 @@ public class Heros extends Personnage {
     @Override
     public Image getSprite(int i) {
         if (sprites == null) return null;
-        return sprites.get(orientation)[i];
+        return sprites.get(orientation)[i % sprites.get(orientation).length];
     }
 
     @Override
@@ -46,7 +51,7 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, trainingDuration, id);
     }
 
     @Override
@@ -91,5 +96,20 @@ public class Heros extends Personnage {
     @Override
     public String toString() {
         return "\u001B[46m" + super.toString() + "\u001B[0m";
+    }
+
+    public boolean canSwim() {
+        return trainingDuration >= Donnees.HERO_TRAINING_DURATION;
+    }
+
+    public void addTrainingTime(int trainingDuration) {
+        this.trainingDuration += trainingDuration;
+        if (this.trainingDuration > Donnees.HERO_TRAINING_DURATION) {
+            this.trainingDuration = Donnees.HERO_TRAINING_DURATION;
+        }
+    }
+
+    public int getTrainingProgress() {
+        return (int) (trainingDuration * 100.0 / Donnees.HERO_TRAINING_DURATION);
     }
 }

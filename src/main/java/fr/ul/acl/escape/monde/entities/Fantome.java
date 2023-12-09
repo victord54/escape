@@ -34,7 +34,7 @@ public class Fantome extends Monstre {
     @Override
     public Image getSprite(int i) {
         if (sprites == null) return null;
-        return sprites.get(dernierMouvement)[i];
+        return sprites.get(dernierMouvement)[i % sprites.get(dernierMouvement).length];
     }
 
     @Override

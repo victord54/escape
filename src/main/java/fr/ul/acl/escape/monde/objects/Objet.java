@@ -26,6 +26,8 @@ public abstract class Objet extends ElementMonde {
             return new Piege(json);
         } else if (type == Type.TRAPDOOR) {
             return new Trappe(json);
+        } else if (type == Type.TRAINING) {
+            return new Training(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -53,7 +55,7 @@ public abstract class Objet extends ElementMonde {
      */
     public abstract void consommePar(Personnage p, Monde m);
 
-    public boolean getVisible() {
+    public boolean isVisible() {
         return visible;
     }
 
@@ -63,5 +65,12 @@ public abstract class Objet extends ElementMonde {
 
     public boolean estTrappe() {
         return false;
+    }
+
+    public boolean necessiteDureePourActivation() {
+        return false;
+    }
+
+    public void notOnObject(Personnage p) {
     }
 }

@@ -116,6 +116,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         monde.deplacementMonstres(timeInDouble);
         monde.monstreAttaque();
+        monde.activationObjetAvecDuree();
     }
 
     public boolean collisionAvecTerrains(Personnage p) {

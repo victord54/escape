@@ -47,6 +47,11 @@ public final class Donnees {
     public static final double HERO_HIT_COUNTDOWN = 500;
 
     /**
+     * total hero training duration in ms
+     */
+    public static final int HERO_TRAINING_DURATION = 5000;
+
+    /**
      * Walker hit damage
      */
     public static final double WALKER_HIT = 1;

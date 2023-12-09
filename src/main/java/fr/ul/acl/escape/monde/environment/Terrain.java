@@ -16,7 +16,10 @@ public abstract class Terrain extends ElementMonde {
         Type type = Type.valueOf(json.getString("type"));
         if (type == Type.WALL) {
             return new Mur(json);
-        } else {
+        } else if (type == Type.WATER){
+            return new Eau(json);
+        }
+        else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
     }

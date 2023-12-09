@@ -98,21 +98,22 @@ public abstract class Personnage extends ElementMonde {
      * @return Rectangle2D representing the attack hitbox.
      */
     public Rectangle2D getHitBoxAttaque() {
+        double hitbox = 0.4;
         switch (this.orientation) {
             case RIGHT -> {
-                return new Rectangle2D(x + largeur, y, 1, 1);
+                return new Rectangle2D(x + largeur, y, hitbox, hitbox);
             }
             case LEFT -> {
-                return new Rectangle2D(x - largeur, y, 1, 1);
+                return new Rectangle2D(x - largeur, y, hitbox, hitbox);
             }
             case UP -> {
-                return new Rectangle2D(x, y - hauteur, 1, 1);
+                return new Rectangle2D(x, y - hauteur, hitbox, hitbox);
             }
             case DOWN -> {
-                return new Rectangle2D(x, y + hauteur, 1, 1);
+                return new Rectangle2D(x, y + hauteur, hitbox, hitbox);
             }
         }
-        return new Rectangle2D(this.x, this.y, 1, 1);
+        return new Rectangle2D(this.x, this.y, hitbox, hitbox);
     }
 
     /**

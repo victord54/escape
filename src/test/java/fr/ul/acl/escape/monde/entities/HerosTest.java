@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static fr.ul.acl.escape.monde.TypeMouvement.*;
-import static fr.ul.acl.escape.outils.Donnees.HERO_HIT;
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HerosTest {
@@ -17,6 +15,9 @@ class HerosTest {
     private static final double HERO_HEART = 3;
     private static final double WALKER_SPEED = 2;
     private static final double WALKER_HEART = 3;
+    private static final double HERO_HIT = 1;
+
+    private static final double WALKER_HIT = 1;
 
     Heros p;
 
@@ -105,28 +106,29 @@ class HerosTest {
 
     @Test
     void getHitBoxAttaque() {
-        Rectangle2D rectVoulu = new Rectangle2D(0 + p.getLargeur(), 0, 1, 1);
+        double hitbox = 0.4;
+        Rectangle2D rectVoulu = new Rectangle2D(0 + p.getLargeur(), 0, hitbox, hitbox);
         p.setOrientation(RIGHT);
 
         Rectangle2D hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0 - p.getLargeur(), 0, 1, 1);
+        rectVoulu = new Rectangle2D(0 - p.getLargeur(), 0, hitbox, hitbox);
         p.setOrientation(LEFT);
 
         hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0, 0 - p.getHauteur(), 1, 1);
+        rectVoulu = new Rectangle2D(0, 0 - p.getHauteur(), hitbox, hitbox);
         p.setOrientation(UP);
 
         hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0, 0 + p.getHauteur(), 1, 1);
+        rectVoulu = new Rectangle2D(0, 0 + p.getHauteur(), hitbox, hitbox);
         p.setOrientation(DOWN);
 
         hitBox = p.getHitBoxAttaque();

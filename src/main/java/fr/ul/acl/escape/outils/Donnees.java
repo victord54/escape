@@ -38,21 +38,7 @@ public final class Donnees {
     public static final String EXAMPLE_LEVEL_FILE = "maps/exampleCustomLevel.json";
 
     /**
-     * hero hit damage
-     */
-    public static final double HERO_HIT = 1;
-    /**
-     * countdown between two hero hit in ms
-     */
-    public static final double HERO_HIT_COUNTDOWN = 500;
-
-    /**
-     * Walker hit damage
-     */
-    public static final double WALKER_HIT = 1;
-
-    /**
-     * Walker hit damage
+     * Walker hit countdown
      */
     public static final double MONSTER_HIT_COUNTDOWN = 1;
 

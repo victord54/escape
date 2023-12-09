@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 import static java.io.File.separator;
 
@@ -44,7 +43,7 @@ public class Monde {
      */
     private GameMode gameMode;
 
-    private long dernierCoupsEffectueParHero = System.currentTimeMillis();
+    private long dernierCoupsEffectueParMonstres = System.currentTimeMillis();
 
     /**
      * Create a new world with no elements.
@@ -487,8 +486,6 @@ public class Monde {
      * removes defeated enemies.
      */
     public void heroAttaque() {
-        //if (System.currentTimeMillis() - dernierCoupsEffectueParHero < HERO_HIT_COUNTDOWN) return;
-        //dernierCoupsEffectueParHero = System.currentTimeMillis();
         List<Personnage> monstresDansHitBoxAttaque = new ArrayList<>();
         Heros hero = getHeros();
         for (Personnage p : personnages) {
@@ -516,8 +513,8 @@ public class Monde {
      * and updates the hero's health.
      */
     public void monstreAttaque() {
-        if (System.currentTimeMillis() - dernierCoupsEffectueParHero < 500 || !getHeros().estVivant()) return;
-        dernierCoupsEffectueParHero = System.currentTimeMillis();
+        if (System.currentTimeMillis() - dernierCoupsEffectueParMonstres < 500 || !getHeros().estVivant()) return;
+        dernierCoupsEffectueParMonstres = System.currentTimeMillis();
 
         Heros hero = getHeros();
         for (Personnage p : personnages) {

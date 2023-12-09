@@ -35,6 +35,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     private boolean takeKeyPressed = false;
 
+    private boolean attackKeyPressed = false;
     /**
      * Create a new controller with a new world from a default map.
      */
@@ -104,8 +105,11 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
         }
 
         //Attaquer
-        if (keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))) {
+        if (keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK)) && !attackKeyPressed) {
+            attackKeyPressed = true;
             monde.heroAttaque();
+        } else if (!keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))){
+            attackKeyPressed = false;
         }
 
         //State of the game

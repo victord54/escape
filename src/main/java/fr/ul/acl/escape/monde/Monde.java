@@ -487,9 +487,8 @@ public class Monde {
      * removes defeated enemies.
      */
     public void heroAttaque() {
-        if (System.currentTimeMillis() - dernierCoupsEffectueParHero < HERO_HIT_COUNTDOWN) return;
-        dernierCoupsEffectueParHero = System.currentTimeMillis();
-
+        //if (System.currentTimeMillis() - dernierCoupsEffectueParHero < HERO_HIT_COUNTDOWN) return;
+        //dernierCoupsEffectueParHero = System.currentTimeMillis();
         List<Personnage> monstresDansHitBoxAttaque = new ArrayList<>();
         Heros hero = getHeros();
         for (Personnage p : personnages) {
@@ -498,6 +497,7 @@ public class Monde {
         }
         hero.attaquer(monstresDansHitBoxAttaque);
         for (Personnage p : monstresDansHitBoxAttaque) {
+            System.out.println("hitbox Héro");
             if (!p.estVivant()) detruirePersonnage(p);
         }
 
@@ -523,6 +523,7 @@ public class Monde {
         Heros hero = getHeros();
         for (Personnage p : personnages) {
             if (p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros())
+                System.out.println("Héro ds hitbox");
                 p.attaquer(List.of(hero));
         }
     }

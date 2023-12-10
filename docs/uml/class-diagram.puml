@@ -115,6 +115,7 @@ package Escape {
 
         package Entities {
             abstract class Personnage {
+                - long lastAttack
                 # int id
                 # double vitesse
                 # double vitesseMax
@@ -129,7 +130,7 @@ package Escape {
                 + {static} Personnage fromJSON(JSONObject)
                 + JSONObject toJSON()
                 + void deplacer(TypeMouvement, double)
-                + void attaquer(List<Personnage>)
+                + void attaquer(List<Personnage>, long)
                 + Rectangle2D getHitboxAttaque()
                 + Rectangle2D getHitboxCollision()
                 + boolean estUnHeros()
@@ -138,8 +139,9 @@ package Escape {
                 + void coeursPerdu(double)
                 + void coeursGagne(double)
                 + boolean boolean peutTraverserObstacles()
-                + {abstract} Personnage clone()
                 + void copierStatistique(Personnage)
+                + {abstract} Personnage clone()
+                + {abstract} long getCoolDownAttack()
             }
 
             class Heros extends Personnage {
@@ -158,6 +160,7 @@ package Escape {
                 + Heros clone()
                 + void copierStatistique(Personnage)
                 + void addTrainingTime(long)
+                + long getCoolDownAttack()
                 # void initSprites()
                 + void diminutionVitesse()
                 + void vitesseNormale()
@@ -168,7 +171,6 @@ package Escape {
                 ..Constructeur..
                 + Monstre(Type, double, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
-                + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
                 + void copierStatistique(Personnage)
@@ -184,8 +186,9 @@ package Escape {
                 + Color getColor()
                 + Image getSprite(int)
                 + Walker clone()
-                # void initSprites()
                 + void copierStatistique(Personnage)
+                + long getCoolDownAttack()
+                # void initSprites()
             }
 
             class Fantome extends Monstre {
@@ -199,8 +202,9 @@ package Escape {
                 + Color getColor()
                 + Image getSprite(int)
                 + Fantome clone()
-                # void initSprites()
                 + void copierStatistique(Personnage)
+                + long getCoolDownAttack()
+                # void initSprites()
             }
         }
         package Objects {
@@ -314,11 +318,11 @@ package Escape {
             - Graph grapheAlternatif(Monstre, int)
             - void mouvementRandom(Monstre, double)
             - TypeMouvement getMouvement(Point2D, Point2D, Monstre)
+            - void activationObjetAvecDuree(long)
             + void heroRamassageObjet()
             - void heroDeclencheObjet()
-            - void activationObjetAvecDuree(long)
-            + void heroAttaque()
-            + void monstreAttaque()
+            + void heroAttaque(long)
+            + void monstreAttaque(long)
             # int intLePlusProche(int, int)
             - JSONObject toJSONSave()
             + void copierMonde(Monde)

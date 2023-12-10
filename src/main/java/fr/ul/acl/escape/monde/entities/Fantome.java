@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde.entities;
 
 import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.outils.Donnees;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
@@ -73,7 +74,6 @@ public class Fantome extends Monstre {
         tmpSprites.put(TypeMouvement.UP, tab_sprite_up);
 
         sprites = Collections.unmodifiableMap(tmpSprites);
-
     }
 
     @Override
@@ -84,6 +84,11 @@ public class Fantome extends Monstre {
     @Override
     public boolean peutTraverserObstacles() {
         return true;
+    }
+
+    @Override
+    public long getCoolDownAttaque() {
+        return Donnees.GHOST_ATTACK_COOLDOWN * 1_000_000L;
     }
 
     @Override

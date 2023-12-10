@@ -34,12 +34,12 @@ public class CLIController extends GameController {
             case 4 -> monde.deplacementHeros(TypeMouvement.DOWN, dt);
             case 5 -> {
             }
-            case 6 -> monde.heroAttaque();
+            case 6 -> monde.heroAttaque(now);
             case 7 -> monde.heroRamassageObjet();
         }
 
         monde.deplacementMonstres(dt);
-        monde.monstreAttaque();
+        monde.monstreAttaque(now);
         monde.activationObjetAvecDuree(now);
     }
 

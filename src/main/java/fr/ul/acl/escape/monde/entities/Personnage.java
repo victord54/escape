@@ -213,6 +213,13 @@ public abstract class Personnage extends ElementMonde {
     }
 
     /**
+     * @return True if the Personnage can swim, false otherwise.
+     */
+    public boolean canSwim() {
+        return false;
+    }
+
+    /**
      * Copies the statistics from another character to this character.
      * <p>
      * This method copies the damage, maximum hearts, current hearts, and speed

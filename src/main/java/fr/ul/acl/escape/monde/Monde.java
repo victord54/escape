@@ -179,7 +179,7 @@ public class Monde {
         if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
         else h.setOrientation(typeMouvement); // Pour pouvoir se tourner même quand on ne peut pas se déplacer
 
-        herosDeclenchePiege();
+        herosDeclencheObjet();
     }
 
     /**
@@ -552,12 +552,25 @@ public class Monde {
     /**
      * Method that check if the Hero is on collision with an Objet that can be triggered. If he is, the object is triggered.
      */
-    private void herosDeclenchePiege() {
+    private void herosDeclencheObjet() {
         Heros h = this.getHeros();
         for (Objet o : objets) {
             if (o.estDeclenchable()) {
                 if (collision(h, o)) {
                     o.consommePar(h, this);
+                }
+            }
+        }
+    }
+
+    public void activationObjetAvecDuree(long currentTimeNS) {
+        Heros h = this.getHeros();
+        for (Objet o : objets) {
+            if (o.necessiteDureePourActivation()) {
+                if (collision(h, o)) {
+                    o.onObject(h, currentTimeNS);
+                } else {
+                    o.notOnObject(h);
                 }
             }
         }

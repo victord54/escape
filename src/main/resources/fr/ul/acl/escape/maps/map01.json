@@ -218,11 +218,20 @@
     {
       "type": "TRAPDOOR",
       "x": 5,
-      "y": 5,
+      "y": 4,
       "width": 0.8,
       "height": 0.8,
       "visible": true,
+      "open": false,
       "map": "map02"
+    },
+    {
+      "type": "TRAINING",
+      "x": 14,
+      "y": 2,
+      "width": 1,
+      "height": 1,
+      "visible": true
     }
   ]
 }

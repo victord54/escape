@@ -200,6 +200,7 @@
       "width": 0.8,
       "height": 0.8,
       "visible": true,
+      "open": false,
       "map": "map02"
     }
   ]

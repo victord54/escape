@@ -140,7 +140,7 @@ public class GameView extends View implements GameInterface, GameViewController.
     @Override
     public void onKeyPressed(KeyEvent event) {
         KeyBindings keyBindings = Settings.keyBindings.get();
-        if (event.getCode() == keyBindings.getKey(KeyAction.PAUSE)) {
+        if (event.getCode() == keyBindings.getKey(KeyAction.PAUSE) && !engine.gameOver.get()) {
             if (engine != null) engine.paused.set(!engine.paused.get());
         } else if (event.getCode() == keyBindings.getKey(KeyAction.SHOW_FPS)) {
             Settings.showFps.set(!Settings.showFps.get());

@@ -23,7 +23,7 @@ class HerosTest {
 
     @BeforeEach
     void setup() {
-        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
+        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, 0, -1);
     }
 
     @Test
@@ -163,7 +163,7 @@ class HerosTest {
 
     @Test
     void testCopierStatistique() {
-        Heros newHero = new Heros(1, 1, 1, 1, 12, 12, 12, 12, 1);
+        Heros newHero = new Heros(1, 1, 1, 1, 12, 12, 12, 12, 0, 1);
 
         p.copierStatistique(newHero);
 

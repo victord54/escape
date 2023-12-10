@@ -71,7 +71,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     }
 
     @Override
-    public void update(long deltaTime) {
+    public void update(long deltaTime, long now) {
         if (onPause || onOver) return;
         double timeInDouble = deltaTime * 10e-10;
 
@@ -120,6 +120,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         monde.deplacementMonstres(timeInDouble);
         monde.monstreAttaque();
+        monde.activationObjetAvecDuree(now);
     }
 
     public boolean collisionAvecTerrains(Personnage p) {

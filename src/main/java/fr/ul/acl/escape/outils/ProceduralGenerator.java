@@ -82,7 +82,7 @@ public class ProceduralGenerator {
 
         //Hero
         int[] choosen = caseVisiteAleatoire(random);
-        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.9, 0.9, 4, 5, 5 , 2, FabriqueId.getInstance().getId()));
+        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.9, 0.9, 4, 5, 5 , 2, 0, FabriqueId.getInstance().getId()));
 
         //Trappe
         choosen = caseVisiteAleatoire(random);

@@ -22,7 +22,7 @@ class ProceduralGeneratorTest {
 
         assertEquals(monde.getPersonnages().size(), 2);
 
-        assertEquals(monde.getObjets().size(), 3);
+        assertEquals(monde.getObjets().size(), 4);
 
         assertNotNull(monde.getHeros());
     }
@@ -42,7 +42,7 @@ class ProceduralGeneratorTest {
 
         assertEquals(monde.getPersonnages().size(), 3);
 
-        assertEquals(monde.getObjets().size(), 4);
+        assertEquals(monde.getObjets().size(), 5);
 
         assertNotNull(monde.getHeros());
     }

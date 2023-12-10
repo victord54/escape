@@ -109,6 +109,11 @@ public class Heros extends Personnage {
         return trainingProgress >= 100.0;
     }
 
+    @Override
+    public long getCoolDownAttaque() {
+        return Donnees.HERO_ATTACK_COOLDOWN * 1_000_000L;
+    }
+
     /**
      * Add training time to the hero.
      *

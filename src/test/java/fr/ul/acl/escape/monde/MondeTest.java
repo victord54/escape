@@ -8,8 +8,6 @@ import fr.ul.acl.escape.monde.objects.Piege;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_HIT;
-import static fr.ul.acl.escape.outils.Donnees.WALKER_HIT;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MondeTest {
@@ -17,6 +15,8 @@ class MondeTest {
     private static final double HERO_HEART = 3;
     private static final double WALKER_SPEED = 2;
     private static final double WALKER_HEART = 3;
+    private static final double HERO_HIT = 1;
+    private static final double WALKER_HIT = 1;
 
     private Monde monde;
     private Monde monde2;

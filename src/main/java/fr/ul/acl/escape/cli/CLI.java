@@ -81,6 +81,14 @@ public class CLI implements GameInterface {
         // print characters data
         controller.getPersonnages().forEach(System.out::println);
 
+        if (!controller.getHeros().estVivant()) {
+            // print game over message
+            System.out.println(Resources.getI18NString("game.end"));
+
+            // close the game
+            System.exit(0);
+        }
+
         // print actions
         List<String> actions = new ArrayList<>() {{
             add(Resources.getI18NString("left"));
@@ -114,17 +122,6 @@ public class CLI implements GameInterface {
         }
 
         controller.setAction(action);
-
-        if (!controller.getHeros().estVivant()) {
-            // clear screen
-            System.out.print("\033[H\033[2J");
-
-            // print game over message
-            System.out.println(Resources.getI18NString("game.end"));
-
-            // close the game
-            System.exit(0);
-        }
     }
 
     private String getStringRepresentationForPosition(int x, int y, ArrayList<? extends ElementMonde> elements) {

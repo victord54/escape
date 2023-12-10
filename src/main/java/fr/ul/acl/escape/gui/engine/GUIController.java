@@ -36,6 +36,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     private boolean takeKeyPressed = false;
 
     private boolean attackKeyPressed = false;
+
     /**
      * Create a new controller with a new world from a default map.
      */
@@ -77,7 +78,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         KeyBindings keyBindings = Settings.keyBindings.get();
 
-        //Déplacements
+        // Déplacements
         if (keysPressed.contains(keyBindings.getKey(KeyAction.UP))) {
             monde.getHeros().setMoving(true);
             MovementManager.instance.addMouvement(TypeMouvement.UP);
@@ -104,22 +105,22 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
             takeKeyPressed = false;
         }
 
-        //Attaquer
+        // Attaquer
         if (keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK)) && !attackKeyPressed) {
             attackKeyPressed = true;
-            monde.heroAttaque();
-        } else if (!keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))){
+            monde.heroAttaque(now);
+        } else if (!keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))) {
             attackKeyPressed = false;
         }
 
-        //State of the game
+        // State of the game
         if (!monde.heroStillAlive()) {
             onOver = true;
         }
 
 
         monde.deplacementMonstres(timeInDouble);
-        monde.monstreAttaque();
+        monde.monstreAttaque(now);
         monde.activationObjetAvecDuree(now);
     }
 

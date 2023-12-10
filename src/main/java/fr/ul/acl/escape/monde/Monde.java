@@ -43,8 +43,6 @@ public class Monde {
      */
     private GameMode gameMode;
 
-    private long dernierCoupsEffectueParMonstres = System.currentTimeMillis();
-
     /**
      * Create a new world with no elements.
      */
@@ -485,16 +483,19 @@ public class Monde {
      * Detects and targets enemies within the hero's attack hitbox, inflicts damage, and
      * removes defeated enemies.
      */
-    public void heroAttaque() {
+    public void heroAttaque(long currentTimeNS) {
         List<Personnage> monstresDansHitBoxAttaque = new ArrayList<>();
         Heros hero = getHeros();
         for (Personnage p : personnages) {
-            if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros())
+            if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros()) {
                 monstresDansHitBoxAttaque.add(p);
+            }
         }
-        hero.attaquer(monstresDansHitBoxAttaque);
+        hero.attaquer(monstresDansHitBoxAttaque, currentTimeNS);
         for (Personnage p : monstresDansHitBoxAttaque) {
-            if (!p.estVivant()) detruirePersonnage(p);
+            if (!p.estVivant()) {
+                detruirePersonnage(p);
+            }
         }
 
         if (monstresTousMorts()) {
@@ -512,14 +513,13 @@ public class Monde {
      * Detects and targets the hero within the monsters' attack hitboxes, inflicts damage,
      * and updates the hero's health.
      */
-    public void monstreAttaque() {
-        if (System.currentTimeMillis() - dernierCoupsEffectueParMonstres < 500 || !getHeros().estVivant()) return;
-        dernierCoupsEffectueParMonstres = System.currentTimeMillis();
+    public void monstreAttaque(long currentTimeNS) {
+        if (!getHeros().estVivant()) return;
 
         Heros hero = getHeros();
         for (Personnage p : personnages) {
             if (p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros()) {
-                p.attaquer(List.of(hero));
+                p.attaquer(List.of(hero), currentTimeNS);
             }
         }
     }

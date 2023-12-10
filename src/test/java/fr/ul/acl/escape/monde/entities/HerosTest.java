@@ -90,9 +90,18 @@ class HerosTest {
     @Test
     void testAttaquer() {
         Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
-        p.attaquer(List.of(w));
+        p.attaquer(List.of(w), p.getCoolDownAttaque());
 
-        assertEquals(w.getCoeurs(), WALKER_HEART - HERO_HIT);
+        assertEquals(WALKER_HEART - HERO_HIT, w.getCoeurs());
+    }
+
+    @Test
+    void testAttaquerCooldown() {
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
+        p.attaquer(List.of(w), p.getCoolDownAttaque());
+        p.attaquer(List.of(w), p.getCoolDownAttaque());
+
+        assertEquals(WALKER_HEART - HERO_HIT, w.getCoeurs());
     }
 
     @Test

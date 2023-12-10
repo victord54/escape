@@ -43,9 +43,19 @@ public final class Donnees {
     public static final int HERO_TRAINING_DURATION = 4_000;
 
     /**
-     * Monster hit countdown
+     * Attack cooldown of the hero in ms.
      */
-    public static final double MONSTER_HIT_COUNTDOWN = 1;
+    public static final int HERO_ATTACK_COOLDOWN = 300;
+
+    /**
+     * Attack cooldown of the walker in ms.
+     */
+    public static final int WALKER_ATTACK_COOLDOWN = 700;
+
+    /**
+     * Attack cooldown of the ghost in ms.
+     */
+    public static final int GHOST_ATTACK_COOLDOWN = 500;
 
     /**
      * Default width of the window when the game starts.

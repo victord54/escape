@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class Personnage extends ElementMonde {
     protected final int id;
     protected double vitesse;
+    protected double maxVitesse;
     protected double maxCoeurs;
     protected double degats;
     protected double coeurs;
@@ -20,11 +21,12 @@ public abstract class Personnage extends ElementMonde {
 
     private long lastAttack = 0;
 
-    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
+    public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double maxVitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.coeurs = coeurs;
         this.maxCoeurs = maxCoeurs;
+        this.maxVitesse = maxVitesse;
         this.orientation = TypeMouvement.DOWN;
         this.degats = degats;
         this.id = id > 0 ? id : FabriqueId.getInstance().getId();
@@ -34,6 +36,7 @@ public abstract class Personnage extends ElementMonde {
         super(json);
         this.id = json.optInt("id", FabriqueId.getInstance().getId());
         this.vitesse = json.getDouble("speed");
+        this.maxVitesse = json.getDouble("maxSpeed");
         this.coeurs = json.getDouble("life");
         this.maxCoeurs = json.getDouble("maxLife");
         this.degats = json.getDouble("damages");
@@ -60,6 +63,7 @@ public abstract class Personnage extends ElementMonde {
         json.put("life", coeurs);
         json.put("maxLife", maxCoeurs);
         json.put("speed", vitesse);
+        json.put("maxSpeed", maxVitesse);
         json.put("damages", degats);
         return json;
     }
@@ -248,5 +252,18 @@ public abstract class Personnage extends ElementMonde {
         maxCoeurs = personnage.maxCoeurs;
         coeurs = personnage.coeurs;
         vitesse = personnage.vitesse;
+        maxVitesse = personnage.maxVitesse;
+    }
+
+    public void diminutionVitesse() {
+        vitesse = maxVitesse / 2;
+    }
+
+    public void vitesseNormale() {
+        vitesse = maxVitesse;
+    }
+
+    public double getMaxVitesse() {
+        return maxVitesse;
     }
 }

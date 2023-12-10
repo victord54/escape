@@ -13,6 +13,7 @@ import fr.ul.acl.escape.monde.objects.Trappe;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -284,6 +285,8 @@ public class Monde {
     protected boolean collisionAvec(Personnage pers, boolean checkAvecHeros) {
         for (Terrain t : terrains) {
             if (!t.estTraversable() && !pers.peutTraverserObstacles()) {
+                if (collision(pers, t)) return true;
+            } else if (t.estTraversable() && pers.peutTraverserObstacles()) {
                 if (collision(pers, t)) return true;
             }
         }
@@ -750,5 +753,61 @@ public class Monde {
     public boolean monstresTousMorts() {
         for (Personnage p : personnages) if (!p.estUnHeros()) return false;
         return true;
+    }
+
+
+    /**
+     * Method that check if the Personnage of the game are in water and act in consequence.
+     */
+    public void verificationTerrainsSpeciaux() {
+        for (Personnage p : personnages) {
+            p.vitesseNormale();
+            boolean piedGaucheDansEau = false;
+            boolean piedDroitDansEau = false;
+            for (Terrain t : terrains) {
+                if (t.estTerrainSpecial()) {
+                    if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t, p);
+                    if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t, p);
+                    if (piedGaucheDansEau && piedDroitDansEau) {
+                        t.appliqueActionSpeciale(p);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Method that check if the left foot (left bottom point) of the Personnage is in a Terrain.
+     *
+     * @param terrain The terrain.
+     * @param p       The Personnage.
+     * @return true if terrain contains the left bottom point of the Personnage.
+     */
+    public boolean gaucheDansEau(Terrain terrain, Personnage p) {
+        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getLargeur(), terrain.getHauteur());
+
+        double leftBottomX = p.getX() + 0.3;
+        double leftBottomY = p.getY() + p.getHauteur();
+        Point2D piedGauche = new Point2D(leftBottomX, leftBottomY);
+
+        return (rect.contains(piedGauche));
+    }
+
+    /**
+     * Method that check if the right foot (right bottom point) of the Personnage is in a Terrain.
+     *
+     * @param terrain The terrain.
+     * @param p       The Personnage.
+     * @return true if terrain contains the right bottom point of the Personnage.
+     */
+    public boolean droitDansEau(Terrain terrain, Personnage p) {
+        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getLargeur(), terrain.getHauteur());
+
+        double rightBottomX = p.getX() + p.getLargeur() - 0.3;
+        double rightBottomY = p.getY() + p.getHauteur();
+        Point2D piedDroit = new Point2D(rightBottomX, rightBottomY);
+
+        return (rect.contains(piedDroit));
     }
 }

@@ -769,8 +769,8 @@ public class Monde {
                     if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t,p);
                     if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t,p);
                     if (piedGaucheDansEau && piedDroitDansEau) {
-                        if (p.estUnHeros()){
-                            //p.coeursPerdu(p.getCoeurs());
+                        if (p.estUnHeros() && !p.canSwim()){
+                            p.coeursPerdu(p.getCoeurs());
                         }
                         p.diminutionVitesse();
                         return;
@@ -789,7 +789,7 @@ public class Monde {
      * @return true if terrain contains the left bottom point of the Personnage.
      */
     public boolean gaucheDansEau(Terrain terrain, Personnage p) {
-        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getHauteur(), terrain.getLargeur());
+        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getLargeur(), terrain.getHauteur());
 
         double leftBottomX = p.getX() + 0.3;
         double leftBottomY = p.getY() + p.getHauteur();
@@ -806,7 +806,7 @@ public class Monde {
      * @return true if terrain contains the right bottom point of the Personnage.
      */
     public boolean droitDansEau(Terrain terrain, Personnage p) {
-        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getHauteur(), terrain.getLargeur());
+        Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getLargeur(), terrain.getHauteur());
 
         double rightBottomX = p.getX() + p.getLargeur() - 0.3;
         double rightBottomY = p.getY() + p.getHauteur();

@@ -3,6 +3,7 @@ package fr.ul.acl.escape.monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.environment.Eau;
 import fr.ul.acl.escape.monde.objects.Coeur;
 import fr.ul.acl.escape.monde.objects.Piege;
 import org.junit.jupiter.api.BeforeEach;
@@ -220,5 +221,61 @@ class MondeTest {
         monde.getPersonnages().remove(w);
 
         assertTrue(monde.monstresTousMorts());
+    }
+
+    @Test
+    void testGaucheDansEauTrue1Pied(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,2);
+        assertTrue(monde.gaucheDansEau(e,w));
+    }
+
+    @Test
+    void testGaucheDansEauTrue2Pieds(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,4);
+        assertTrue(monde.gaucheDansEau(e,w));
+    }
+
+    @Test
+    void testGaucheDansEauFalseAucunPied(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(25,25,1,1);
+        assertFalse(monde.gaucheDansEau(e,w));
+    }
+
+    @Test
+    void testGaucheDansEauFalseDroitDansEau(){
+        Walker w = new Walker(1, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,2);
+        assertFalse(monde.gaucheDansEau(e,w));
+    }
+
+    @Test
+    void testDroitDansEauTrue1Pied(){
+        Walker w = new Walker(1, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,2);
+        assertTrue(monde.droitDansEau(e,w));
+    }
+
+    @Test
+    void testDroitDansEauTrue2Pieds(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,4);
+        assertTrue(monde.droitDansEau(e,w));
+    }
+
+    @Test
+    void testDroitDansEauFalseAucunPied(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(25,25,1,1);
+        assertFalse(monde.droitDansEau(e,w));
+    }
+
+    @Test
+    void testDroitDansEauFalseGaucheEau(){
+        Walker w = new Walker(3, 1, 2, 2, 1, 1, 1,1, 1, 1);
+        Eau e = new Eau(2,2,2,2);
+        assertFalse(monde.droitDansEau(e,w));
     }
 }

@@ -8,8 +8,8 @@ import org.json.JSONObject;
 public class Eau extends Terrain{
     private static Image sprite;
 
-    public Eau(Type type, double x, double y, double hauteur, double largeur) {
-        super(type, x, y, hauteur, largeur);
+    public Eau(double x, double y, double hauteur, double largeur) {
+        super(Type.WATER, x, y, hauteur, largeur);
     }
 
     public Eau(JSONObject json) {

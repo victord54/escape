@@ -563,12 +563,12 @@ public class Monde {
         }
     }
 
-    public void activationObjetAvecDuree() {
+    public void activationObjetAvecDuree(long currentTimeNS) {
         Heros h = this.getHeros();
         for (Objet o : objets) {
             if (o.necessiteDureePourActivation()) {
                 if (collision(h, o)) {
-                    o.consommePar(h, this);
+                    o.onObject(h, currentTimeNS);
                 } else {
                     o.notOnObject(h);
                 }

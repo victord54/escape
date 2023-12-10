@@ -23,20 +23,24 @@ public class CLIController extends GameController {
     }
 
     @Override
-    public void update(long deltaTime) {
-        double dt = 1 / getHeros().getVitesse();
+    public void update(long deltaTime, long now) {
+        int dtInSec = (int) (deltaTime / 1_000_000_000);
+        double dt = dtInSec / getHeros().getVitesse();
 
         switch (action) {
             case 1 -> monde.deplacementHeros(TypeMouvement.LEFT, dt);
             case 2 -> monde.deplacementHeros(TypeMouvement.RIGHT, dt);
             case 3 -> monde.deplacementHeros(TypeMouvement.UP, dt);
             case 4 -> monde.deplacementHeros(TypeMouvement.DOWN, dt);
-            case 5 -> monde.heroAttaque();
-            case 6 -> monde.heroRamassageObjet();
+            case 5 -> {
+            }
+            case 6 -> monde.heroAttaque();
+            case 7 -> monde.heroRamassageObjet();
         }
 
         monde.deplacementMonstres(dt);
         monde.monstreAttaque();
+        monde.activationObjetAvecDuree(now);
     }
 
     public void setAction(int action) {

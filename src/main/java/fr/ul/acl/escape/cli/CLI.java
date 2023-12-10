@@ -87,6 +87,7 @@ public class CLI implements GameInterface {
             add(Resources.getI18NString("right"));
             add(Resources.getI18NString("up"));
             add(Resources.getI18NString("down"));
+            add(Resources.getI18NString("wait"));
             add(Resources.getI18NString("attack"));
             add(Resources.getI18NString("take"));
             add(Resources.getI18NString("quit"));
@@ -113,6 +114,17 @@ public class CLI implements GameInterface {
         }
 
         controller.setAction(action);
+
+        if (!controller.getHeros().estVivant()) {
+            // clear screen
+            System.out.print("\033[H\033[2J");
+
+            // print game over message
+            System.out.println(Resources.getI18NString("game.end"));
+
+            // close the game
+            System.exit(0);
+        }
     }
 
     private String getStringRepresentationForPosition(int x, int y, ArrayList<? extends ElementMonde> elements) {

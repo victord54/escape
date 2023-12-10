@@ -15,16 +15,23 @@ import java.util.Map;
 public class Heros extends Personnage {
     private static Map<TypeMouvement, Image[]> sprites;
 
-    private int trainingDuration = 0;
+    private double trainingProgress;
 
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int trainingDuration, int id) {
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, double trainingProgress, int id) {
         super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
-        this.trainingDuration = trainingDuration;
+        this.trainingProgress = trainingProgress;
     }
 
     public Heros(JSONObject json) {
         super(json);
-        this.trainingDuration = json.optInt("trainingDuration", 0);
+        this.trainingProgress = json.optDouble("trainingProgress", 0);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("trainingProgress", trainingProgress);
+        return json;
     }
 
     @Override
@@ -51,7 +58,7 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, trainingDuration, id);
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, trainingProgress, id);
     }
 
     @Override
@@ -99,17 +106,25 @@ public class Heros extends Personnage {
     }
 
     public boolean canSwim() {
-        return trainingDuration >= Donnees.HERO_TRAINING_DURATION;
+        return trainingProgress >= 100.0;
     }
 
-    public void addTrainingTime(int trainingDuration) {
-        this.trainingDuration += trainingDuration;
-        if (this.trainingDuration > Donnees.HERO_TRAINING_DURATION) {
-            this.trainingDuration = Donnees.HERO_TRAINING_DURATION;
+    /**
+     * Add training time to the hero.
+     *
+     * @param trainingDuration the training duration in nanoseconds
+     */
+    public void addTrainingTime(long trainingDuration) {
+        this.trainingProgress += (trainingDuration * 100.0 / (Donnees.HERO_TRAINING_DURATION * 1e6));
+        if (this.trainingProgress > 100.0) {
+            this.trainingProgress = 100.0;
         }
     }
 
+    /**
+     * @return the training progress in percent
+     */
     public int getTrainingProgress() {
-        return (int) (trainingDuration * 100.0 / Donnees.HERO_TRAINING_DURATION);
+        return (int) trainingProgress;
     }
 }

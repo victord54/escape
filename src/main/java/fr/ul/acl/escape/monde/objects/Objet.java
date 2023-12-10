@@ -50,10 +50,12 @@ public abstract class Objet extends ElementMonde {
 
     /**
      * Consume the object by the given personnage.
+     * Should be called only if {@link #estConsommable()} or {@link #estDeclenchable()} is true.
      *
      * @param p the personnage
      */
-    public abstract void consommePar(Personnage p, Monde m);
+    public void consommePar(Personnage p, Monde m) {
+    }
 
     public boolean isVisible() {
         return visible;
@@ -71,6 +73,22 @@ public abstract class Objet extends ElementMonde {
         return false;
     }
 
+    /**
+     * Called when the personnage is not on the object.
+     * Should be called only if {@link #necessiteDureePourActivation()} is true.
+     *
+     * @param p the personnage
+     */
     public void notOnObject(Personnage p) {
+    }
+
+    /**
+     * Called when the personnage is on the object.
+     * Should be called only if {@link #necessiteDureePourActivation()} is true.
+     *
+     * @param p   the personnage
+     * @param now the current time in nanoseconds
+     */
+    public void onObject(Personnage p, long now) {
     }
 }

@@ -1,7 +1,6 @@
 package fr.ul.acl.escape.monde.objects;
 
 import fr.ul.acl.escape.gui.SpriteSheet;
-import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import javafx.scene.image.Image;
@@ -61,24 +60,6 @@ public class Training extends Objet {
     }
 
     @Override
-    public void consommePar(Personnage p, Monde m) {
-        if (!p.estUnHeros()) return;
-
-        if (!heroWasOn) {
-            lastTime = System.currentTimeMillis();
-            heroWasOn = true;
-            return;
-        }
-
-        long currentTime = System.currentTimeMillis();
-        int timeElapsed = (int) (currentTime - lastTime);
-        lastTime = currentTime;
-
-        Heros h = (Heros) p;
-        h.addTrainingTime(timeElapsed);
-    }
-
-    @Override
     public boolean necessiteDureePourActivation() {
         return true;
     }
@@ -87,5 +68,22 @@ public class Training extends Objet {
     public void notOnObject(Personnage p) {
         if (!p.estUnHeros()) return;
         heroWasOn = false;
+    }
+
+    @Override
+    public void onObject(Personnage p, long now) {
+        if (!p.estUnHeros()) return;
+
+        if (!heroWasOn) {
+            lastTime = now;
+            heroWasOn = true;
+            return;
+        }
+
+        long timeElapsed = now - lastTime;
+        lastTime = now;
+
+        Heros h = (Heros) p;
+        h.addTrainingTime(timeElapsed);
     }
 }

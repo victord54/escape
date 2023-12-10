@@ -107,28 +107,28 @@ class HerosTest {
     @Test
     void getHitBoxAttaque() {
         double hitbox = 0.4;
-        Rectangle2D rectVoulu = new Rectangle2D(0 + p.getLargeur(), 0, hitbox, hitbox);
+        Rectangle2D rectVoulu = new Rectangle2D(0 + p.getLargeur(), 0, hitbox, p.getHauteur());
         p.setOrientation(RIGHT);
 
         Rectangle2D hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0 - p.getLargeur(), 0, hitbox, hitbox);
+        rectVoulu = new Rectangle2D(0 - p.getLargeur(), 0, hitbox, p.getHauteur());
         p.setOrientation(LEFT);
 
         hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0, 0 - p.getHauteur(), hitbox, hitbox);
+        rectVoulu = new Rectangle2D(0, 0 - p.getHauteur(), p.getLargeur(), hitbox);
         p.setOrientation(UP);
 
         hitBox = p.getHitBoxAttaque();
         assertEquals(hitBox, rectVoulu);
 
 
-        rectVoulu = new Rectangle2D(0, 0 + p.getHauteur(), hitbox, hitbox);
+        rectVoulu = new Rectangle2D(0, 0 + p.getHauteur(), p.getLargeur(), hitbox);
         p.setOrientation(DOWN);
 
         hitBox = p.getHitBoxAttaque();

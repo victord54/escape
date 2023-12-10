@@ -231,6 +231,7 @@ public abstract class Personnage extends ElementMonde {
         maxCoeurs = personnage.maxCoeurs;
         coeurs = personnage.coeurs;
         vitesse = personnage.vitesse;
+        maxVitesse = personnage.maxVitesse;
     }
 
     public void diminutionVitesse(){
@@ -239,5 +240,9 @@ public abstract class Personnage extends ElementMonde {
 
     public void vitesseNormale(){
         vitesse = maxVitesse;
+    }
+
+    public double getMaxVitesse(){
+        return maxVitesse;
     }
 }

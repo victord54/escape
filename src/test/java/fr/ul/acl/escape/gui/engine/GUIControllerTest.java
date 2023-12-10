@@ -29,7 +29,7 @@ class GUIControllerTest {
         //commencement de chaque test
         mm.mouvements = new HashSet<>();
         monde = new Monde(5, 5);
-        hero = new Heros(0, 0, 1, 1, 1, 1, 1, -1, 0);
+        hero = new Heros(0, 0, 1, 1, 1, 1,1, 1, -1, 0);
         monde.addPersonnage(hero);
     }
 

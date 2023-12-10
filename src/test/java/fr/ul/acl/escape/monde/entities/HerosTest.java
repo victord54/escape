@@ -22,7 +22,7 @@ class HerosTest {
 
     @BeforeEach
     void setup() {
-        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_HEART, HERO_HEART, HERO_HIT, -1);
+        p = new Heros(0, 0, 1, 1, HERO_SPEED, HERO_SPEED,HERO_HEART, HERO_HEART, HERO_HIT, -1);
     }
 
     @Test
@@ -88,7 +88,7 @@ class HerosTest {
 
     @Test
     void testAttaquer() {
-        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
+        Walker w = new Walker(1, 1, 1, 1, WALKER_SPEED, WALKER_SPEED,WALKER_HEART, WALKER_HEART, WALKER_HIT, -1);
         p.attaquer(List.of(w));
 
         assertEquals(w.getCoeurs(), WALKER_HEART - HERO_HIT);
@@ -161,13 +161,13 @@ class HerosTest {
 
     @Test
     void testCopierStatistique() {
-        Heros newHero = new Heros(1, 1, 1, 1, 12, 12, 12, 12, 1);
-
+        Heros newHero = new Heros(1, 1, 1, 1, 12,12, 12, 12, 12, 1);
         p.copierStatistique(newHero);
 
         assertEquals(p.getX(), 0);
         assertEquals(p.getY(), 0);
         assertEquals(p.getVitesse(), 12);
+        assertEquals(p.getMaxVitesse(),12);
         assertEquals(p.getCoeurs(), 12);
         assertEquals(p.getMaxCoeurs(), 12);
         assertEquals(p.degats, 12);

@@ -176,6 +176,7 @@ package escape {
                 - drawOverlay(Canvas): void
                 - clearCanvas(Canvas): void
                 - renderElement(context, element, size, index)
+                - bindingGameBoardToCenterPane(GameViewController controller): void
             }
 
             class SettingsView {

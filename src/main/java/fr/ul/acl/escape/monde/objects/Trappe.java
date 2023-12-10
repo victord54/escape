@@ -14,34 +14,31 @@ public class Trappe extends Objet{
     private boolean ouverte;
 
     private final String carteOuTeleporter;
-    private final int difficulteProchaineNiveau;
 
     public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
         super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
         this.carteOuTeleporter = carteOuTeleporter;
         this.ouverte = false;
-        this.difficulteProchaineNiveau = 0;
     }
 
-    public Trappe(double x, double y, double hauteur, double largeur, boolean visible, int difficulteProchaineNiveau) {
+    public Trappe(double x, double y, double hauteur, double largeur, boolean visible) {
         super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
         this.carteOuTeleporter = "";
         this.ouverte = false;
-        this.difficulteProchaineNiveau = difficulteProchaineNiveau;
     }
 
 
     public Trappe(JSONObject json) {
         super(json);
         this.carteOuTeleporter = json.getString("map");
-        this.difficulteProchaineNiveau = json.getInt("nextLevelDifficulty");
+        this.ouverte = json.getBoolean("isOpen");
     }
 
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("map", this.carteOuTeleporter);
-        json.put("nextLevelDifficulty", difficulteProchaineNiveau);
+        json.put("isOpen", this.ouverte);
 
         return json;
     }
@@ -86,7 +83,7 @@ public class Trappe extends Objet{
 
     @Override
     public void consommePar(Personnage p, Monde monde) {
-        monde.changerMap(this.carteOuTeleporter, this.difficulteProchaineNiveau);
+        monde.changerMap(this.carteOuTeleporter);
     }
 
     /**

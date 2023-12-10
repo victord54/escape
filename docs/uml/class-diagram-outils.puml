@@ -68,6 +68,7 @@ package Escape {
             ..Constructeur..
             + ProceduralGenerator(long, int)
             ..Méthodes..
+            + {static} long genererSeed()
             + Monde getMonde()
             - void generateMaze(Random, int, int, int, int)
             - void splash(Random)

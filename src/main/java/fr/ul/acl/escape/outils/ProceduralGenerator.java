@@ -40,6 +40,10 @@ public class ProceduralGenerator {
     private final List<Personnage> personnages = new ArrayList<>();
     private final List<Objet> objets = new ArrayList<>();
 
+    private long seed;
+
+    private int difficulty;
+
     /**
      * Constructs a ProceduralGenerator with the specified seed and difficulty level.
      *
@@ -47,6 +51,9 @@ public class ProceduralGenerator {
      * @param difficultLevel The difficulty level used to determine the size and complexity of the generated map.
      */
     public ProceduralGenerator(long seed, int difficultLevel) {
+        this.seed = seed;
+        this.difficulty = difficultLevel;
+
         //Génération de l'aléatoire par rapport à la seed
         Random random = new Random(seed);
 
@@ -79,7 +86,7 @@ public class ProceduralGenerator {
 
         //Trappe
         choosen = caseVisiteAleatoire(random);
-        objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true, difficultLevel+1));
+        objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true));
 
 
         //Walkers
@@ -227,7 +234,7 @@ public class ProceduralGenerator {
      * @return A 'Monde' object representing the world with appropriate borders, walls, characters, and objects.
      */
     public Monde getMonde() {
-        Monde monde = new Monde(height + 2, width + 2);
+        Monde monde = new Monde(height + 2, width + 2, this.seed, this.difficulty);
 
         // Ajout des bordures
         for (int i = 0; i < monde.getWidth(); i++) {

@@ -43,7 +43,6 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
      */
     public GUIController() {
         try {
-            //monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
             ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), 1);
             monde = generator.getMonde();
         } catch (Exception e) {

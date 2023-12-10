@@ -4,7 +4,7 @@ package escape {
         abstract class GameController {
             # Monde monde
             --
-            + {abstract} update(deltaTime)): void
+            + {abstract} update(deltaTime, now)): void
             + getHeight(): int
             + getWidth(): int
         }
@@ -25,7 +25,7 @@ package escape {
         class CLIController {
             + start(): void
             + stop(): void
-            + update(deltaTime): void
+            + update(deltaTime, now): void
         }
 
         class CLIEngine {
@@ -174,6 +174,8 @@ package escape {
                 + resume(): void
                 - drawGameBoard(Canvas, double): void
                 - drawOverlay(Canvas): void
+                - drawHearts(gc, coeurs, coeursMax, posX, posY): void
+                - drawTraining(gc, progress, posX, posY): void
                 - clearCanvas(Canvas): void
                 - renderElement(context, element, size, index)
                 - bindingGameBoardToCenterPane(GameViewController controller): void
@@ -205,7 +207,7 @@ package escape {
                 + GUIController(Monde)
                 + onKeyPressed(KeyEvent): void
                 + onKeyReleased(KeyEvent): void
-                + update(deltaTime): void
+                + update(deltaTime, now): void
             }
 
             class GUIEngine {

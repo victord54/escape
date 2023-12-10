@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 import static fr.ul.acl.escape.outils.ProceduralGenerator.genererSeed;
 import static java.io.File.separator;
@@ -52,8 +51,6 @@ public class Monde {
      */
     private long currentLevelSeed;
     private int currentLevelDifficulty;
-
-    private long dernierCoupsEffectueParHero = System.currentTimeMillis();
 
     /**
      * Create a new world with no elements.
@@ -199,7 +196,7 @@ public class Monde {
         if (!collisionAvec(tmp, false)) h.deplacer(typeMouvement, deltaTime);
         else h.setOrientation(typeMouvement); // Pour pouvoir se tourner même quand on ne peut pas se déplacer
 
-        herosDeclenchePiege();
+        herosDeclencheObjet();
     }
 
     /**
@@ -506,25 +503,25 @@ public class Monde {
      * Detects and targets enemies within the hero's attack hitbox, inflicts damage, and
      * removes defeated enemies.
      */
-    public void heroAttaque() {
-        if (System.currentTimeMillis() - dernierCoupsEffectueParHero < HERO_HIT_COUNTDOWN) return;
-        dernierCoupsEffectueParHero = System.currentTimeMillis();
-
+    public void heroAttaque(long currentTimeNS) {
         List<Personnage> monstresDansHitBoxAttaque = new ArrayList<>();
         Heros hero = getHeros();
         for (Personnage p : personnages) {
-            if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros())
+            if (hero.getHitBoxAttaque().intersects(p.getHitBoxCollision()) && !p.estUnHeros()) {
                 monstresDansHitBoxAttaque.add(p);
+            }
         }
-        hero.attaquer(monstresDansHitBoxAttaque);
+        hero.attaquer(monstresDansHitBoxAttaque, currentTimeNS);
         for (Personnage p : monstresDansHitBoxAttaque) {
-            if (!p.estVivant()) detruirePersonnage(p);
+            if (!p.estVivant()) {
+                detruirePersonnage(p);
+            }
         }
 
-        if(monstresTousMorts()){
-            for(Objet o : objets){
-                if(o.estTrappe()){
-                    ((Trappe)o).ouvrir();
+        if (monstresTousMorts()) {
+            for (Objet o : objets) {
+                if (o.estTrappe()) {
+                    ((Trappe) o).ouvrir();
                 }
             }
         }
@@ -536,14 +533,14 @@ public class Monde {
      * Detects and targets the hero within the monsters' attack hitboxes, inflicts damage,
      * and updates the hero's health.
      */
-    public void monstreAttaque() {
-        if (System.currentTimeMillis() - dernierCoupsEffectueParHero < 500 || !getHeros().estVivant()) return;
-        dernierCoupsEffectueParHero = System.currentTimeMillis();
+    public void monstreAttaque(long currentTimeNS) {
+        if (!getHeros().estVivant()) return;
 
         Heros hero = getHeros();
         for (Personnage p : personnages) {
-            if (p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros())
-                p.attaquer(List.of(hero));
+            if (p.getHitBoxAttaque().intersects(hero.getHitBoxCollision()) && !p.estUnHeros()) {
+                p.attaquer(List.of(hero), currentTimeNS);
+            }
         }
     }
 
@@ -572,12 +569,25 @@ public class Monde {
     /**
      * Method that check if the Hero is on collision with an Objet that can be triggered. If he is, the object is triggered.
      */
-    private void herosDeclenchePiege() {
+    private void herosDeclencheObjet() {
         Heros h = this.getHeros();
         for (Objet o : objets) {
             if (o.estDeclenchable()) {
                 if (collision(h, o)) {
-                    o.consommePar(h,this);
+                    o.consommePar(h, this);
+                }
+            }
+        }
+    }
+
+    public void activationObjetAvecDuree(long currentTimeNS) {
+        Heros h = this.getHeros();
+        for (Objet o : objets) {
+            if (o.necessiteDureePourActivation()) {
+                if (collision(h, o)) {
+                    o.onObject(h, currentTimeNS);
+                } else {
+                    o.notOnObject(h);
                 }
             }
         }
@@ -719,7 +729,7 @@ public class Monde {
      * @see Monde
      * @see Heros
      */
-    public void copierMonde(Monde m){
+    public void copierMonde(Monde m) {
         Heros ancienHero = getHeros();
 
         carte = m.carte;
@@ -772,8 +782,8 @@ public class Monde {
      * @return {@code true} if all monsters in the world are defeated, {@code false} otherwise.
      * @see Personnage
      */
-    public boolean monstresTousMorts(){
-        for(Personnage p : personnages) if(!p.estUnHeros()) return false;
+    public boolean monstresTousMorts() {
+        for (Personnage p : personnages) if (!p.estUnHeros()) return false;
         return true;
     }
 }

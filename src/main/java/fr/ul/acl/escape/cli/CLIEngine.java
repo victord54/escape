@@ -18,7 +18,7 @@ public class CLIEngine extends fr.ul.acl.escape.engine.Engine {
     @Override
     protected void tick(long now) {
         ui.render();
-        controller.update(now);
+        controller.update(1_000_000_000, now * 1_000_000_000); // 1 tick = 1 second in CLI
     }
 
     @Override

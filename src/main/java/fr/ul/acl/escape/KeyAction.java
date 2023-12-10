@@ -30,6 +30,21 @@ public enum KeyAction {
         this.debugOnly = debugOnly;
     }
 
+    /**
+     * Get the KeyActions corresponding to the given input id
+     *
+     * @param inputId the id of the input in the settings view
+     * @return the corresponding KeyActions
+     */
+    public static KeyAction fromInputId(String inputId) {
+        for (KeyAction key : values()) {
+            if (key.getInputId().equals(inputId)) {
+                return key;
+            }
+        }
+        return null;
+    }
+
     public KeyCode getDefaultKeyCode() {
         return defaultKeyCode;
     }
@@ -46,20 +61,5 @@ public enum KeyAction {
      */
     public boolean isDebugOnly() {
         return debugOnly;
-    }
-
-    /**
-     * Get the KeyActions corresponding to the given input id
-     *
-     * @param inputId the id of the input in the settings view
-     * @return the corresponding KeyActions
-     */
-    public static KeyAction fromInputId(String inputId) {
-        for (KeyAction key : values()) {
-            if (key.getInputId().equals(inputId)) {
-                return key;
-            }
-        }
-        return null;
     }
 }

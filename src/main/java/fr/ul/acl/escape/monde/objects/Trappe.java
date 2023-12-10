@@ -7,18 +7,16 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
-public class Trappe extends Objet{
+public class Trappe extends Objet {
 
     private static Image[] sprites;
-
+    private final String carteOuTeleporter;
     private boolean ouverte;
 
-    private final String carteOuTeleporter;
-
-    public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
-        super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
+    public Trappe(double x, double y, double hauteur, double largeur, String carteOuTeleporter, boolean ouverte) {
+        super(Type.TRAPDOOR, x, y, hauteur, largeur, true);
         this.carteOuTeleporter = carteOuTeleporter;
-        this.ouverte = false;
+        this.ouverte = ouverte;
     }
 
     public Trappe(double x, double y, double hauteur, double largeur, boolean visible) {
@@ -30,6 +28,7 @@ public class Trappe extends Objet{
 
     public Trappe(JSONObject json) {
         super(json);
+        this.ouverte = json.getBoolean("open");
         this.carteOuTeleporter = json.getString("map");
         this.ouverte = json.getBoolean("isOpen");
     }
@@ -37,6 +36,7 @@ public class Trappe extends Objet{
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
+        json.put("open", this.ouverte);
         json.put("map", this.carteOuTeleporter);
         json.put("isOpen", this.ouverte);
 
@@ -45,17 +45,17 @@ public class Trappe extends Objet{
 
     @Override
     public String getSymbol() {
-        return "T";
+        return ouverte ? "○" : "◍";
     }
 
     @Override
     public Color getColor() {
-        return Color.LIGHTCYAN;
+        return Color.LIGHTGREEN;
     }
 
     @Override
     public Image getSprite(int i) {
-        if(ouverte) return sprites[1];
+        if (ouverte) return sprites[1];
         return sprites[0];
     }
 
@@ -92,7 +92,7 @@ public class Trappe extends Objet{
      * This method changes the status of an object to "open" by setting the "ouverte" attribute to true.
      * </p>
      */
-    public void ouvrir(){
+    public void ouvrir() {
         ouverte = true;
     }
 

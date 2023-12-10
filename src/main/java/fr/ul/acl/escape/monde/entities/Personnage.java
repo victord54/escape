@@ -18,14 +18,16 @@ public abstract class Personnage extends ElementMonde {
     protected TypeMouvement dernierMouvement = TypeMouvement.DOWN;
     protected TypeMouvement orientation;
 
+    private long lastAttack = 0;
+
     public Personnage(Type type, double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
         super(type, x, y, hauteur, largeur);
         this.vitesse = vitesse;
         this.coeurs = coeurs;
         this.maxCoeurs = maxCoeurs;
-        this.id = id > 0 ? id : FabriqueId.getInstance().getId();
         this.orientation = TypeMouvement.DOWN;
         this.degats = degats;
+        this.id = id > 0 ? id : FabriqueId.getInstance().getId();
     }
 
     public Personnage(JSONObject json) {
@@ -83,9 +85,15 @@ public abstract class Personnage extends ElementMonde {
     /**
      * The method inflicts damage on the characters provided in a list.
      *
-     * @param touches: List of characters to be damaged
+     * @param touches:       List of characters to be damaged
+     * @param currentTimeNS: Current time in nanoseconds
      */
-    public void attaquer(List<Personnage> touches) {
+    public void attaquer(List<Personnage> touches, long currentTimeNS) {
+        long timeBetweenAttacks = currentTimeNS - lastAttack;
+        if (timeBetweenAttacks < this.getCoolDownAttaque()) {
+            return;
+        }
+        lastAttack = currentTimeNS;
         for (Personnage p : touches) {
             p.coeursPerdu(this.degats);
         }
@@ -98,21 +106,22 @@ public abstract class Personnage extends ElementMonde {
      * @return Rectangle2D representing the attack hitbox.
      */
     public Rectangle2D getHitBoxAttaque() {
+        double hitbox = 0.4;
         switch (this.orientation) {
             case RIGHT -> {
-                return new Rectangle2D(x + largeur, y, 1, 1);
+                return new Rectangle2D(x + largeur, y, hitbox, hauteur);
             }
             case LEFT -> {
-                return new Rectangle2D(x - largeur, y, 1, 1);
+                return new Rectangle2D(x - largeur, y, hitbox, hauteur);
             }
             case UP -> {
-                return new Rectangle2D(x, y - hauteur, 1, 1);
+                return new Rectangle2D(x, y - hauteur, largeur, hitbox);
             }
             case DOWN -> {
-                return new Rectangle2D(x, y + hauteur, 1, 1);
+                return new Rectangle2D(x, y + hauteur, largeur, hitbox);
             }
         }
-        return new Rectangle2D(this.x, this.y, 1, 1);
+        return new Rectangle2D(this.x, this.y, hitbox, hitbox);
     }
 
     /**
@@ -213,6 +222,18 @@ public abstract class Personnage extends ElementMonde {
     }
 
     /**
+     * @return True if the Personnage can swim, false otherwise.
+     */
+    public boolean canSwim() {
+        return false;
+    }
+
+    /**
+     * @return The cooldown of the attack in nanoseconds.
+     */
+    public abstract long getCoolDownAttaque();
+
+    /**
      * Copies the statistics from another character to this character.
      * <p>
      * This method copies the damage, maximum hearts, current hearts, and speed
@@ -222,7 +243,7 @@ public abstract class Personnage extends ElementMonde {
      * @param personnage The character whose statistics are to be copied.
      * @see Personnage
      */
-    public void copierStatistique(Personnage personnage){
+    public void copierStatistique(Personnage personnage) {
         degats = personnage.degats;
         maxCoeurs = personnage.maxCoeurs;
         coeurs = personnage.coeurs;

@@ -24,8 +24,10 @@ public abstract class Objet extends ElementMonde {
             return new Coeur(json);
         } else if (type == Type.TRAP) {
             return new Piege(json);
-        }else if(type == Type.TRAPDOOR){
+        } else if (type == Type.TRAPDOOR) {
             return new Trappe(json);
+        } else if (type == Type.TRAINING) {
+            return new Training(json);
         } else {
             throw new IllegalArgumentException("Unknown type: " + type);
         }
@@ -48,12 +50,14 @@ public abstract class Objet extends ElementMonde {
 
     /**
      * Consume the object by the given personnage.
+     * Should be called only if {@link #estConsommable()} or {@link #estDeclenchable()} is true.
      *
      * @param p the personnage
      */
-    public abstract void consommePar(Personnage p, Monde m);
+    public void consommePar(Personnage p, Monde m) {
+    }
 
-    public boolean getVisible() {
+    public boolean isVisible() {
         return visible;
     }
 
@@ -61,7 +65,30 @@ public abstract class Objet extends ElementMonde {
         return false;
     }
 
-    public boolean estTrappe(){
+    public boolean estTrappe() {
         return false;
+    }
+
+    public boolean necessiteDureePourActivation() {
+        return false;
+    }
+
+    /**
+     * Called when the personnage is not on the object.
+     * Should be called only if {@link #necessiteDureePourActivation()} is true.
+     *
+     * @param p the personnage
+     */
+    public void notOnObject(Personnage p) {
+    }
+
+    /**
+     * Called when the personnage is on the object.
+     * Should be called only if {@link #necessiteDureePourActivation()} is true.
+     *
+     * @param p   the personnage
+     * @param now the current time in nanoseconds
+     */
+    public void onObject(Personnage p, long now) {
     }
 }

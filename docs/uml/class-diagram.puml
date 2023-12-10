@@ -99,6 +99,7 @@ package Escape {
 
         package Entities {
             abstract class Personnage {
+                - long lastAttack
                 # int id
                 # double vitesse
                 # double coeurs
@@ -112,31 +113,38 @@ package Escape {
                 + {static} Personnage fromJSON(JSONObject)
                 + JSONObject toJSON()
                 + void deplacer(TypeMouvement, double)
-                + void attaquer(List<Personnage>)
+                + void attaquer(List<Personnage>, long)
                 + Rectangle2D getHitboxAttaque()
                 + Rectangle2D getHitboxCollision()
                 + boolean estUnHeros()
+                + boolean canSwim()
                 + boolean estVivant()
                 + void coeursPerdu(double)
                 + void coeursGagne(double)
                 + boolean boolean peutTraverserObstacles()
-                + {abstract} Personnage clone()
                 + void copierStatistique(Personnage)
+                + {abstract} Personnage clone()
+                + {abstract} long getCoolDownAttack()
             }
 
             class Heros extends Personnage {
                 - {static} Map<TypeMouvement, Image[]> sprites
+                - double trainingProgress
                 ..Constructeur..
-                + Heros(double, double, double, double, double, double, double, int)
+                + Heros(double, double, double, double, double, double, double, double, int)
                 + Heros(JSONObject)
                 ..Méthodes..
+                + JSONObject toJSON()
                 + boolean estUnHeros()
+                + boolean canSwim()
                 + String getSymbol()
                 + Color getColor()
                 + Image getSprite(int)
                 + Heros clone()
-                # void initSprites()
                 + void copierStatistique(Personnage)
+                + void addTrainingTime(long)
+                + long getCoolDownAttack()
+                # void initSprites()
             }
 
             abstract class Monstre extends Personnage {
@@ -144,7 +152,6 @@ package Escape {
                 ..Constructeur..
                 + Monstre(Type, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
-                + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
                 + boolean mouvementDansList(TypeMouvement)
                 + void copierStatistique(Personnage)
@@ -160,8 +167,9 @@ package Escape {
                 + Color getColor()
                 + Image getSprite(int)
                 + Walker clone()
-                # void initSprites()
                 + void copierStatistique(Personnage)
+                + long getCoolDownAttack()
+                # void initSprites()
             }
 
             class Fantome extends Monstre {
@@ -175,8 +183,9 @@ package Escape {
                 + Color getColor()
                 + Image getSprite(int)
                 + Fantome clone()
-                # void initSprites()
                 + void copierStatistique(Personnage)
+                + long getCoolDownAttack()
+                # void initSprites()
             }
         }
         package Objects {
@@ -187,12 +196,15 @@ package Escape {
                 + Objet(JSONObject)
                 ..Méthodes..
                 + {static} Objet fromJSON(JSONObject)
-                + {abstract} void consommePar(Personnage p);
+                + void consommePar(Personnage, Monde)
                 + JSONObject toJSON()
                 + boolean estRamassable()
                 + boolean estConsommable()
                 + boolean estDeclenchable()
+                + boolean necessiteDureePourActivation()
                 + boolean estTrappe()
+                + void notOnObject(Personnage)
+                + void onObject(Personnage, long)
             }
 
             class Coeur extends Objet {
@@ -206,13 +218,13 @@ package Escape {
                 + String getSymbol()
                 + Color getColor()
                 + Image getSprite(int)
-                + void consommePar(Personnage)
+                + void consommePar(Personnage, Monde)
                 + boolean estConsommable()
                 # void initSprites()
                 + boolean estTrappe()
             }
 
-            class Piege extends Objet{
+            class Piege extends Objet {
                 - {static} Image sprite
                 # double degats
                 ..Constructeur..
@@ -225,32 +237,48 @@ package Escape {
                 + Image getSprite(int)
                 + boolean estDeclenchable()
                 + boolean estRamassable()
-                + void consommePar(Personnage p)
+                + void consommePar(Personnage, Monde)
                 + boolean estDeclenchable()
                 # void initSprites()
                 + boolean estTrappe()
             }
 
-            class Trappe extends Objet{
+            class Trappe extends Objet {
                 - {static} Image sprite
-                # double degats
-                - boolean ouverte
                 - String carteOuTeleporter
+                - boolean ouverte
                 ..Constructeur..
-                + Piege(double, double, double, double, double)
-                + Piege(JSONObject json)
+                + Trappe(double, double, double, double, String, boolean)
+                + Trappe(JSONObject json)
                 ..Méthodes..
                 + JSONObject toJSON()
                 + String getSymbol()
                 + Color getColor()
                 + Image getSprite(int)
                 + boolean estDeclenchable()
-                + boolean estRamassable()
-                + void consommePar(Personnage p)
+                + void consommePar(Personnage, Monde)
                 + boolean estDeclenchable()
-                # void initSprites()
                 + boolean estTrappe()
                 + void ouvrir()
+                # void initSprites()
+            }
+
+            class Training extends Objet {
+                - {static} Image[] sprites
+                - boolean heroWasOn
+                - long lassTime
+                ..Constructeur..
+                + Training(double, double, double, double)
+                + Training(JSONObject)
+                ..Méthodes..
+                + JSONObject toJSON()
+                + String getSymbol()
+                + Color getColor()
+                + Image getSprite(int)
+                + boolean necessiteDureePourActivation()
+                + void notOnObject(Personnage)
+                + void onObject(Personnage, long)
+                # void initSprites()
             }
         }
 
@@ -271,10 +299,11 @@ package Escape {
             - Graph grapheAlternatif(Monstre, int)
             - void mouvementRandom(Monstre, double)
             - TypeMouvement getMouvement(Point2D, Point2D, Monstre)
+            - void activationObjetAvecDuree(long)
             + void heroRamassageObjet()
-            - void heroDeclenchePiege()
-            + void heroAttaque()
-            + void monstreAttaque()
+            - void heroDeclencheObjet()
+            + void heroAttaque(long)
+            + void monstreAttaque(long)
             # int intLePlusProche(int, int)
             - JSONObject toJSONSave()
             + void copierMonde(Monde)

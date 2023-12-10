@@ -3,6 +3,7 @@ package fr.ul.acl.escape.monde.entities;
 import fr.ul.acl.escape.gui.SpriteSheet;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.TypeMouvement;
+import fr.ul.acl.escape.outils.Donnees;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
@@ -14,12 +15,23 @@ import java.util.Map;
 public class Heros extends Personnage {
     private static Map<TypeMouvement, Image[]> sprites;
 
-    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
+    private double trainingProgress;
+
+    public Heros(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, double trainingProgress, int id) {
         super(ElementMonde.Type.HERO, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        this.trainingProgress = trainingProgress;
     }
 
     public Heros(JSONObject json) {
         super(json);
+        this.trainingProgress = json.optDouble("trainingProgress", 0);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("trainingProgress", trainingProgress);
+        return json;
     }
 
     @Override
@@ -36,7 +48,7 @@ public class Heros extends Personnage {
     @Override
     public Image getSprite(int i) {
         if (sprites == null) return null;
-        return sprites.get(orientation)[i];
+        return sprites.get(orientation)[i % sprites.get(orientation).length];
     }
 
     @Override
@@ -46,7 +58,7 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        return new Heros(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, trainingProgress, id);
     }
 
     @Override
@@ -91,5 +103,33 @@ public class Heros extends Personnage {
     @Override
     public String toString() {
         return "\u001B[46m" + super.toString() + "\u001B[0m";
+    }
+
+    public boolean canSwim() {
+        return trainingProgress >= 100.0;
+    }
+
+    @Override
+    public long getCoolDownAttaque() {
+        return Donnees.HERO_ATTACK_COOLDOWN * 1_000_000L;
+    }
+
+    /**
+     * Add training time to the hero.
+     *
+     * @param trainingDuration the training duration in nanoseconds
+     */
+    public void addTrainingTime(long trainingDuration) {
+        this.trainingProgress += (trainingDuration * 100.0 / (Donnees.HERO_TRAINING_DURATION * 1e6));
+        if (this.trainingProgress > 100.0) {
+            this.trainingProgress = 100.0;
+        }
+    }
+
+    /**
+     * @return the training progress in percent
+     */
+    public int getTrainingProgress() {
+        return (int) trainingProgress;
     }
 }

@@ -38,23 +38,24 @@ public final class Donnees {
     public static final String EXAMPLE_LEVEL_FILE = "maps/exampleCustomLevel.json";
 
     /**
-     * hero hit damage
+     * total hero training duration in ms
      */
-    public static final double HERO_HIT = 1;
-    /**
-     * countdown between two hero hit in ms
-     */
-    public static final double HERO_HIT_COUNTDOWN = 500;
+    public static final int HERO_TRAINING_DURATION = 4_000;
 
     /**
-     * Walker hit damage
+     * Attack cooldown of the hero in ms.
      */
-    public static final double WALKER_HIT = 1;
+    public static final int HERO_ATTACK_COOLDOWN = 300;
 
     /**
-     * Walker hit damage
+     * Attack cooldown of the walker in ms.
      */
-    public static final double MONSTER_HIT_COUNTDOWN = 500;
+    public static final int WALKER_ATTACK_COOLDOWN = 700;
+
+    /**
+     * Attack cooldown of the ghost in ms.
+     */
+    public static final int GHOST_ATTACK_COOLDOWN = 500;
 
     /**
      * Default width of the window when the game starts.

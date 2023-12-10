@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Property;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.gui.View;
@@ -17,13 +16,13 @@ public class SettingsView extends View {
     private final Property.MyPropertyChangeListener<Boolean> fullScreenListener = (evt, oldValue, newValue) -> {
         ((SettingsViewController) controller).setFullScreenCheckBox(newValue);
     };
+    private boolean comboBoxPreventEvent = false;
     private final Property.MyPropertyChangeListener<Locale> localeListener = (evt, oldValue, newValue) -> {
         ComboBox<String> languageComboBox = ((SettingsViewController) controller).getLanguageComboBox();
         comboBoxPreventEvent = true;
         languageComboBox.getSelectionModel().select(newValue.getDisplayName(newValue));
         comboBoxPreventEvent = false;
     };
-    private boolean comboBoxPreventEvent = false;
 
     public SettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("settings-view.fxml"));

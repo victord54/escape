@@ -41,6 +41,7 @@ public class CLIController extends GameController {
         monde.deplacementMonstres(dt);
         monde.monstreAttaque(now);
         monde.activationObjetAvecDuree(now);
+        monde.verificationTerrainsSpeciaux();
     }
 
     public void setAction(int action) {

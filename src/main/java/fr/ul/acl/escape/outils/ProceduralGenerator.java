@@ -7,10 +7,7 @@ import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Mur;
-import fr.ul.acl.escape.monde.objects.Coeur;
-import fr.ul.acl.escape.monde.objects.Objet;
-import fr.ul.acl.escape.monde.objects.Piege;
-import fr.ul.acl.escape.monde.objects.Trappe;
+import fr.ul.acl.escape.monde.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +85,9 @@ public class ProceduralGenerator {
         choosen = caseVisiteAleatoire(random);
         objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true));
 
+        //Training
+        choosen = caseVisiteAleatoire(random);
+        objets.add(new Training(choosen[1]+1, choosen[0]+1, 1, 1));
 
         //Walkers
         for(int i = 0; i<difficultLevel; i++){
@@ -224,7 +224,12 @@ public class ProceduralGenerator {
      * @return The coordinates of a randomly chosen visited cell.
      */
     private int[] caseVisiteAleatoire(Random random) {
-        return visited.get(random.nextInt(visited.size()));
+        int randomized = random.nextInt(visited.size());
+
+        int[] res = visited.get(randomized);
+        visited.remove(randomized);
+
+        return res;
     }
 
 

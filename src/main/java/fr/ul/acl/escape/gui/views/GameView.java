@@ -13,6 +13,7 @@ import fr.ul.acl.escape.gui.engine.GUIEngine;
 import fr.ul.acl.escape.monde.ElementMonde;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
+import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
@@ -189,12 +190,12 @@ public class GameView extends View implements GameInterface, GameViewController.
         }
 
         // draw game environment
-        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, 0));
+        this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, 0, false));
 
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
             if (objet.isVisible()) {
-                renderElement(gc, objet, elementSize, (int) (engine.getLastUpdate() / 1e8));
+                renderElement(gc, objet, elementSize, (int) (engine.getLastUpdate() / 1e8), false);
             }
         });
 
@@ -203,18 +204,21 @@ public class GameView extends View implements GameInterface, GameViewController.
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
             if (personnage.estUnHeros()) {
-                if (personnage.isMoving()) iterationHeros = (int) (engine.getLastUpdate() / 1e8);
-                renderElement(gc, personnage, elementSize, iterationHeros);
+                if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
+                    iterationHeros = (int) (engine.getLastUpdate() / 1e8);
+                }
+                renderElement(gc, personnage, elementSize, iterationHeros, false);
+            } else {
+                int iteration = 0;
+                if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
+                    iteration = (int) (engine.getLastUpdate() / 1e8);
+                }
+                if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
+                    gc.setGlobalAlpha(0.5);
+                }
+                renderElement(gc, personnage, elementSize, iteration, true);
+                gc.setGlobalAlpha(1.0);
             }
-            int iteration = 0;
-            if (personnage.isMoving() && !(engine.paused.get() || engine.gameOver.get())) {
-                iteration = (int) (engine.getLastUpdate() / 1e8);
-            }
-            if (personnage.peutTraverserObstacles() && this.gameController.collisionAvecTerrains(personnage)) {
-                gc.setGlobalAlpha(0.5);
-            }
-            renderElement(gc, personnage, elementSize, iteration);
-            gc.setGlobalAlpha(1.0);
         });
     }
 
@@ -425,8 +429,9 @@ public class GameView extends View implements GameInterface, GameViewController.
      * @param elementMonde The element to draw.
      * @param elementSize  The size of a square element on the game board.
      * @param spriteIndex  The index of the sprite to draw.
+     * @param drawPV       If true, the PV of the element are drawn (only for entities).
      */
-    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, int spriteIndex) {
+    private void renderElement(GraphicsContext gc, ElementMonde elementMonde, double elementSize, int spriteIndex, boolean drawPV) {
         Image sprite = elementMonde.getSprite(spriteIndex);
         if (sprite == null) {
             gc.setFill(elementMonde.getColor());
@@ -434,6 +439,16 @@ public class GameView extends View implements GameInterface, GameViewController.
             return;
         }
         gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
+
+        if (drawPV) {
+            double heightPVBar = elementSize / 16.0;
+
+            Personnage personnage = (Personnage) elementMonde;
+            gc.setFill(Color.RED);
+            gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize - heightPVBar * 2, personnage.getLargeur() * elementSize, heightPVBar);
+            gc.setFill(Color.GREEN);
+            gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize - heightPVBar * 2, personnage.getLargeur() * elementSize * personnage.getCoeurs() / personnage.getMaxCoeurs(), heightPVBar);
+        }
     }
 
     /**

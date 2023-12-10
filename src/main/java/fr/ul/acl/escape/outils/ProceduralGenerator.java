@@ -2,6 +2,7 @@ package fr.ul.acl.escape.outils;
 
 import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
+import fr.ul.acl.escape.monde.entities.Fantome;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.entities.Walker;
@@ -9,9 +10,7 @@ import fr.ul.acl.escape.monde.environment.BordureMonde;
 import fr.ul.acl.escape.monde.environment.Mur;
 import fr.ul.acl.escape.monde.objects.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class facilitates the instantiation of a ProceduralGenerator, which is responsible for creating a complete map for a given level.
@@ -74,8 +73,8 @@ public class ProceduralGenerator {
         //Appeler l'algorithme de génération de grands espaces.
         splash(random);
 
-        //Nombres d'objets
-        int nombreDeCoeurs = (int)Math.floor(Math.sqrt(difficultLevel));
+        //Placement des entités et des objets.
+        Map<String, Integer> stats = getDifficultyStatistics(difficultLevel);
 
         //Hero
         int[] choosen = caseVisiteAleatoire(random);
@@ -90,25 +89,41 @@ public class ProceduralGenerator {
         objets.add(new Training(choosen[1]+1, choosen[0]+1, 1, 1));
 
         //Walkers
-        for(int i = 0; i<difficultLevel; i++){
+        for(int i = 0; i<stats.get("walkers"); i++){
             choosen = caseVisiteAleatoire(random);
             personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 1, 0, FabriqueId.getInstance().getId()));
         }
 
+        //Fantomes
+        for(int i = 0; i<stats.get("fantomes"); i++){
+            choosen = caseVisiteAleatoire(random);
+            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 1, 0, FabriqueId.getInstance().getId()));
+        }
+
         //Pièges
-        for(int i = 0; i<difficultLevel; i++){
+        for(int i = 0; i<stats.get("pieges"); i++){
             choosen = caseVisiteAleatoire(random);
             objets.add(new Piege(choosen[1]+1, choosen[0]+1,0.4,0.8,1));
         }
 
         //Coeurs
-        for(int i = 0; i<nombreDeCoeurs; i++){
+        for(int i = 0; i<stats.get("coeurs"); i++){
             choosen = caseVisiteAleatoire(random);
             objets.add(new Coeur(choosen[1]+1, choosen[0]+1,0.5,0.5,1));
         }
 
     }
 
+    /**
+     * Generates a non-zero seed based on the current system time.
+     * <p>
+     * This method generates a seed using the current system time, ensuring
+     * that the generated seed is non-zero. It utilizes a loop to handle the unlikely
+     * case where the initial seed is zero.
+     * </p>
+     *
+     * @return A non-zero seed based on the current system time.
+     */
     public static long genererSeed(){
         long seed;
         do {
@@ -116,6 +131,31 @@ public class ProceduralGenerator {
         } while (seed == 0);
 
         return seed;
+    }
+
+    /**
+     * Retrieves difficulty-specific statistics based on the provided difficulty level.
+     * <p>
+     * This method calculates and returns a map containing difficulty-specific statistics
+     * based on the provided difficulty level. The statistics include the number of hearts,
+     * traps, walkers, and ghosts.
+     * </p>
+     *
+     * @param difficulty The difficulty level for which statistics are calculated.
+     * @return A map containing difficulty-specific statistics.
+     */
+    private Map<String, Integer> getDifficultyStatistics(int difficulty){
+
+        Map<String, Integer> res = new HashMap<>();
+
+        res.put("coeurs", (int)Math.floor(Math.sqrt(difficulty)));
+
+        res.put("pieges", difficulty);
+
+        res.put("walkers", (int)Math.floor(difficulty*0.7)+1);
+        res.put("fantomes", (int)Math.floor(difficulty*0.3));
+
+        return res;
     }
 
     /**

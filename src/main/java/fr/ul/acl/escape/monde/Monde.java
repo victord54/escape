@@ -289,9 +289,8 @@ public class Monde {
         for (Terrain t : terrains) {
             if (!t.estTraversable() && !pers.peutTraverserObstacles()) {
                 if (collision(pers, t)) return true;
-            }
-            else if (t.estTraversable() && pers.peutTraverserObstacles()){
-                if (collision(pers,t)) return true;
+            } else if (t.estTraversable() && pers.peutTraverserObstacles()) {
+                if (collision(pers, t)) return true;
             }
         }
         for (Personnage p : personnages) {
@@ -760,24 +759,24 @@ public class Monde {
     }
 
 
+    /**
+     * Method that check if the Personnage of the game are in water and act in consequence.
+     */
     public void verificationTerrainsSpeciaux() {
-        for (Personnage p : personnages){
+        for (Personnage p : personnages) {
+            p.vitesseNormale();
             boolean piedGaucheDansEau = false;
             boolean piedDroitDansEau = false;
             for (Terrain t : terrains) {
-                if (t.terrainSpecial()) {
-                    if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t,p);
-                    if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t,p);
+                if (t.estTerrainSpecial()) {
+                    if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t, p);
+                    if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t, p);
                     if (piedGaucheDansEau && piedDroitDansEau) {
-                        if (p.estUnHeros() && !p.canSwim()){
-                            p.coeursPerdu(p.getCoeurs());
-                        }
-                        p.diminutionVitesse();
-                        return;
+                        t.appliqueActionSpeciale(p);
+                        break;
                     }
                 }
             }
-            p.vitesseNormale();
         }
     }
 
@@ -785,7 +784,7 @@ public class Monde {
      * Method that check if the left foot (left bottom point) of the Personnage is in a Terrain.
      *
      * @param terrain The terrain.
-     * @param p The Personnage.
+     * @param p       The Personnage.
      * @return true if terrain contains the left bottom point of the Personnage.
      */
     public boolean gaucheDansEau(Terrain terrain, Personnage p) {
@@ -802,7 +801,7 @@ public class Monde {
      * Method that check if the right foot (right bottom point) of the Personnage is in a Terrain.
      *
      * @param terrain The terrain.
-     * @param p The Personnage.
+     * @param p       The Personnage.
      * @return true if terrain contains the right bottom point of the Personnage.
      */
     public boolean droitDansEau(Terrain terrain, Personnage p) {

@@ -1,11 +1,12 @@
 package fr.ul.acl.escape.monde.environment;
 
 import fr.ul.acl.escape.gui.SpriteSheet;
+import fr.ul.acl.escape.monde.entities.Personnage;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.json.JSONObject;
 
-public class Eau extends Terrain{
+public class Eau extends Terrain {
     private static Image sprite;
 
     public Eau(double x, double y, double hauteur, double largeur) {
@@ -44,8 +45,26 @@ public class Eau extends Terrain{
         sprite = spriteSheet.get(0, 50, 50, 50);
     }
 
+    /**
+     * Method which returns true if the Terrain is special.
+     *
+     * @return true
+     */
     @Override
-    public boolean terrainSpecial(){
+    public boolean estTerrainSpecial() {
         return true;
+    }
+
+    /**
+     * Method that apply the special action to a Personnage.
+     *
+     * @param p The Personnage to apply the special action.
+     */
+    @Override
+    public void appliqueActionSpeciale(Personnage p) {
+        if (p.estUnHeros() && !p.canSwim()) {
+            p.coeursPerdu(p.getCoeurs());
+        }
+        p.diminutionVitesse();
     }
 }

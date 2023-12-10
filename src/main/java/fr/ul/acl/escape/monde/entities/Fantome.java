@@ -78,7 +78,7 @@ public class Fantome extends Monstre {
 
     @Override
     public Personnage clone() {
-        return new Fantome(x, y, hauteur, largeur, vitesse,maxVitesse, coeurs, maxCoeurs, degats, id);
+        return new Fantome(x, y, hauteur, largeur, vitesse, maxVitesse, coeurs, maxCoeurs, degats, id);
     }
 
     @Override

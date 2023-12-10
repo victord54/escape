@@ -241,15 +241,15 @@ public abstract class Personnage extends ElementMonde {
         maxVitesse = personnage.maxVitesse;
     }
 
-    public void diminutionVitesse(){
-        vitesse = maxVitesse/2;
+    public void diminutionVitesse() {
+        vitesse = maxVitesse / 2;
     }
 
-    public void vitesseNormale(){
+    public void vitesseNormale() {
         vitesse = maxVitesse;
     }
 
-    public double getMaxVitesse(){
+    public double getMaxVitesse() {
         return maxVitesse;
     }
 }

@@ -58,7 +58,7 @@ public class Heros extends Personnage {
 
     @Override
     public Heros clone() {
-        return new Heros(x, y, hauteur, largeur, vitesse, maxVitesse, coeurs, maxCoeurs, degats,trainingProgress, id);
+        return new Heros(x, y, hauteur, largeur, vitesse, maxVitesse, coeurs, maxCoeurs, degats, trainingProgress, id);
     }
 
     @Override

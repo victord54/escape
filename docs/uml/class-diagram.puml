@@ -69,6 +69,8 @@ package Escape {
                 ..Méthodes..
                 + {static} Terrain fromJSON(JSONObject)
                 + boolean estTraversable()
+                + boolean estTerrainSpeciale()
+                + void appliqueActionSpeciale(Personnage)
             }
 
             class Mur extends Terrain {
@@ -95,18 +97,33 @@ package Escape {
                 + Image getSprite(int)
                 # void initSprites()
             }
+
+            class Eau extends Terrain {
+                 - {static} Image sprite
+                 ..Constructeur..
+                 + Eau(double, double, double, double)
+                 + Eau(JSONObject)
+                 ..Méthodes..
+                 + String getSymbol()
+                 + Color getColor()
+                 + Image getSprite(int)
+                 # void initSprites()
+                 + boolean estTerrainSpeciale()
+                 + void appliqueActionSpeciale(Personnage)
+            }
         }
 
         package Entities {
             abstract class Personnage {
                 # int id
                 # double vitesse
+                # double vitesseMax
                 # double coeurs
                 # double maxCoeurs
                 # boolean isMoving
                 # double degats
                 ..Constructeur..
-                + Personnage(Type, double, double, double, double, double, double, double, double, int)
+                + Personnage(Type, double, double, double, double, double, double, double, double, double, int)
                 + Personnage(JSONObject)
                 ..Méthodes..
                 + {static} Personnage fromJSON(JSONObject)
@@ -129,7 +146,7 @@ package Escape {
                 - {static} Map<TypeMouvement, Image[]> sprites
                 - double trainingProgress
                 ..Constructeur..
-                + Heros(double, double, double, double, double, double, double, double, int)
+                + Heros(double, double, double, double, double, double, double, double, double, int)
                 + Heros(JSONObject)
                 ..Méthodes..
                 + JSONObject toJSON()
@@ -142,12 +159,14 @@ package Escape {
                 + void copierStatistique(Personnage)
                 + void addTrainingTime(long)
                 # void initSprites()
+                + void diminutionVitesse()
+                + void vitesseNormale()
             }
 
             abstract class Monstre extends Personnage {
                 # ArrayList<TypeMouvement> derniersMouvementsEssayes
                 ..Constructeur..
-                + Monstre(Type, double, double, double, double, double, double, double, int)
+                + Monstre(Type, double, double, double, double, double, double, double, double, int)
                 + Monstre(JSONObject)
                 + attaquer(List<Personnage>)
                 + void reinitialiseListMouvementsEssayes()
@@ -158,7 +177,7 @@ package Escape {
             class Walker extends Monstre {
                 - {static} Map<TypeMouvement, Image[]> sprites
                 ..Constructeur..
-                + Walker(double, double, double, double, double, double, double, int)
+                + Walker(double, double, double, double, double, double, double, double, int)
                 + Walker(JSONObject)
                 ..Méthodes..
                 + String getSymbol()
@@ -172,7 +191,7 @@ package Escape {
             class Fantome extends Monstre {
                 - {static} Map<TypeMouvement, Image[]> sprites
                 ..Constructeur..
-                + Fantome(double, double, double, double, double, double, double, double, int)
+                + Fantome(double, double, double, double, double, double, double, double, double, int)
                 + Fantome(JSONObject)
                 ..Méthodes..
                 + boolean peutTraverserObstacles()
@@ -305,6 +324,9 @@ package Escape {
             + void copierMonde(Monde)
             + void changerMap(String)
             + boolean monstresTousMorts()
+            + void verificationTerrainsSpeciaux()
+            + boolean piedGaucheDansEau(Terrain, Personnage)
+            + boolean piedDroitDansEau(Terrain, Personnage)
         }
     }
 

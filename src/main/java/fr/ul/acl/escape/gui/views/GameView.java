@@ -113,9 +113,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         overlay = controller.getOverlay();
 
         // binding game board to center pane
-        elementSize = Bindings.min(centerPane.widthProperty().divide(gameController.getWidth()), centerPane.heightProperty().divide(gameController.getHeight()));
-        gameBoard.widthProperty().bind(elementSize.multiply(gameController.getWidth()));
-        gameBoard.heightProperty().bind(elementSize.multiply(gameController.getHeight()));
+        bindingGameBoardToCenterPane(controller);
 
         // binding overlay to center pane
         overlay.widthProperty().bind(centerPane.widthProperty());
@@ -156,6 +154,9 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void render() {
+        GameViewController controller = (GameViewController) this.controller;
+        bindingGameBoardToCenterPane(controller);
+
         if (gameController.getOnOver())
             engine.gameOver.set(true);
         this.drawGameBoard(gameBoard, elementSize.doubleValue());
@@ -388,5 +389,23 @@ public class GameView extends View implements GameInterface, GameViewController.
             return;
         }
         gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
+    }
+
+    /**
+     * Updates the dimensions of the game board based on the dimensions of the center pane.
+     * <p>
+     * This method calculates the appropriate size for elements on the game board
+     * based on the dimensions of the center pane and binds the game board dimensions accordingly.
+     * </p>
+     *
+     * @param controller The GameViewController associated with the game board.
+     * @see GameViewController
+     */
+    private void bindingGameBoardToCenterPane(GameViewController controller){
+        StackPane centerPane = controller.getPane();
+
+        elementSize = Bindings.min(centerPane.widthProperty().divide(gameController.getWidth()), centerPane.heightProperty().divide(gameController.getHeight()));
+        gameBoard.widthProperty().bind(elementSize.multiply(gameController.getWidth()));
+        gameBoard.heightProperty().bind(elementSize.multiply(gameController.getHeight()));
     }
 }

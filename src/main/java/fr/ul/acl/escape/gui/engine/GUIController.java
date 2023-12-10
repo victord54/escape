@@ -1,6 +1,7 @@
 package fr.ul.acl.escape.gui.engine;
 
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.KeyAction;
 import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Settings;
@@ -15,6 +16,9 @@ import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+import static fr.ul.acl.escape.outils.ProceduralGenerator.genererSeed;
 
 public class GUIController extends fr.ul.acl.escape.engine.GameController {
     /**
@@ -40,13 +44,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
     public GUIController() {
         try {
             //monde = Monde.fromMap("map01" + JSON.extension, GameMode.CAMPAIGN);
-            long seed;
-            do {
-                seed = System.currentTimeMillis();
-            } while (seed == 0);
-
-
-            ProceduralGenerator generator = new ProceduralGenerator(seed, 2);
+            ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), 1);
             monde = generator.getMonde();
         } catch (Exception e) {
             ErrorBehavior.crash(e, "Failed to load map");

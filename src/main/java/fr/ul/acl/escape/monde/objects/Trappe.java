@@ -14,22 +14,34 @@ public class Trappe extends Objet{
     private boolean ouverte;
 
     private final String carteOuTeleporter;
+    private final int difficulteProchaineNiveau;
 
     public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
         super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
         this.carteOuTeleporter = carteOuTeleporter;
         this.ouverte = false;
+        this.difficulteProchaineNiveau = 0;
     }
+
+    public Trappe(double x, double y, double hauteur, double largeur, boolean visible, int difficulteProchaineNiveau) {
+        super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
+        this.carteOuTeleporter = "";
+        this.ouverte = false;
+        this.difficulteProchaineNiveau = difficulteProchaineNiveau;
+    }
+
 
     public Trappe(JSONObject json) {
         super(json);
         this.carteOuTeleporter = json.getString("map");
+        this.difficulteProchaineNiveau = json.getInt("nextLevelDifficulty");
     }
 
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
         json.put("map", this.carteOuTeleporter);
+        json.put("nextLevelDifficulty", difficulteProchaineNiveau);
 
         return json;
     }
@@ -52,7 +64,6 @@ public class Trappe extends Objet{
 
     @Override
     protected void initSprites() {
-
         if (sprites != null) {
             return;
         }
@@ -64,8 +75,8 @@ public class Trappe extends Objet{
 
         if (spriteSheet.get() == null) return;
 
-        sprites[0] = spriteSheet.get(23,0,24,24);
-        sprites[1] = spriteSheet.get(0,0,24,24);
+        sprites[0] = spriteSheet.get(95,0,96,96);
+        sprites[1] = spriteSheet.get(0,0,96,96);
     }
 
     @Override
@@ -75,7 +86,7 @@ public class Trappe extends Objet{
 
     @Override
     public void consommePar(Personnage p, Monde monde) {
-        monde.changerMap(this.carteOuTeleporter);
+        monde.changerMap(this.carteOuTeleporter, this.difficulteProchaineNiveau);
     }
 
     /**

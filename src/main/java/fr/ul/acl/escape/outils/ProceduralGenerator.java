@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.outils;
 
+import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
@@ -9,6 +10,7 @@ import fr.ul.acl.escape.monde.environment.Mur;
 import fr.ul.acl.escape.monde.objects.Coeur;
 import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.monde.objects.Piege;
+import fr.ul.acl.escape.monde.objects.Trappe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,11 @@ public class ProceduralGenerator {
         int[] choosen = caseVisiteAleatoire(random);
         personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.9, 0.9, 4, 5, 5 , 2, FabriqueId.getInstance().getId()));
 
+        //Trappe
+        choosen = caseVisiteAleatoire(random);
+        objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true, difficultLevel+1));
+
+
         //Walkers
         for(int i = 0; i<difficultLevel; i++){
             choosen = caseVisiteAleatoire(random);
@@ -93,6 +100,15 @@ public class ProceduralGenerator {
             objets.add(new Coeur(choosen[1]+1, choosen[0]+1,0.5,0.5,1));
         }
 
+    }
+
+    public static long genererSeed(){
+        long seed;
+        do {
+            seed = System.currentTimeMillis();
+        } while (seed == 0);
+
+        return seed;
     }
 
     /**

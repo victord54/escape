@@ -2,6 +2,7 @@ package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.LevelData;
+import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;
@@ -12,6 +13,7 @@ import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.monde.objects.Trappe;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
+import fr.ul.acl.escape.outils.ProceduralGenerator;
 import javafx.geometry.Point2D;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -26,6 +28,7 @@ import java.util.Random;
 
 import static fr.ul.acl.escape.outils.Donnees.HERO_HIT_COUNTDOWN;
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+import static fr.ul.acl.escape.outils.ProceduralGenerator.genererSeed;
 import static java.io.File.separator;
 
 
@@ -719,12 +722,18 @@ public class Monde {
      * @see Monde
      * @see Heros
      */
-    public void changerMap(String nomMap){
-        try {
-            Monde nouveauMonde = fromMap(nomMap+JSON.extension, this.gameMode);
+    public void changerMap(String nomMap, int difficulte){
+        if(gameMode == GameMode.CAMPAIGN){
+            ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), difficulte);
+            Monde nouveauMonde = generator.getMonde();
             copierMonde(nouveauMonde);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        }else{
+            try {
+                Monde nouveauMonde = fromMap(nomMap+JSON.extension, this.gameMode);
+                copierMonde(nouveauMonde);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

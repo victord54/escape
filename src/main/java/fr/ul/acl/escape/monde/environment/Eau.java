@@ -43,4 +43,9 @@ public class Eau extends Terrain{
 
         sprite = spriteSheet.get(0, 50, 50, 50);
     }
+
+    @Override
+    public boolean terrainSpecial(){
+        return true;
+    }
 }

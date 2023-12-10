@@ -105,6 +105,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         //Attaquer
         if (keysPressed.contains(keyBindings.getKey(KeyAction.ATTACK))) {
+            System.out.println("----");
             monde.heroAttaque();
         }
 
@@ -116,6 +117,7 @@ public class GUIController extends fr.ul.acl.escape.engine.GameController {
 
         monde.deplacementMonstres(timeInDouble);
         monde.monstreAttaque();
+        monde.verificationTerrainsSpeciaux();
     }
 
     public boolean collisionAvecTerrains(Personnage p) {

@@ -105,6 +105,10 @@ public abstract class ElementMonde {
      */
     protected abstract void initSprites();
 
+    public boolean terrainSpecial(){
+        return false;
+    }
+
     /**
      * Concrete types of ElementMonde
      * Used for JSON serialization ONLY!

@@ -101,16 +101,16 @@ public abstract class Personnage extends ElementMonde {
         double hitbox = 0.4;
         switch (this.orientation) {
             case RIGHT -> {
-                return new Rectangle2D(x + largeur, y, hitbox, hitbox);
+                return new Rectangle2D(x + largeur, y, hitbox, hauteur);
             }
             case LEFT -> {
-                return new Rectangle2D(x - largeur, y, hitbox, hitbox);
+                return new Rectangle2D(x - largeur, y, hitbox, hauteur);
             }
             case UP -> {
-                return new Rectangle2D(x, y - hauteur, hitbox, hitbox);
+                return new Rectangle2D(x, y - hauteur, largeur, hitbox);
             }
             case DOWN -> {
-                return new Rectangle2D(x, y + hauteur, hitbox, hitbox);
+                return new Rectangle2D(x, y + hauteur, largeur, hitbox);
             }
         }
         return new Rectangle2D(this.x, this.y, hitbox, hitbox);

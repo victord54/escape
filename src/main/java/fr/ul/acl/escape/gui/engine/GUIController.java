@@ -1,7 +1,6 @@
 package fr.ul.acl.escape.gui.engine;
 
 
-import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.KeyAction;
 import fr.ul.acl.escape.KeyBindings;
 import fr.ul.acl.escape.Settings;
@@ -17,7 +16,6 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.Set;
 
-import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
 import static fr.ul.acl.escape.outils.ProceduralGenerator.genererSeed;
 
 public class GUIController extends fr.ul.acl.escape.engine.GameController {

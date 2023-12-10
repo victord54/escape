@@ -1,6 +1,5 @@
 package fr.ul.acl.escape.outils;
 
-import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Fantome;
 import fr.ul.acl.escape.monde.entities.Heros;
@@ -26,9 +25,9 @@ public class ProceduralGenerator {
     private static final boolean WALL = true;
     private static final boolean EMPTY = false;
 
-    private boolean[][] level;
+    private final boolean[][] level;
 
-    private List<int[]> visited;
+    private final List<int[]> visited;
 
     private final int width;  // Largeur du niveau
     private final int height; // Hauteur du niveau
@@ -36,9 +35,9 @@ public class ProceduralGenerator {
     private final List<Personnage> personnages = new ArrayList<>();
     private final List<Objet> objets = new ArrayList<>();
 
-    private long seed;
+    private final long seed;
 
-    private int difficulty;
+    private final int difficulty;
 
     /**
      * Constructs a ProceduralGenerator with the specified seed and difficulty level.

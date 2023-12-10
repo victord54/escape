@@ -2,7 +2,6 @@ package fr.ul.acl.escape.monde;
 
 import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.LevelData;
-import fr.ul.acl.escape.engine.GameController;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Monstre;
 import fr.ul.acl.escape.monde.entities.Personnage;

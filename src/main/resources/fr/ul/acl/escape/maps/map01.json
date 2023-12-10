@@ -48,8 +48,8 @@
       "height": 0.8,
       "life": 3,
       "maxLife": 3,
-      "maxSpeed" : 2,
       "speed": 1.5,
+      "maxSpeed" : 2,
       "damages": 0.25
     },
     {

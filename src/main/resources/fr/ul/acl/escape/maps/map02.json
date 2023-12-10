@@ -37,6 +37,7 @@
       "life": 3,
       "maxLife": 3,
       "speed": 2,
+      "maxSpeed" : 2,
       "damages": 0.25
     },
     {

@@ -19,8 +19,9 @@ public abstract class GameController {
      * Updates the game state.
      *
      * @param deltaTime The elapsed time since the last update in nanoseconds.
+     * @param now       The current time in nanoseconds.
      */
-    public abstract void update(long deltaTime);
+    public abstract void update(long deltaTime, long now);
 
     /**
      * @return A JSON object representing the game state.

@@ -35,7 +35,7 @@ public class Piege extends Objet {
         if (!visible) {
             return " "; // Invisible
         }
-        return "✘"; // Red foreground
+        return "✘";
     }
 
     @Override

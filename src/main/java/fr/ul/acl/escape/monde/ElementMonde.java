@@ -83,7 +83,7 @@ public abstract class ElementMonde {
     }
 
     /**
-     * @return a char representing the ElementMonde (for the console)
+     * @return a string representing the ElementMonde (for the console)
      */
     public abstract String getSymbol();
 
@@ -114,6 +114,6 @@ public abstract class ElementMonde {
      * Used for JSON serialization ONLY!
      */
     public enum Type {
-        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP, GHOST, TRAPDOOR, WATER
+        HERO, WALKER, NOT_SERIALIZABLE, WALL, HEART, TRAP, GHOST, TRAPDOOR, TRAINING, WATER
     }
 }

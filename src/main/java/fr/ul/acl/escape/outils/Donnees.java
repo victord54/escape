@@ -47,6 +47,11 @@ public final class Donnees {
     public static final double HERO_HIT_COUNTDOWN = 500;
 
     /**
+     * total hero training duration in ms
+     */
+    public static final int HERO_TRAINING_DURATION = 4_000;
+
+    /**
      * Walker hit damage
      */
     public static final double WALKER_HIT = 1;
@@ -68,7 +73,7 @@ public final class Donnees {
     /**
      * Conversion factor to transform float to int.
      */
-    public static final int CONVERSION_FACTOR = 10000;
+    public static final int CONVERSION_FACTOR = 10_000;
     /**
      * height of heart
      */

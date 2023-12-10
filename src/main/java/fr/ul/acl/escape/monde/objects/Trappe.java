@@ -13,20 +13,22 @@ public class Trappe extends Objet {
     private final String carteOuTeleporter;
     private boolean ouverte;
 
-    public Trappe(double x, double y, double hauteur, double largeur, boolean visible, String carteOuTeleporter) {
-        super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
+    public Trappe(double x, double y, double hauteur, double largeur, String carteOuTeleporter, boolean ouverte) {
+        super(Type.TRAPDOOR, x, y, hauteur, largeur, true);
         this.carteOuTeleporter = carteOuTeleporter;
-        this.ouverte = false;
+        this.ouverte = ouverte;
     }
 
     public Trappe(JSONObject json) {
         super(json);
+        this.ouverte = json.getBoolean("open");
         this.carteOuTeleporter = json.getString("map");
     }
 
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
+        json.put("open", this.ouverte);
         json.put("map", this.carteOuTeleporter);
 
         return json;
@@ -34,12 +36,12 @@ public class Trappe extends Objet {
 
     @Override
     public String getSymbol() {
-        return "T";
+        return ouverte ? "○" : "◍";
     }
 
     @Override
     public Color getColor() {
-        return Color.LIGHTCYAN;
+        return Color.LIGHTGREEN;
     }
 
     @Override

@@ -71,7 +71,7 @@ public class GUIEngine extends fr.ul.acl.escape.engine.Engine {
         nbFrames++;
 
         // update and render
-        this.controller.update(deltaTime * (paused.get() || gameOver.get() ? 0 : 1));
+        this.controller.update(deltaTime * (paused.get() || gameOver.get() ? 0 : 1), now);
         this.ui.render();
 
         // update elapsed time

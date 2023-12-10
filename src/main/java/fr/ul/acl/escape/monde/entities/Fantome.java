@@ -13,8 +13,8 @@ import java.util.Map;
 public class Fantome extends Monstre {
     private static Map<TypeMouvement, Image[]> sprites;
 
-    public Fantome(double x, double y, double hauteur, double largeur, double vitesse, double coeurs, double maxCoeurs, double degats, int id) {
-        super(Type.GHOST, x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+    public Fantome(double x, double y, double hauteur, double largeur, double vitesse, double maxVitesse, double coeurs, double maxCoeurs, double degats, int id) {
+        super(Type.GHOST, x, y, hauteur, largeur, vitesse, maxVitesse, coeurs, maxCoeurs, degats, id);
     }
 
     public Fantome(JSONObject json) {
@@ -78,7 +78,7 @@ public class Fantome extends Monstre {
 
     @Override
     public Personnage clone() {
-        return new Fantome(x, y, hauteur, largeur, vitesse, coeurs, maxCoeurs, degats, id);
+        return new Fantome(x, y, hauteur, largeur, vitesse,maxVitesse, coeurs, maxCoeurs, degats, id);
     }
 
     @Override

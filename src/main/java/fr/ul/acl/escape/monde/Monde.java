@@ -290,6 +290,9 @@ public class Monde {
             if (!t.estTraversable() && !pers.peutTraverserObstacles()) {
                 if (collision(pers, t)) return true;
             }
+            else if (t.estTraversable() && pers.peutTraverserObstacles()){
+                if (collision(pers,t)) return true;
+            }
         }
         for (Personnage p : personnages) {
             if (checkAvecHeros) {
@@ -745,47 +748,55 @@ public class Monde {
 
 
     public void verificationTerrainsSpeciaux() {
-        Heros h = this.getHeros();
-        boolean piedGaucheDansEau = false;
-        boolean piedDroitDansEau = false;
-        for (Terrain t : terrains) {
-            if (t.terrainSpecial()) {
-                if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t);
-                if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t);
-                if (piedGaucheDansEau && piedDroitDansEau) h.coeursPerdu(h.getCoeurs());
+        for (Personnage p : personnages){
+            boolean piedGaucheDansEau = false;
+            boolean piedDroitDansEau = false;
+            for (Terrain t : terrains) {
+                if (t.terrainSpecial()) {
+                    if (!piedGaucheDansEau) piedGaucheDansEau = gaucheDansEau(t,p);
+                    if (!piedDroitDansEau) piedDroitDansEau = droitDansEau(t,p);
+                    if (piedGaucheDansEau && piedDroitDansEau) {
+                        if (p.estUnHeros()){
+                            //p.coeursPerdu(p.getCoeurs());
+                        }
+                        p.diminutionVitesse();
+                        return;
+                    }
+                }
             }
+            p.vitesseNormale();
         }
     }
 
     /**
-     * Method that check if the left foot (left bottom point) of the Hero is a Terrain.
+     * Method that check if the left foot (left bottom point) of the Personnage is in a Terrain.
      *
      * @param terrain The terrain.
-     * @return true if terrain contains the left bottom point of the Hero.
+     * @param p The Personnage.
+     * @return true if terrain contains the left bottom point of the Personnage.
      */
-    public boolean gaucheDansEau(Terrain terrain) {
-        Heros h = this.getHeros();
+    public boolean gaucheDansEau(Terrain terrain, Personnage p) {
         Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getHauteur(), terrain.getLargeur());
 
-        double leftBottomX = h.getX() + 0.3;
-        double leftBottomY = h.getY() + h.getHauteur();
+        double leftBottomX = p.getX() + 0.3;
+        double leftBottomY = p.getY() + p.getHauteur();
         Point2D piedGauche = new Point2D(leftBottomX, leftBottomY);
 
         return (rect.contains(piedGauche));
     }
 
     /**
-     * Method that check if the right foot (right bottom point) of the Hero is a Terrain.
+     * Method that check if the right foot (right bottom point) of the Personnage is in a Terrain.
      *
      * @param terrain The terrain.
-     * @return true if terrain contains the right bottom point of the Hero.
+     * @param p The Personnage.
+     * @return true if terrain contains the right bottom point of the Personnage.
      */
-    public boolean droitDansEau(Terrain terrain) {
-        Heros h = this.getHeros();
+    public boolean droitDansEau(Terrain terrain, Personnage p) {
         Rectangle2D rect = new Rectangle2D(terrain.getX(), terrain.getY(), terrain.getHauteur(), terrain.getLargeur());
 
-        double rightBottomX = h.getX() + h.getLargeur() - 0.3;
-        double rightBottomY = h.getY() + h.getHauteur();
+        double rightBottomX = p.getX() + p.getLargeur() - 0.3;
+        double rightBottomY = p.getY() + p.getHauteur();
         Point2D piedDroit = new Point2D(rightBottomX, rightBottomY);
 
         return (rect.contains(piedDroit));

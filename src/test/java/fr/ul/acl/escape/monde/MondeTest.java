@@ -23,8 +23,8 @@ class MondeTest {
 
     @BeforeEach
     void setUp() {
-        this.monde = new Monde(12, 18);
-        this.monde2 = new Monde(12, 18);
+        this.monde = new Monde(12, 18, 0, 1);
+        this.monde2 = new Monde(12, 18, 0, 1);
     }
 
     @Test
@@ -181,7 +181,7 @@ class MondeTest {
 
     @Test
     void testCopierMonde(){
-        Monde m = new Monde(6,5);
+        Monde m = new Monde(6,5, 0, 1);
 
         m.addPersonnage(new Heros(1,1,1,1,1,1,1,1,1));
         m.addPersonnage(new Walker(2,2,1,1,1,1,1,1,1));

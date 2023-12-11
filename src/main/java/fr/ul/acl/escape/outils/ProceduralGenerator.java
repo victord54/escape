@@ -25,9 +25,17 @@ public class ProceduralGenerator {
     private static final boolean WALL = true;
     private static final boolean EMPTY = false;
 
+    /**
+     * Represents the density of open spaces in a two-dimensional area.
+     * The SPACE_DENSITY constant is a double value ranging between 0 and approximately 1,
+     * defining the proportion of the total space that should be unoccupied or left as open spaces.
+     * The algorithm generating spaces is random, so setting SPACE_DENSITY to a value higher than 1
+     * can be used to increase the likelihood of having larger open spaces.
+     */
+    private static final double SPACE_DENSITY = 0.95;
     private final boolean[][] level;
 
-    private final List<int[]> visited;
+    private final List<Integer[]> visited;
 
     private final int width;  // Largeur du niveau
     private final int height; // Hauteur du niveau
@@ -76,38 +84,38 @@ public class ProceduralGenerator {
         Map<String, Integer> stats = getDifficultyStatistics(difficultLevel);
 
         //Hero
-        int[] choosen = caseVisiteAleatoire(random);
-        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.8, 0.7, 4, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
+        Integer[] choosen = caseVisiteAleatoire(random, true);
+        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.8, 0.7, 5, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
 
         //Trappe
-        choosen = caseVisiteAleatoire(random);
+        choosen = caseVisiteAleatoire(random, true);
         objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true));
 
         //Training
-        choosen = caseVisiteAleatoire(random);
+        choosen = caseVisiteAleatoire(random, true);
         objets.add(new Training(choosen[1]+1, choosen[0]+1, 1, 1));
 
         //Walkers
         for(int i = 0; i<stats.get("walkers"); i++){
-            choosen = caseVisiteAleatoire(random);
-            personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 3, 3, 3 , 3, 1, FabriqueId.getInstance().getId()));
+            choosen = caseVisiteAleatoire(random, true);
+            personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Fantomes
         for(int i = 0; i<stats.get("fantomes"); i++){
-            choosen = caseVisiteAleatoire(random);
-            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 3, 3, 3 , 3, 1, FabriqueId.getInstance().getId()));
+            choosen = caseVisiteAleatoire(random, true);
+            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Pièges
         for(int i = 0; i<stats.get("pieges"); i++){
-            choosen = caseVisiteAleatoire(random);
+            choosen = caseVisiteAleatoire(random, true);
             objets.add(new Piege(choosen[1]+1, choosen[0]+1,0.4,0.8,1));
         }
 
         //Coeurs
         for(int i = 0; i<stats.get("coeurs"); i++){
-            choosen = caseVisiteAleatoire(random);
+            choosen = caseVisiteAleatoire(random, true);
             objets.add(new Coeur(choosen[1]+1, choosen[0]+1,0.5,0.5,1));
         }
 
@@ -178,11 +186,11 @@ public class ProceduralGenerator {
         // Créer un passage à travers le mur
         for (int i = x; i <= x + width; i++) {
             level[wallY][i] = EMPTY;
-            visited.add(new int[]{wallY, i});
+            visited.add(new Integer[]{wallY, i});
         }
         for (int i = y; i <= y + height; i++) {
             level[i][wallX] = EMPTY;
-            visited.add(new int[]{i, wallX});
+            visited.add(new Integer[]{i, wallX});
         }
 
         // Récursivement diviser les quatre sections
@@ -199,18 +207,23 @@ public class ProceduralGenerator {
      */
     private void splash(Random random) {
         int i = 0;
-        int borne = (int) Math.floor(((height * width) - visited.size()) * 0.7);
+        int borne = (int) Math.floor(((height * width) - visited.size()) * SPACE_DENSITY) ;
         while (i < borne) {
             List<int[]> neighbors = new ArrayList<>();
-            while (neighbors.size() <= 0) {
-                int[] chosen = caseVisiteAleatoire(random);
+
+            int j = 0;
+            while (neighbors.size() <= 0 && j<10000) {
+                Integer[] chosen = caseVisiteAleatoire(random, false);
                 neighbors = getVoisinsEligibles(chosen[0], chosen[1]);
+                j++;
             }
 
-            int[] neighborAVider = neighbors.get(random.nextInt(neighbors.size()));
-            visited.add(neighborAVider);
-            level[neighborAVider[0]][neighborAVider[1]] = EMPTY;
-
+            if(neighbors.size() > 0){
+                int[] neighborAVider = neighbors.get(random.nextInt(neighbors.size()));
+                visited.add(new Integer[]{neighborAVider[0], neighborAVider[1]});
+                level[neighborAVider[0]][neighborAVider[1]] = EMPTY;
+            }
+            
             i++;
         }
     }
@@ -247,8 +260,8 @@ public class ProceduralGenerator {
      * @param y    The y-coordinate to check.
      * @return True if the coordinates are present, false otherwise.
      */
-    private boolean containsCoordinate(List<int[]> list, int x, int y) {
-        for (int[] coord : list) {
+    private boolean containsCoordinate(List<Integer[]> list, int x, int y) {
+        for (Integer[] coord : list) {
             if (coord[0] == x && coord[1] == y) {
                 return true;
             }
@@ -262,11 +275,11 @@ public class ProceduralGenerator {
      * @param random A Random object used for generating random values.
      * @return The coordinates of a randomly chosen visited cell.
      */
-    private int[] caseVisiteAleatoire(Random random) {
+    private Integer[] caseVisiteAleatoire(Random random, boolean removeAfter) {
         int randomized = random.nextInt(visited.size());
 
-        int[] res = visited.get(randomized);
-        visited.remove(randomized);
+        Integer[] res = visited.get(randomized);
+        if(removeAfter) visited.remove(randomized);
 
         return res;
     }

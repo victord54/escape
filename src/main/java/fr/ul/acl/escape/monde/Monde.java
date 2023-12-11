@@ -218,7 +218,7 @@ public class Monde {
     protected void deplacementMonstre(Monstre monstre, double deltaTime) {
         monstre.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 500; // Incrémentation pour construire les noeuds
+        int pas = 5; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < this.width * conversionFactor; i += pas) {
             for (int j = 0; j < this.height * conversionFactor; j += pas) {

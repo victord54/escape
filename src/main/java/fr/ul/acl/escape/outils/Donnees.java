@@ -69,7 +69,7 @@ public final class Donnees {
     /**
      * Conversion factor to transform float to int.
      */
-    public static final int CONVERSION_FACTOR = 1000;
+    public static final int CONVERSION_FACTOR = 10;
     /**
      * height of heart
      */

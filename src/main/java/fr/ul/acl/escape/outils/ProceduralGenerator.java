@@ -6,7 +6,9 @@ import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.monde.entities.Walker;
 import fr.ul.acl.escape.monde.environment.BordureMonde;
+import fr.ul.acl.escape.monde.environment.Eau;
 import fr.ul.acl.escape.monde.environment.Mur;
+import fr.ul.acl.escape.monde.environment.Terrain;
 import fr.ul.acl.escape.monde.objects.*;
 
 import java.util.*;
@@ -35,13 +37,15 @@ public class ProceduralGenerator {
     private static final double SPACE_DENSITY = 0.95;
     private final boolean[][] level;
 
-    private final List<Integer[]> visited;
+    private final List<int[]> visited;
 
     private final int width;  // Largeur du niveau
     private final int height; // Hauteur du niveau
 
     private final List<Personnage> personnages = new ArrayList<>();
     private final List<Objet> objets = new ArrayList<>();
+
+    private final List<Terrain> terrains = new ArrayList<>();
 
     private final long seed;
 
@@ -84,39 +88,68 @@ public class ProceduralGenerator {
         Map<String, Integer> stats = getDifficultyStatistics(difficultLevel);
 
         //Hero
-        Integer[] choosen = caseVisiteAleatoire(random, true);
-        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.8, 0.7, 5, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
+        int[] chosen = caseVisiteAleatoire(random, true);
+        int[] hero = chosen;
+        personnages.add(new Heros(chosen[1]+1, chosen[0]+1, 0.8, 0.7, 5, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
 
-        //Trappe
-        choosen = caseVisiteAleatoire(random, true);
-        objets.add(new Trappe(choosen[1]+1, choosen[0]+1, 1, 1, true));
+        //Trappe + Eau
+        chosen = caseVisiteAleatoire(random, false);
+        objets.add(new Trappe(chosen[1]+1, chosen[0]+1, 1, 1, true));
+
+        List<int[]> visitedEau = new ArrayList<>();
+        for(int[] voisin : getVoisinVisites(chosen[0], chosen[1])){
+            terrains.add(new Eau(voisin[1]+1, voisin[0]+1, 1, 1));
+            removeCoordinate(visited, voisin[0], voisin[1]);
+            visitedEau.add(voisin);
+        }
+        removeCoordinate(visited, chosen[0], chosen[1]);
+
+        for(int i = 0; i<(random.nextInt(15)+15); i++){
+            chosen = visitedEau.get(random.nextInt(visitedEau.size()));
+            List<int[]> voisins = getVoisinVisites(chosen[0], chosen[1]);
+
+            if(voisins.size() > 0){
+                int[] voisin = voisins.get(random.nextInt(voisins.size()));
+
+                terrains.add(new Eau(voisin[1]+1, voisin[0]+1, 1, 1));
+                removeCoordinate(visited, voisin[0], voisin[1]);
+                visitedEau.add(voisin);
+            }
+        }
+
 
         //Training
-        choosen = caseVisiteAleatoire(random, true);
-        objets.add(new Training(choosen[1]+1, choosen[0]+1, 1, 1));
+        chosen = hero;
+        for(int i = 0; i<50; i++){
+            List<int[]> voisins = getVoisinVisites(chosen[0], chosen[1]);
+            chosen = voisins.get(random.nextInt(voisins.size()));
+
+        }
+        objets.add(new Training(chosen[1]+1, chosen[0]+1, 1, 1));
+        removeCoordinate(visited, chosen[0], chosen[1]);
 
         //Walkers
         for(int i = 0; i<stats.get("walkers"); i++){
-            choosen = caseVisiteAleatoire(random, true);
-            personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
+            chosen = caseVisiteAleatoire(random, true);
+            personnages.add(new Walker(chosen[1]+1, chosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Fantomes
         for(int i = 0; i<stats.get("fantomes"); i++){
-            choosen = caseVisiteAleatoire(random, true);
-            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
+            chosen = caseVisiteAleatoire(random, true);
+            personnages.add(new Fantome(chosen[1]+1, chosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Pièges
         for(int i = 0; i<stats.get("pieges"); i++){
-            choosen = caseVisiteAleatoire(random, true);
-            objets.add(new Piege(choosen[1]+1, choosen[0]+1,0.4,0.8,1));
+            chosen = caseVisiteAleatoire(random, true);
+            objets.add(new Piege(chosen[1]+1, chosen[0]+1,0.4,0.8,1));
         }
 
         //Coeurs
         for(int i = 0; i<stats.get("coeurs"); i++){
-            choosen = caseVisiteAleatoire(random, true);
-            objets.add(new Coeur(choosen[1]+1, choosen[0]+1,0.5,0.5,1));
+            chosen = caseVisiteAleatoire(random, true);
+            objets.add(new Coeur(chosen[1]+1, chosen[0]+1,0.5,0.5,1));
         }
 
     }
@@ -186,11 +219,11 @@ public class ProceduralGenerator {
         // Créer un passage à travers le mur
         for (int i = x; i <= x + width; i++) {
             level[wallY][i] = EMPTY;
-            visited.add(new Integer[]{wallY, i});
+            visited.add(new int[]{wallY, i});
         }
         for (int i = y; i <= y + height; i++) {
             level[i][wallX] = EMPTY;
-            visited.add(new Integer[]{i, wallX});
+            visited.add(new int[]{i, wallX});
         }
 
         // Récursivement diviser les quatre sections
@@ -213,14 +246,14 @@ public class ProceduralGenerator {
 
             int j = 0;
             while (neighbors.size() <= 0 && j<10000) {
-                Integer[] chosen = caseVisiteAleatoire(random, false);
+                int[] chosen = caseVisiteAleatoire(random, false);
                 neighbors = getVoisinsEligibles(chosen[0], chosen[1]);
                 j++;
             }
 
             if(neighbors.size() > 0){
                 int[] neighborAVider = neighbors.get(random.nextInt(neighbors.size()));
-                visited.add(new Integer[]{neighborAVider[0], neighborAVider[1]});
+                visited.add(new int[]{neighborAVider[0], neighborAVider[1]});
                 level[neighborAVider[0]][neighborAVider[1]] = EMPTY;
             }
 
@@ -252,6 +285,23 @@ public class ProceduralGenerator {
         return neighbors;
     }
 
+    private List<int[]> getVoisinVisites(int x, int y){
+        List<int[]> neighbors = new ArrayList<>();
+        int[][] offsets = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for (int[] offset : offsets) {
+            int nx = x + offset[0];
+            int ny = y + offset[1];
+
+            if (nx >= 0 && nx < level.length && ny >= 0 && ny < level[0].length
+                    && containsCoordinate(visited, nx, ny)) {
+                neighbors.add(new int[]{nx, ny});
+            }
+        }
+
+        return neighbors;
+    }
+
     /**
      * Checks if the specified coordinates are present in the given list.
      *
@@ -260,13 +310,22 @@ public class ProceduralGenerator {
      * @param y    The y-coordinate to check.
      * @return True if the coordinates are present, false otherwise.
      */
-    private boolean containsCoordinate(List<Integer[]> list, int x, int y) {
-        for (Integer[] coord : list) {
+    private boolean containsCoordinate(List<int[]> list, int x, int y) {
+        for (int[] coord : list) {
             if (coord[0] == x && coord[1] == y) {
                 return true;
             }
         }
         return false;
+    }
+
+    private void removeCoordinate(List<int[]> list, int x, int y){
+        for(int i = 0; i<list.size(); i++){
+            if(list.get(i)[0] == x && list.get(i)[1] == y){
+                list.remove(i);
+                break;
+            }
+        }
     }
 
     /**
@@ -275,10 +334,10 @@ public class ProceduralGenerator {
      * @param random A Random object used for generating random values.
      * @return The coordinates of a randomly chosen visited cell.
      */
-    private Integer[] caseVisiteAleatoire(Random random, boolean removeAfter) {
+    private int[] caseVisiteAleatoire(Random random, boolean removeAfter) {
         int randomized = random.nextInt(visited.size());
 
-        Integer[] res = visited.get(randomized);
+        int[] res = visited.get(randomized);
         if(removeAfter) visited.remove(randomized);
 
         return res;
@@ -286,7 +345,7 @@ public class ProceduralGenerator {
 
 
     /**
-     * Retrieves the world represented by the current state of the map.
+     * Retrieves the world !!:!:!:! by the current state of the map.
      *
      * @return A 'Monde' object representing the world with appropriate borders, walls, characters, and objects.
      */
@@ -320,6 +379,11 @@ public class ProceduralGenerator {
         // Ajout des objets
         for (Objet o : objets) {
             monde.addObjet(o);
+        }
+
+        //Ajout Terrain
+        for(Terrain t : terrains){
+            monde.addTerrains(t);
         }
 
         return monde;

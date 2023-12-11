@@ -223,7 +223,7 @@ public class ProceduralGenerator {
                 visited.add(new Integer[]{neighborAVider[0], neighborAVider[1]});
                 level[neighborAVider[0]][neighborAVider[1]] = EMPTY;
             }
-            
+
             i++;
         }
     }

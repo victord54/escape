@@ -710,6 +710,7 @@ public class Monde {
         if (gameMode == GameMode.CAMPAIGN) {
             json.put("seed", currentLevelSeed);
             json.put("difficulty", currentLevelDifficulty);
+            json.put("level", currentLevelDifficulty);
         } else {
             json.put("map", carte);
         }

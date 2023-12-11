@@ -218,7 +218,7 @@ public class Monde {
     protected void deplacementMonstre(Monstre monstre, double deltaTime) {
         monstre.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 5000; // Incrémentation pour construire les noeuds
+        int pas = 500; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < this.width * conversionFactor; i += pas) {
             for (int j = 0; j < this.height * conversionFactor; j += pas) {
@@ -233,13 +233,13 @@ public class Monde {
                 tmpMonstre.setY((double) j / conversionFactor);
 
                 // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvec(tmpMonstre, false)) {
+                if (i + pas  < this.width * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
                 // Test si noeud à gauche est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (j + pas + ((int) ((monstre.getHauteur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvec(tmpMonstre, false)) {
+                if (j + pas < this.height * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }
@@ -431,12 +431,12 @@ public class Monde {
                 tmpMonstre.setX((double) i / conversionFactor);
                 tmpMonstre.setY((double) j / conversionFactor);
                 // On ne teste pas si le noeud est sur un Personnage
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
+                if (i + pas  < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
-                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
+                if (j + pas  < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }

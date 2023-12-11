@@ -93,7 +93,6 @@ public class GameViewController extends ViewController {
     public void setEndMenuVisible(boolean visible) {
         endMenu.setVisible(visible);
         endMenu.setDisable(!visible);
-        if (visible) endReplayButton.requestFocus();
     }
 
     @FXML

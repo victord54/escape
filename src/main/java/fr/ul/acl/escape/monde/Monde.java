@@ -99,11 +99,11 @@ public class Monde {
         if (json.has("mode")) {
             // it's a save, it doesn't contain environment
             GameMode mode = GameMode.valueOf(json.getString("mode"));
-            if(mode == GameMode.CAMPAIGN){
+            if (mode == GameMode.CAMPAIGN) {
                 //it's a campaign save, it has a seed and a difficulty
-                ProceduralGenerator generator = new ProceduralGenerator(json.getLong("seed"),json.getInt("difficulty"));
+                ProceduralGenerator generator = new ProceduralGenerator(json.getLong("seed"), json.getInt("difficulty"));
                 monde = generator.getMonde();
-            }else{
+            } else {
                 //it's a custom save, it has a map
                 monde = fromMap(json.getString("map"), mode);
             }
@@ -112,7 +112,7 @@ public class Monde {
         } else {
             // it's a map file
             JSONObject jsonWorld = json.getJSONObject("world");
-            monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"),0, 1);
+            monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"), 0, 1);
             if (monde.width < 3 || monde.height < 3)
                 throw new IllegalArgumentException("World too small: " + jsonWorld);
 
@@ -707,10 +707,10 @@ public class Monde {
      */
     public JSONObject toJSONSave() {
         JSONObject json = new JSONObject();
-        if(gameMode == GameMode.CAMPAIGN){
+        if (gameMode == GameMode.CAMPAIGN) {
             json.put("seed", currentLevelSeed);
             json.put("difficulty", currentLevelDifficulty);
-        }else{
+        } else {
             json.put("map", carte);
         }
         json.put("mode", gameMode.toString());
@@ -757,16 +757,17 @@ public class Monde {
      * @see Monde
      * @see Heros
      */
-    public void changerMap(String nomMap){
-        if(gameMode == GameMode.CAMPAIGN){
+    public void changerMap(String nomMap) {
+        if (gameMode == GameMode.CAMPAIGN) {
             //Si on est en mode campagne alors on génère une nouvelle carte avec une difficultée augmentée de 1.
-            ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), currentLevelDifficulty+1);
+            ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), currentLevelDifficulty + 1);
             Monde nouveauMonde = generator.getMonde();
             copierMonde(nouveauMonde);
-        }else{
+        } else {
             //Si on est en mode custom alors on charge la carte dont le nom est donné en paramètre
+            if (nomMap == null || nomMap.isEmpty()) return;
             try {
-                Monde nouveauMonde = fromMap(nomMap+JSON.extension, this.gameMode);
+                Monde nouveauMonde = fromMap(nomMap + JSON.extension, this.gameMode);
                 copierMonde(nouveauMonde);
             } catch (Exception e) {
                 throw new RuntimeException(e);

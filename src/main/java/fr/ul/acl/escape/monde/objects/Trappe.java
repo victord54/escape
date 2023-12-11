@@ -83,7 +83,6 @@ public class Trappe extends Objet {
 
     @Override
     public void consommePar(Personnage p, Monde monde) {
-        if (carteOuTeleporter == null || carteOuTeleporter.isEmpty()) return;
         monde.changerMap(this.carteOuTeleporter);
     }
 

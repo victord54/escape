@@ -77,7 +77,7 @@ public class ProceduralGenerator {
 
         //Hero
         int[] choosen = caseVisiteAleatoire(random);
-        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.9, 0.9, 4, 5, 5 , 2, 0, 0, FabriqueId.getInstance().getId()));
+        personnages.add(new Heros(choosen[1]+1, choosen[0]+1, 0.9, 0.9, 4, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
 
         //Trappe
         choosen = caseVisiteAleatoire(random);
@@ -90,13 +90,13 @@ public class ProceduralGenerator {
         //Walkers
         for(int i = 0; i<stats.get("walkers"); i++){
             choosen = caseVisiteAleatoire(random);
-            personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 1, 0, FabriqueId.getInstance().getId()));
+            personnages.add(new Walker(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 3, 1, FabriqueId.getInstance().getId()));
         }
 
         //Fantomes
         for(int i = 0; i<stats.get("fantomes"); i++){
             choosen = caseVisiteAleatoire(random);
-            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 1, 0, FabriqueId.getInstance().getId()));
+            personnages.add(new Fantome(choosen[1]+1, choosen[0]+1, 0.8, 0.5, 3, 3, 3 , 3, 1, FabriqueId.getInstance().getId()));
         }
 
         //Pièges

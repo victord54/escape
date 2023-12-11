@@ -30,7 +30,7 @@ public class Trappe extends Objet {
         super(json);
         this.ouverte = json.getBoolean("open");
         this.carteOuTeleporter = json.getString("map");
-        this.ouverte = json.getBoolean("isOpen");
+        this.ouverte = json.optBoolean("isOpen", false);
     }
 
     @Override
@@ -72,8 +72,8 @@ public class Trappe extends Objet {
 
         if (spriteSheet.get() == null) return;
 
-        sprites[0] = spriteSheet.get(95,0,96,96);
-        sprites[1] = spriteSheet.get(0,0,96,96);
+        sprites[0] = spriteSheet.get(95, 0, 96, 96);
+        sprites[1] = spriteSheet.get(0, 0, 96, 96);
     }
 
     @Override

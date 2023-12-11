@@ -192,14 +192,14 @@ public class GameView extends View implements GameInterface, GameViewController.
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, 0, false));
 
+        if (engine == null) return;
+
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
             if (objet.isVisible()) {
                 renderElement(gc, objet, elementSize, (int) (engine.getLastUpdate() / 1e8), false);
             }
         });
-
-        if (engine == null) return;
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
@@ -436,9 +436,9 @@ public class GameView extends View implements GameInterface, GameViewController.
         if (sprite == null) {
             gc.setFill(elementMonde.getColor());
             gc.fillRect(elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, Math.ceil(elementMonde.getLargeur() * elementSize), Math.ceil(elementMonde.getHauteur() * elementSize));
-            return;
+        } else {
+            gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
         }
-        gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
 
         if (drawPV) {
             double heightPVBar = elementSize / 16.0;
@@ -461,7 +461,7 @@ public class GameView extends View implements GameInterface, GameViewController.
      * @param controller The GameViewController associated with the game board.
      * @see GameViewController
      */
-    private void bindingGameBoardToCenterPane(GameViewController controller){
+    private void bindingGameBoardToCenterPane(GameViewController controller) {
         StackPane centerPane = controller.getPane();
 
         elementSize = Bindings.min(centerPane.widthProperty().divide(gameController.getWidth()), centerPane.heightProperty().divide(gameController.getHeight()));

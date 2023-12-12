@@ -46,7 +46,6 @@ package Escape {
             + {static} JSONObject readFile(String, boolean)
             + {static} Map<String, JSONObject> readDirectory(String, boolean)
             + {static} JSONObject readResourceFile(String)
-            + {static} Map<String, JSONObject> readResourceDirectory(String)
             + {static} void open(String, boolean)
             + {static} File getFile(String)
             - {static} boolean writeString(String, String)

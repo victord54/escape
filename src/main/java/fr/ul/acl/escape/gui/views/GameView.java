@@ -12,6 +12,7 @@ import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -20,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -32,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -244,14 +245,17 @@ public class GameView extends View implements GameInterface, GameViewController.
         drawHearts(gc, heros.getCoeurs(), heros.getMaxCoeurs(), 10, 5);
         drawTraining(gc, heros.getTrainingProgress(), -10, 5);
 
-        //draw level info
-        if(gameController.getMonde().getGameMode() == GameMode.CAMPAIGN){
+        // draw level info
+        if (gameController.getGameMode() == GameMode.CAMPAIGN) {
             Font oldFont = gc.getFont();
+            TextAlignment oldAlign = gc.getTextAlign();
             gc.setFont(Font.font(gc.getFont().getFamily(), FontWeight.BOLD, 20));
+            gc.setTextAlign(TextAlignment.CENTER);
             gc.setFill(Color.WHITE);
-            gc.fillText(Resources.getI18NString("game.level") + " " + gameController.getMonde().getCurrentLevelDifficulty(), canvas.getWidth()/2 - 30, 25);
+            gc.fillText(Resources.getI18NString("game.level") + " " + gameController.getCurrentLevelDifficulty(), canvas.getWidth() / 2, gc.getFont().getSize() + 5);
 
             gc.setFont(oldFont);
+            gc.setTextAlign(oldAlign);
         }
 
         // write FPS
@@ -260,7 +264,6 @@ public class GameView extends View implements GameInterface, GameViewController.
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
     }
-
 
 
     private void drawHearts(GraphicsContext gc, double coeurs, double coeursMax, double posX, double posY) {
@@ -399,11 +402,12 @@ public class GameView extends View implements GameInterface, GameViewController.
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(Resources.getI18NString("error.cannotSave"));
-        alert.setHeaderText(Resources.getI18NString("error.cannotSave.message"));
-        alert.setContentText(Resources.getI18NString("error.cannotSave.details"));
-        alert.showAndWait();
+        ErrorBehavior.showWarning(
+                Resources.getI18NString("error.cannotSave"),
+                Resources.getI18NString("error.cannotSave.message"),
+                Resources.getI18NString("error.cannotSave.details"),
+                true
+        );
     }
 
     @Override

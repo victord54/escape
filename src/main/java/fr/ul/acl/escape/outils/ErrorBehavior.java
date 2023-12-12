@@ -39,11 +39,11 @@ public class ErrorBehavior {
      * @param title   The title of the warning.
      * @param message The message to display.
      * @param details The details of the warning.
-     * @param fatal   Whether the warning is fatal or not.
+     * @param isError Whether the warning is an error or not.
      */
-    public static void showWarning(String title, String message, String details, boolean fatal) {
+    public static void showWarning(String title, String message, String details, boolean isError) {
         if (!Donnees.CLI_MODE) {
-            Alert alert = new Alert(fatal ? Alert.AlertType.ERROR : Alert.AlertType.WARNING);
+            Alert alert = new Alert(isError ? Alert.AlertType.ERROR : Alert.AlertType.WARNING);
             alert.setTitle(title);
             alert.setHeaderText(message);
             alert.setContentText(details);

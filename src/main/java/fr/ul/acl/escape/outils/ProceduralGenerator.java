@@ -34,10 +34,10 @@ public class ProceduralGenerator {
      * The algorithm generating spaces is random, so setting SPACE_DENSITY to a value higher than 1
      * can be used to increase the likelihood of having larger open spaces.
      */
-    private static final double SPACE_DENSITY = 0.95;
+    private static final double SPACE_DENSITY = 0.85;
     private final boolean[][] level;
 
-    private final List<int[]> visited;
+    private final List<Case> visited;
 
     private final int width;  // Largeur du niveau
     private final int height; // Hauteur du niveau
@@ -88,31 +88,39 @@ public class ProceduralGenerator {
         Map<String, Integer> stats = getDifficultyStatistics(difficultLevel);
 
         //Hero
-        int[] chosen = caseVisiteAleatoire(random, true);
-        int[] hero = chosen;
-        personnages.add(new Heros(chosen[1]+1, chosen[0]+1, 0.8, 0.7, 5, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
+        Case chosen = caseVisiteAleatoire(random, true);
+        Case hero = chosen;
+        personnages.add(new Heros(chosen.y()+1, chosen.x()+1, 0.8, 0.7, 5, 5, 8 , 8, 1, 0, FabriqueId.getInstance().getId()));
 
         //Trappe + Eau
-        chosen = caseVisiteAleatoire(random, false);
-        objets.add(new Trappe(chosen[1]+1, chosen[0]+1, 1, 1, true));
 
-        List<int[]> visitedEau = new ArrayList<>();
-        for(int[] voisin : getVoisinVisites(chosen[0], chosen[1])){
-            terrains.add(new Eau(voisin[1]+1, voisin[0]+1, 1, 1));
-            removeCoordinate(visited, voisin[0], voisin[1]);
+        ////Choix de case pour la trappe (doit être assez loin du joueur)
+        chosen = caseVisiteAleatoire(random, false);
+        int iterations = 0;
+        while(hero.distance(chosen) < 5 && iterations<10000){
+            chosen = caseVisiteAleatoire(random, false);
+            iterations++;
+        }
+        objets.add(new Trappe(chosen.y()+1, chosen.x()+1, 1, 1, true));
+
+        ////Propagation de l'eau
+        List<Case> visitedEau = new ArrayList<>();
+        for(Case voisin : getVoisinVisites(chosen.x(), chosen.y(), true)){
+            terrains.add(new Eau(voisin.y()+1, voisin.x()+1, 1, 1));
+            visited.remove(voisin);
             visitedEau.add(voisin);
         }
-        removeCoordinate(visited, chosen[0], chosen[1]);
+        visited.remove(chosen);
 
         for(int i = 0; i<(random.nextInt(15)+15); i++){
             chosen = visitedEau.get(random.nextInt(visitedEau.size()));
-            List<int[]> voisins = getVoisinVisites(chosen[0], chosen[1]);
+            List<Case> voisins = getVoisinVisites(chosen.x(), chosen.y(), false);
 
             if(voisins.size() > 0){
-                int[] voisin = voisins.get(random.nextInt(voisins.size()));
+                Case voisin = voisins.get(random.nextInt(voisins.size()));
 
-                terrains.add(new Eau(voisin[1]+1, voisin[0]+1, 1, 1));
-                removeCoordinate(visited, voisin[0], voisin[1]);
+                terrains.add(new Eau(voisin.y()+1, voisin.x()+1, 1, 1));
+                visited.remove(voisin);
                 visitedEau.add(voisin);
             }
         }
@@ -121,35 +129,36 @@ public class ProceduralGenerator {
         //Training
         chosen = hero;
         for(int i = 0; i<50; i++){
-            List<int[]> voisins = getVoisinVisites(chosen[0], chosen[1]);
-            chosen = voisins.get(random.nextInt(voisins.size()));
-
+            List<Case> voisins = getVoisinVisites(chosen.x(), chosen.y(), false);
+            if(voisins.size() > 0){
+                chosen = voisins.get(random.nextInt(voisins.size()));
+            }
         }
-        objets.add(new Training(chosen[1]+1, chosen[0]+1, 1, 1));
-        removeCoordinate(visited, chosen[0], chosen[1]);
+        objets.add(new Training(chosen.y()+1, chosen.x()+1, 1, 1));
+        visited.remove(chosen);
 
         //Walkers
         for(int i = 0; i<stats.get("walkers"); i++){
             chosen = caseVisiteAleatoire(random, true);
-            personnages.add(new Walker(chosen[1]+1, chosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
+            personnages.add(new Walker(chosen.y()+1, chosen.x()+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Fantomes
         for(int i = 0; i<stats.get("fantomes"); i++){
             chosen = caseVisiteAleatoire(random, true);
-            personnages.add(new Fantome(chosen[1]+1, chosen[0]+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
+            personnages.add(new Fantome(chosen.y()+1, chosen.x()+1, 0.7, 0.5, 2, 2, 3 , 3, 0.25, FabriqueId.getInstance().getId()));
         }
 
         //Pièges
         for(int i = 0; i<stats.get("pieges"); i++){
             chosen = caseVisiteAleatoire(random, true);
-            objets.add(new Piege(chosen[1]+1, chosen[0]+1,0.4,0.8,1));
+            objets.add(new Piege(chosen.y()+1, chosen.x()+1,0.4,0.8,1));
         }
 
         //Coeurs
         for(int i = 0; i<stats.get("coeurs"); i++){
             chosen = caseVisiteAleatoire(random, true);
-            objets.add(new Coeur(chosen[1]+1, chosen[0]+1,0.5,0.5,1));
+            objets.add(new Coeur(chosen.y()+1, chosen.x()+1,0.5,0.5,1));
         }
 
     }
@@ -219,11 +228,11 @@ public class ProceduralGenerator {
         // Créer un passage à travers le mur
         for (int i = x; i <= x + width; i++) {
             level[wallY][i] = EMPTY;
-            visited.add(new int[]{wallY, i});
+            visited.add(new Case(wallY, i));
         }
         for (int i = y; i <= y + height; i++) {
             level[i][wallX] = EMPTY;
-            visited.add(new int[]{i, wallX});
+            visited.add(new Case(i, wallX));
         }
 
         // Récursivement diviser les quatre sections
@@ -242,19 +251,19 @@ public class ProceduralGenerator {
         int i = 0;
         int borne = (int) Math.floor(((height * width) - visited.size()) * SPACE_DENSITY) ;
         while (i < borne) {
-            List<int[]> neighbors = new ArrayList<>();
+            List<Case> neighbors = new ArrayList<>();
 
             int j = 0;
             while (neighbors.size() <= 0 && j<10000) {
-                int[] chosen = caseVisiteAleatoire(random, false);
-                neighbors = getVoisinsEligibles(chosen[0], chosen[1]);
+                Case chosen = caseVisiteAleatoire(random, false);
+                neighbors = getVoisinsEligibles(chosen.x(), chosen.y());
                 j++;
             }
 
             if(neighbors.size() > 0){
-                int[] neighborAVider = neighbors.get(random.nextInt(neighbors.size()));
-                visited.add(new int[]{neighborAVider[0], neighborAVider[1]});
-                level[neighborAVider[0]][neighborAVider[1]] = EMPTY;
+                Case neighborAVider = neighbors.get(random.nextInt(neighbors.size()));
+                visited.add(neighborAVider);
+                level[neighborAVider.x()][neighborAVider.y()] = EMPTY;
             }
 
             i++;
@@ -268,8 +277,8 @@ public class ProceduralGenerator {
      * @param y The y-coordinate of the cell.
      * @return An ArrayList containing eligible neighboring cell coordinates.
      */
-    private List<int[]> getVoisinsEligibles(int x, int y) {
-        List<int[]> neighbors = new ArrayList<>();
+    private List<Case> getVoisinsEligibles(int x, int y) {
+        List<Case> neighbors = new ArrayList<>();
         int[][] offsets = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
         for (int[] offset : offsets) {
@@ -277,25 +286,8 @@ public class ProceduralGenerator {
             int ny = y + offset[1];
 
             if (nx >= 0 && nx < level.length && ny >= 0 && ny < level[0].length
-                    && !containsCoordinate(visited, nx, ny)) {
-                neighbors.add(new int[]{nx, ny});
-            }
-        }
-
-        return neighbors;
-    }
-
-    private List<int[]> getVoisinVisites(int x, int y){
-        List<int[]> neighbors = new ArrayList<>();
-        int[][] offsets = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-        for (int[] offset : offsets) {
-            int nx = x + offset[0];
-            int ny = y + offset[1];
-
-            if (nx >= 0 && nx < level.length && ny >= 0 && ny < level[0].length
-                    && containsCoordinate(visited, nx, ny)) {
-                neighbors.add(new int[]{nx, ny});
+                    && !visited.contains(new Case(nx, ny))){
+                neighbors.add(new Case(nx, ny));
             }
         }
 
@@ -303,29 +295,31 @@ public class ProceduralGenerator {
     }
 
     /**
-     * Checks if the specified coordinates are present in the given list.
+     * Retrieves a list of visited neighboring cells for a given coordinate.
      *
-     * @param list The list of coordinates to check.
-     * @param x    The x-coordinate to check.
-     * @param y    The y-coordinate to check.
-     * @return True if the coordinates are present, false otherwise.
+     * @param x                The x-coordinate of the target cell.
+     * @param y                The y-coordinate of the target cell.
+     * @param includeDiagonals If true, includes diagonal neighbors; otherwise, considers only adjacent neighbors.
+     * @return A List of Case objects representing visited neighboring cells.
      */
-    private boolean containsCoordinate(List<int[]> list, int x, int y) {
-        for (int[] coord : list) {
-            if (coord[0] == x && coord[1] == y) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private List<Case> getVoisinVisites(int x, int y, boolean includeDiagonals){
+        List<Case> neighbors = new ArrayList<>();
+        int[][] offsets = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    private void removeCoordinate(List<int[]> list, int x, int y){
-        for(int i = 0; i<list.size(); i++){
-            if(list.get(i)[0] == x && list.get(i)[1] == y){
-                list.remove(i);
-                break;
+        if(includeDiagonals) offsets = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1,-1}, {1, 1}, {-1, 1}, {1, -1}};
+
+
+        for (int[] offset : offsets) {
+            int nx = x + offset[0];
+            int ny = y + offset[1];
+
+            if (nx >= 0 && nx < level.length && ny >= 0 && ny < level[0].length
+                    && visited.contains(new Case(nx, ny))) {
+                neighbors.add(new Case(nx, ny));
             }
         }
+
+        return neighbors;
     }
 
     /**
@@ -334,10 +328,10 @@ public class ProceduralGenerator {
      * @param random A Random object used for generating random values.
      * @return The coordinates of a randomly chosen visited cell.
      */
-    private int[] caseVisiteAleatoire(Random random, boolean removeAfter) {
+    private Case caseVisiteAleatoire(Random random, boolean removeAfter) {
         int randomized = random.nextInt(visited.size());
 
-        int[] res = visited.get(randomized);
+        Case res = visited.get(randomized);
         if(removeAfter) visited.remove(randomized);
 
         return res;
@@ -387,5 +381,41 @@ public class ProceduralGenerator {
         }
 
         return monde;
+    }
+
+    private static class Case {
+        int x, y;
+
+        public Case(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Case point = (Case) o;
+            return x == point.x && y == point.y;
+        }
+
+        public int y() {
+            return y;
+        }
+
+        public int x() {
+            return x;
+        }
+
+        public double distance(Case c){
+            int dx = this.x - c.x;
+            int dy = this.y - c.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
     }
 }

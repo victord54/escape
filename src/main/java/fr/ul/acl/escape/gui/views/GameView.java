@@ -1,9 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.KeyAction;
-import fr.ul.acl.escape.KeyBindings;
-import fr.ul.acl.escape.SaveData;
-import fr.ul.acl.escape.Settings;
+import fr.ul.acl.escape.*;
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
@@ -15,6 +12,7 @@ import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
 import fr.ul.acl.escape.outils.Donnees;
+import fr.ul.acl.escape.outils.ErrorBehavior;
 import fr.ul.acl.escape.outils.FileManager;
 import fr.ul.acl.escape.outils.Resources;
 import javafx.beans.binding.Bindings;
@@ -23,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -33,6 +30,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -116,9 +116,7 @@ public class GameView extends View implements GameInterface, GameViewController.
         overlay = controller.getOverlay();
 
         // binding game board to center pane
-        elementSize = Bindings.min(centerPane.widthProperty().divide(gameController.getWidth()), centerPane.heightProperty().divide(gameController.getHeight()));
-        gameBoard.widthProperty().bind(elementSize.multiply(gameController.getWidth()));
-        gameBoard.heightProperty().bind(elementSize.multiply(gameController.getHeight()));
+        bindingGameBoardToCenterPane(controller);
 
         // binding overlay to center pane
         overlay.widthProperty().bind(centerPane.widthProperty());
@@ -159,6 +157,9 @@ public class GameView extends View implements GameInterface, GameViewController.
 
     @Override
     public void render() {
+        GameViewController controller = (GameViewController) this.controller;
+        bindingGameBoardToCenterPane(controller);
+
         if (gameController.getOnOver())
             engine.gameOver.set(true);
         this.drawGameBoard(gameBoard, elementSize.doubleValue());
@@ -191,14 +192,14 @@ public class GameView extends View implements GameInterface, GameViewController.
         // draw game environment
         this.gameController.getTerrains().forEach(terrain -> renderElement(gc, terrain, elementSize, 0, false));
 
+        if (engine == null) return;
+
         // draw game objects
         this.gameController.getObjets().forEach(objet -> {
             if (objet.isVisible()) {
                 renderElement(gc, objet, elementSize, (int) (engine.getLastUpdate() / 1e8), false);
             }
         });
-
-        if (engine == null) return;
 
         // draw game entities
         this.gameController.getPersonnages().forEach(personnage -> {
@@ -244,12 +245,26 @@ public class GameView extends View implements GameInterface, GameViewController.
         drawHearts(gc, heros.getCoeurs(), heros.getMaxCoeurs(), 10, 5);
         drawTraining(gc, heros.getTrainingProgress(), -10, 5);
 
+        // draw level info
+        if (gameController.getGameMode() == GameMode.CAMPAIGN) {
+            Font oldFont = gc.getFont();
+            TextAlignment oldAlign = gc.getTextAlign();
+            gc.setFont(Font.font(gc.getFont().getFamily(), FontWeight.BOLD, 20));
+            gc.setTextAlign(TextAlignment.CENTER);
+            gc.setFill(Color.WHITE);
+            gc.fillText(Resources.getI18NString("game.level") + " " + gameController.getCurrentLevelDifficulty(), canvas.getWidth() / 2, gc.getFont().getSize() + 5);
+
+            gc.setFont(oldFont);
+            gc.setTextAlign(oldAlign);
+        }
+
         // write FPS
         if (drawFPS) {
             gc.setFill(Color.LIGHTGREEN);
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
     }
+
 
     private void drawHearts(GraphicsContext gc, double coeurs, double coeursMax, double posX, double posY) {
         if (posX < 0) posX = gc.getCanvas().getWidth() + posX - 30.0 * coeursMax;
@@ -387,11 +402,12 @@ public class GameView extends View implements GameInterface, GameViewController.
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(Resources.getI18NString("error.cannotSave"));
-        alert.setHeaderText(Resources.getI18NString("error.cannotSave.message"));
-        alert.setContentText(Resources.getI18NString("error.cannotSave.details"));
-        alert.showAndWait();
+        ErrorBehavior.showWarning(
+                Resources.getI18NString("error.cannotSave"),
+                Resources.getI18NString("error.cannotSave.message"),
+                Resources.getI18NString("error.cannotSave.details"),
+                true
+        );
     }
 
     @Override
@@ -435,9 +451,9 @@ public class GameView extends View implements GameInterface, GameViewController.
         if (sprite == null) {
             gc.setFill(elementMonde.getColor());
             gc.fillRect(elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, Math.ceil(elementMonde.getLargeur() * elementSize), Math.ceil(elementMonde.getHauteur() * elementSize));
-            return;
+        } else {
+            gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
         }
-        gc.drawImage(sprite, elementMonde.getX() * elementSize, elementMonde.getY() * elementSize, elementMonde.getLargeur() * elementSize, elementMonde.getHauteur() * elementSize);
 
         if (drawPV) {
             double heightPVBar = elementSize / 16.0;
@@ -448,5 +464,23 @@ public class GameView extends View implements GameInterface, GameViewController.
             gc.setFill(Color.GREEN);
             gc.fillRect(personnage.getX() * elementSize, personnage.getY() * elementSize - heightPVBar * 2, personnage.getLargeur() * elementSize * personnage.getCoeurs() / personnage.getMaxCoeurs(), heightPVBar);
         }
+    }
+
+    /**
+     * Updates the dimensions of the game board based on the dimensions of the center pane.
+     * <p>
+     * This method calculates the appropriate size for elements on the game board
+     * based on the dimensions of the center pane and binds the game board dimensions accordingly.
+     * </p>
+     *
+     * @param controller The GameViewController associated with the game board.
+     * @see GameViewController
+     */
+    private void bindingGameBoardToCenterPane(GameViewController controller) {
+        StackPane centerPane = controller.getPane();
+
+        elementSize = Bindings.min(centerPane.widthProperty().divide(gameController.getWidth()), centerPane.heightProperty().divide(gameController.getHeight()));
+        gameBoard.widthProperty().bind(elementSize.multiply(gameController.getWidth()));
+        gameBoard.heightProperty().bind(elementSize.multiply(gameController.getHeight()));
     }
 }

@@ -7,7 +7,6 @@ module escape {
     requires org.jgrapht.core;
     requires org.json;
     requires net.harawata.appdirs;
-    requires spring.core;
 
     opens fr.ul.acl.escape.gui.views to javafx.fxml;
     opens fr.ul.acl.escape.gui.components to javafx.fxml;

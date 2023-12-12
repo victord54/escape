@@ -1,11 +1,7 @@
 package fr.ul.acl.escape.outils;
 
-import fr.ul.acl.escape.Escape;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -189,39 +185,6 @@ public class FileManager {
             ErrorBehavior.handle(e, "Could not read '" + path + "' file from resources");
             return null;
         }
-    }
-
-    /**
-     * Read all the JSON files from the given path in the 'resources' folder.
-     *
-     * @param folder path to read from, relative to the 'resources' folder, use / as a separator
-     * @return a map of the files read, with the path as key and the JSON object as value
-     */
-    // FIXME: is this method really useful? if not, remove dependency to Spring
-    public static Map<String, JSONObject> readResourceDirectory(String folder) {
-        ClassLoader cl = Escape.class.getClassLoader();
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
-
-        Resource[] resources;
-        try {
-            resources = resolver.getResources("classpath:" + Resources.getPackagePath() + "/" + folder + "/**/*.json");
-        } catch (IOException e) {
-            ErrorBehavior.handle(e, "Could not read '" + folder + "' folder from resources");
-            return new HashMap<>();
-        }
-
-        Map<String, JSONObject> map = new HashMap<>();
-        Arrays.stream(resources).forEach(resource -> {
-            String filePath = folder + "/" + resource.getFilename();
-            JSONObject json = readResourceFile(filePath);
-            if (json == null) {
-                System.err.println("Could not read '" + filePath + "' file from resources");
-                return;
-            }
-            map.put(filePath, json);
-        });
-
-        return map;
     }
 
     /**

@@ -28,8 +28,10 @@ class GUIControllerTest {
         //On s'assure que l'ensemble des touches est vide au
         //commencement de chaque test
         mm.mouvements = new HashSet<>();
-        monde = new Monde(5, 5);
+
+        monde = new Monde(5, 5, 0, 1);
         hero = new Heros(0, 0, 1, 1, 1, 1,1, 1, -1, 0,0);
+
         monde.addPersonnage(hero);
     }
 

@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.engine;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.monde.Monde;
 import fr.ul.acl.escape.monde.entities.Heros;
 import fr.ul.acl.escape.monde.entities.Personnage;
@@ -58,5 +59,13 @@ public abstract class GameController {
 
     public ArrayList<Objet> getObjets() {
         return monde.getObjets();
+    }
+
+    public GameMode getGameMode() {
+        return monde.getGameMode();
+    }
+
+    public int getCurrentLevelDifficulty() {
+        return monde.getCurrentLevelDifficulty();
     }
 }

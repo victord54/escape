@@ -178,6 +178,7 @@ package escape {
                 - drawTraining(gc, progress, posX, posY): void
                 - clearCanvas(Canvas): void
                 - renderElement(context, element, size, index)
+                - bindingGameBoardToCenterPane(GameViewController controller): void
             }
 
             class SettingsView {

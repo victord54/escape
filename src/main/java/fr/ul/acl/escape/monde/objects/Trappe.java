@@ -19,10 +19,18 @@ public class Trappe extends Objet {
         this.ouverte = ouverte;
     }
 
+    public Trappe(double x, double y, double hauteur, double largeur, boolean visible) {
+        super(Type.TRAPDOOR, x, y, hauteur, largeur, visible);
+        this.carteOuTeleporter = "";
+        this.ouverte = false;
+    }
+
+
     public Trappe(JSONObject json) {
         super(json);
         this.ouverte = json.getBoolean("open");
         this.carteOuTeleporter = json.getString("map");
+        this.ouverte = json.optBoolean("isOpen", false);
     }
 
     @Override
@@ -30,6 +38,7 @@ public class Trappe extends Objet {
         JSONObject json = super.toJSON();
         json.put("open", this.ouverte);
         json.put("map", this.carteOuTeleporter);
+        json.put("isOpen", this.ouverte);
 
         return json;
     }
@@ -52,7 +61,6 @@ public class Trappe extends Objet {
 
     @Override
     protected void initSprites() {
-
         if (sprites != null) {
             return;
         }
@@ -64,8 +72,8 @@ public class Trappe extends Objet {
 
         if (spriteSheet.get() == null) return;
 
-        sprites[0] = spriteSheet.get(23, 0, 24, 24);
-        sprites[1] = spriteSheet.get(0, 0, 24, 24);
+        sprites[0] = spriteSheet.get(95, 0, 96, 96);
+        sprites[1] = spriteSheet.get(0, 0, 96, 96);
     }
 
     @Override

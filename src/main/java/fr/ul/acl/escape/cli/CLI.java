@@ -1,5 +1,6 @@
 package fr.ul.acl.escape.cli;
 
+import fr.ul.acl.escape.GameMode;
 import fr.ul.acl.escape.Settings;
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.monde.ElementMonde;
@@ -49,7 +50,10 @@ public class CLI implements GameInterface {
         System.out.print("\033[H\033[2J");
 
         // print turn number
-        System.out.println(Resources.getI18NString("game.turn").replace("${turn}", String.valueOf(engine.getTurn())));
+        System.out.println(Resources.getI18NString("game.turn").replace("${turn}", String.valueOf(engine.getTurn())) +
+                (controller.getGameMode() == GameMode.CAMPAIGN ?
+                        (" - " + Resources.getI18NString("game.level") + " " + controller.getCurrentLevelDifficulty()) :
+                        ""));
 
         // print game board
         for (int y = 0; y < controller.getHeight(); y++) {

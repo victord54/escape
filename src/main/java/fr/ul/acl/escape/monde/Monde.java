@@ -12,6 +12,7 @@ import fr.ul.acl.escape.monde.objects.Objet;
 import fr.ul.acl.escape.monde.objects.Trappe;
 import fr.ul.acl.escape.outils.Donnees;
 import fr.ul.acl.escape.outils.FileManager;
+import fr.ul.acl.escape.outils.ProceduralGenerator;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import org.jgrapht.Graph;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 import static fr.ul.acl.escape.outils.FileManager.FileType.JSON;
+import static fr.ul.acl.escape.outils.ProceduralGenerator.genererSeed;
 import static java.io.File.separator;
 
 
@@ -45,14 +47,24 @@ public class Monde {
     private GameMode gameMode;
 
     /**
+     * Last procedural levels properties
+     */
+    private long currentLevelSeed;
+    private int currentLevelDifficulty;
+
+    /**
      * Create a new world with no elements.
      */
-    public Monde(int height, int width) {
+    public Monde(int height, int width, long seed, int difficulty) {
         this.height = height;
         this.width = width;
         personnages = new ArrayList<>();
         terrains = new ArrayList<>();
         objets = new ArrayList<>();
+        gameMode = GameMode.CAMPAIGN;
+
+        this.currentLevelSeed = seed;
+        this.currentLevelDifficulty = difficulty;
     }
 
     /**
@@ -84,16 +96,23 @@ public class Monde {
      */
     public static Monde fromJSON(JSONObject json) throws Exception {
         Monde monde;
-        if (json.has("map")) {
+        if (json.has("mode")) {
             // it's a save, it doesn't contain environment
             GameMode mode = GameMode.valueOf(json.getString("mode"));
-            monde = fromMap(json.getString("map"), mode);
+            if (mode == GameMode.CAMPAIGN) {
+                //it's a campaign save, it has a seed and a difficulty
+                ProceduralGenerator generator = new ProceduralGenerator(json.getLong("seed"), json.getInt("difficulty"));
+                monde = generator.getMonde();
+            } else {
+                //it's a custom save, it has a map
+                monde = fromMap(json.getString("map"), mode);
+            }
             monde.personnages.clear();
             monde.objets.clear();
         } else {
             // it's a map file
             JSONObject jsonWorld = json.getJSONObject("world");
-            monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"));
+            monde = new Monde(jsonWorld.getInt("height"), jsonWorld.getInt("width"), 0, 1);
             if (monde.width < 3 || monde.height < 3)
                 throw new IllegalArgumentException("World too small: " + jsonWorld);
 
@@ -199,7 +218,7 @@ public class Monde {
     protected void deplacementMonstre(Monstre monstre, double deltaTime) {
         monstre.setMoving(false);
         Graph<Point2D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        int pas = 5000; // Incrémentation pour construire les noeuds
+        int pas = 5; // Incrémentation pour construire les noeuds
         int conversionFactor = Donnees.CONVERSION_FACTOR; // Facteur de conversion pour convertir les double en int
         for (int i = 0; i < this.width * conversionFactor; i += pas) {
             for (int j = 0; j < this.height * conversionFactor; j += pas) {
@@ -214,13 +233,13 @@ public class Monde {
                 tmpMonstre.setY((double) j / conversionFactor);
 
                 // Test si noeud à droite est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && !collisionAvec(tmpMonstre, false)) {
+                if (i + pas  < this.width * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
                 // Test si noeud à gauche est atteignable (pas en dehors du monde et pas dans un terrain ou un personnage), si oui ajout du noeud au graphe et création d'un arc
-                if (j + pas + ((int) ((monstre.getHauteur() - 0.1) * conversionFactor)) < this.height * conversionFactor && !collisionAvec(tmpMonstre, false)) {
+                if (j + pas < this.height * conversionFactor && !collisionAvec(tmpMonstre, false)) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }
@@ -412,12 +431,12 @@ public class Monde {
                 tmpMonstre.setX((double) i / conversionFactor);
                 tmpMonstre.setY((double) j / conversionFactor);
                 // On ne teste pas si le noeud est sur un Personnage
-                if (i + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
+                if (i + pas  < this.width * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(droite);
                     graph.addEdge(courant, droite);
                 }
 
-                if (j + pas + ((int) ((monstre.getLargeur() - 0.1) * conversionFactor)) < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
+                if (j + pas  < this.height * conversionFactor && (monstre.peutTraverserObstacles() || !collisionAvecTerrains(tmpMonstre))) {
                     graph.addVertex(bas);
                     graph.addEdge(courant, bas);
                 }
@@ -671,6 +690,10 @@ public class Monde {
         return gameMode;
     }
 
+    public int getCurrentLevelDifficulty(){
+        return currentLevelDifficulty;
+    }
+
     /**
      * Method that returns the nearest integer greater than value, which is a multiple of multiple
      *
@@ -688,7 +711,13 @@ public class Monde {
      */
     public JSONObject toJSONSave() {
         JSONObject json = new JSONObject();
-        json.put("map", carte);
+        if (gameMode == GameMode.CAMPAIGN) {
+            json.put("seed", currentLevelSeed);
+            json.put("difficulty", currentLevelDifficulty);
+            json.put("level", currentLevelDifficulty);
+        } else {
+            json.put("map", carte);
+        }
         json.put("mode", gameMode.toString());
         json.put("entities", personnages.stream().map(Personnage::toJSON).toArray());
         json.put("objects", objets.stream().map(Objet::toJSON).toArray());
@@ -711,6 +740,8 @@ public class Monde {
         Heros ancienHero = getHeros();
 
         carte = m.carte;
+        currentLevelSeed = m.currentLevelSeed;
+        currentLevelDifficulty = m.currentLevelDifficulty;
         height = m.height;
         width = m.width;
         objets = m.objets;
@@ -732,11 +763,20 @@ public class Monde {
      * @see Heros
      */
     public void changerMap(String nomMap) {
-        try {
-            Monde nouveauMonde = fromMap(nomMap + JSON.extension, this.gameMode);
+        if (gameMode == GameMode.CAMPAIGN) {
+            //Si on est en mode campagne alors on génère une nouvelle carte avec une difficultée augmentée de 1.
+            ProceduralGenerator generator = new ProceduralGenerator(genererSeed(), currentLevelDifficulty + 1);
+            Monde nouveauMonde = generator.getMonde();
             copierMonde(nouveauMonde);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } else {
+            //Si on est en mode custom alors on charge la carte dont le nom est donné en paramètre
+            if (nomMap == null || nomMap.isEmpty()) return;
+            try {
+                Monde nouveauMonde = fromMap(nomMap + JSON.extension, this.gameMode);
+                copierMonde(nouveauMonde);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

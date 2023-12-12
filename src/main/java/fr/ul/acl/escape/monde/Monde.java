@@ -690,6 +690,10 @@ public class Monde {
         return gameMode;
     }
 
+    public int getCurrentLevelDifficulty(){
+        return currentLevelDifficulty;
+    }
+
     /**
      * Method that returns the nearest integer greater than value, which is a multiple of multiple
      *

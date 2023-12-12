@@ -56,15 +56,19 @@ package Escape {
         }
 
         class ProceduralGenerator {
+            - {static} double SPACE_DENSITY
             - {static} Map<String, Image> assets
             - {static} boolean WALL
             - {static} boolean EMPTY
             - char[][] level
-            - List<int[]> visited
+            - List<ProceduralGenerator.Case> visited
             - int width
             - int height
             - List<Personnage> personnages
             - List<Object> objets
+            - List<Terrain> terrains
+            - long seed
+            - int difficulty
             ..Constructeur..
             + ProceduralGenerator(long, int)
             ..Méthodes..
@@ -72,9 +76,9 @@ package Escape {
             + Monde getMonde()
             - void generateMaze(Random, int, int, int, int)
             - void splash(Random)
-            - List<int[]> getVoisinsEligibles(int,int)
-            - boolean containsCoordinate(List<int[]>, int, int)
-            - int[] caseVisiteAleatoire(Random)
+            - List<ProceduralGenerator.Case> getVoisinsEligibles(int, int)
+            - List<ProceduralGenerator.Case> getVoisinsVisites(int, int, boolean)
+            - ProceduralGenerator.Case caseVisiteAleatoire(Random, boolean)
         }
     }
 }

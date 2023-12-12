@@ -59,4 +59,8 @@ public abstract class GameController {
     public ArrayList<Objet> getObjets() {
         return monde.getObjets();
     }
+
+    public Monde getMonde(){
+        return monde;
+    }
 }

@@ -1,9 +1,6 @@
 package fr.ul.acl.escape.gui.views;
 
-import fr.ul.acl.escape.KeyAction;
-import fr.ul.acl.escape.KeyBindings;
-import fr.ul.acl.escape.SaveData;
-import fr.ul.acl.escape.Settings;
+import fr.ul.acl.escape.*;
 import fr.ul.acl.escape.engine.GameInterface;
 import fr.ul.acl.escape.gui.VIEWS;
 import fr.ul.acl.escape.gui.View;
@@ -33,6 +30,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -245,12 +244,24 @@ public class GameView extends View implements GameInterface, GameViewController.
         drawHearts(gc, heros.getCoeurs(), heros.getMaxCoeurs(), 10, 5);
         drawTraining(gc, heros.getTrainingProgress(), -10, 5);
 
+        //draw level info
+        if(gameController.getMonde().getGameMode() == GameMode.CAMPAIGN){
+            Font oldFont = gc.getFont();
+            gc.setFont(Font.font(gc.getFont().getFamily(), FontWeight.BOLD, 20));
+            gc.setFill(Color.WHITE);
+            gc.fillText(Resources.getI18NString("game.level") + " " + gameController.getMonde().getCurrentLevelDifficulty(), canvas.getWidth()/2 - 30, 25);
+
+            gc.setFont(oldFont);
+        }
+
         // write FPS
         if (drawFPS) {
             gc.setFill(Color.LIGHTGREEN);
             gc.fillText("FPS: " + engine.getFPS(), 10, canvas.getHeight() - 10);
         }
     }
+
+
 
     private void drawHearts(GraphicsContext gc, double coeurs, double coeursMax, double posX, double posY) {
         if (posX < 0) posX = gc.getCanvas().getWidth() + posX - 30.0 * coeursMax;

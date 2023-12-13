@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./src/main/resources/fr/ul/acl/escape/assets/icon.png" alt="Escape icon" width="160" />
+
 # Escape
 
 ![Java CI with Maven](https://github.com/victord54/escape/actions/workflows/maven.yml/badge.svg)
@@ -17,7 +19,7 @@
 
 Escape est un jeu vidéo inspiré du genre d'Isaac, où l'objectif est de naviguer à travers des salles de
 difficulté croissante afin d'aller le plus loin possible. Ces salles sont habitées par une variété de
-monstres et de pièges qui vous en empêcherons.
+monstres et de pièges qui vous en empêcheront.
 
 Le jeu propose deux modes distincts : le mode campagne, considéré comme le mode "classique", génère aléatoirement
 les différents niveaux, tandis que le mode personnalisé permet la création de cartes sur mesure grâce à l'édition
